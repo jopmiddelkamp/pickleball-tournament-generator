@@ -28,11 +28,15 @@ export function rotateSeats(players: readonly Player[], by: number): Player[] {
 }
 
 function makeMatches(playing: readonly Player[], roundIndex: number): Match[] {
-  // Opposite seats pair: the wheel is two rows of teamCount seats.
+  // Opposite seats pair: seat i faces seat (last - i) across the circle. Pairing
+  // i with i + teamCount instead would keep a constant gap between the two
+  // seats, and the rotation would hand the same two players to each other every
+  // single round.
   const teamCount = playing.length / 2;
+  const last = playing.length - 1;
   const teams: [Player, Player][] = [];
   for (let i = 0; i < teamCount; i++) {
-    teams.push([playing[i] as Player, playing[i + teamCount] as Player]);
+    teams.push([playing[i] as Player, playing[last - i] as Player]);
   }
 
   // Consecutive teams meet, rotated by the round so opponents change too.

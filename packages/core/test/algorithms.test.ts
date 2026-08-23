@@ -58,8 +58,8 @@ describe("determinism hashes", () => {
   // in the bench numbers. Update deliberately when an algorithm changes.
   const expected: Record<string, string> = {
     greedy: "87fcbfd5",
-    circle: "1e154b0d",
-    latin: "04010641",
+    circle: "dc5d5fe9",
+    latin: "111c8231",
     random: "5eb0c08d",
   };
 

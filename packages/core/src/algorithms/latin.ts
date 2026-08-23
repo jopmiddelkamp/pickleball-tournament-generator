@@ -37,12 +37,16 @@ function makeMatches(playing: readonly Player[], roundIndex: number): Match[] {
 
   // Rotate the majority so a different slice of it sits outside the mixed core
   // each round; surplus duty is shared instead of always falling on the same
-  // few players.
+  // few players. The step is the surplus size, so the window walks the whole
+  // list - and it must not be the same step as the mixed shift below, or the
+  // two rotations cancel and everybody keeps the same partner all evening.
   const majLen = majority.length;
+  const surplus = majLen - mixedCount;
+  const coreOffset = majLen === 0 || surplus === 0 ? 0 : (roundIndex * surplus) % majLen;
   const rotatedMajority =
     majLen === 0
       ? []
-      : majority.map((_, i) => majority[(i + roundIndex) % majLen] as Player);
+      : majority.map((_, i) => majority[(i + coreOffset) % majLen] as Player);
 
   const teams: [Player, Player][] = [];
   for (let i = 0; i < mixedCount; i++) {
