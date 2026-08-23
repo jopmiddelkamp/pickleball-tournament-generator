@@ -1,5 +1,7 @@
+import nextPlugin from "@next/eslint-plugin-next";
 import js from "@eslint/js";
 import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
@@ -49,6 +51,21 @@ export default tseslint.config(
           message: "Core is deterministic: no wall-clock reads.",
         },
       ],
+    },
+  },
+  {
+    files: ["apps/generator/**/*.{ts,tsx}"],
+    plugins: { "@next/next": nextPlugin, "react-hooks": reactHooks },
+    languageOptions: {
+      globals: { ...globals.browser },
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+      ...reactHooks.configs.recommended.rules,
+      // App Router: there is no pages/ directory for this rule to check.
+      "@next/next/no-html-link-for-pages": "off",
     },
   },
   {
