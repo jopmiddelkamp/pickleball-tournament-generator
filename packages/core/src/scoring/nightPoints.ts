@@ -10,9 +10,12 @@
  */
 import type { Player, Round, Team } from "../types.js";
 
-/** Rally-point totals a game is played to (SPEC-1 §1). Timed games record the score as it stands. */
+/**
+ * Rally-point totals a game is played to (SPEC-1 §1). Timed games record the score as it stands.
+ * The default is 11: longer games make an evening overrun its slot.
+ */
 export const GAME_TARGETS = [11, 16, 21] as const;
-export const DEFAULT_GAME_TARGET = 21;
+export const DEFAULT_GAME_TARGET = 11;
 
 /** SPEC-1 §2: flat token for playing in a same-gender team, forced or not. */
 export const SAME_GENDER_BONUS = 2;

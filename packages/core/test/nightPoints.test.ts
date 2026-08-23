@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { computeNightPoints, type GameResult } from "../src/scoring/nightPoints.js";
+import {
+  DEFAULT_GAME_TARGET,
+  GAME_TARGETS,
+  computeNightPoints,
+  type GameResult,
+} from "../src/scoring/nightPoints.js";
 import type { Player, Round } from "../src/types.js";
 import { player, round } from "./fixtures.js";
 
@@ -22,6 +27,13 @@ function game(overrides: Partial<GameResult> & Pick<GameResult, "round" | "court
     ...overrides,
   };
 }
+
+describe("SPEC-1 §1 game target", () => {
+  it("defaults to 11 so an evening fits the time slot", () => {
+    expect(DEFAULT_GAME_TARGET).toBe(11);
+    expect(GAME_TARGETS).toContain(DEFAULT_GAME_TARGET);
+  });
+});
 
 describe("SPEC-1 §1 base rule", () => {
   it("gives every player the points their own team scored", () => {
