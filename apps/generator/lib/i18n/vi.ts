@@ -2,8 +2,6 @@ import type { Messages } from "./en";
 
 export const vi: Messages = {
   title: ["Đêm đánh đôi", "nam nữ"],
-  loading: "Đang tải buổi tối nay…",
-  headerMeta: (players, courts) => `${players} người · ${courts} sân`,
   language: "Ngôn ngữ",
   dismiss: "Đóng",
   sections: "Các mục",
@@ -13,14 +11,6 @@ export const vi: Messages = {
     setup: "Thiết lập",
     schedule: "Sân",
     standings: "Xếp hạng",
-  },
-
-  storage: {
-    blocked: "Trình duyệt đang chặn bộ nhớ, nên không khôi phục được gì.",
-    corrupt:
-      "Không đọc được buổi tối đã lưu, dữ liệu được giữ nguyên. Hãy bắt đầu buổi mới, hoặc sửa mục lưu trong trình duyệt.",
-    mismatch:
-      "Buổi tối đã lưu không khớp với phiên bản này. Hãy bắt đầu buổi mới, hoặc sửa mục lưu trong trình duyệt.",
   },
 
   levels: {

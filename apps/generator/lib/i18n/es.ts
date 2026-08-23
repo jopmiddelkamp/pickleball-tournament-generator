@@ -2,8 +2,6 @@ import type { Messages } from "./en";
 
 export const es: Messages = {
   title: ["Noche de dobles", "mixtos"],
-  loading: "Cargando la noche de hoy…",
-  headerMeta: (players, courts) => `${players}j · ${courts} ${courts === 1 ? "pista" : "pistas"}`,
   language: "Idioma",
   dismiss: "Cerrar",
   sections: "Secciones",
@@ -13,14 +11,6 @@ export const es: Messages = {
     setup: "Ajustes",
     schedule: "Pistas",
     standings: "Ranking",
-  },
-
-  storage: {
-    blocked: "El navegador está bloqueando el almacenamiento, así que no se restauró nada.",
-    corrupt:
-      "No se pudo leer la noche guardada y se dejó intacta. Empieza una nueva o corrige la entrada en el almacenamiento del navegador.",
-    mismatch:
-      "La noche guardada no coincide con lo que espera esta versión. Empieza una nueva o corrige la entrada en el almacenamiento del navegador.",
   },
 
   levels: {

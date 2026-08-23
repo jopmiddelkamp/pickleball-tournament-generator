@@ -2,8 +2,6 @@ import type { Messages } from "./en";
 
 export const ja: Messages = {
   title: ["ミックスダブルス", "ナイト"],
-  loading: "今夜のデータを読み込み中…",
-  headerMeta: (players, courts) => `${players}人 · ${courts}コート`,
   language: "言語",
   dismiss: "閉じる",
   sections: "セクション",
@@ -13,14 +11,6 @@ export const ja: Messages = {
     setup: "設定",
     schedule: "コート",
     standings: "順位",
-  },
-
-  storage: {
-    blocked: "ブラウザがストレージをブロックしているため、何も復元できませんでした。",
-    corrupt:
-      "保存されたデータを読み込めなかったため、そのまま残してあります。新しく始めるか、ブラウザのストレージ項目を修正してください。",
-    mismatch:
-      "保存されたデータがこのバージョンの形式と一致しません。新しく始めるか、ブラウザのストレージ項目を修正してください。",
   },
 
   levels: {

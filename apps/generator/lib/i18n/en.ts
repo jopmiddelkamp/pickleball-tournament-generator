@@ -12,9 +12,6 @@ import type { Band, Grade, LawId, Level } from "@ptg/core";
 export const en = {
   /** the two halves of the app title; the second is highlighted */
   title: ["Mixed doubles", "night"] as readonly [string, string],
-  loading: "Loading tonight’s evening…",
-  headerMeta: (players: number, courts: number) =>
-    `${players}p · ${courts} ${courts === 1 ? "court" : "courts"}`,
   language: "Language",
   dismiss: "Dismiss",
   sections: "Sections",
@@ -24,14 +21,6 @@ export const en = {
     setup: "Set up",
     schedule: "Courts",
     standings: "Standings",
-  },
-
-  storage: {
-    blocked: "This browser is blocking storage, so nothing was restored.",
-    corrupt:
-      "The saved evening could not be read and was left untouched. Start a new one, or fix the browser storage entry.",
-    mismatch:
-      "The saved evening does not match what this version expects. Start a new one, or fix the browser storage entry.",
   },
 
   levels: {

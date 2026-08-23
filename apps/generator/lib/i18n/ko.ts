@@ -2,8 +2,6 @@ import type { Messages } from "./en";
 
 export const ko: Messages = {
   title: ["혼합복식", "나이트"],
-  loading: "오늘 저녁 데이터를 불러오는 중…",
-  headerMeta: (players, courts) => `${players}명 · 코트 ${courts}개`,
   language: "언어",
   dismiss: "닫기",
   sections: "섹션",
@@ -13,14 +11,6 @@ export const ko: Messages = {
     setup: "설정",
     schedule: "코트",
     standings: "순위",
-  },
-
-  storage: {
-    blocked: "브라우저가 저장소를 차단하고 있어 아무것도 복원하지 못했습니다.",
-    corrupt:
-      "저장된 데이터를 읽을 수 없어 그대로 두었습니다. 새로 시작하거나 브라우저 저장소 항목을 수정하세요.",
-    mismatch:
-      "저장된 데이터가 이 버전의 형식과 맞지 않습니다. 새로 시작하거나 브라우저 저장소 항목을 수정하세요.",
   },
 
   levels: {

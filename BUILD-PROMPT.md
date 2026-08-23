@@ -106,6 +106,8 @@ Required tests (Vitest):
 
 ## apps/generator (player-facing)
 
+Extended on 2026-08-23 by `docs/superpowers/specs/2026-08-23-registration-and-organiser-accounts-design.md`: persistence moved from localStorage to Supabase, organiser login, public registration. The spec wins where the two differ.
+
 Must:
 - Roster entry: name, gender toggle, level picker with the six named tiers.
 - Settings: courts (1–6), rounds, rest slots. Seed visible with a reroll button.

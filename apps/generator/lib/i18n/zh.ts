@@ -3,8 +3,6 @@ import type { Messages } from "./en";
 /** Simplified Chinese */
 export const zh: Messages = {
   title: ["混双", "之夜"],
-  loading: "正在加载今晚的活动…",
-  headerMeta: (players, courts) => `${players}人 · ${courts}片场地`,
   language: "语言",
   dismiss: "关闭",
   sections: "栏目",
@@ -14,12 +12,6 @@ export const zh: Messages = {
     setup: "设置",
     schedule: "场地",
     standings: "排名",
-  },
-
-  storage: {
-    blocked: "浏览器禁止使用本地存储，未能恢复任何内容。",
-    corrupt: "保存的活动无法读取，已原样保留。请开始新的活动，或修复浏览器存储中的条目。",
-    mismatch: "保存的活动与当前版本不匹配。请开始新的活动，或修复浏览器存储中的条目。",
   },
 
   levels: {

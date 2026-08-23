@@ -12,7 +12,7 @@ Schedules rotating-partner, mixed-gender pickleball doubles evenings at a club. 
 TypeScript monorepo (pnpm workspaces, Turborepo, TypeScript strict, Vitest):
 
 - `packages/core` — every algorithm and both scoring systems. Pure, framework-free, zero runtime dependencies, deterministic from a seed, written so a port to Dart or C# stays mechanical.
-- `apps/generator` — Next.js app used court-side on phones during a real evening. Single brand, localStorage persistence. There is no backend and none is planned.
+- `apps/generator` — Next.js app used court-side on phones during a real evening. Single brand. Organisers log in (Supabase Auth); tournaments and registrations live in Supabase Postgres behind Drizzle, reached only from server code. Players register through a public `/t/<slug>` link with a cookie, no account. Local development runs the stack in Docker via the Supabase CLI (`pnpm db:start`, `pnpm db:reset`).
 - `apps/bench` — internal Next.js app that runs every algorithm over ~100 seeded scenarios and reports SPEC-2 scores.
 
 Apps import all algorithm and scoring logic from core and never reimplement it. A new algorithm is one file in `packages/core/src/algorithms/` plus one registry entry; both apps pick it up without further changes. Conventions for core live in `.claude/rules/core-package.md`; it loads when you read core files, so read it yourself when creating core from scratch.
@@ -33,6 +33,8 @@ Apps import all algorithm and scoring logic from core and never reimplement it. 
 - Never store derived values. Standings and bonuses are computed from games and rounds (SPEC-1 §6); persist only the source data.
 - The night screen is for fun: no "worst player", no lowest-score highlights, no skill tiers next to names (SPEC-1 §5).
 - Levels are self-reported and can be a full tier off, so judgment logic works on bands (low/mid/high), not raw levels.
+- Confirmed vs waiting list is derived from `registered_at` order and `max_players` (`lib/registrations.ts`), never stored.
+- Every Server Action re-checks the organiser owns the tournament; a stranger gets 404.
 
 ## How to work here
 

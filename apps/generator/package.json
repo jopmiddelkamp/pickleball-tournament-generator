@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint --no-error-on-unmatched-pattern app components lib test scripts drizzle.config.ts",
+    "lint": "eslint app components lib test scripts proxy.ts drizzle.config.ts --no-error-on-unmatched-pattern",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

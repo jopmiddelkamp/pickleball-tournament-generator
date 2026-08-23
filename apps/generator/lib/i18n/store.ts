@@ -1,6 +1,7 @@
 /**
  * The chosen language, backed by localStorage and read through
- * `useSyncExternalStore` for the same reason the evening is (see lib/store.ts).
+ * `useSyncExternalStore`: localStorage is an external system, so the server
+ * snapshot is fixed and the browser snapshot is read after hydration.
  * The server renders English; the browser snapshot is the saved choice, or
  * the first of the browser's own languages the app speaks.
  */
