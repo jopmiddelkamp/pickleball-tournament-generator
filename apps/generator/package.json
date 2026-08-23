@@ -11,7 +11,8 @@
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:migrate:cloud": "ENV_FILE=.env.cloud.local drizzle-kit migrate"
+    "db:migrate:cloud": "ENV_FILE=.env.cloud.local drizzle-kit migrate",
+    "seed": "node --env-file=.env.local --import tsx scripts/seed.ts"
   },
   "dependencies": {
     "@ptg/core": "workspace:*",

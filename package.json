@@ -20,7 +20,8 @@
     "db:generate": "pnpm --filter @ptg/generator run db:generate",
     "db:migrate": "pnpm --filter @ptg/generator run db:migrate",
     "db:migrate:cloud": "pnpm --filter @ptg/generator run db:migrate:cloud",
-    "db:reset": "supabase db reset --no-seed && pnpm db:migrate"
+    "db:seed": "turbo run seed --filter=@ptg/generator",
+    "db:reset": "supabase db reset --no-seed && pnpm db:migrate && pnpm db:seed"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
