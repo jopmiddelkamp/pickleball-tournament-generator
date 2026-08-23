@@ -11,3 +11,5 @@ out/
 *.tsbuildinfo
 .playwright-mcp/
 .vercel/
+supabase/.temp/
+supabase/.branches/

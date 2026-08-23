@@ -39,6 +39,22 @@ pnpm dev         # run the generator app
 
 CI runs typecheck, lint and test on every push and pull request.
 
+## Run it locally
+
+The generator needs Postgres and Supabase Auth. Both run in Docker through the Supabase CLI.
+
+Prerequisites: Docker Desktop, `brew install supabase/tap/supabase`.
+
+```bash
+pnpm install
+pnpm db:start      # Postgres, Auth, Studio, Mailpit in Docker
+pnpm db:env        # writes apps/generator/.env.local for the local stack
+pnpm db:reset      # recreate the database, apply migrations, load dev data
+pnpm dev           # http://localhost:3000
+```
+
+Dev login: `dev@example.com` / `password`. `pnpm db:studio` prints the Studio URL; `pnpm db:reset` is the one command to get back to a known state. Nothing on a laptop points at the cloud database unless you run `pnpm db:migrate:cloud` (see "Deploy").
+
 ## The generator app
 
 `apps/generator` is what an organiser uses standing on a court. Enter the roster, pick courts,
