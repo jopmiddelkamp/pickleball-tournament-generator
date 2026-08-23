@@ -5,32 +5,42 @@ import { useLocale } from "../lib/i18n/useLocale";
 import { LIMITS, maxRestSlots } from "../lib/config";
 import { EmptyState } from "./ui";
 
-const COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
+const ALL_COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
 
 export function SetupScreen({
   config,
   playerCount,
+  maxCourts,
+  usingSuggestion,
   algorithmId,
   gameTarget,
   score,
+  generateBlocker,
+  hasSchedule,
   onConfigChange,
+  onUseSuggestion,
   onAlgorithmChange,
   onGameTargetChange,
   onReroll,
   onGenerate,
-  onClear,
+  onDiscard,
 }: {
   config: TournamentConfig;
   playerCount: number;
+  maxCourts: number;
+  usingSuggestion: boolean;
   algorithmId: string;
   gameTarget: number;
   score: AlgorithmScore | null;
+  generateBlocker: "open" | "players" | null;
+  hasSchedule: boolean;
   onConfigChange: (change: Partial<TournamentConfig>) => void;
+  onUseSuggestion: () => void;
   onAlgorithmChange: (id: string) => void;
   onGameTargetChange: (points: number) => void;
   onReroll: () => void;
   onGenerate: () => void;
-  onClear: () => void;
+  onDiscard: () => void;
 }) {
   const { t } = useLocale();
   const algorithm = ALGORITHMS.find((a) => a.id === algorithmId) ?? ALGORITHMS[0];
@@ -38,8 +48,8 @@ export function SetupScreen({
   const describe = (id: string, fallback: { name: string; description: string }) =>
     t.algorithms[id] ?? fallback;
   const capacity = playingCapacity(playerCount, config);
-  const enoughPlayers = playerCount >= 4;
   const restCeiling = maxRestSlots(playerCount);
+  const courtOptions = ALL_COURT_OPTIONS.filter((n) => n <= maxCourts);
 
   return (
     <div>
@@ -52,7 +62,7 @@ export function SetupScreen({
             {t.setup.courts}
           </span>
           <div className="segmented" role="group" aria-labelledby="courts-label">
-            {COURT_OPTIONS.map((courts) => (
+            {courtOptions.map((courts) => (
               <button
                 key={courts}
                 type="button"
@@ -97,6 +107,15 @@ export function SetupScreen({
               onChange={(event) => onConfigChange({ restSlots: Number(event.target.value) })}
             />
           </div>
+        </div>
+
+        <div className="row" style={{ justifyContent: "space-between" }}>
+          <span className="standings__detail">{usingSuggestion ? t.setup.suggested : null}</span>
+          {usingSuggestion ? null : (
+            <button type="button" className="button button--quiet button--small" onClick={onUseSuggestion}>
+              {t.setup.useSuggestion}
+            </button>
+          )}
         </div>
 
         <div>
@@ -152,13 +171,17 @@ export function SetupScreen({
       </div>
 
       <p className="standings__detail" style={{ margin: "14px 0" }}>
-        {enoughPlayers ? t.setup.capacity(capacity, playerCount - capacity) : t.setup.needPlayers}
+        {generateBlocker === "open"
+          ? t.setup.closeFirst
+          : generateBlocker === "players"
+            ? t.setup.needPlayers
+            : t.setup.capacity(capacity, playerCount - capacity)}
       </p>
 
       <button
         type="button"
         className="button button--accent button--full"
-        disabled={!enoughPlayers || capacity === 0}
+        disabled={generateBlocker !== null || capacity === 0}
         onClick={onGenerate}
       >
         {t.setup.generate}
@@ -197,14 +220,16 @@ export function SetupScreen({
         <EmptyState>{t.setup.noScore}</EmptyState>
       )}
 
-      <button
-        type="button"
-        className="button button--danger button--full"
-        style={{ marginTop: 30 }}
-        onClick={onClear}
-      >
-        {t.setup.startOver}
-      </button>
+      {hasSchedule ? (
+        <button
+          type="button"
+          className="button button--danger button--full"
+          style={{ marginTop: 30 }}
+          onClick={onDiscard}
+        >
+          {t.setup.discard}
+        </button>
+      ) : null}
     </div>
   );
 }

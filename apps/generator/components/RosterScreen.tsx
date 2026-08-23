@@ -4,18 +4,28 @@ import type { Gender, Level, Player } from "@ptg/core";
 import { useState } from "react";
 import { useLocale } from "../lib/i18n/useLocale";
 import { LIMITS } from "../lib/config";
-import { EmptyState, GenderChip } from "./ui";
+import { EmptyState, GenderChip, Notice } from "./ui";
 
 const LEVELS: Level[] = [1, 2, 3, 4, 5, 6];
 
 export function RosterScreen({
-  players,
+  confirmed,
+  waiting,
+  maxPlayers,
+  registrationOpen,
+  frozen,
   onAdd,
   onRemove,
+  onToggleRegistration,
 }: {
-  players: Player[];
+  confirmed: Player[];
+  waiting: Player[];
+  maxPlayers: number;
+  registrationOpen: boolean;
+  frozen: boolean;
   onAdd: (player: Omit<Player, "id">) => void;
   onRemove: (playerId: string) => void;
+  onToggleRegistration: (open: boolean) => void;
 }) {
   const { t } = useLocale();
   const [name, setName] = useState("");
@@ -23,14 +33,14 @@ export function RosterScreen({
   const [level, setLevel] = useState<Level>(3);
 
   const trimmed = name.trim();
-  const full = players.length >= LIMITS.maxPlayers;
+  const full = confirmed.length + waiting.length >= LIMITS.maxRegistrations;
   const canAdd = trimmed.length > 0 && !full;
 
-  const men = players.filter((p) => p.gender === "M").length;
+  const men = confirmed.filter((p) => p.gender === "M").length;
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
-    if (!canAdd) return;
+    if (!canAdd || frozen) return;
     onAdd({ name: trimmed.slice(0, LIMITS.maxNameLength), gender, level });
     setName("");
     // Most clubs enter alternating genders; flipping saves a tap.
@@ -41,6 +51,8 @@ export function RosterScreen({
     <div>
       <h2 className="screen__heading">{t.roster.heading}</h2>
       <p className="screen__lede">{t.roster.lede}</p>
+
+      {frozen ? <Notice tone="warn">{t.roster.frozen}</Notice> : null}
 
       <form className="card stack" onSubmit={submit}>
         <div>
@@ -96,26 +108,33 @@ export function RosterScreen({
           </div>
         </div>
 
-        <button type="submit" className="button button--full" disabled={!canAdd}>
+        <button type="submit" className="button button--full" disabled={!canAdd || frozen}>
           {t.roster.add}
         </button>
-        {full ? <p className="standings__detail">{t.roster.full(LIMITS.maxPlayers)}</p> : null}
+        {full ? <p className="standings__detail">{t.roster.full(LIMITS.maxRegistrations)}</p> : null}
       </form>
 
       <div className="row" style={{ justifyContent: "space-between", margin: "22px 0 8px" }}>
-        <div>
-          <div className="roster__count">{players.length}</div>
-          <div className="roster__countLabel">
-            {t.roster.count(players.length, men, players.length - men)}
-          </div>
-        </div>
+        <span className="roster__countLabel">{registrationOpen ? t.roster.registrationOpen : t.roster.registrationClosed}</span>
+        <button
+          type="button"
+          className="button button--quiet button--small"
+          disabled={frozen}
+          onClick={() => onToggleRegistration(!registrationOpen)}
+        >
+          {registrationOpen ? t.roster.closeRegistration : t.roster.openRegistration}
+        </button>
+      </div>
+      <div className="roster__count">{confirmed.length}</div>
+      <div className="roster__countLabel">
+        {t.roster.confirmedCount(confirmed.length, maxPlayers)} · {t.roster.count(confirmed.length, men, confirmed.length - men)}
       </div>
 
-      {players.length === 0 ? (
+      {confirmed.length === 0 ? (
         <EmptyState>{t.roster.empty}</EmptyState>
       ) : (
         <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-          {players.map((player) => (
+          {confirmed.map((player) => (
             <li key={player.id} className="roster__item">
               <GenderChip gender={player.gender} />
               <span className="roster__name">{player.name}</span>
@@ -123,6 +142,7 @@ export function RosterScreen({
               <button
                 type="button"
                 className="button button--quiet button--small"
+                disabled={frozen}
                 onClick={() => onRemove(player.id)}
               >
                 {t.roster.remove}
@@ -131,6 +151,31 @@ export function RosterScreen({
           ))}
         </ul>
       )}
+
+      {waiting.length > 0 ? (
+        <>
+          <h3 className="screen__heading" style={{ fontSize: 18, marginTop: 24 }}>
+            {t.roster.waitingHeading}
+          </h3>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+            {waiting.map((player, index) => (
+              <li key={player.id} className="roster__item">
+                <span className="roster__level">{t.roster.position(index + 1)}</span>
+                <GenderChip gender={player.gender} />
+                <span className="roster__name">{player.name}</span>
+                <button
+                  type="button"
+                  className="button button--quiet button--small"
+                  disabled={frozen}
+                  onClick={() => onRemove(player.id)}
+                >
+                  {t.roster.remove}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
     </div>
   );
 }

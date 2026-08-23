@@ -21,6 +21,7 @@ export function ScheduleScreen({
   players,
   games,
   score,
+  printHref,
   onScoreChange,
   onVoidChange,
   onSwap,
@@ -30,6 +31,7 @@ export function ScheduleScreen({
   games: GameResult[];
   /** SPEC-2 score of the schedule as it stands; shown only while swapping */
   score: AlgorithmScore | null;
+  printHref: string;
   onScoreChange: (roundIndex: number, court: number, side: "A" | "B", points: number | null) => void;
   onVoidChange: (roundIndex: number, court: number, voided: boolean) => void;
   onSwap: (roundIndex: number, a: string, b: string) => void;
@@ -73,7 +75,7 @@ export function ScheduleScreen({
     <div>
       <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
         <h2 className="screen__heading">{t.schedule.heading}</h2>
-        <Link className="standings__detail" href="/print">
+        <Link className="standings__detail" href={printHref}>
           {t.schedule.print}
         </Link>
       </div>
