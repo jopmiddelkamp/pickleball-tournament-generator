@@ -3,7 +3,7 @@
 import type { Gender, Level, Player } from "@ptg/core";
 import { useState } from "react";
 import { useLocale } from "../lib/i18n/useLocale";
-import { LIMITS } from "../lib/state";
+import { LIMITS } from "../lib/config";
 import { EmptyState, GenderChip } from "./ui";
 
 const LEVELS: Level[] = [1, 2, 3, 4, 5, 6];

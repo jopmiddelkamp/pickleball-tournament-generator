@@ -2,7 +2,7 @@
 
 import { ALGORITHMS, playingCapacity, type AlgorithmScore, type TournamentConfig } from "@ptg/core";
 import { useLocale } from "../lib/i18n/useLocale";
-import { LIMITS, maxRestSlots } from "../lib/state";
+import { LIMITS, maxRestSlots } from "../lib/config";
 import { EmptyState } from "./ui";
 
 const COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
