@@ -59,8 +59,9 @@ Dev login: `dev@example.com` / `password`. `pnpm db:studio` prints the Studio UR
 
 `apps/generator` is what an organiser uses standing on a court. Enter the roster, pick courts,
 rounds and rest slots, generate, and the evening is on screen as court cards. Scores go in per game
-and the standings follow SPEC-1. Everything lives in `localStorage` on the device — there is no
-backend and none is planned, and no roster data leaves the phone.
+and the standings follow SPEC-1. Tournaments, registrations and results live in a Supabase Postgres
+database reached only from server code; organisers sign in, players will register through a shared
+link (slice 2). Nothing is stored in the browser beyond the session cookie and UI language.
 
 Two things to know:
 
