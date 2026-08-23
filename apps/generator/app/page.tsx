@@ -7,7 +7,6 @@ import {
   type AlgorithmScore,
   type GameResult,
   type Player,
-  type Round,
 } from "@ptg/core";
 import { useMemo, useState } from "react";
 import { LanguageSelect } from "../components/LanguageSelect";
@@ -17,35 +16,12 @@ import { SetupScreen } from "../components/SetupScreen";
 import { StandingsScreen } from "../components/StandingsScreen";
 import { TabBar, TABS, type Tab } from "../components/TabBar";
 import { Notice } from "../components/ui";
+import { realignGames, swapInRound } from "../lib/evening";
 import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import { normaliseConfig, type TournamentState } from "../lib/state";
 import { newSeed } from "../lib/store";
 import { useTournament } from "../lib/useTournament";
-
-/** Swaps two players wherever they appear in one round. */
-function swapInRound(round: Round, a: string, b: string): Round {
-  const swap = (id: string) => (id === a ? b : id === b ? a : id);
-  return {
-    matches: round.matches.map((match) => ({
-      court: match.court,
-      teamA: [swap(match.teamA[0]), swap(match.teamA[1])] as [string, string],
-      teamB: [swap(match.teamB[0]), swap(match.teamB[1])] as [string, string],
-    })),
-    resting: round.resting.map(swap),
-  };
-}
-
-/** Keeps the entered result pointing at whoever is on that court now. */
-function realignGames(games: GameResult[], roundIndex: number, rounds: Round[]): GameResult[] {
-  const round = rounds[roundIndex];
-  if (!round) return games;
-  return games.map((game) => {
-    if (game.round !== roundIndex) return game;
-    const match = round.matches.find((m) => m.court === game.court);
-    return match ? { ...game, teamA: match.teamA, teamB: match.teamB } : game;
-  });
-}
 
 export default function Page() {
   const { state, update, startOver, notice, dismissNotice } = useTournament();
