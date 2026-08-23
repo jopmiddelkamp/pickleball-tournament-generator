@@ -10,3 +10,4 @@ coverage/
 out/
 *.tsbuildinfo
 .playwright-mcp/
+.vercel/

@@ -40,9 +40,14 @@ Stack:
   connection string for every query. Schema and migrations live in the repo
   under `apps/generator/db/`.
 - **`@supabase/ssr`** only for organiser sessions (it manages the auth
-  cookies). `supabase-js` is not used for data; Row Level Security is not
-  relied on. Authorisation is enforced in server code by scoping every
-  organiser query to the signed-in organiser's id.
+  cookies). `supabase-js` is not used for data. Authorisation is enforced in
+  server code by scoping every organiser query to the signed-in organiser's
+  id.
+- **Row Level Security is on for every table, with no policies.** Supabase
+  exposes the `public` schema through its Data API to anyone holding the
+  (public) anon key; RLS with no policies makes that API return nothing.
+  Our server connection uses the `postgres` role, which bypasses RLS, so
+  nothing else changes.
 
 The browser never talks to Supabase or Postgres. All reads happen in server
 components and all writes through Server Actions, so the existing
@@ -253,15 +258,63 @@ The repository functions are thin Drizzle queries and are covered by
 typecheck and by running the app against the Supabase project; no database
 is spun up in unit tests.
 
+## Local development
+
+The whole stack runs on the developer's machine in Docker through the
+**Supabase CLI**, so localhost behaves like production, including organiser
+sign-up and its confirmation email.
+
+- `supabase init` once, at the repo root, creates `supabase/config.toml`.
+  `supabase start` brings up Postgres, Auth, Studio (a database UI) and
+  Mailpit (catches the auth emails, so organiser sign-up can be completed
+  locally without a real inbox). `supabase status` prints the local URLs
+  and keys; they are the same on every machine.
+- `apps/generator/.env.local` points at the local stack and is generated
+  from a committed `.env.example` holding the standard local values. Cloud
+  credentials live only in Vercel; deployments get them injected, and
+  nothing on a laptop ever points at the cloud database by default.
+- Migrations are owned by Drizzle: `drizzle-kit generate` writes SQL into
+  `apps/generator/drizzle/` from the TypeScript schema, and `drizzle-kit
+  migrate` applies whatever `DATABASE_URL` points at. Applying to the cloud
+  database is one explicit command (`pnpm db:migrate:cloud`) that reads
+  `.env.cloud.local`, fetched with `vercel env pull --environment production
+  .env.cloud.local`. It is never run by `next build`.
+- A seed script (`pnpm db:seed`) creates a known organiser
+  (`dev@example.com` / `password`, email pre-confirmed through the admin
+  API), one open tournament with a full confirmed list and two on the
+  waiting list, and one tournament with a generated schedule and some
+  scores. That is enough to open any screen without clicking through
+  sign-up first.
+
+Scripts, all at the repo root:
+
+| script | does |
+|---|---|
+| `pnpm db:start` / `pnpm db:stop` | `supabase start` / `supabase stop` |
+| `pnpm db:reset` | `supabase db reset` (drops and recreates the local database), then migrate, then seed: the one command to get back to a known state |
+| `pnpm db:migrate` | apply pending Drizzle migrations to `DATABASE_URL` |
+| `pnpm db:generate` | write a new migration from a schema change |
+| `pnpm db:seed` | load the dev data above |
+| `pnpm db:studio` | print the local Studio URL |
+
+Repository functions (the thin Drizzle queries) get integration tests that
+run against the local stack when `DATABASE_URL` is set and are skipped
+otherwise; CI stays on the pure unit tests.
+
+Prerequisites: Docker Desktop and the Supabase CLI (`brew install
+supabase/tap/supabase`). The README gets a "Run it locally" section with
+exactly these steps.
+
 ## Build order
 
 Three slices. Each gets its own implementation plan and lands in small
 commits with `pnpm test`, `pnpm typecheck` and `pnpm lint` green.
 
-1. **Persistence and organiser accounts.** Drizzle schema and first
-   migration, Supabase auth with sign-up and login, tournament list and
-   create, the existing setup/schedule/standings flow moved onto the
-   database, localStorage removed. `suggestConfig` in core.
+1. **Persistence and organiser accounts.** Local stack (`supabase init`,
+   env example, db scripts, seed), Drizzle schema and first migration,
+   Supabase auth with sign-up and login, tournament list and create, the
+   existing setup/schedule/standings flow moved onto the database,
+   localStorage removed. `suggestConfig` in core.
 2. **Public registration.** `/t/<slug>`, the cookie, FIFO waiting list,
    cancel, the organiser's Players tab with remove, walk-in and
    open/close.
