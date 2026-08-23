@@ -161,7 +161,6 @@ export const en = {
   },
 
   print: {
-    loading: "Loading…",
     back: "Back to the app",
     summary: (players: number, courts: number, rounds: number, target: number, seed: number) =>
       `${players} players · ${courts} courts · ${rounds} rounds · games to ${target} · seed ${seed}`,

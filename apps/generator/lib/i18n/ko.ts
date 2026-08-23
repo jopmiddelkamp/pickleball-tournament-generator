@@ -145,7 +145,6 @@ export const ko: Messages = {
   },
 
   print: {
-    loading: "불러오는 중…",
     back: "앱으로 돌아가기",
     summary: (players, courts, rounds, target, seed) =>
       `${players}명 · 코트 ${courts}개 · ${rounds}라운드 · ${target}점 게임 · 시드 ${seed}`,

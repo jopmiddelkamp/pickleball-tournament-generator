@@ -146,7 +146,6 @@ export const vi: Messages = {
   },
 
   print: {
-    loading: "Đang tải…",
     back: "Quay lại ứng dụng",
     summary: (players, courts, rounds, target, seed) =>
       `${players} người chơi · ${courts} sân · ${rounds} vòng · ván đến ${target} · seed ${seed}`,

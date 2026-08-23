@@ -146,7 +146,6 @@ export const es: Messages = {
   },
 
   print: {
-    loading: "Cargando…",
     back: "Volver a la app",
     summary: (players, courts, rounds, target, seed) =>
       `${players} jugadores · ${courts} pistas · ${rounds} rondas · partidos a ${target} · semilla ${seed}`,

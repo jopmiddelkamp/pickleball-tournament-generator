@@ -145,7 +145,6 @@ export const ja: Messages = {
   },
 
   print: {
-    loading: "読み込み中…",
     back: "アプリに戻る",
     summary: (players, courts, rounds, target, seed) =>
       `${players} 人 · ${courts} コート · ${rounds} ラウンド · ${target} 点先取 · シード ${seed}`,

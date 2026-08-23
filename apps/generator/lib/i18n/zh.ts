@@ -144,7 +144,6 @@ export const zh: Messages = {
   },
 
   print: {
-    loading: "加载中…",
     back: "返回应用",
     summary: (players, courts, rounds, target, seed) =>
       `${players} 人 · ${courts} 片场地 · ${rounds} 轮 · 每局 ${target} 分 · 种子 ${seed}`,
