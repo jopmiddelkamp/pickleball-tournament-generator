@@ -48,6 +48,15 @@ export const ko: Messages = {
     count: (_players, men, women) => `명 · 남 ${men} · 여 ${women}`,
     empty: "아직 아무도 없습니다. 위에서 첫 참가자를 추가하세요.",
     remove: "삭제",
+    confirmedCount: (confirmed, max) => `${confirmed} / ${max}자리 확정`,
+    waitingHeading: "대기 명단",
+    position: (n) => `#${n}`,
+    frozen: "일정이 생성되어 명단이 잠겼습니다. 변경하려면 설정 탭에서 일정을 삭제하세요.",
+    registrationOpen: "등록이 진행 중입니다",
+    registrationClosed: "등록이 마감되었습니다",
+    closeRegistration: "등록 마감",
+    openRegistration: "등록 다시 열기",
+    walkIn: "현장 참가자 추가",
   },
 
   setup: {
@@ -71,7 +80,10 @@ export const ko: Messages = {
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `같은 파트너 최대 ${partnerRepeat}회 · 같은 상대 최장 연속 ${opponentStreak}라운드 · 휴식 횟수 차이 ${byeSpread} · 일방적 경기 비율 ${blowoutPercent}%`,
     noScore: "일정을 생성하면 점수를 볼 수 있습니다.",
-    startOver: "새 저녁 시작",
+    suggested: "코트 수와 휴식 인원은 확정된 참가자 수에 따라 제안됩니다.",
+    useSuggestion: "제안값 사용",
+    closeFirst: "생성하기 전에 등록을 마감해서 명단이 더 이상 바뀌지 않게 하세요.",
+    discard: "일정 삭제",
   },
 
   grades: {
@@ -199,6 +211,18 @@ export const ko: Messages = {
       gameTarget: "경기 목표 점수",
       create: "저녁 만들기",
       invalid: "강조 표시된 항목을 확인하세요: 이름, 미래의 날짜, 4~64명, 코트 1~6개, 라운드 1~20회.",
+    },
+  },
+
+  workspace: {
+    unreadable: "저장된 일정을 읽을 수 없습니다. 삭제하고 다시 생성하세요.",
+    errors: {
+      "not-found": "이 저녁 일정은 더 이상 존재하지 않습니다.",
+      invalid: "그 변경 사항은 유효하지 않아 무시되었습니다.",
+      frozen: "일정이 생성되어 있습니다. 명단을 바꾸려면 먼저 일정을 삭제하세요.",
+      open: "먼저 등록을 마감하세요.",
+      players: "확정된 참가자가 최소 4명 필요합니다.",
+      full: "이 저녁 일정은 등록 인원 한도에 도달했습니다.",
     },
   },
 };

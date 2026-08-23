@@ -1,4 +1,4 @@
-import type { GameResult, Player, Schedule } from "@ptg/core";
+import { ALGORITHMS, type GameResult, type Player, type Schedule } from "@ptg/core";
 import { LIMITS } from "./config";
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -13,6 +13,55 @@ export function asString(value: unknown, maxLength: number): string | null {
 
 export function asInt(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? Math.trunc(value) : null;
+}
+
+export interface SetupPatch {
+  courts?: number;
+  restSlots?: number;
+  rounds?: number;
+  algorithmId?: string;
+  gameTarget?: number;
+  useSuggestion?: boolean;
+}
+
+function intInRange(value: unknown, min: number, max: number): number | null {
+  const n = asInt(value);
+  return n === null || n < min || n > max ? null : n;
+}
+
+/** The organiser's Set up tab, one field at a time; an unknown or out-of-range field rejects the whole patch. */
+export function parseSetupPatch(value: unknown): SetupPatch | null {
+  if (!isRecord(value)) return null;
+  const patch: SetupPatch = {};
+  if ("courts" in value) {
+    const courts = intInRange(value.courts, LIMITS.minCourts, LIMITS.maxCourts);
+    if (courts === null) return null;
+    patch.courts = courts;
+  }
+  if ("restSlots" in value) {
+    const restSlots = intInRange(value.restSlots, 0, LIMITS.maxPlayers);
+    if (restSlots === null) return null;
+    patch.restSlots = restSlots;
+  }
+  if ("rounds" in value) {
+    const rounds = intInRange(value.rounds, LIMITS.minRounds, LIMITS.maxRounds);
+    if (rounds === null) return null;
+    patch.rounds = rounds;
+  }
+  if ("gameTarget" in value) {
+    const gameTarget = intInRange(value.gameTarget, 1, LIMITS.maxPoints);
+    if (gameTarget === null) return null;
+    patch.gameTarget = gameTarget;
+  }
+  if ("algorithmId" in value) {
+    if (typeof value.algorithmId !== "string" || !ALGORITHMS.some((a) => a.id === value.algorithmId)) return null;
+    patch.algorithmId = value.algorithmId;
+  }
+  if ("useSuggestion" in value) {
+    if (value.useSuggestion !== true) return null;
+    patch.useSuggestion = true;
+  }
+  return Object.keys(patch).length === 0 ? null : patch;
 }
 
 export function parsePlayer(value: unknown): Player | null {

@@ -60,6 +60,15 @@ export const en = {
       `${players === 1 ? "player" : "players"} · ${men} m · ${women} w`,
     empty: "No one on the list yet. Add the first player above.",
     remove: "Remove",
+    confirmedCount: (confirmed: number, max: number) => `${confirmed} of ${max} places taken`,
+    waitingHeading: "Waiting list",
+    position: (n: number) => `#${n}`,
+    frozen: "The schedule is generated, so the list is frozen. Discard the schedule on the Set up tab to change it.",
+    registrationOpen: "Registration is open",
+    registrationClosed: "Registration is closed",
+    closeRegistration: "Close registration",
+    openRegistration: "Reopen registration",
+    walkIn: "Add a walk-in",
   },
 
   setup: {
@@ -84,7 +93,10 @@ export const en = {
     diagnostics: (partnerRepeat: number, opponentStreak: number, byeSpread: number, blowoutPercent: number) =>
       `Max partner repeat ${partnerRepeat} · longest same-opponent streak ${opponentStreak} · bye spread ${byeSpread} · blowout share ${blowoutPercent}%`,
     noScore: "Generate a schedule to see how it scores.",
-    startOver: "Start a new evening",
+    suggested: "Courts and rest slots follow the number of confirmed players.",
+    useSuggestion: "Use the suggestion",
+    closeFirst: "Close registration before generating, so the list stops moving.",
+    discard: "Discard schedule",
   },
 
   grades: {
@@ -216,6 +228,18 @@ export const en = {
       gameTarget: "Games are played to",
       create: "Create evening",
       invalid: "Check the highlighted fields: name, a date in the future, 4–64 players, 1–6 courts, 1–20 rounds.",
+    },
+  },
+
+  workspace: {
+    unreadable: "The stored schedule could not be read. Discard it and generate again.",
+    errors: {
+      "not-found": "This evening no longer exists.",
+      invalid: "That change was not valid and was ignored.",
+      frozen: "The schedule is generated; discard it before changing the list.",
+      open: "Close registration first.",
+      players: "At least four confirmed players are needed.",
+      full: "This evening has reached the registration limit.",
     },
   },
 };

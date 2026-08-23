@@ -48,6 +48,15 @@ export const es: Messages = {
     count: (players, men, women) => `${players === 1 ? "jugador" : "jugadores"} · ${men} h · ${women} m`,
     empty: "Todavía no hay nadie en la lista. Añade al primer jugador arriba.",
     remove: "Quitar",
+    confirmedCount: (confirmed, max) => `${confirmed} de ${max} plazas ocupadas`,
+    waitingHeading: "Lista de espera",
+    position: (n) => `#${n}`,
+    frozen: "El calendario ya está generado, así que la lista está bloqueada. Descarta el calendario en la pestaña Ajustes para cambiarla.",
+    registrationOpen: "La inscripción está abierta",
+    registrationClosed: "La inscripción está cerrada",
+    closeRegistration: "Cerrar inscripción",
+    openRegistration: "Reabrir inscripción",
+    walkIn: "Añadir un jugador de última hora",
   },
 
   setup: {
@@ -71,7 +80,10 @@ export const es: Messages = {
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `Máx. repetición de pareja ${partnerRepeat} · racha más larga contra el mismo rival ${opponentStreak} · diferencia de descansos ${byeSpread} · partidos desiguales ${blowoutPercent}%`,
     noScore: "Genera un calendario para ver su puntuación.",
-    startOver: "Empezar una noche nueva",
+    suggested: "Las pistas y los descansos siguen el número de jugadores confirmados.",
+    useSuggestion: "Usar la sugerencia",
+    closeFirst: "Cierra la inscripción antes de generar, para que la lista deje de moverse.",
+    discard: "Descartar calendario",
   },
 
   grades: {
@@ -200,6 +212,18 @@ export const es: Messages = {
       gameTarget: "Los partidos se juegan a",
       create: "Crear noche",
       invalid: "Revisa los campos resaltados: nombre, una fecha futura, 4–64 jugadores, 1–6 pistas, 1–20 rondas.",
+    },
+  },
+
+  workspace: {
+    unreadable: "No se pudo leer el calendario guardado. Descártalo y genera uno de nuevo.",
+    errors: {
+      "not-found": "Esta noche ya no existe.",
+      invalid: "Ese cambio no era válido y se ignoró.",
+      frozen: "El calendario ya está generado; descártalo antes de cambiar la lista.",
+      open: "Cierra primero la inscripción.",
+      players: "Se necesitan al menos cuatro jugadores confirmados.",
+      full: "Esta noche ha alcanzado el límite de inscripciones.",
     },
   },
 };

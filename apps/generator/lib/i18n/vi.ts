@@ -48,6 +48,15 @@ export const vi: Messages = {
     count: (_players, men, women) => `người chơi · ${men} nam · ${women} nữ`,
     empty: "Chưa có ai trong danh sách. Hãy thêm người chơi đầu tiên ở trên.",
     remove: "Xóa",
+    confirmedCount: (confirmed, max) => `Đã xác nhận ${confirmed}/${max} chỗ`,
+    waitingHeading: "Danh sách chờ",
+    position: (n) => `#${n}`,
+    frozen: "Lịch đã được tạo nên danh sách đang bị khóa. Hãy hủy lịch ở mục Thiết lập để thay đổi.",
+    registrationOpen: "Đang mở đăng ký",
+    registrationClosed: "Đã đóng đăng ký",
+    closeRegistration: "Đóng đăng ký",
+    openRegistration: "Mở lại đăng ký",
+    walkIn: "Thêm người chơi vãng lai",
   },
 
   setup: {
@@ -71,7 +80,10 @@ export const vi: Messages = {
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `Lặp đồng đội tối đa ${partnerRepeat} · chuỗi gặp cùng đối thủ dài nhất ${opponentStreak} · chênh lệch lượt nghỉ ${byeSpread} · tỷ lệ trận chênh lệch ${blowoutPercent}%`,
     noScore: "Tạo lịch để xem điểm của nó.",
-    startOver: "Bắt đầu buổi tối mới",
+    suggested: "Số sân và suất nghỉ được đề xuất theo số người chơi đã xác nhận.",
+    useSuggestion: "Dùng đề xuất",
+    closeFirst: "Đóng đăng ký trước khi tạo lịch, để danh sách không đổi nữa.",
+    discard: "Hủy lịch thi đấu",
   },
 
   grades: {
@@ -200,6 +212,18 @@ export const vi: Messages = {
       gameTarget: "Chơi đến",
       create: "Tạo buổi tối",
       invalid: "Kiểm tra các trường được đánh dấu: tên, ngày trong tương lai, 4–64 người chơi, 1–6 sân, 1–20 vòng.",
+    },
+  },
+
+  workspace: {
+    unreadable: "Không đọc được lịch đã lưu. Hãy hủy và tạo lại.",
+    errors: {
+      "not-found": "Buổi tối này không còn tồn tại.",
+      invalid: "Thay đổi đó không hợp lệ và đã bị bỏ qua.",
+      frozen: "Lịch đã được tạo; hãy hủy lịch trước khi thay đổi danh sách.",
+      open: "Hãy đóng đăng ký trước.",
+      players: "Cần ít nhất bốn người chơi đã xác nhận.",
+      full: "Buổi tối này đã đạt giới hạn đăng ký.",
     },
   },
 };

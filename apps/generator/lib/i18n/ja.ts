@@ -48,6 +48,15 @@ export const ja: Messages = {
     count: (_players, men, women) => `人 · 男性 ${men} · 女性 ${women}`,
     empty: "まだ誰もいません。上から最初のプレーヤーを追加してください。",
     remove: "削除",
+    confirmedCount: (confirmed, max) => `確定 ${confirmed} / ${max} 枠`,
+    waitingHeading: "キャンセル待ち",
+    position: (n) => `${n}番目`,
+    frozen: "スケジュールが生成されているため、名簿はロックされています。変更するには「設定」タブでスケジュールを破棄してください。",
+    registrationOpen: "受付中",
+    registrationClosed: "受付を締め切りました",
+    closeRegistration: "受付を締め切る",
+    openRegistration: "受付を再開する",
+    walkIn: "飛び入り参加者を追加",
   },
 
   setup: {
@@ -71,7 +80,10 @@ export const ja: Messages = {
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `同じペアの最大回数 ${partnerRepeat} · 同じ相手との最長連続 ${opponentStreak} · 休憩回数の差 ${byeSpread} · 大差試合の割合 ${blowoutPercent}%`,
     noScore: "スケジュールを生成するとスコアが表示されます。",
-    startOver: "新しい夜を始める",
+    suggested: "コート数と休憩枠は確定したプレーヤー数に応じて提案されます。",
+    useSuggestion: "提案値を使う",
+    closeFirst: "生成する前に受付を締め切り、名簿が変わらないようにしてください。",
+    discard: "スケジュールを破棄",
   },
 
   grades: {
@@ -199,6 +211,18 @@ export const ja: Messages = {
       gameTarget: "得点目標",
       create: "夜を作成",
       invalid: "強調表示された項目を確認してください：名前、未来の日付、4〜64人、1〜6面のコート、1〜20ラウンド。",
+    },
+  },
+
+  workspace: {
+    unreadable: "保存されたスケジュールを読み込めませんでした。破棄してから作り直してください。",
+    errors: {
+      "not-found": "この夜の予定はもう存在しません。",
+      invalid: "その変更は無効だったため、無視されました。",
+      frozen: "スケジュールが生成されています。名簿を変更する前に破棄してください。",
+      open: "先に受付を締め切ってください。",
+      players: "確定したプレーヤーが4人以上必要です。",
+      full: "この夜の予定は受付上限に達しています。",
     },
   },
 };

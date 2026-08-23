@@ -47,6 +47,15 @@ export const zh: Messages = {
     count: (_players, men, women) => `人 · 男 ${men} · 女 ${women}`,
     empty: "名单还是空的。请在上方添加第一位球员。",
     remove: "移除",
+    confirmedCount: (confirmed, max) => `已确认 ${confirmed} / ${max} 位`,
+    waitingHeading: "候补名单",
+    position: (n) => `第 ${n} 位`,
+    frozen: "赛程已生成，名单已锁定。请在“设置”页丢弃赛程后再修改。",
+    registrationOpen: "报名进行中",
+    registrationClosed: "报名已关闭",
+    closeRegistration: "关闭报名",
+    openRegistration: "重新开放报名",
+    walkIn: "添加现场球员",
   },
 
   setup: {
@@ -69,7 +78,10 @@ export const zh: Messages = {
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `最多重复搭档 ${partnerRepeat} 次 · 最长连续同对手 ${opponentStreak} 轮 · 轮空差距 ${byeSpread} · 悬殊对局占比 ${blowoutPercent}%`,
     noScore: "生成赛程后即可查看评分。",
-    startOver: "开始新的活动",
+    suggested: "场地数和轮空名额会随已确认球员人数自动建议。",
+    useSuggestion: "采用建议值",
+    closeFirst: "生成前请先关闭报名，这样名单就不会再变动。",
+    discard: "丢弃赛程",
   },
 
   grades: {
@@ -196,6 +208,18 @@ export const zh: Messages = {
       gameTarget: "比赛打到",
       create: "创建活动之夜",
       invalid: "请检查高亮字段：名称、未来的日期、4–64 名球员、1–6 片场地、1–20 轮次。",
+    },
+  },
+
+  workspace: {
+    unreadable: "无法读取已保存的赛程。请丢弃后重新生成。",
+    errors: {
+      "not-found": "这场活动之夜已不存在。",
+      invalid: "该操作无效，已被忽略。",
+      frozen: "赛程已生成；请先丢弃赛程再修改名单。",
+      open: "请先关闭报名。",
+      players: "至少需要四位已确认球员。",
+      full: "本场活动之夜的报名人数已达上限。",
     },
   },
 };
