@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+.next/
+dist/
+.turbo/
+coverage/
+.env*
+!.env.example
+.claude/settings.local.json
