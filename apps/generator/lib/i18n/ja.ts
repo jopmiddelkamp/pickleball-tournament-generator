@@ -155,4 +155,25 @@ export const ja: Messages = {
     resting: "休憩：",
     nameJoiner: " & ",
   },
+
+  auth: {
+    loginHeading: "主催者ログイン",
+    signUpHeading: "主催者アカウントを作成",
+    lede: "主催者は当日の設定とコート運営を行います。参加者にアカウントは必要ありません。",
+    email: "メールアドレス",
+    password: "パスワード",
+    passwordHint: (min) => `${min} 文字以上`,
+    login: "ログイン",
+    signUp: "アカウントを作成",
+    logout: "ログアウト",
+    toSignUp: "アカウントをお持ちでない方はこちら",
+    toLogin: "すでにアカウントをお持ちの方はこちら",
+    confirmEmail: "受信トレイを確認してメールを認証してから、ログインしてください。",
+    errors: {
+      invalid: "有効なメールアドレスと8文字以上のパスワードを入力してください。",
+      credentials: "メールアドレスとパスワードが一致しません。",
+      exists: "そのメールアドレスのアカウントはすでに存在します。ログインしてください。",
+      failed: "アカウントを作成できませんでした。しばらくしてからもう一度お試しください。",
+    },
+  },
 };

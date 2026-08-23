@@ -155,4 +155,25 @@ export const ko: Messages = {
     resting: "휴식: ",
     nameJoiner: " & ",
   },
+
+  auth: {
+    loginHeading: "주최자 로그인",
+    signUpHeading: "주최자 계정 만들기",
+    lede: "주최자는 저녁 일정을 설정하고 코트에서 직접 진행합니다. 참가자는 계정이 필요 없습니다.",
+    email: "이메일",
+    password: "비밀번호",
+    passwordHint: (min) => `${min}자 이상`,
+    login: "로그인",
+    signUp: "계정 만들기",
+    logout: "로그아웃",
+    toSignUp: "아직 계정이 없나요? 계정 만들기",
+    toLogin: "이미 계정이 있나요? 로그인",
+    confirmEmail: "받은 편지함에서 이메일을 확인하고 인증한 뒤 로그인하세요.",
+    errors: {
+      invalid: "유효한 이메일과 8자 이상의 비밀번호를 입력하세요.",
+      credentials: "이메일과 비밀번호가 일치하지 않습니다.",
+      exists: "이미 해당 이메일로 등록된 계정이 있습니다. 로그인해 주세요.",
+      failed: "계정을 만들 수 없습니다. 잠시 후 다시 시도하세요.",
+    },
+  },
 };

@@ -1,26 +1,22 @@
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Per-request CSP nonce.
+ * Two jobs per request:
  *
- * Next inlines a hydration script on every page, so a policy without
- * `unsafe-inline` needs a nonce that both the header and that script carry.
- * The policy goes on the *request* headers as well: that is how Next learns the
- * nonce and stamps it onto the script tags it emits. Leave it off and every
- * script on the page is blocked.
- *
- * Carrying a nonce means the pages render per request rather than being served
- * as prerendered files. For an app this size that costs nothing.
- *
- * `style-src` still allows inline styles: the framework and the self-hosted
- * fonts emit them, and inline CSS is not a script execution path.
+ * 1. CSP nonce (unchanged from before): Next inlines a hydration script on
+ *    every page, so a policy without `unsafe-inline` needs a nonce that both
+ *    the header and that script carry. The policy goes on the request headers
+ *    as well; that is how Next learns the nonce.
+ * 2. Organiser session: refresh Supabase's auth cookies if the access token
+ *    expired, and bounce unauthenticated visitors off /organiser/*. This is an
+ *    optimistic check only; every Server Action and page verifies again.
  */
-export default function proxy(request: NextRequest): NextResponse {
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-  // React's dev build needs eval() for its debugging tooling. Production never
-  // does, and never gets it.
+const PUBLIC_ORGANISER_PATHS = new Set(["/organiser/login", "/organiser/sign-up"]);
+
+function contentSecurityPolicy(nonce: string): string {
   const devEval = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
-  const csp = [
+  return [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${devEval}`,
     "style-src 'self' 'unsafe-inline'",
@@ -33,21 +29,49 @@ export default function proxy(request: NextRequest): NextResponse {
     "object-src 'none'",
     "upgrade-insecure-requests",
   ].join("; ");
+}
 
-  const headers = new Headers(request.headers);
-  headers.set("x-nonce", nonce);
-  headers.set("Content-Security-Policy", csp);
+export default async function proxy(request: NextRequest): Promise<NextResponse> {
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+  const csp = contentSecurityPolicy(nonce);
 
-  const response = NextResponse.next({ request: { headers } });
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set("Content-Security-Policy", csp);
+
+  let response = NextResponse.next({ request: { headers: requestHeaders } });
+
+  const supabase = createServerClient(process.env.SUPABASE_URL ?? "", process.env.SUPABASE_PUBLISHABLE_KEY ?? "", {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        for (const { name, value } of cookiesToSet) request.cookies.set(name, value);
+        response = NextResponse.next({ request: { headers: requestHeaders } });
+        for (const { name, value, options } of cookiesToSet) response.cookies.set(name, value, options);
+      },
+    },
+  });
+  const { data } = await supabase.auth.getClaims();
+  const signedIn = data?.claims != null;
+
+  const path = request.nextUrl.pathname;
+  if (path.startsWith("/organiser") && !PUBLIC_ORGANISER_PATHS.has(path) && !signedIn) {
+    const login = request.nextUrl.clone();
+    login.pathname = "/organiser/login";
+    login.search = "";
+    return NextResponse.redirect(login);
+  }
+
   response.headers.set("Content-Security-Policy", csp);
   return response;
 }
 
 export const config = {
   matcher: [
-    // Everything except Next's own static output and the favicon.
     {
-      source: "/((?!_next/static|_next/image|favicon.ico).*)",
+      source: "/((?!_next/static|_next/image|favicon.ico|icon.svg).*)",
       missing: [{ type: "header", key: "next-router-prefetch" }],
     },
   ],
