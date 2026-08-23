@@ -1,14 +1,9 @@
 "use client";
 
+import { useLocale } from "../lib/i18n/useLocale";
+
 export const TABS = ["roster", "setup", "schedule", "standings"] as const;
 export type Tab = (typeof TABS)[number];
-
-const LABELS: Record<Tab, string> = {
-  roster: "Roster",
-  setup: "Set up",
-  schedule: "Courts",
-  standings: "Standings",
-};
 
 export function TabBar({
   active,
@@ -19,8 +14,9 @@ export function TabBar({
   onChange: (tab: Tab) => void;
   tabs: readonly Tab[];
 }) {
+  const { t } = useLocale();
   return (
-    <nav className="tabbar" aria-label="Sections">
+    <nav className="tabbar" aria-label={t.sections}>
       {tabs.map((tab) => (
         <button
           key={tab}
@@ -30,7 +26,7 @@ export function TabBar({
           onClick={() => onChange(tab)}
         >
           <span className="tabbar__mark" aria-hidden="true" />
-          {LABELS[tab]}
+          {t.tabs[tab]}
         </button>
       ))}
     </nav>

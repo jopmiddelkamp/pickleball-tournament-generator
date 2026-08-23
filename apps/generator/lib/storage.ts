@@ -20,10 +20,13 @@ import {
 
 export const STORAGE_KEY = "ptg.tournament.v1";
 
+/** Why a saved evening could not be restored; the app words it for the organiser. */
+export type StorageFailure = "blocked" | "corrupt" | "mismatch";
+
 export type LoadResult =
   | { status: "empty" }
   | { status: "loaded"; state: TournamentState }
-  | { status: "unreadable"; message: string };
+  | { status: "unreadable"; reason: StorageFailure };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -158,7 +161,7 @@ export function loadState(): LoadResult {
   try {
     raw = window.localStorage.getItem(STORAGE_KEY);
   } catch {
-    return { status: "unreadable", message: "This browser is blocking storage, so nothing was restored." };
+    return { status: "unreadable", reason: "blocked" };
   }
   if (raw === null) return { status: "empty" };
 
@@ -166,12 +169,12 @@ export function loadState(): LoadResult {
   try {
     parsed = JSON.parse(raw);
   } catch {
-    return { status: "unreadable", message: "The saved evening could not be read and was left untouched. Start a new one, or fix the browser storage entry." };
+    return { status: "unreadable", reason: "corrupt" };
   }
 
   const state = parseState(parsed);
   if (!state) {
-    return { status: "unreadable", message: "The saved evening does not match what this version expects. Start a new one, or fix the browser storage entry." };
+    return { status: "unreadable", reason: "mismatch" };
   }
   return { status: "loaded", state };
 }

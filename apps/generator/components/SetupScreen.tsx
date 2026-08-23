@@ -1,6 +1,7 @@
 "use client";
 
 import { ALGORITHMS, playingCapacity, type AlgorithmScore, type TournamentConfig } from "@ptg/core";
+import { useLocale } from "../lib/i18n/useLocale";
 import { LIMITS, maxRestSlots } from "../lib/state";
 import { EmptyState } from "./ui";
 
@@ -31,23 +32,24 @@ export function SetupScreen({
   onGenerate: () => void;
   onClear: () => void;
 }) {
+  const { t } = useLocale();
   const algorithm = ALGORITHMS.find((a) => a.id === algorithmId) ?? ALGORITHMS[0];
+  // Core's names are English; an algorithm the catalog does not know keeps them.
+  const describe = (id: string, fallback: { name: string; description: string }) =>
+    t.algorithms[id] ?? fallback;
   const capacity = playingCapacity(playerCount, config);
   const enoughPlayers = playerCount >= 4;
   const restCeiling = maxRestSlots(playerCount);
 
   return (
     <div>
-      <h2 className="screen__heading">Set up the evening</h2>
-      <p className="screen__lede">
-        The same players, settings and seed always produce the same schedule. Reroll the seed for a
-        different one.
-      </p>
+      <h2 className="screen__heading">{t.setup.heading}</h2>
+      <p className="screen__lede">{t.setup.lede}</p>
 
       <div className="card stack">
         <div>
           <span className="label" id="courts-label">
-            Courts
+            {t.setup.courts}
           </span>
           <div className="segmented" role="group" aria-labelledby="courts-label">
             {COURT_OPTIONS.map((courts) => (
@@ -67,7 +69,7 @@ export function SetupScreen({
         <div className="row">
           <div style={{ flex: 1 }}>
             <label className="label" htmlFor="rounds">
-              Rounds
+              {t.setup.rounds}
             </label>
             <input
               id="rounds"
@@ -82,7 +84,7 @@ export function SetupScreen({
           </div>
           <div style={{ flex: 1 }}>
             <label className="label" htmlFor="rest">
-              Rest slots
+              {t.setup.restSlots}
             </label>
             <input
               id="rest"
@@ -99,7 +101,7 @@ export function SetupScreen({
 
         <div>
           <label className="label" htmlFor="algorithm">
-            Scheduler
+            {t.setup.scheduler}
           </label>
           <select
             id="algorithm"
@@ -109,18 +111,18 @@ export function SetupScreen({
           >
             {ALGORITHMS.map((option) => (
               <option key={option.id} value={option.id}>
-                {option.name}
+                {describe(option.id, option).name}
               </option>
             ))}
           </select>
           <p className="standings__detail" style={{ marginTop: 6 }}>
-            {algorithm?.description}
+            {algorithm ? describe(algorithm.id, algorithm).description : null}
           </p>
         </div>
 
         <div>
           <label className="label" htmlFor="target">
-            Games are played to
+            {t.setup.gameTarget}
           </label>
           <select
             id="target"
@@ -130,7 +132,7 @@ export function SetupScreen({
           >
             {[11, 16, 21].map((points) => (
               <option key={points} value={points}>
-                {points} points
+                {t.setup.points(points)}
               </option>
             ))}
           </select>
@@ -139,20 +141,18 @@ export function SetupScreen({
         <div className="row" style={{ justifyContent: "space-between" }}>
           <div>
             <span className="label" style={{ marginBottom: 2 }}>
-              Seed
+              {t.setup.seed}
             </span>
             <strong style={{ fontVariantNumeric: "tabular-nums" }}>{config.seed}</strong>
           </div>
           <button type="button" className="button button--quiet button--small" onClick={onReroll}>
-            Reroll
+            {t.setup.reroll}
           </button>
         </div>
       </div>
 
       <p className="standings__detail" style={{ margin: "14px 0" }}>
-        {enoughPlayers
-          ? `${capacity} on court each round, ${playerCount - capacity} resting.`
-          : "Add at least four players before generating."}
+        {enoughPlayers ? t.setup.capacity(capacity, playerCount - capacity) : t.setup.needPlayers}
       </p>
 
       <button
@@ -161,36 +161,40 @@ export function SetupScreen({
         disabled={!enoughPlayers || capacity === 0}
         onClick={onGenerate}
       >
-        Generate schedule
+        {t.setup.generate}
       </button>
 
       <h3 className="screen__heading" style={{ fontSize: 18, marginTop: 30 }}>
-        Schedule quality
+        {t.setup.quality}
       </h3>
       <p className="screen__lede" style={{ marginBottom: 10 }}>
-        The algorithm score (SPEC-2). It judges the schedule, never a player, and is only shown here.
+        {t.setup.qualityLede}
       </p>
       {score ? (
         <div className="card">
           <div className="row" style={{ justifyContent: "space-between" }}>
             <span className="standings__total">{score.final.toFixed(1)}</span>
-            <span className="roster__level">{score.grade}</span>
+            <span className="roster__level">{t.grades[score.grade]}</span>
           </div>
           <ul style={{ listStyle: "none", margin: "10px 0 0", padding: 0 }}>
             {score.laws.map((law) => (
               <li key={law.id} className="standings__detail">
-                {law.passed ? "✓" : "✗"} {law.id} {law.label} — {law.detail}
+                {law.passed ? "✓" : "✗"} {law.id} {t.laws[law.id]}
+                {law.waived ? ` (${t.setup.waived})` : ""}
               </li>
             ))}
           </ul>
           <p className="standings__detail" style={{ marginTop: 8 }}>
-            Max partner repeat {score.diagnostics.maxPartnerRepeat} · longest same-opponent streak{" "}
-            {score.diagnostics.maxConsecutiveOpponentStreak} · bye spread {score.diagnostics.byeSpread} ·
-            blowout share {Math.round(score.diagnostics.blowoutShare * 100)}%
+            {t.setup.diagnostics(
+              score.diagnostics.maxPartnerRepeat,
+              score.diagnostics.maxConsecutiveOpponentStreak,
+              score.diagnostics.byeSpread,
+              Math.round(score.diagnostics.blowoutShare * 100),
+            )}
           </p>
         </div>
       ) : (
-        <EmptyState>Generate a schedule to see how it scores.</EmptyState>
+        <EmptyState>{t.setup.noScore}</EmptyState>
       )}
 
       <button
@@ -199,7 +203,7 @@ export function SetupScreen({
         style={{ marginTop: 30 }}
         onClick={onClear}
       >
-        Start a new evening
+        {t.setup.startOver}
       </button>
     </div>
   );

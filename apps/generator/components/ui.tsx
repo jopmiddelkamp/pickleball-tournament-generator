@@ -1,4 +1,7 @@
+"use client";
+
 import type { Gender, Player } from "@ptg/core";
+import { useLocale } from "../lib/i18n/useLocale";
 
 export function GenderChip({ gender }: { gender: Gender }) {
   return (
@@ -27,6 +30,7 @@ export function Notice({
   tone?: "info" | "warn";
   onDismiss?: () => void;
 }) {
+  const { t } = useLocale();
   return (
     <div className={tone === "warn" ? "notice notice--warn" : "notice"} role="status">
       {children}
@@ -34,7 +38,7 @@ export function Notice({
         <>
           {" "}
           <button type="button" className="button button--quiet button--small" onClick={onDismiss}>
-            Dismiss
+            {t.dismiss}
           </button>
         </>
       ) : null}

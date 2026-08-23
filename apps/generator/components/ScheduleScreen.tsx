@@ -4,15 +4,16 @@ import type { AlgorithmScore, GameResult, Player, Schedule } from "@ptg/core";
 import Link from "next/link";
 import { useState } from "react";
 import { features } from "../lib/features";
+import { useLocale } from "../lib/i18n/useLocale";
 import { CourtCard } from "./CourtCard";
 import { EmptyState, GenderChip } from "./ui";
 
 /** Names the laws a swap has just broken, so the organiser sees the cost. */
-function brokenLaws(score: AlgorithmScore): string {
+function brokenLaws(score: AlgorithmScore, joiner: string): string {
   return score.laws
     .filter((law) => !law.passed)
     .map((law) => law.id)
-    .join(" and ");
+    .join(joiner);
 }
 
 export function ScheduleScreen({
@@ -33,6 +34,7 @@ export function ScheduleScreen({
   onVoidChange: (roundIndex: number, court: number, voided: boolean) => void;
   onSwap: (roundIndex: number, a: string, b: string) => void;
 }) {
+  const { t } = useLocale();
   const [roundIndex, setRoundIndex] = useState(0);
   const [swapping, setSwapping] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -40,10 +42,8 @@ export function ScheduleScreen({
   if (!schedule || schedule.rounds.length === 0) {
     return (
       <div>
-        <h2 className="screen__heading">Tonight&rsquo;s courts</h2>
-        <EmptyState>
-          No schedule yet. Add your players, then generate one from the Set up tab.
-        </EmptyState>
+        <h2 className="screen__heading">{t.schedule.heading}</h2>
+        <EmptyState>{t.schedule.empty}</EmptyState>
       </div>
     );
   }
@@ -67,17 +67,18 @@ export function ScheduleScreen({
   }
 
   const swapMode = features.manualSwap && swapping;
+  const broken = score ? brokenLaws(score, t.schedule.lawJoiner) : "";
 
   return (
     <div>
       <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
-        <h2 className="screen__heading">Tonight&rsquo;s courts</h2>
+        <h2 className="screen__heading">{t.schedule.heading}</h2>
         <Link className="standings__detail" href="/print">
-          Print
+          {t.schedule.print}
         </Link>
       </div>
 
-      <nav className="rounds" aria-label="Rounds">
+      <nav className="rounds" aria-label={t.schedule.rounds}>
         {schedule.rounds.map((_, index) => (
           <button
             key={index}
@@ -89,7 +90,7 @@ export function ScheduleScreen({
               setSelected(null);
             }}
           >
-            R{index + 1}
+            {t.schedule.roundChip(index + 1)}
           </button>
         ))}
       </nav>
@@ -99,17 +100,17 @@ export function ScheduleScreen({
           <span className="standings__detail">
             {swapMode ? (
               <>
-                {selected ? "Now tap who they change places with." : "Tap a player to move them."}
-                {score ? (
-                  <>
-                    {" "}
-                    Schedule scores {score.final.toFixed(1)}
-                    {brokenLaws(score) ? `, ${brokenLaws(score)} now broken` : ""}.
-                  </>
-                ) : null}
+                {selected ? t.schedule.tapTarget : t.schedule.tapToMove}
+                {score
+                  ? ` ${
+                      broken
+                        ? t.schedule.scoresBroken(score.final.toFixed(1), broken)
+                        : t.schedule.scores(score.final.toFixed(1))
+                    }`
+                  : null}
               </>
             ) : (
-              `Round ${current + 1} of ${schedule.rounds.length}`
+              t.schedule.roundOf(current + 1, schedule.rounds.length)
             )}
           </span>
           <button
@@ -121,7 +122,7 @@ export function ScheduleScreen({
               setSelected(null);
             }}
           >
-            {swapMode ? "Done" : "Swap players"}
+            {swapMode ? t.schedule.done : t.schedule.swap}
           </button>
         </div>
       ) : null}
@@ -146,7 +147,7 @@ export function ScheduleScreen({
 
       {round.resting.length > 0 ? (
         <div className="bench">
-          <p className="bench__title">Sitting this one out</p>
+          <p className="bench__title">{t.schedule.resting}</p>
           <div className="bench__names">
             {round.resting.map((id) => {
               const player = playerById.get(id);

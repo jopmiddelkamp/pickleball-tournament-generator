@@ -1,6 +1,8 @@
 "use client";
 
-import { BAND_NAMES, band, type GameResult, type Match, type Player, type Team } from "@ptg/core";
+import { band, type GameResult, type Match, type Player, type Team } from "@ptg/core";
+import { useLocale } from "../lib/i18n/useLocale";
+import type { Messages } from "../lib/i18n";
 import { GenderChip } from "./ui";
 
 export interface CourtCardProps {
@@ -21,14 +23,18 @@ export interface CourtCardProps {
  * is the good version of a forced pair - without ever printing a level next to
  * a name (SPEC-1 §5).
  */
-function sameGenderBadge(team: Team, playerById: ReadonlyMap<string, Player>): string | null {
+function sameGenderBadge(
+  team: Team,
+  playerById: ReadonlyMap<string, Player>,
+  t: Messages,
+): string | null {
   const a = playerById.get(team[0]);
   const b = playerById.get(team[1]);
   if (!a || !b || a.gender !== b.gender) return null;
   const bands = [band(a.level), band(b.level)].sort((x, y) => x - y);
   const [low, high] = bands as [0 | 1 | 2, 0 | 1 | 2];
-  const pair = low === high ? BAND_NAMES[low] : `${BAND_NAMES[low]}+${BAND_NAMES[high]}`;
-  return `same gender · ${pair}`;
+  const pair = low === high ? t.bands[low] : `${t.bands[low]}+${t.bands[high]}`;
+  return t.court.sameGender(pair);
 }
 
 function Side({
@@ -44,7 +50,8 @@ function Side({
   selectedPlayerId?: string | null;
   onSelectPlayer?: (playerId: string) => void;
 }) {
-  const badge = sameGenderBadge(team, playerById);
+  const { t } = useLocale();
+  const badge = sameGenderBadge(team, playerById, t);
   return (
     <div className={`court__side court__side--${half}`}>
       {team.map((id) => {
@@ -95,12 +102,13 @@ export function CourtCard({
   selectedPlayerId,
   onSelectPlayer,
 }: CourtCardProps) {
+  const { t } = useLocale();
   const scoreId = `r${roundIndex}c${match.court}`;
   return (
-    <section className="court" aria-label={`Court ${match.court}`}>
+    <section className="court" aria-label={t.court.label(match.court)}>
       <div className="court__label">
-        <span>Court {match.court}</span>
-        {result?.voided ? <span>void</span> : null}
+        <span>{t.court.label(match.court)}</span>
+        {result?.voided ? <span>{t.court.voided}</span> : null}
       </div>
       <div className="court__surface">
         <Side
@@ -122,7 +130,7 @@ export function CourtCard({
       {onScoreChange && onVoidChange ? (
         <div className="court__score">
           <label className="label" htmlFor={`${scoreId}a`} style={{ position: "absolute", left: "-9999px" }}>
-            Points for the left team on court {match.court}
+            {t.court.pointsLeft(match.court)}
           </label>
           <input
             id={`${scoreId}a`}
@@ -138,7 +146,7 @@ export function CourtCard({
             –
           </span>
           <label className="label" htmlFor={`${scoreId}b`} style={{ position: "absolute", left: "-9999px" }}>
-            Points for the right team on court {match.court}
+            {t.court.pointsRight(match.court)}
           </label>
           <input
             id={`${scoreId}b`}
@@ -156,7 +164,7 @@ export function CourtCard({
               checked={result?.voided ?? false}
               onChange={(event) => onVoidChange(event.target.checked)}
             />
-            Void
+            {t.court.void}
           </label>
         </div>
       ) : null}

@@ -60,7 +60,7 @@ select {
   color: var(--paper);
   padding: var(--space-md) var(--space-lg) var(--space-md);
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
 }
@@ -78,12 +78,34 @@ select {
   color: var(--accent);
 }
 
+.app__side {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
 .app__meta {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(243, 244, 238, 0.72);
   font-variant-numeric: tabular-nums;
+}
+
+/* The language picker sits in the header, so it wears the header's colours. */
+.app__language {
+  background: rgba(243, 244, 238, 0.1);
+  color: var(--paper);
+  border: 1px solid rgba(243, 244, 238, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 4px 6px;
+  font-size: 12px;
+  max-width: 110px;
+}
+
+.app__language option {
+  color: var(--ink);
 }
 
 .app__main {
@@ -136,7 +158,9 @@ select {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 0;
+  padding: 0 4px;
+  text-align: center;
+  line-height: 1.15;
 }
 
 .tabbar__button[aria-current="page"] {

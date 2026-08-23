@@ -1,7 +1,8 @@
 "use client";
 
-import { LEVEL_NAMES, type Gender, type Level, type Player } from "@ptg/core";
+import type { Gender, Level, Player } from "@ptg/core";
 import { useState } from "react";
+import { useLocale } from "../lib/i18n/useLocale";
 import { LIMITS } from "../lib/state";
 import { EmptyState, GenderChip } from "./ui";
 
@@ -16,6 +17,7 @@ export function RosterScreen({
   onAdd: (player: Omit<Player, "id">) => void;
   onRemove: (playerId: string) => void;
 }) {
+  const { t } = useLocale();
   const [name, setName] = useState("");
   const [gender, setGender] = useState<Gender>("F");
   const [level, setLevel] = useState<Level>(3);
@@ -37,16 +39,13 @@ export function RosterScreen({
 
   return (
     <div>
-      <h2 className="screen__heading">Who is playing?</h2>
-      <p className="screen__lede">
-        Levels are the tier people picked at registration. They stay on this screen — nobody sees them
-        next to a name during the evening.
-      </p>
+      <h2 className="screen__heading">{t.roster.heading}</h2>
+      <p className="screen__lede">{t.roster.lede}</p>
 
       <form className="card stack" onSubmit={submit}>
         <div>
           <label className="label" htmlFor="player-name">
-            Name
+            {t.roster.name}
           </label>
           <input
             id="player-name"
@@ -54,14 +53,14 @@ export function RosterScreen({
             value={name}
             maxLength={LIMITS.maxNameLength}
             autoComplete="off"
-            placeholder="Add a player"
+            placeholder={t.roster.namePlaceholder}
             onChange={(event) => setName(event.target.value)}
           />
         </div>
 
         <div>
           <span className="label" id="gender-label">
-            Plays as
+            {t.roster.playsAs}
           </span>
           <div className="segmented" role="group" aria-labelledby="gender-label">
             {(["F", "M"] as const).map((option) => (
@@ -72,7 +71,7 @@ export function RosterScreen({
                 aria-pressed={gender === option}
                 onClick={() => setGender(option)}
               >
-                {option === "F" ? "Woman" : "Man"}
+                {t.gender[option]}
               </button>
             ))}
           </div>
@@ -80,7 +79,7 @@ export function RosterScreen({
 
         <div>
           <span className="label" id="level-label">
-            Level
+            {t.roster.level}
           </span>
           <div className="levels" role="group" aria-labelledby="level-label">
             {LEVELS.map((option) => (
@@ -91,42 +90,42 @@ export function RosterScreen({
                 aria-pressed={level === option}
                 onClick={() => setLevel(option)}
               >
-                {LEVEL_NAMES[option]}
+                {t.levels[option]}
               </button>
             ))}
           </div>
         </div>
 
         <button type="submit" className="button button--full" disabled={!canAdd}>
-          Add player
+          {t.roster.add}
         </button>
-        {full ? <p className="standings__detail">The roster is full at {LIMITS.maxPlayers} players.</p> : null}
+        {full ? <p className="standings__detail">{t.roster.full(LIMITS.maxPlayers)}</p> : null}
       </form>
 
       <div className="row" style={{ justifyContent: "space-between", margin: "22px 0 8px" }}>
         <div>
           <div className="roster__count">{players.length}</div>
           <div className="roster__countLabel">
-            {players.length === 1 ? "player" : "players"} · {men} m · {players.length - men} w
+            {t.roster.count(players.length, men, players.length - men)}
           </div>
         </div>
       </div>
 
       {players.length === 0 ? (
-        <EmptyState>No one on the list yet. Add the first player above.</EmptyState>
+        <EmptyState>{t.roster.empty}</EmptyState>
       ) : (
         <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
           {players.map((player) => (
             <li key={player.id} className="roster__item">
               <GenderChip gender={player.gender} />
               <span className="roster__name">{player.name}</span>
-              <span className="roster__level">{LEVEL_NAMES[player.level]}</span>
+              <span className="roster__level">{t.levels[player.level]}</span>
               <button
                 type="button"
                 className="button button--quiet button--small"
                 onClick={() => onRemove(player.id)}
               >
-                Remove
+                {t.roster.remove}
               </button>
             </li>
           ))}

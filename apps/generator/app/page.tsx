@@ -10,6 +10,7 @@ import {
   type Round,
 } from "@ptg/core";
 import { useMemo, useState } from "react";
+import { LanguageSelect } from "../components/LanguageSelect";
 import { RosterScreen } from "../components/RosterScreen";
 import { ScheduleScreen } from "../components/ScheduleScreen";
 import { SetupScreen } from "../components/SetupScreen";
@@ -17,6 +18,7 @@ import { StandingsScreen } from "../components/StandingsScreen";
 import { TabBar, TABS, type Tab } from "../components/TabBar";
 import { Notice } from "../components/ui";
 import { features } from "../lib/features";
+import { useLocale } from "../lib/i18n/useLocale";
 import { normaliseConfig, type TournamentState } from "../lib/state";
 import { newSeed } from "../lib/store";
 import { useTournament } from "../lib/useTournament";
@@ -47,6 +49,7 @@ function realignGames(games: GameResult[], roundIndex: number, rounds: Round[]):
 
 export default function Page() {
   const { state, update, startOver, notice, dismissNotice } = useTournament();
+  const { t } = useLocale();
   const [tab, setTab] = useState<Tab>("roster");
 
   const visibleTabs = useMemo(
@@ -71,7 +74,7 @@ export default function Page() {
     return (
       <main className="app">
         <div className="app__main">
-          <p className="empty">Loading tonight&rsquo;s evening…</p>
+          <p className="empty">{t.loading}</p>
         </div>
       </main>
     );
@@ -196,18 +199,20 @@ export default function Page() {
     <main className="app">
       <header className="app__header">
         <h1 className="app__title">
-          Mixed doubles <span>night</span>
+          {t.title[0]} <span>{t.title[1]}</span>
         </h1>
-        <span className="app__meta">
-          {current.players.length}p · {current.config.courts}
-          {current.config.courts === 1 ? " court" : " courts"}
-        </span>
+        <div className="app__side">
+          <span className="app__meta">
+            {t.headerMeta(current.players.length, current.config.courts)}
+          </span>
+          <LanguageSelect className="app__language" />
+        </div>
       </header>
 
       <div className="app__main">
         {notice ? (
           <Notice tone="warn" onDismiss={dismissNotice}>
-            {notice}
+            {t.storage[notice]}
           </Notice>
         ) : null}
 

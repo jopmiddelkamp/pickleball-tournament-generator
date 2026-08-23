@@ -7,13 +7,13 @@
  * React reconciles the two after hydration without a cascading render.
  */
 import { serialisableState, type TournamentState } from "./state";
-import { emptyState, loadState, saveState } from "./storage";
+import { emptyState, loadState, saveState, type StorageFailure } from "./storage";
 
 export interface StoreSnapshot {
   /** null until the browser snapshot has been read */
   state: TournamentState | null;
   /** set when a saved evening could not be restored */
-  notice: string | null;
+  notice: StorageFailure | null;
 }
 
 const SERVER_SNAPSHOT: StoreSnapshot = { state: null, notice: null };
@@ -40,7 +40,7 @@ function ensureLoaded(): void {
       ? { state: result.state, notice: null }
       : {
           state: emptyState(newSeed()),
-          notice: result.status === "unreadable" ? result.message : null,
+          notice: result.status === "unreadable" ? result.reason : null,
         };
 }
 

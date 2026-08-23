@@ -1,6 +1,7 @@
 "use client";
 
 import type { NightPoints, Player } from "@ptg/core";
+import { useLocale } from "../lib/i18n/useLocale";
 import { EmptyState, GenderChip } from "./ui";
 
 /**
@@ -16,25 +17,23 @@ export function StandingsScreen({
   players: Player[];
   hasSchedule: boolean;
 }) {
+  const { t } = useLocale();
   const playerById = new Map(players.map((p) => [p.id, p]));
 
   return (
     <div>
-      <h2 className="screen__heading">Standings</h2>
-      <p className="screen__lede">
-        Everyone scores the points their own team made. A bye pays the round&rsquo;s average, and a
-        same-gender team pays two on top.
-      </p>
+      <h2 className="screen__heading">{t.standings.heading}</h2>
+      <p className="screen__lede">{t.standings.lede}</p>
 
       {!hasSchedule ? (
-        <EmptyState>Generate a schedule first, then enter scores as the games finish.</EmptyState>
+        <EmptyState>{t.standings.empty}</EmptyState>
       ) : (
         <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
           {night.standings.map((entry) => {
             const player = playerById.get(entry.playerId);
-            const parts = [`${entry.gamesPlayed} played`];
-            if (entry.byeBonus > 0) parts.push(`+${entry.byeBonus} bye`);
-            if (entry.sameGenderBonus > 0) parts.push(`+${entry.sameGenderBonus} same gender`);
+            const parts = [t.standings.played(entry.gamesPlayed)];
+            if (entry.byeBonus > 0) parts.push(t.standings.bye(entry.byeBonus));
+            if (entry.sameGenderBonus > 0) parts.push(t.standings.sameGender(entry.sameGenderBonus));
             return (
               <li key={entry.playerId} className="standings__row">
                 <span className="standings__rank">{entry.rank}</span>
