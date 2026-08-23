@@ -53,6 +53,9 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         for (const { name, value, options } of cookiesToSet) response.cookies.set(name, value, options);
       },
     },
+    // No createBrowserClient exists in this app, so the browser never needs
+    // to read these cookies; keep them server-only and off plain HTTP.
+    cookieOptions: { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" },
   });
   const { data } = await supabase.auth.getClaims();
   const signedIn = data?.claims != null;

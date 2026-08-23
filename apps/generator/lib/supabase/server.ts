@@ -23,5 +23,8 @@ export async function createSupabaseServerClient() {
         }
       },
     },
+    // No createBrowserClient exists in this app, so the browser never needs
+    // to read these cookies; keep them server-only and off plain HTTP.
+    cookieOptions: { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" },
   });
 }
