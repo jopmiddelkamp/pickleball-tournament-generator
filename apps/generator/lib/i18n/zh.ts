@@ -73,6 +73,7 @@ export const zh: Messages = {
     suggested: "场地数和轮空名额会随已确认球员人数自动建议。",
     useSuggestion: "采用建议值",
     closeFirst: "生成前请先关闭报名，这样名单就不会再变动。",
+    discardFirst: "赛程已生成。请先丢弃它才能生成新的赛程。",
     discard: "丢弃赛程",
   },
 

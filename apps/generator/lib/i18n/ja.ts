@@ -73,6 +73,7 @@ export const ja: Messages = {
     suggested: "コート数と休憩枠は確定したプレーヤー数に応じて提案されます。",
     useSuggestion: "提案値を使う",
     closeFirst: "生成する前に受付を締め切り、名簿が変わらないようにしてください。",
+    discardFirst: "スケジュールはすでに生成されています。新しいスケジュールを生成するには、先に破棄してください。",
     discard: "スケジュールを破棄",
   },
 

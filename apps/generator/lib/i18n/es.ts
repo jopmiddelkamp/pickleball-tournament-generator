@@ -73,6 +73,7 @@ export const es: Messages = {
     suggested: "Las pistas y los descansos siguen el número de jugadores confirmados.",
     useSuggestion: "Usar la sugerencia",
     closeFirst: "Cierra la inscripción antes de generar, para que la lista deje de moverse.",
+    discardFirst: "Ya se ha generado un calendario. Descártalo primero para generar uno nuevo.",
     discard: "Descartar calendario",
   },
 

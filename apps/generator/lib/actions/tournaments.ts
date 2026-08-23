@@ -65,6 +65,9 @@ function isFailure(value: ActionResult | TournamentPatch): value is ActionResult
 
 export async function generateAction(id: string): Promise<ActionResult> {
   const owner = await owned(id);
+  // A schedule already exists: generating over it would silently wipe any
+  // scores entered so far. Reroll is the explicit, sanctioned way to redo it.
+  if (owner.tournament.schedule != null) return fail("frozen");
   const outcome = generateWith(owner, owner.tournament.seed);
   return isFailure(outcome) ? outcome : save(owner, outcome);
 }

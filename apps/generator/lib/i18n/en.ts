@@ -85,6 +85,7 @@ export const en = {
     suggested: "Courts and rest slots follow the number of confirmed players.",
     useSuggestion: "Use the suggestion",
     closeFirst: "Close registration before generating, so the list stops moving.",
+    discardFirst: "A schedule is already generated. Discard it first to generate a new one.",
     discard: "Discard schedule",
   },
 

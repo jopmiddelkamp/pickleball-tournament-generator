@@ -179,17 +179,19 @@ export function SetupScreen({
       </div>
 
       <p className="standings__detail" style={{ margin: "14px 0" }}>
-        {generateBlocker === "open"
-          ? t.setup.closeFirst
-          : generateBlocker === "players"
-            ? t.setup.needPlayers
-            : t.setup.capacity(capacity, playerCount - capacity)}
+        {hasSchedule
+          ? t.setup.discardFirst
+          : generateBlocker === "open"
+            ? t.setup.closeFirst
+            : generateBlocker === "players"
+              ? t.setup.needPlayers
+              : t.setup.capacity(capacity, playerCount - capacity)}
       </p>
 
       <button
         type="button"
         className="button button--accent button--full"
-        disabled={generateBlocker !== null || capacity === 0}
+        disabled={hasSchedule || generateBlocker !== null || capacity === 0}
         onClick={onGenerate}
       >
         {t.setup.generate}

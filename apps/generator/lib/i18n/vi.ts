@@ -73,6 +73,7 @@ export const vi: Messages = {
     suggested: "Số sân và suất nghỉ được đề xuất theo số người chơi đã xác nhận.",
     useSuggestion: "Dùng đề xuất",
     closeFirst: "Đóng đăng ký trước khi tạo lịch, để danh sách không đổi nữa.",
+    discardFirst: "Lịch thi đấu đã được tạo. Hãy hủy lịch trước khi tạo lịch mới.",
     discard: "Hủy lịch thi đấu",
   },
 

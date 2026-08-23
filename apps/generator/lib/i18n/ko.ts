@@ -73,6 +73,7 @@ export const ko: Messages = {
     suggested: "코트 수와 휴식 인원은 확정된 참가자 수에 따라 제안됩니다.",
     useSuggestion: "제안값 사용",
     closeFirst: "생성하기 전에 등록을 마감해서 명단이 더 이상 바뀌지 않게 하세요.",
+    discardFirst: "일정이 이미 생성되어 있습니다. 새 일정을 생성하려면 먼저 삭제하세요.",
     discard: "일정 삭제",
   },
 
