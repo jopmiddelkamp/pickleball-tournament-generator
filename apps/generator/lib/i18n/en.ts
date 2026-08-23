@@ -193,6 +193,31 @@ export const en = {
       failed: "Could not create the account. Try again in a moment.",
     },
   },
+
+  organiser: {
+    heading: "Your evenings",
+    lede: "Create an evening, share its link in the group chat, and run it from here on the night.",
+    newTournament: "New evening",
+    empty: "No evenings yet. Create the first one.",
+    status: { open: "Registration open", closed: "Registration closed", generated: "Schedule ready" },
+    players: (confirmed: number, max: number) => `${confirmed} / ${max} players`,
+    copyLink: "Copy sign-up link",
+    copied: "Link copied",
+    open: "Open",
+    form: {
+      heading: "New evening",
+      name: "Name",
+      namePlaceholder: "Friday mixed doubles",
+      startsAt: "Starts",
+      maxPlayers: "Maximum players",
+      maxPlayersHint: "Sign-ups above this go on the waiting list, first come first served.",
+      maxCourts: "Courts available",
+      rounds: "Rounds",
+      gameTarget: "Games are played to",
+      create: "Create evening",
+      invalid: "Check the highlighted fields: name, a date in the future, 4–64 players, 1–6 courts, 1–20 rounds.",
+    },
+  },
 };
 
 export type Messages = typeof en;
