@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { env } from "./lib/env";
 
 /**
  * Two jobs per request:
@@ -41,7 +42,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
 
   let response = NextResponse.next({ request: { headers: requestHeaders } });
 
-  const supabase = createServerClient(process.env.SUPABASE_URL ?? "", process.env.SUPABASE_PUBLISHABLE_KEY ?? "", {
+  const supabase = createServerClient(env.SUPABASE_URL, env.SUPABASE_PUBLISHABLE_KEY, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -61,7 +62,9 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
     const login = request.nextUrl.clone();
     login.pathname = "/organiser/login";
     login.search = "";
-    return NextResponse.redirect(login);
+    const redirectResponse = NextResponse.redirect(login);
+    redirectResponse.headers.set("Content-Security-Policy", csp);
+    return redirectResponse;
   }
 
   response.headers.set("Content-Security-Policy", csp);
