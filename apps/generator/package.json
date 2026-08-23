@@ -7,12 +7,19 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint app components lib test",
-    "test": "vitest run"
+    "lint": "eslint --no-error-on-unmatched-pattern app components lib test scripts drizzle.config.ts",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:migrate:cloud": "ENV_FILE=.env.cloud.local drizzle-kit migrate"
   },
   "dependencies": {
     "@ptg/core": "workspace:*",
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.3",
+    "drizzle-orm": "^0.45.2",
     "next": "^16.3.2",
+    "postgres": "^3.4.9",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -20,6 +27,8 @@
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.23.12",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
   }

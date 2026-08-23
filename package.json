@@ -16,7 +16,11 @@
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:env": "node scripts/local-env.mjs",
-    "db:studio": "node scripts/local-env.mjs --studio"
+    "db:studio": "node scripts/local-env.mjs --studio",
+    "db:generate": "pnpm --filter @ptg/generator run db:generate",
+    "db:migrate": "pnpm --filter @ptg/generator run db:migrate",
+    "db:migrate:cloud": "pnpm --filter @ptg/generator run db:migrate:cloud",
+    "db:reset": "supabase db reset --no-seed && pnpm db:migrate"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",

@@ -13,6 +13,7 @@ export default tseslint.config(
       "**/.turbo/**",
       "**/coverage/**",
       "**/next-env.d.ts",
+      "**/drizzle/meta/**",
     ],
   },
   js.configs.recommended,
