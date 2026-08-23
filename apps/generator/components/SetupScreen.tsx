@@ -89,7 +89,12 @@ export function SetupScreen({
               min={LIMITS.minRounds}
               max={LIMITS.maxRounds}
               value={config.rounds}
-              onChange={(event) => onConfigChange({ rounds: Number(event.target.value) })}
+              onChange={(event) => {
+                // Cleared mid-typing: keep the last valid value rather than
+                // firing an action for the transient "" (Number("") === 0).
+                const value = event.target.value;
+                if (/^\d+$/.test(value)) onConfigChange({ rounds: Number(value) });
+              }}
             />
           </div>
           <div style={{ flex: 1 }}>
@@ -104,7 +109,10 @@ export function SetupScreen({
               min={0}
               max={restCeiling}
               value={config.restSlots}
-              onChange={(event) => onConfigChange({ restSlots: Number(event.target.value) })}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (/^\d+$/.test(value)) onConfigChange({ restSlots: Number(value) });
+              }}
             />
           </div>
         </div>

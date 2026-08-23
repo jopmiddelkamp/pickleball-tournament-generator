@@ -88,17 +88,8 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           gameTarget={view.gameTarget}
           score={score}
           generateBlocker={generateBlocker}
-          hasSchedule={view.schedule !== null}
-          onConfigChange={(change) =>
-            run(() =>
-              updateSetupAction(view.id, {
-                courts: view.config.courts,
-                restSlots: view.config.restSlots,
-                rounds: view.config.rounds,
-                ...change,
-              }),
-            )
-          }
+          hasSchedule={view.status === "generated"}
+          onConfigChange={(change) => run(() => updateSetupAction(view.id, change))}
           onUseSuggestion={() => run(() => updateSetupAction(view.id, { useSuggestion: true }))}
           onAlgorithmChange={(algorithmId) => run(() => updateSetupAction(view.id, { algorithmId }))}
           onGameTargetChange={(gameTarget) => run(() => updateSetupAction(view.id, { gameTarget }))}
