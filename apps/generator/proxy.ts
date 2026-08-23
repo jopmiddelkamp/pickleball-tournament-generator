@@ -5,6 +5,13 @@ import { NextResponse, type NextRequest } from "next/server";
  *
  * Next inlines a hydration script on every page, so a policy without
  * `unsafe-inline` needs a nonce that both the header and that script carry.
+ * The policy goes on the *request* headers as well: that is how Next learns the
+ * nonce and stamps it onto the script tags it emits. Leave it off and every
+ * script on the page is blocked.
+ *
+ * Carrying a nonce means the pages render per request rather than being served
+ * as prerendered files. For an app this size that costs nothing.
+ *
  * `style-src` still allows inline styles: the framework and the self-hosted
  * fonts emit them, and inline CSS is not a script execution path.
  */
@@ -29,6 +36,7 @@ export default function proxy(request: NextRequest): NextResponse {
 
   const headers = new Headers(request.headers);
   headers.set("x-nonce", nonce);
+  headers.set("Content-Security-Policy", csp);
 
   const response = NextResponse.next({ request: { headers } });
   response.headers.set("Content-Security-Policy", csp);
@@ -38,6 +46,9 @@ export default function proxy(request: NextRequest): NextResponse {
 export const config = {
   matcher: [
     // Everything except Next's own static output and the favicon.
-    { source: "/((?!_next/static|_next/image|favicon.ico).*)", missing: [{ type: "header", key: "next-router-prefetch" }] },
+    {
+      source: "/((?!_next/static|_next/image|favicon.ico).*)",
+      missing: [{ type: "header", key: "next-router-prefetch" }],
+    },
   ],
 };

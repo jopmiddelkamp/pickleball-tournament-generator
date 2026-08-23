@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Public_Sans } from "next/font/google";
+import { headers } from "next/headers";
 import { cssVariables } from "../lib/theme";
 import "./globals.css";
 
@@ -36,11 +37,18 @@ const rootStyle = Object.entries(cssVariables)
   .map(([name, value]) => `${name}: ${value};`)
   .join("");
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+/**
+ * Reading the nonce is what opts these pages out of static prerendering, which
+ * is the only way Next can stamp a per-request nonce onto its own scripts. See
+ * proxy.ts.
+ */
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <head>
-        <style>{`:root{${rootStyle}}`}</style>
+        <style nonce={nonce}>{`:root{${rootStyle}}`}</style>
       </head>
       <body>{children}</body>
     </html>
