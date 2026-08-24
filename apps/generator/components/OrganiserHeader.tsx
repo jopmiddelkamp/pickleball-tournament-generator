@@ -8,7 +8,7 @@ export function OrganiserHeader({ logoutAction }: { logoutAction: () => Promise<
   const { t } = useLocale();
   return (
     <header className="app__header">
-      <Link href="/organiser" className="app__title" style={{ textDecoration: "none" }}>
+      <Link href="/organiser" className="app__title">
         {t.title[0]} <span>{t.title[1]}</span>
       </Link>
       <div className="app__side">
