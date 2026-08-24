@@ -1,0 +1,17 @@
+# The Vercel CLI uploads from the repo root and does not honour nested
+# .gitignore patterns, so the build caches have to be excluded here too.
+node_modules
+**/node_modules
+.next
+**/.next
+.turbo
+**/.turbo
+dist
+coverage
+.playwright-mcp
+.superpowers
+/supabase
+.git
+/.github
+/docs
+*.png
