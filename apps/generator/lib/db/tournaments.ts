@@ -1,4 +1,4 @@
-import { DEFAULT_ALGORITHM_ID } from "@ptg/core";
+import { DEFAULT_ALGORITHM_ID, DEFAULT_GAME_TARGET } from "@ptg/core";
 import { and, desc, eq } from "drizzle-orm";
 import { newSeed, newSlug } from "../ids";
 import type { TournamentInput } from "../validate";
@@ -8,7 +8,20 @@ import { tournaments, type NewTournament, type TournamentRow } from "./schema";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export type TournamentPatch = Partial<
-  Pick<NewTournament, "courts" | "restSlots" | "rounds" | "algorithmId" | "gameTarget" | "seed" | "registrationClosedAt" | "schedule" | "games">
+  Pick<
+    NewTournament,
+    | "courts"
+    | "restSlots"
+    | "rounds"
+    | "algorithmId"
+    | "gameTarget"
+    | "seed"
+    | "registrationClosedAt"
+    | "schedule"
+    | "games"
+    | "roundsStarted"
+    | "finishedAt"
+  >
 >;
 
 export async function listTournaments(organiserId: string): Promise<TournamentRow[]> {
@@ -34,10 +47,9 @@ export async function createTournament(organiserId: string, input: TournamentInp
       slug: newSlug(),
       name: input.name,
       startsAt: input.startsAt,
-      maxPlayers: input.maxPlayers,
       maxCourts: input.maxCourts,
-      rounds: input.rounds,
-      gameTarget: input.gameTarget,
+      rounds: 6,
+      gameTarget: DEFAULT_GAME_TARGET,
       algorithmId: DEFAULT_ALGORITHM_ID,
       seed: newSeed(),
     })

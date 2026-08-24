@@ -1,14 +1,41 @@
-import { DEFAULT_ALGORITHM_ID } from "@ptg/core";
+import { DEFAULT_ALGORITHM_ID, maxPlayersFor } from "@ptg/core";
 import { describe, expect, it } from "vitest";
 import type { TournamentRow } from "../lib/db/schema";
 import type { ActiveRegistration } from "../lib/registrations";
 import { buildWorkspaceView, effectiveConfig, tournamentStatus } from "../lib/tournament";
 
 describe("tournamentStatus", () => {
-  it("is open until registration closes, then closed, then generated", () => {
-    expect(tournamentStatus({ registrationClosedAt: null, schedule: null })).toBe("open");
-    expect(tournamentStatus({ registrationClosedAt: new Date(), schedule: null })).toBe("closed");
-    expect(tournamentStatus({ registrationClosedAt: new Date(), schedule: { rounds: [] } })).toBe("generated");
+  it("is open until registration closes, then closed, then generated, then live, then finished", () => {
+    expect(tournamentStatus({ registrationClosedAt: null, schedule: null, roundsStarted: 0, finishedAt: null })).toBe(
+      "open",
+    );
+    expect(
+      tournamentStatus({ registrationClosedAt: new Date(), schedule: null, roundsStarted: 0, finishedAt: null }),
+    ).toBe("closed");
+    expect(
+      tournamentStatus({
+        registrationClosedAt: new Date(),
+        schedule: { rounds: [] },
+        roundsStarted: 0,
+        finishedAt: null,
+      }),
+    ).toBe("generated");
+    expect(
+      tournamentStatus({
+        registrationClosedAt: new Date(),
+        schedule: { rounds: [] },
+        roundsStarted: 2,
+        finishedAt: null,
+      }),
+    ).toBe("live");
+    expect(
+      tournamentStatus({
+        registrationClosedAt: new Date(),
+        schedule: { rounds: [] },
+        roundsStarted: 2,
+        finishedAt: new Date(),
+      }),
+    ).toBe("finished");
   });
 });
 
@@ -38,7 +65,6 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     slug: "abcdefghijkl",
     name: "Tuesday night",
     startsAt: new Date("2026-09-01T18:00:00Z"),
-    maxPlayers: 4,
     maxCourts: 2,
     rounds: 3,
     gameTarget: 11,
@@ -49,6 +75,8 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     registrationClosedAt: null,
     schedule: null,
     games: [],
+    roundsStarted: 0,
+    finishedAt: null,
     createdAt: new Date("2026-08-01T00:00:00Z"),
     ...overrides,
   };
@@ -58,20 +86,30 @@ function reg(id: string, minute: number): ActiveRegistration {
   return { id, name: id, gender: "F", level: 3, registeredAt: new Date(Date.UTC(2026, 8, 1, 18, minute)) };
 }
 
-const registrations = [reg("p1", 1), reg("p2", 2), reg("p3", 3), reg("p4", 4), reg("p5", 5)];
+const registrations = [
+  reg("p1", 1),
+  reg("p2", 2),
+  reg("p3", 3),
+  reg("p4", 4),
+  reg("p5", 5),
+  reg("p6", 6),
+  reg("p7", 7),
+];
 
 describe("buildWorkspaceView", () => {
-  it("splits confirmed/waiting, uses the suggestion, and has no schedule while open", () => {
-    const t = row();
+  it("splits confirmed/waiting per the derived cap, uses the suggestion, and has no schedule while open", () => {
+    const t = row({ maxCourts: 1 });
     const view = buildWorkspaceView(t, registrations);
     expect(view.status).toBe("open");
-    expect(view.confirmed.map((p) => p.id)).toEqual(["p1", "p2", "p3", "p4"]);
-    expect(view.waiting.map((p) => p.id)).toEqual(["p5"]);
+    expect(view.maxPlayers).toBe(maxPlayersFor(t.maxCourts));
+    expect(view.confirmed.map((p) => p.id)).toEqual(["p1", "p2", "p3", "p4", "p5", "p6"]);
+    expect(view.waiting.map((p) => p.id)).toEqual(["p7"]);
     expect(view.usingSuggestion).toBe(true);
-    expect(view.config).toEqual(effectiveConfig(t, 4));
+    expect(view.config).toEqual(effectiveConfig(t, 6));
     expect(view.schedule).toBeNull();
     expect(view.games).toEqual([]);
     expect(view.notice).toBeNull();
+    expect(view.roundsStarted).toBe(0);
   });
 
   it("parses a valid stored schedule and games once registration is closed", () => {
@@ -97,12 +135,12 @@ describe("buildWorkspaceView", () => {
     const schedule = {
       algorithmId: "greedy",
       seed: 7,
-      // p5 is only on the waiting list, not among the confirmed ids.
+      // p5 was never registered, so it is not among the confirmed ids.
       rounds: [{ matches: [{ court: 1, teamA: ["p1", "p5"], teamB: ["p3", "p4"] }], resting: [] }],
     };
     const view = buildWorkspaceView(
       row({ registrationClosedAt: new Date("2026-09-01T17:00:00Z"), schedule, games: [] }),
-      registrations,
+      registrations.slice(0, 4),
     );
     expect(view.notice).toBe("unreadable");
     expect(view.schedule).toBeNull();

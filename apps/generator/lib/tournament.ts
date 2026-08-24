@@ -1,6 +1,7 @@
 import {
   ALGORITHMS,
   DEFAULT_ALGORITHM_ID,
+  maxPlayersFor,
   suggestConfig,
   type GameResult,
   type Player,
@@ -12,9 +13,16 @@ import type { TournamentRow } from "./db/schema";
 import { partitionRegistrations, toPlayer, type ActiveRegistration } from "./registrations";
 import { parseGames, parseSchedule } from "./validate";
 
-export type TournamentStatus = "open" | "closed" | "generated";
+export type TournamentStatus = "open" | "closed" | "generated" | "live" | "finished";
 
-export function tournamentStatus(t: { registrationClosedAt: Date | null; schedule: unknown | null }): TournamentStatus {
+export function tournamentStatus(t: {
+  registrationClosedAt: Date | null;
+  schedule: unknown | null;
+  roundsStarted: number;
+  finishedAt: Date | null;
+}): TournamentStatus {
+  if (t.finishedAt != null) return "finished";
+  if (t.roundsStarted > 0) return "live";
   if (t.schedule != null) return "generated";
   return t.registrationClosedAt ? "closed" : "open";
 }
@@ -45,6 +53,7 @@ export interface WorkspaceView {
   registrationOpen: boolean;
   maxPlayers: number;
   maxCourts: number;
+  roundsStarted: number;
   confirmed: Player[];
   waiting: Player[];
   config: TournamentConfig;
@@ -58,7 +67,8 @@ export interface WorkspaceView {
 }
 
 export function buildWorkspaceView(tournament: TournamentRow, registrations: readonly ActiveRegistration[]): WorkspaceView {
-  const { confirmed, waiting } = partitionRegistrations(registrations, tournament.maxPlayers);
+  const maxPlayers = maxPlayersFor(tournament.maxCourts);
+  const { confirmed, waiting } = partitionRegistrations(registrations, maxPlayers);
   const players = confirmed.map(toPlayer);
   const known = new Set(players.map((p) => p.id));
 
@@ -77,8 +87,9 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
     startsAt: tournament.startsAt.toISOString(),
     status: tournamentStatus(tournament),
     registrationOpen: tournament.registrationClosedAt === null,
-    maxPlayers: tournament.maxPlayers,
+    maxPlayers,
     maxCourts: tournament.maxCourts,
+    roundsStarted: tournament.roundsStarted,
     confirmed: players,
     waiting: waiting.map(toPlayer),
     config: effectiveConfig(tournament, players.length),

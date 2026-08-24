@@ -9,7 +9,7 @@
  * lib/db/client.ts.
  */
 import { createClient } from "@supabase/supabase-js";
-import { generateSchedule, DEFAULT_ALGORITHM_ID, type Gender, type Level } from "@ptg/core";
+import { generateSchedule, maxPlayersFor, DEFAULT_ALGORITHM_ID, type Gender, type Level } from "@ptg/core";
 import { addRegistration, listActiveRegistrations } from "../lib/db/registrations";
 import { createTournament, updateTournament } from "../lib/db/tournaments";
 import { effectiveConfig } from "../lib/tournament";
@@ -45,10 +45,7 @@ async function main(): Promise<void> {
   const open = await createTournament(organiserId, {
     name: "Friday mix (open)",
     startsAt,
-    maxPlayers: 16,
-    maxCourts: 4,
-    rounds: 6,
-    gameTarget: 11,
+    maxCourts: 2,
   });
   for (const [name, gender, level] of NAMES) {
     await addRegistration(open.id, { name, gender, level, participantToken: null });
@@ -57,16 +54,13 @@ async function main(): Promise<void> {
   const generated = await createTournament(organiserId, {
     name: "Last Tuesday (played)",
     startsAt: new Date(Date.now() - 7 * 24 * 3600 * 1000),
-    maxPlayers: 16,
     maxCourts: 4,
-    rounds: 5,
-    gameTarget: 11,
   });
   for (const [name, gender, level] of NAMES.slice(0, 14)) {
     await addRegistration(generated.id, { name, gender, level, participantToken: null });
   }
   const active = await listActiveRegistrations(generated.id);
-  const players = partitionRegistrations(active, generated.maxPlayers).confirmed.map(toPlayer);
+  const players = partitionRegistrations(active, maxPlayersFor(generated.maxCourts)).confirmed.map(toPlayer);
   const config = effectiveConfig(generated, players.length);
   const schedule = generateSchedule(DEFAULT_ALGORITHM_ID, players, config);
   let games = [] as ReturnType<typeof withScore>;
@@ -76,7 +70,12 @@ async function main(): Promise<void> {
       games = withScore(games, match, roundIndex, "B", 6 + match.court);
     }
   }
-  await updateTournament(organiserId, generated.id, { registrationClosedAt: new Date(), schedule, games });
+  await updateTournament(organiserId, generated.id, {
+    registrationClosedAt: new Date(),
+    schedule,
+    games,
+    roundsStarted: 2,
+  });
 
   console.log(`Seeded organiser ${EMAIL} / ${PASSWORD} with tournaments ${open.slug} and ${generated.slug}`);
 }

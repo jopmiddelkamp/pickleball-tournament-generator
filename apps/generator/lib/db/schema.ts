@@ -19,7 +19,6 @@ export const tournaments = pgTable(
     slug: text("slug").notNull().unique(),
     name: text("name").notNull(),
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
-    maxPlayers: integer("max_players").notNull(),
     maxCourts: integer("max_courts").notNull(),
     rounds: integer("rounds").notNull(),
     gameTarget: integer("game_target").notNull(),
@@ -30,6 +29,9 @@ export const tournaments = pgTable(
     courts: integer("courts"),
     restSlots: integer("rest_slots"),
     registrationClosedAt: timestamp("registration_closed_at", { withTimezone: true }),
+    /** how many rounds the organiser has advanced past on the night screen */
+    roundsStarted: integer("rounds_started").notNull().default(0),
+    finishedAt: timestamp("finished_at", { withTimezone: true }),
     /** core Schedule as JSON; validated on read by lib/validate.ts */
     schedule: jsonb("schedule").$type<unknown>(),
     /** GameResult[] as JSON; validated on read */

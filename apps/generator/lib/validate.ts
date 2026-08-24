@@ -162,10 +162,7 @@ export function parseCredentials(formData: FormData): Credentials | null {
 export interface TournamentInput {
   name: string;
   startsAt: Date;
-  maxPlayers: number;
   maxCourts: number;
-  rounds: number;
-  gameTarget: number;
 }
 
 function intField(formData: FormData, name: string): number | null {
@@ -191,16 +188,10 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   const name = asString(field(formData, "name"), LIMITS.maxTournamentName);
   const tzOffset = intField(formData, "tzOffset") ?? 0;
   const startsAt = parseLocalDateTime(field(formData, "startsAt"), tzOffset);
-  const maxPlayers = intField(formData, "maxPlayers");
   const maxCourts = intField(formData, "maxCourts");
-  const rounds = intField(formData, "rounds");
-  const gameTarget = intField(formData, "gameTarget");
   if (!name || !startsAt) return null;
-  if (maxPlayers === null || maxPlayers < 4 || maxPlayers > LIMITS.maxPlayers) return null;
   if (maxCourts === null || maxCourts < LIMITS.minCourts || maxCourts > LIMITS.maxCourts) return null;
-  if (rounds === null || rounds < LIMITS.minRounds || rounds > LIMITS.maxRounds) return null;
-  if (gameTarget === null || gameTarget < 1 || gameTarget > LIMITS.maxPoints) return null;
-  return { name, startsAt, maxPlayers, maxCourts, rounds, gameTarget };
+  return { name, startsAt, maxCourts };
 }
 
 export function parsePlayerForm(formData: FormData): Omit<Player, "id"> | null {

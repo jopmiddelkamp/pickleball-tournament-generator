@@ -29,10 +29,7 @@ describe("parseTournamentForm", () => {
     name: "Friday mix",
     startsAt: "2026-09-04T19:30",
     tzOffset: "-120",
-    maxPlayers: "16",
     maxCourts: "4",
-    rounds: "6",
-    gameTarget: "11",
   };
   it("parses a valid form and applies the browser's timezone offset", () => {
     const input = parseTournamentForm(form(valid));
@@ -40,18 +37,18 @@ describe("parseTournamentForm", () => {
     expect(input?.name).toBe("Friday mix");
     // 19:30 at UTC+2 is 17:30Z
     expect(input?.startsAt.toISOString()).toBe("2026-09-04T17:30:00.000Z");
-    expect(input).toMatchObject({ maxPlayers: 16, maxCourts: 4, rounds: 6, gameTarget: 11 });
+    expect(input).toMatchObject({ maxCourts: 4 });
+  });
+  it("ignores extra fields the form still posts", () => {
+    const input = parseTournamentForm(form({ ...valid, maxPlayers: "16", rounds: "6", gameTarget: "11" }));
+    expect(input).toEqual({ name: "Friday mix", startsAt: new Date("2026-09-04T17:30:00.000Z"), maxCourts: 4 });
   });
   it.each([
     ["empty name", { name: "  " }],
     ["overlong name", { name: "x".repeat(81) }],
     ["bad date", { startsAt: "yesterday" }],
-    ["too few players", { maxPlayers: "3" }],
-    ["too many players", { maxPlayers: "65" }],
     ["zero courts", { maxCourts: "0" }],
     ["seven courts", { maxCourts: "7" }],
-    ["zero rounds", { rounds: "0" }],
-    ["game target of zero", { gameTarget: "0" }],
   ])("rejects %s", (_label, patch) => {
     expect(parseTournamentForm(form({ ...valid, ...patch }))).toBeNull();
   });

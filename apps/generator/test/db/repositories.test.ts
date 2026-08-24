@@ -38,10 +38,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
   const input = {
     name: "Test night",
     startsAt: new Date("2026-09-04T17:30:00Z"),
-    maxPlayers: 8,
     maxCourts: 2,
-    rounds: 5,
-    gameTarget: 11,
   };
 
   afterAll(async () => {
@@ -52,6 +49,8 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     const created = await createTournament(organiser, input);
     expect(created.slug).toHaveLength(12);
     expect(created.seed).toBeGreaterThanOrEqual(0);
+    expect(created.rounds).toBe(6);
+    expect(created.gameTarget).toBe(11);
     expect(await findTournament(organiser, created.id)).toMatchObject({ name: "Test night" });
     expect(await findTournament(stranger, created.id)).toBeNull();
     expect(await findTournament(organiser, "not-a-uuid")).toBeNull();
