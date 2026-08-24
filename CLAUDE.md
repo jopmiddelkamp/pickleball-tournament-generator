@@ -17,6 +17,8 @@ TypeScript monorepo (pnpm workspaces, Turborepo, TypeScript strict, Vitest):
 
 Apps import all algorithm and scoring logic from core and never reimplement it. A new algorithm is one file in `packages/core/src/algorithms/` plus one registry entry; both apps pick it up without further changes. Conventions for core live in `.claude/rules/core-package.md`; it loads when you read core files, so read it yourself when creating core from scratch.
 
+The generator's visual language is a Material 3 -shaped token system: `apps/generator/lib/theme.ts` holds every colour role, type style, shape, elevation and duration and emits them as CSS custom properties, and `app/globals.css` is written entirely in those. Nothing in the UI carries a raw hex, type size or shadow. `.claude/rules/design-system.md` loads when you read generator UI files; `docs/DESIGN-SYSTEM.md` has the tables and the reasoning, and `/design` renders a live specimen of every token.
+
 ## Source of truth
 
 `docs/SPEC-1-night-points.md` and `docs/SPEC-2-algorithm-score.md` beat `BUILD-PROMPT.md`, which beats your own judgment. The specs are frozen while algorithms are tuned — if the judge changes during tuning, the benchmark numbers stop meaning anything — and a hook blocks edits to them, so a spec change is something you describe to the user. When a spec is ambiguous, conflicts with the build prompt, or a constant looks wrong in practice, stop and ask rather than quietly working around it. The same applies to the core contracts in `BUILD-PROMPT.md` (`Player`, `TournamentConfig`, `Schedule`, `SchedulingAlgorithm`).

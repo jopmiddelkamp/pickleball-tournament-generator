@@ -129,7 +129,7 @@ export function CourtCard({
 
       {onScoreChange && onVoidChange ? (
         <div className="court__score">
-          <label className="label" htmlFor={`${scoreId}a`} style={{ position: "absolute", left: "-9999px" }}>
+          <label className="label visually-hidden" htmlFor={`${scoreId}a`}>
             {t.court.pointsLeft(match.court)}
           </label>
           <input
@@ -145,7 +145,7 @@ export function CourtCard({
           <span className="court__scoreDash" aria-hidden="true">
             –
           </span>
-          <label className="label" htmlFor={`${scoreId}b`} style={{ position: "absolute", left: "-9999px" }}>
+          <label className="label visually-hidden" htmlFor={`${scoreId}b`}>
             {t.court.pointsRight(match.court)}
           </label>
           <input

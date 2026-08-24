@@ -1,0 +1,338 @@
+/* The design system's own reference page. Like globals.css, every value here
+   comes from a token - a specimen sheet that broke its own rules would not be
+   worth much. */
+
+.ds {
+  max-width: 1180px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  min-height: 100dvh;
+}
+
+.ds__masthead {
+  background: var(--color-surface-brand);
+  color: var(--color-on-surface-brand);
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.ds__title {
+  font-family: var(--text-display-md-font);
+  font-size: var(--text-display-md-size);
+  font-weight: var(--text-display-md-weight);
+  line-height: var(--text-display-md-line);
+  letter-spacing: var(--text-display-md-tracking);
+  margin: 0 0 var(--space-sm);
+}
+
+.ds__title span {
+  color: var(--color-secondary);
+}
+
+.ds__lede {
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
+  color: var(--brand-text);
+  margin: 0;
+  max-width: 64ch;
+}
+
+.ds__index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-lg);
+}
+
+.ds__indexLink {
+  border: 1px solid var(--brand-outline);
+  background: var(--brand-fill);
+  color: var(--color-on-surface-brand);
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+  text-decoration: none;
+  font-family: var(--text-action-sm-font);
+  font-size: var(--text-action-sm-size);
+  font-weight: var(--text-action-sm-weight);
+  line-height: var(--text-action-sm-line);
+  letter-spacing: var(--text-action-sm-tracking);
+  transition: background var(--duration-fast) var(--easing-standard);
+}
+
+.ds__indexLink:hover {
+  background: var(--brand-fill-hover);
+}
+
+.ds__body {
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.ds__section {
+  margin-bottom: var(--space-xl);
+  scroll-margin-top: var(--space-lg);
+}
+
+.ds__sectionTitle {
+  font-family: var(--text-headline-font);
+  font-size: var(--text-headline-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-headline-line);
+  letter-spacing: var(--text-headline-tracking);
+  margin: 0 0 var(--space-xs);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-on-surface);
+}
+
+.ds__note {
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
+  color: var(--color-on-surface-variant);
+  margin: var(--space-md) 0;
+  max-width: 68ch;
+}
+
+.ds__groupTitle {
+  font-family: var(--text-label-strong-font);
+  font-size: var(--text-label-strong-size);
+  font-weight: var(--text-label-strong-weight);
+  line-height: var(--text-label-strong-line);
+  letter-spacing: var(--text-label-strong-tracking);
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  margin: var(--space-lg) 0 var(--space-sm);
+}
+
+/* A token's name, always set apart from the value it names. */
+.ds__token {
+  font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+  font-size: var(--text-body-xs-size);
+  line-height: var(--text-body-xs-line);
+  color: var(--color-on-surface);
+  word-break: break-all;
+}
+
+.ds__value {
+  font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+  font-size: var(--text-body-xs-size);
+  line-height: var(--text-body-xs-line);
+  color: var(--color-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- palette ---------- */
+
+.ds__ramp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: var(--space-md);
+}
+
+.ds__tone {
+  flex: 1 1 96px;
+  min-width: 96px;
+  border-radius: var(--radius-sm);
+  padding: var(--space-md) var(--space-sm) var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 84px;
+  justify-content: flex-end;
+}
+
+.ds__toneName {
+  font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line);
+  opacity: 0.75;
+}
+
+.ds__toneHex {
+  font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+  font-size: var(--text-body-xs-size);
+  line-height: var(--text-body-xs-line);
+}
+
+/* ---------- token tables ---------- */
+
+.ds__grid {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.ds__swatchRow {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.ds__swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-outline);
+}
+
+.ds__pass {
+  font-family: var(--text-micro-font);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  line-height: var(--text-micro-line);
+  letter-spacing: var(--text-micro-tracking);
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  padding: 3px var(--space-sm);
+  white-space: nowrap;
+}
+
+.ds__pass--ok {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.ds__pass--low {
+  background: var(--color-surface-sunken);
+  color: var(--color-on-surface-variant);
+}
+
+/* ---------- type specimens ---------- */
+
+.ds__typeRow {
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.ds__typeMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+  margin-bottom: 6px;
+}
+
+.ds__specimen {
+  color: var(--color-on-surface);
+}
+
+/* ---------- shape, space, elevation ---------- */
+
+.ds__tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+}
+
+.ds__tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ds__shape {
+  width: 96px;
+  height: 64px;
+  background: var(--color-primary);
+}
+
+.ds__spaceBar {
+  height: var(--space-lg);
+  background: var(--color-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.ds__elevation {
+  width: 148px;
+  height: 84px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-outline);
+}
+
+/* ---------- specimens on the brand chrome ---------- */
+
+.ds__onBrand {
+  background: var(--color-surface-brand);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: grid;
+  gap: 2px;
+}
+
+.ds__onBrandRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 6px var(--space-sm);
+}
+
+.ds__onBrandRow .ds__token,
+.ds__onBrandRow .ds__value {
+  color: var(--color-on-surface-brand);
+}
+
+.ds__onBrandSample {
+  height: 22px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- component specimens ---------- */
+
+.ds__demo {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-outline);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.ds__demo--stacked {
+  display: block;
+}
+
+/* The tab bar and header are fixed or full-bleed in the app; here they are
+   pinned into a frame so they can be looked at. */
+.ds__frame {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-outline);
+  margin-bottom: var(--space-sm);
+}
+
+.ds__frame .tabbar {
+  position: static;
+  transform: none;
+  width: auto;
+  left: auto;
+}
+
+.ds__frame .app__header {
+  padding: var(--space-md) var(--space-lg);
+}
+
+@media (min-width: 720px) {
+  .ds__masthead,
+  .ds__body {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
+
+  .ds__swatchRow {
+    grid-template-columns: 44px 320px 1fr auto;
+  }
+
+  .ds__demo {
+    padding: var(--space-lg);
+  }
+}

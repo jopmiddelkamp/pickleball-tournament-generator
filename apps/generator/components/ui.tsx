@@ -3,6 +3,50 @@
 import type { Gender, Player } from "@ptg/core";
 import { useLocale } from "../lib/i18n/useLocale";
 
+/**
+ * A pickleball: a hollow ball, holes and all. The holes are punched out of the
+ * disc with an even-odd fill rather than painted over, so the mark works on
+ * any background it is dropped onto.
+ */
+export function PickleballMark() {
+  const hole = (cx: number, cy: number): string =>
+    `M${cx - 1.95},${cy}a1.95,1.95 0 1,0 3.9,0a1.95,1.95 0 1,0 -3.9,0Z`;
+
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd" aria-hidden="true">
+      <path
+        d={[
+          "M1,12a11,11 0 1,0 22,0a11,11 0 1,0 -22,0Z",
+          hole(12, 12),
+          hole(17.8, 12),
+          hole(14.9, 17.02),
+          hole(9.1, 17.02),
+          hole(6.2, 12),
+          hole(9.1, 6.98),
+          hole(14.9, 6.98),
+        ].join("")}
+      />
+    </svg>
+  );
+}
+
+/**
+ * The brand: the ball, then the name with its second word in ball yellow.
+ * Callers supply the element it lives in - a heading on a screen someone
+ * lands on, a link home in the organiser's header.
+ */
+export function Wordmark() {
+  const { t } = useLocale();
+  return (
+    <>
+      <PickleballMark />
+      <span>
+        {t.title[0]} <span className="app__titleAccent">{t.title[1]}</span>
+      </span>
+    </>
+  );
+}
+
 export function GenderChip({ gender }: { gender: Gender }) {
   return (
     <span className={`gender gender--${gender}`} aria-hidden="true">

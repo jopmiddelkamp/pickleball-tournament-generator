@@ -83,7 +83,7 @@ export function ScheduleScreen({
 
   return (
     <div>
-      <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
+      <div className="row row--split row--baseline">
         <h2 className="screen__heading">{t.schedule.heading}</h2>
         <Link className="standings__detail" href={printHref}>
           {t.schedule.print}
@@ -101,7 +101,7 @@ export function ScheduleScreen({
           <button
             type="button"
             className="button button--accent button--full"
-            style={{ marginBottom: 14 }}
+            style={{ marginBottom: "var(--space-md)" }}
             onClick={onStartRound}
           >
             {t.schedule.startRound(roundsStarted + 1)}
@@ -111,7 +111,7 @@ export function ScheduleScreen({
         <button
           type="button"
           className="button button--danger button--full"
-          style={{ marginBottom: 14 }}
+          style={{ marginBottom: "var(--space-md)" }}
           onClick={onEndEvening}
         >
           {t.schedule.endEvent}
@@ -136,7 +136,7 @@ export function ScheduleScreen({
       </nav>
 
       {features.manualSwap ? (
-        <div className="row" style={{ justifyContent: "space-between", marginBottom: 14 }}>
+        <div className="row row--split" style={{ marginBottom: "var(--space-md)" }}>
           <span className="standings__detail">
             {swapMode ? (
               <>

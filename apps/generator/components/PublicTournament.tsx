@@ -12,7 +12,7 @@ import { PublicRegisterForm } from "./PublicRegisterForm";
 import { Segmented } from "./Segmented";
 import { RoundView } from "./RoundView";
 import { StandingsScreen } from "./StandingsScreen";
-import { Notice } from "./ui";
+import { Notice, Wordmark } from "./ui";
 
 type PublicTab = "now" | "standings";
 
@@ -49,7 +49,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
     <main className="app">
       <header className="app__header">
         <h1 className="app__title">
-          {t.title[0]} <span>{t.title[1]}</span>
+          <Wordmark />
         </h1>
         <LanguageSelect />
       </header>
@@ -65,7 +65,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
 
         {view.status === "finished" && night ? (
           <>
-            <h3 className="screen__heading" style={{ fontSize: 18 }}>
+            <h3 className="screen__section">
               {t.public.finalHeading}
             </h3>
             <StandingsScreen night={night} players={view.players} hasSchedule={true} />
@@ -105,7 +105,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                 {view.you.guests.length > 0 ? (
                   <div>
                     <span className="label">{t.public.yourGuests}</span>
-                    <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                    <ul className="plain-list">
                       {view.you.guests.map((guest) => (
                         <li key={guest.id} className="roster__item">
                           <span className="roster__name">{guest.name}</span>

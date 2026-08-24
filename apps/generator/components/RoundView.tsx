@@ -55,7 +55,7 @@ export function RoundView({
 
   return (
     <div>
-      <h3 className="screen__heading" style={{ fontSize: 18 }}>
+      <h3 className="screen__section">
         {t.public.round(roundNumber)}
       </h3>
 

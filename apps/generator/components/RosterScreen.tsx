@@ -47,7 +47,7 @@ export function RosterScreen({
 
       {frozen ? <Notice tone="warn">{t.roster.frozen}</Notice> : null}
 
-      <div className="row" style={{ justifyContent: "space-between", margin: "22px 0 8px" }}>
+      <div className="row row--split" style={{ margin: "var(--space-lg) 0 var(--space-sm)" }}>
         <span className="roster__countLabel">{registrationOpen ? t.roster.registrationOpen : t.roster.registrationClosed}</span>
         {registrationOpen ? (
           <button type="button" className="button button--accent button--small" disabled={!canStart} onClick={onStart}>
@@ -92,7 +92,7 @@ export function RosterScreen({
 
       {waiting.length > 0 ? (
         <>
-          <h3 className="screen__heading" style={{ fontSize: 18, marginTop: 24 }}>
+          <h3 className="screen__section" style={{ marginTop: "var(--space-lg)" }}>
             {t.roster.waitingHeading}
           </h3>
           <ul className="roster__list">

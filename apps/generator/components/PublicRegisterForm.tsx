@@ -49,7 +49,7 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
     <div>
       {guest ? (
         <>
-          <h3 className="screen__heading" style={{ fontSize: 18 }}>{t.public.guestHeading}</h3>
+          <h3 className="screen__section">{t.public.guestHeading}</h3>
           <p className="screen__lede">{t.public.guestLede}</p>
         </>
       ) : (
@@ -100,8 +100,8 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
 
         {guests.map((draft, index) => (
           <div key={draft.key} className="guest">
-            <div className="row" style={{ justifyContent: "space-between" }}>
-              <span className="label" style={{ margin: 0 }}>{t.public.guestNumber(index + 1)}</span>
+            <div className="row row--split">
+              <span className="label label--inline">{t.public.guestNumber(index + 1)}</span>
               <button
                 type="button"
                 className="button button--quiet button--small"

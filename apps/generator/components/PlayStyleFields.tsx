@@ -58,7 +58,7 @@ export function PlayStyleFields({ initialRounds, initialGameTarget, initialAlgor
             </option>
           ))}
         </select>
-        <p className="standings__detail" style={{ marginTop: 6 }}>{describe(selected.id, selected).description}</p>
+        <p className="standings__detail" style={{ marginTop: "var(--space-sm)" }}>{describe(selected.id, selected).description}</p>
       </div>
     </>
   );

@@ -29,10 +29,10 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
       {tournaments.length === 0 ? (
         <EmptyState>{t.organiser.empty}</EmptyState>
       ) : (
-        <ul className="cards-grid" style={{ marginTop: 22 }}>
+        <ul className="cards-grid" style={{ marginTop: "var(--space-lg)" }}>
           {tournaments.map((tournament) => (
             <li key={tournament.id} className="card">
-              <div className="row" style={{ justifyContent: "space-between" }}>
+              <div className="row row--split">
                 <strong>{tournament.name}</strong>
                 <span className="roster__level">{t.organiser.status[tournament.status]}</span>
               </div>
@@ -40,7 +40,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
                 {new Date(tournament.startsAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" })} ·{" "}
                 {t.organiser.players(tournament.players, tournament.maxPlayers)}
               </p>
-              <div className="row" style={{ marginTop: 10 }}>
+              <div className="row" style={{ marginTop: "var(--space-sm)" }}>
                 <Link href={`/organiser/event/${tournament.id}`} className="button button--small">{t.organiser.open}</Link>
                 <CopyEventLink slug={tournament.slug} name={tournament.name} startsAt={tournament.startsAt} location={tournament.location} />
               </div>

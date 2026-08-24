@@ -21,16 +21,16 @@ export function PrintSheet({ view, backHref }: { view: WorkspaceView; backHref: 
 
   return (
     <main className="print">
-      <div className="print__hideOnPaper" style={{ marginBottom: 18 }}>
+      <div className="print__hideOnPaper" style={{ marginBottom: "var(--space-md)" }}>
         <Link className="button button--quiet button--small" href={backHref}>
           {t.print.back}
         </Link>
       </div>
 
-      <h1 className="print__roundTitle" style={{ fontSize: 22 }}>
+      <h1 className="print__title">
         {t.title[0]} {t.title[1]}
       </h1>
-      <p className="print__rest" style={{ marginBottom: 18 }}>
+      <p className="print__rest" style={{ marginBottom: "var(--space-md)" }}>
         {t.print.summary(view.confirmed.length, view.config.courts, rounds.length, view.gameTarget, view.config.seed)}
       </p>
 
@@ -55,7 +55,7 @@ export function PrintSheet({ view, backHref }: { view: WorkspaceView; backHref: 
                     <td>{match.court}</td>
                     <td>{names(match.teamA, playerById, t.print.nameJoiner)}</td>
                     <td>{names(match.teamB, playerById, t.print.nameJoiner)}</td>
-                    <td style={{ width: 90 }} />
+                    <td className="print__scoreCell" />
                   </tr>
                 ))}
               </tbody>

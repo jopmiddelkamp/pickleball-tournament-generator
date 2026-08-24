@@ -2,7 +2,7 @@
 
 import { useLocale } from "../lib/i18n/useLocale";
 import { LanguageSelect } from "./LanguageSelect";
-import { Notice } from "./ui";
+import { Notice, Wordmark } from "./ui";
 
 function GoogleMark() {
   return (
@@ -21,7 +21,7 @@ export function LoginScreen({ failed }: { failed: boolean }) {
     <main className="app">
       <header className="app__header">
         <h1 className="app__title">
-          {t.title[0]} <span>{t.title[1]}</span>
+          <Wordmark />
         </h1>
         <LanguageSelect />
       </header>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useLocale } from "../lib/i18n/useLocale";
 import { LanguageSelect } from "./LanguageSelect";
+import { Wordmark } from "./ui";
 
 function BurgerIcon() {
   return (
@@ -24,7 +25,7 @@ export function OrganiserHeader({ logoutAction }: { logoutAction: () => Promise<
       }}
     >
       <Link href="/organiser/event" className="app__title">
-        {t.title[0]} <span>{t.title[1]}</span>
+        <Wordmark />
       </Link>
       <div className="app__side">
         <LanguageSelect />

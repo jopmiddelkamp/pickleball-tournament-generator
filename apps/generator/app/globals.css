@@ -1,4 +1,28 @@
-/* Single brand. Every value here comes from lib/theme.ts. */
+/* The design system's stylesheet. Every value here comes from a token in
+   lib/theme.ts: there are no raw colours, type sizes, shadows, durations or
+   stacking numbers below this line. If a value is missing, add the role there
+   rather than the literal here.
+
+   Typography is applied as a five-property block, always all five, so a role
+   is never half-applied:
+
+     font-family:    var(--text-<role>-font);
+     font-size:      var(--text-<role>-size);
+     font-weight:    var(--text-<role>-weight);
+     line-height:    var(--text-<role>-line);
+     letter-spacing: var(--text-<role>-tracking);
+
+   See docs/DESIGN-SYSTEM.md for the why and /design for a specimen
+   of every token in the browser. */
+
+/* ---------- derived tier ----------
+   Component tokens are declared on the component that owns them. These are the
+   only ones shared widely enough to sit at the root: the court's painted
+   markings, used by the court card and by nothing else, live on `.court`. */
+
+:root {
+  color-scheme: light;
+}
 
 *,
 *::before,
@@ -13,11 +37,13 @@ body {
 }
 
 body {
-  background: var(--paper-edge);
-  color: var(--ink);
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.45;
+  background: var(--color-surface-sunken);
+  color: var(--color-on-surface);
+  font-family: var(--text-body-lg-font);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-line);
+  letter-spacing: var(--text-body-lg-tracking);
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
 }
@@ -30,7 +56,7 @@ select {
 }
 
 :focus-visible {
-  outline: 3px solid var(--men);
+  outline: 3px solid var(--color-focus);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
@@ -50,14 +76,14 @@ select {
   max-width: var(--max-width);
   margin: 0 auto;
   min-height: 100dvh;
-  background: var(--paper);
+  background: var(--color-surface);
   display: flex;
   flex-direction: column;
 }
 
 .app__header {
-  background: var(--court-deep);
-  color: var(--paper);
+  background: var(--color-surface-brand);
+  color: var(--color-on-surface-brand);
   padding: var(--space-md) var(--space-lg) var(--space-md);
   display: flex;
   align-items: center;
@@ -66,18 +92,31 @@ select {
 }
 
 .app__title {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 800;
-  font-size: 20px;
-  letter-spacing: -0.02em;
+  font-family: var(--text-display-sm-font);
+  font-size: var(--text-display-sm-size);
+  font-weight: var(--text-display-sm-weight);
+  line-height: var(--text-display-sm-line);
+  letter-spacing: var(--text-display-sm-tracking);
   margin: 0;
-  line-height: 1.1;
   color: inherit;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
 }
 
-.app__title span {
-  color: var(--accent);
+/* Sized in em so the ball grows with the name at the wide breakpoint. */
+.app__title svg {
+  width: 1.18em;
+  height: 1.18em;
+  flex-shrink: 0;
+  color: var(--color-secondary);
+}
+
+/* The second word, in the same yellow as the ball. */
+.app__titleAccent {
+  color: var(--color-secondary);
 }
 
 .app__side {
@@ -87,31 +126,38 @@ select {
   flex-shrink: 0;
 }
 
-.app__meta {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(243, 244, 238, 0.72);
-  font-variant-numeric: tabular-nums;
-}
-
 .app__main {
   flex: 1;
   padding: var(--space-lg) var(--space-lg) calc(var(--tab-bar-height) + var(--space-xl));
 }
 
 .screen__heading {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 26px;
-  letter-spacing: -0.025em;
+  font-family: var(--text-display-md-font);
+  font-size: var(--text-display-md-size);
+  font-weight: var(--text-display-md-weight);
+  line-height: var(--text-display-md-line);
+  letter-spacing: var(--text-display-md-tracking);
+  margin: 0 0 var(--space-xs);
+}
+
+/* A section inside a screen, below the screen's own heading. */
+.screen__section {
+  font-family: var(--text-title-font);
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  line-height: var(--text-title-line);
+  letter-spacing: var(--text-title-tracking);
   margin: 0 0 var(--space-xs);
 }
 
 .screen__lede {
   margin: 0 0 var(--space-lg);
-  color: var(--ink-soft);
-  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
 }
 
 /* ---------- tab bar ---------- */
@@ -123,35 +169,36 @@ select {
   transform: translateX(-50%);
   width: min(100%, var(--max-width));
   height: var(--tab-bar-height);
-  background: var(--court-deep);
+  background: var(--color-surface-brand);
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   padding-bottom: env(safe-area-inset-bottom);
-  z-index: 10;
+  z-index: var(--z-tab-bar);
 }
 
 .tabbar__button {
   background: none;
   border: 0;
-  color: rgba(243, 244, 238, 0.66);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  color: var(--brand-text);
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
   text-transform: uppercase;
-  font-weight: 600;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 0 4px;
+  padding: 0 var(--space-xs);
   text-align: center;
-  line-height: 1.15;
 }
 
 .tabbar__button[aria-current="page"] {
-  color: var(--accent);
+  color: var(--color-secondary);
 }
 
 .tabbar__mark {
@@ -162,49 +209,64 @@ select {
 }
 
 .tabbar__button[aria-current="page"] .tabbar__mark {
-  background: var(--accent);
+  background: var(--color-secondary);
 }
 
 /* ---------- generic controls ---------- */
 
 .label {
   display: block;
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
   text-transform: uppercase;
-  font-weight: 600;
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
   margin-bottom: 6px;
+}
+
+/* A label that names a value sitting beside it rather than a field below it. */
+.label--inline {
+  display: inline-block;
+  margin-bottom: 0;
 }
 
 .input,
 .select {
   width: 100%;
-  background: var(--white);
-  border: 1px solid var(--line);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-sm);
   padding: 11px 12px;
-  font-size: 16px;
+  font-family: var(--text-body-lg-font);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-line);
+  letter-spacing: var(--text-body-lg-tracking);
 }
 
 .button {
   border: 0;
   border-radius: var(--radius-pill);
   padding: 13px 20px;
-  font-weight: 700;
-  font-size: 15px;
+  font-family: var(--text-action-lg-font);
+  font-size: var(--text-action-lg-size);
+  font-weight: var(--text-action-lg-weight);
+  line-height: var(--text-action-lg-line);
+  letter-spacing: var(--text-action-lg-tracking);
   cursor: pointer;
-  background: var(--court);
-  color: var(--paper);
-  transition: background 140ms ease;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  transition: background var(--duration-fast) var(--easing-standard);
 }
 
 .button:hover:not(:disabled) {
-  background: var(--court-dark);
+  background: var(--color-primary-hover);
 }
 
 .button:disabled {
-  opacity: 0.45;
+  opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }
 
@@ -222,60 +284,83 @@ a.button {
 }
 
 .button--accent {
-  background: var(--accent);
-  color: var(--court-deep);
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
 }
 
 .button--accent:hover:not(:disabled) {
-  background: #cdd736;
+  background: var(--color-secondary-hover);
 }
 
 .button--quiet {
   background: transparent;
-  color: var(--court-dark);
-  border: 1px solid var(--line);
+  color: var(--color-primary-strong);
+  border: 1px solid var(--color-outline);
   font-weight: 600;
 }
 
 .button--quiet:hover:not(:disabled) {
-  background: var(--paper-edge);
+  background: var(--color-surface-sunken);
 }
+
+.button--danger {
+  background: transparent;
+  color: var(--color-error);
+  border: 1px solid var(--color-outline);
+  font-weight: 600;
+}
+
+.button--small {
+  font-family: var(--text-action-sm-font);
+  font-size: var(--text-action-sm-size);
+  font-weight: var(--text-action-sm-weight);
+  line-height: var(--text-action-sm-line);
+  letter-spacing: var(--text-action-sm-tracking);
+  padding: var(--space-sm) 14px;
+}
+
+/* ---------- brand chrome: the header's own controls ---------- */
 
 .app__header--menu {
   position: relative;
 }
 
-/* Header chips: the flag select and the menu toggle, on the page's paper. */
+/* Header chips: the flag select and the menu toggle. Everything on the chrome
+   is the same paper at a different strength - see `onBrand` in lib/theme.ts. */
 .chip {
+  /* The flag emoji is a glyph filling the chip, not text on a type role. */
+  --chip-glyph: 17px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 34px;
   height: 30px;
   flex-shrink: 0;
-  border: 1px solid rgba(243, 244, 238, 0.35);
+  border: 1px solid var(--brand-outline);
   border-radius: var(--radius-sm);
-  background: rgba(243, 244, 238, 0.18);
-  color: var(--paper);
+  background: var(--brand-fill);
+  color: var(--color-on-surface-brand);
   cursor: pointer;
+  transition: background var(--duration-fast) var(--easing-standard);
 }
 
 .chip:hover,
 .chip[aria-expanded="true"] {
-  background: rgba(243, 244, 238, 0.3);
+  background: var(--brand-fill-hover);
 }
 
 .chip--select {
   appearance: none;
   padding: 0;
-  font-size: 17px;
+  font-size: var(--chip-glyph);
   line-height: 30px;
   text-align: center;
   text-align-last: center;
 }
 
 .chip--select option {
-  color: var(--ink);
+  color: var(--color-on-surface);
 }
 
 .menu__backdrop {
@@ -284,23 +369,23 @@ a.button {
   border: 0;
   background: transparent;
   cursor: default;
-  z-index: 19;
+  z-index: var(--z-scrim);
 }
 
 .menu {
   position: absolute;
   top: calc(100% - 6px);
   right: var(--space-lg);
-  z-index: 20;
+  z-index: var(--z-menu);
   min-width: 220px;
-  background: var(--court-deep);
-  border: 1px solid rgba(243, 244, 238, 0.25);
+  background: var(--color-surface-brand);
+  border: 1px solid var(--brand-outline);
   border-radius: var(--radius-md);
   padding: var(--space-sm);
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  box-shadow: 0 12px 32px rgba(21, 26, 23, 0.35);
+  gap: var(--space-xs);
+  box-shadow: var(--elevation-2);
 }
 
 .menu__item {
@@ -309,16 +394,19 @@ a.button {
   border: 0;
   border-radius: var(--radius-sm);
   background: none;
-  color: var(--paper);
+  color: var(--color-on-surface-brand);
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
   font-weight: 600;
-  font-size: 14px;
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
   text-align: left;
   text-decoration: none;
   cursor: pointer;
 }
 
 .menu__item:hover {
-  background: rgba(243, 244, 238, 0.12);
+  background: var(--brand-hover);
 }
 
 .menu__item--full {
@@ -331,36 +419,29 @@ a.button {
   justify-content: space-between;
   gap: var(--space-sm);
   padding: 6px 12px;
-  color: var(--paper);
+  color: var(--color-on-surface-brand);
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
   font-weight: 600;
-  font-size: 14px;
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
 }
 
-/* Quiet buttons sit on paper; the header is court-deep, so invert them there. */
+/* Quiet buttons sit on paper; the header is the brand surface, so invert. */
 .app__header .button--quiet {
-  color: var(--paper);
-  border-color: rgba(243, 244, 238, 0.45);
+  color: var(--color-on-surface-brand);
+  border-color: var(--brand-outline);
 }
 
 .app__header .button--quiet:hover:not(:disabled) {
-  background: rgba(243, 244, 238, 0.12);
+  background: var(--brand-hover);
 }
 
-.button--danger {
-  background: transparent;
-  color: #9a3324;
-  border: 1px solid var(--line);
-  font-weight: 600;
-}
-
-.button--small {
-  padding: 8px 14px;
-  font-size: 13px;
-}
+/* ---------- containers ---------- */
 
 .card {
-  background: var(--white);
-  border: 1px solid var(--line);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-md);
   padding: var(--space-md);
 }
@@ -377,49 +458,118 @@ a.button {
   align-items: center;
 }
 
+/* A row whose ends are pushed apart: a label and its control, a title and its
+   action. Common enough that every screen was writing it inline. */
+.row--split {
+  justify-content: space-between;
+}
+
+.row--baseline {
+  align-items: baseline;
+}
+
 .notice {
-  border-left: 4px solid var(--accent);
-  background: var(--white);
+  border-left: 4px solid var(--color-secondary);
+  background: var(--color-surface-raised);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   padding: var(--space-sm) var(--space-md);
-  font-size: 14px;
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
   margin-bottom: var(--space-md);
 }
 
 .notice--warn {
-  border-left-color: #c4762a;
+  border-left-color: var(--color-warning);
 }
 
 .empty {
   text-align: center;
-  color: var(--ink-soft);
-  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
   padding: var(--space-xl) var(--space-md);
-  border: 1px dashed var(--line);
+  border: 1px dashed var(--color-outline);
   border-radius: var(--radius-md);
+}
+
+/* Figures that must line up down a column: a seed, a score, a total. Every
+   type role that is only ever numeric already sets this; this is for prose
+   that happens to contain a figure. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Present to a screen reader, absent on screen: the score fields' own labels. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ---------- gender chip ---------- */
 
+/* Drawn as a small ball, the same object as the logo: a soft highlight where
+   the light catches it top-left - kept at half strength, enough curve to read
+   as a ball without turning glossy - a thin paper ring so it lifts off green
+   and off white alike, and a shadow tinted with its own colour rather than grey.
+   `--gender-base` is the one thing the modifiers set; everything else is
+   derived from it, so the two chips can never drift apart. */
 .gender {
+  --gender-ring: var(--color-surface-raised);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   border-radius: var(--radius-pill);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--white);
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      color-mix(in srgb, var(--gender-base) 84%, var(--color-surface-raised)) 0,
+      var(--gender-base) 55%,
+      color-mix(in srgb, var(--gender-base) 91%, var(--color-shadow)) 100%
+    );
+  box-shadow:
+    0 0 0 1.5px var(--gender-ring),
+    0 1px 3px color-mix(in srgb, var(--gender-base) 45%, transparent);
+  font-family: var(--text-micro-font);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  line-height: var(--text-micro-line);
+  /* The micro role's tracking would add a gap after the single character and
+     push it off centre in the circle. A glyph takes no tracking. */
+  letter-spacing: 0;
+  /* A hair of ink under the letter keeps it crisp against the highlight. */
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--gender-base) 60%, var(--color-shadow));
   flex: 0 0 auto;
 }
 
 .gender--M {
-  background: var(--men);
+  --gender-base: var(--color-men);
+  color: var(--color-on-men);
 }
 
 .gender--F {
-  background: var(--women);
+  --gender-base: var(--color-women);
+  color: var(--color-on-women);
+}
+
+/* On the court the ring is the court's own line colour, not raw white, so it
+   sits in the same family as the net and the sideline. */
+.court__surface .gender {
+  --gender-ring: var(--court-ring);
 }
 
 /* ---------- roster ---------- */
@@ -429,7 +579,7 @@ a.button {
   align-items: center;
   gap: var(--space-sm);
   padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--color-outline);
 }
 
 .roster__name {
@@ -442,54 +592,64 @@ a.button {
 }
 
 .roster__level {
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
   white-space: nowrap;
 }
 
 .roster__count {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1;
+  font-family: var(--text-display-lg-font);
+  font-size: var(--text-display-lg-size);
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-line);
+  letter-spacing: var(--text-display-lg-tracking);
 }
 
 .roster__countLabel {
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
 }
 
 .segmented {
   display: inline-flex;
-  border: 1px solid var(--line);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-pill);
   overflow: hidden;
-  background: var(--white);
+  background: var(--color-surface-raised);
 }
 
 .segmented__option {
   border: 0;
   background: none;
   padding: 10px 16px;
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
   font-weight: 600;
-  font-size: 14px;
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
   cursor: pointer;
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
+  transition: background var(--duration-fast) var(--easing-standard);
 }
 
 .segmented__option[aria-pressed="true"] {
-  background: var(--court);
-  color: var(--paper);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 /* A +1's fields inside the public sign-up form. */
 .guest {
-  border-top: 1px dashed var(--line);
+  border-top: 1px dashed var(--color-outline);
   padding-top: var(--space-md);
   display: flex;
   flex-direction: column;
@@ -505,24 +665,24 @@ a.button {
   gap: var(--space-sm);
   text-align: left;
   cursor: pointer;
-  color: var(--ink);
+  color: var(--color-on-surface);
 }
 
 .picker__field svg {
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
   flex-shrink: 0;
 }
 
 .picker__panel {
   margin-top: var(--space-sm);
-  background: var(--white);
-  border: 1px solid var(--line);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  box-shadow: 0 10px 30px rgba(23, 58, 43, 0.12);
+  box-shadow: var(--elevation-1);
 }
 
 .picker__head {
@@ -532,10 +692,11 @@ a.button {
 }
 
 .picker__month {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 800;
-  font-size: 16px;
-  letter-spacing: -0.01em;
+  font-family: var(--text-title-font);
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  line-height: var(--text-title-line);
+  letter-spacing: var(--text-title-tracking);
 }
 
 .picker__nav {
@@ -546,11 +707,12 @@ a.button {
 .picker__navbtn {
   width: 34px;
   height: 34px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-pill);
-  background: var(--white);
-  color: var(--ink);
-  font-size: 18px;
+  background: var(--color-surface-raised);
+  color: var(--color-on-surface);
+  /* A chevron glyph, sized to the title role so it matches the month beside it. */
+  font-size: var(--text-title-size);
   line-height: 1;
   cursor: pointer;
   display: inline-flex;
@@ -559,11 +721,11 @@ a.button {
 }
 
 .picker__navbtn:hover:not(:disabled) {
-  background: var(--paper-edge);
+  background: var(--color-surface-sunken);
 }
 
 .picker__navbtn:disabled {
-  opacity: 0.35;
+  opacity: var(--opacity-disabled);
   cursor: default;
 }
 
@@ -575,11 +737,14 @@ a.button {
 
 .picker__dow {
   text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.08em;
+  font-family: var(--text-micro-font);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  line-height: var(--text-micro-line);
+  letter-spacing: var(--text-micro-tracking);
   text-transform: uppercase;
-  color: var(--ink-soft);
-  padding: 4px 0 6px;
+  color: var(--color-on-surface-variant);
+  padding: var(--space-xs) 0 6px;
 }
 
 .picker__day {
@@ -587,35 +752,38 @@ a.button {
   background: none;
   border-radius: var(--radius-pill);
   height: 38px;
-  font-size: 14px;
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
   font-weight: 600;
-  color: var(--ink);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
+  color: var(--color-on-surface);
   cursor: pointer;
 }
 
 .picker__day:hover:not(:disabled) {
-  background: var(--paper-edge);
+  background: var(--color-surface-sunken);
 }
 
 .picker__day:disabled {
-  color: var(--ink-soft);
-  opacity: 0.3;
+  color: var(--color-on-surface-variant);
+  opacity: var(--opacity-disabled);
   cursor: default;
   background: none;
 }
 
 .picker__day--muted {
-  color: var(--ink-soft);
-  opacity: 0.55;
+  color: var(--color-on-surface-variant);
+  opacity: var(--opacity-muted);
 }
 
 .picker__day--today {
-  box-shadow: inset 0 0 0 1px var(--court);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
 }
 
 .picker__day[aria-pressed="true"] {
-  background: var(--court);
-  color: var(--paper);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   font-weight: 700;
 }
 
@@ -641,32 +809,35 @@ a.button {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  border: 1px solid var(--line);
+  gap: var(--space-xs);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-md);
-  padding: 4px;
+  padding: var(--space-xs);
   scrollbar-width: thin;
 }
 
 .picker__slot {
-  border: 1px solid var(--line);
-  background: var(--white);
+  border: 1px solid var(--color-outline);
+  background: var(--color-surface-raised);
   border-radius: var(--radius-pill);
-  padding: 8px 0;
-  font-size: 13px;
+  padding: var(--space-sm) 0;
+  font-family: var(--text-action-sm-font);
+  font-size: var(--text-action-sm-size);
   font-weight: 600;
-  color: var(--ink-soft);
+  line-height: var(--text-action-sm-line);
+  letter-spacing: var(--text-action-sm-tracking);
+  color: var(--color-on-surface-variant);
   cursor: pointer;
 }
 
 .picker__slot:hover {
-  background: var(--paper-edge);
+  background: var(--color-surface-sunken);
 }
 
 .picker__slot[aria-pressed="true"] {
-  background: var(--court);
-  border-color: var(--court);
-  color: var(--paper);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .picker__done {
@@ -680,21 +851,25 @@ a.button {
 }
 
 .levels__option {
-  border: 1px solid var(--line);
-  background: var(--white);
+  border: 1px solid var(--color-outline);
+  background: var(--color-surface-raised);
   border-radius: var(--radius-sm);
   padding: 9px 10px;
-  font-size: 13px;
+  font-family: var(--text-action-sm-font);
+  font-size: var(--text-action-sm-size);
   font-weight: 600;
+  line-height: var(--text-action-sm-line);
+  letter-spacing: var(--text-action-sm-tracking);
   cursor: pointer;
   text-align: left;
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
+  transition: background var(--duration-fast) var(--easing-standard);
 }
 
 .levels__option[aria-pressed="true"] {
-  background: var(--court-dark);
-  border-color: var(--court-dark);
-  color: var(--paper);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 /* ---------- rounds strip ---------- */
@@ -713,25 +888,37 @@ a.button {
 }
 
 .rounds__chip {
-  border: 1px solid var(--line);
-  background: var(--white);
-  color: var(--ink-soft);
+  border: 1px solid var(--color-outline);
+  background: var(--color-surface-raised);
+  color: var(--color-on-surface-variant);
   border-radius: var(--radius-pill);
   padding: 7px 14px;
-  font-size: 13px;
-  font-weight: 700;
+  font-family: var(--text-action-sm-font);
+  font-size: var(--text-action-sm-size);
+  font-weight: var(--text-action-sm-weight);
+  line-height: var(--text-action-sm-line);
+  letter-spacing: var(--text-action-sm-tracking);
   cursor: pointer;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  transition: background var(--duration-fast) var(--easing-standard);
 }
 
 .rounds__chip[aria-current="true"] {
-  background: var(--court);
-  border-color: var(--court);
-  color: var(--paper);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
-/* ---------- the court card: the thing you look at court-side ---------- */
+/* ---------- the court card: the thing you look at court-side ----------
+   Component tier. The markings are the paper of the lines painted on the
+   playing surface, at the strengths a real court reads at. */
+
+.court {
+  --court-line: color-mix(in srgb, var(--color-on-primary) 92%, transparent);
+  --court-line-soft: color-mix(in srgb, var(--color-on-primary) 35%, transparent);
+  --court-ring: color-mix(in srgb, var(--color-on-primary) 85%, transparent);
+}
 
 .courts {
   display: grid;
@@ -743,11 +930,13 @@ a.button {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-family: var(--text-label-strong-font);
+  font-size: var(--text-label-strong-size);
+  font-weight: var(--text-label-strong-weight);
+  line-height: var(--text-label-strong-line);
+  letter-spacing: var(--text-label-strong-tracking);
   text-transform: uppercase;
-  font-weight: 700;
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
   margin-bottom: 6px;
 }
 
@@ -755,11 +944,11 @@ a.button {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: var(--court);
+  background: var(--color-primary);
   border-radius: var(--radius-md);
-  padding: 4px;
-  gap: 4px;
-  box-shadow: inset 0 0 0 3px rgba(243, 244, 238, 0.85);
+  padding: var(--space-xs);
+  gap: var(--space-xs);
+  box-shadow: inset 0 0 0 3px var(--court-ring);
   overflow: hidden;
 }
 
@@ -774,49 +963,36 @@ a.button {
   transform: translateX(-50%);
   background: repeating-linear-gradient(
     to bottom,
-    rgba(243, 244, 238, 0.92) 0 6px,
-    rgba(243, 244, 238, 0.35) 6px 10px
+    var(--court-line) 0 6px,
+    var(--court-line-soft) 6px 10px
   );
 }
 
 .court__side {
+  /* Positioning context for the note, which is pinned rather than stacked so
+     that one team carrying a note never drops the other team's names out of
+     line. The height leaves room for it on both halves. */
   position: relative;
   padding: var(--space-md) 12px;
   display: flex;
   flex-direction: column;
   gap: 6px;
   min-width: 0;
-  min-height: 108px;
+  min-height: 118px;
   justify-content: center;
   border-radius: var(--radius-sm);
-}
-
-/* The non-volley line: one stroke on each half, parallel to the net. */
-.court__side::before {
-  content: "";
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  width: 1px;
-  background: rgba(243, 244, 238, 0.34);
-}
-
-.court__side--left::before {
-  right: 16px;
-}
-
-.court__side--right::before {
-  left: 16px;
 }
 
 .court__player {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: var(--paper);
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1.2;
+  color: var(--color-on-primary);
+  font-family: var(--text-body-md-font);
+  font-size: var(--text-body-md-size);
+  font-weight: var(--text-body-md-weight);
+  line-height: var(--text-body-md-line);
+  letter-spacing: var(--text-body-md-tracking);
   min-width: 0;
   background: none;
   border: 0;
@@ -837,59 +1013,77 @@ a.button {
 }
 
 .court__player--selected {
-  background: var(--accent);
-  color: var(--court-deep);
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
   padding: 2px 6px;
 }
 
+/* Why this pair is what it is: a footnote under the two names, ruled off with
+   the court's own line the way the bench is. Not a badge - SPEC-1 §5 keeps the
+   night screen free of anything that singles a player out, and a chip in ball
+   yellow would shout, besides colliding with the one thing that yellow means
+   on a court: the player you are about to swap. Sentence case, so it fits on
+   one line beside two names. */
 .court__badge {
-  align-self: flex-start;
-  margin-top: 2px;
-  background: var(--accent);
-  color: var(--court-deep);
-  border-radius: var(--radius-pill);
-  padding: 2px 8px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: var(--space-sm);
+  padding-top: 5px;
+  border-top: 1px solid var(--court-line-soft);
+  color: var(--color-on-primary);
+  font-family: var(--text-micro-font);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  line-height: var(--text-micro-line);
+  letter-spacing: var(--text-micro-tracking);
 }
 
 .court__score {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  margin-top: 8px;
+  margin-top: var(--space-sm);
 }
 
 .court__scoreInput {
   width: 100%;
   text-align: center;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  border: 1px solid var(--line);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-sm);
-  padding: 9px 4px;
-  background: var(--white);
-  font-size: 17px;
+  padding: 9px var(--space-xs);
+  background: var(--color-surface-raised);
+  font-family: var(--text-numeral-md-font);
+  font-size: var(--text-numeral-md-size);
+  font-weight: var(--text-numeral-md-weight);
+  line-height: var(--text-numeral-md-line);
+  letter-spacing: var(--text-numeral-md-tracking);
+  font-variant-numeric: tabular-nums;
 }
 
 .court__scoreDash {
-  color: var(--ink-soft);
+  color: var(--color-on-surface-variant);
   font-weight: 700;
 }
 
 .court__scoreValue {
   flex: 1;
   text-align: center;
-  font-weight: 700;
+  font-family: var(--text-numeral-md-font);
+  font-size: var(--text-numeral-md-size);
+  font-weight: var(--text-numeral-md-weight);
+  line-height: var(--text-numeral-md-line);
+  letter-spacing: var(--text-numeral-md-tracking);
   font-variant-numeric: tabular-nums;
-  font-size: 17px;
 }
 
 .court__void {
-  font-size: 12px;
-  color: var(--ink-soft);
+  font-family: var(--text-body-xs-font);
+  font-size: var(--text-body-xs-size);
+  font-weight: var(--text-body-xs-weight);
+  line-height: var(--text-body-xs-line);
+  letter-spacing: var(--text-body-xs-tracking);
+  color: var(--color-on-surface-variant);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -899,18 +1093,20 @@ a.button {
 /* ---------- bench ---------- */
 
 .bench {
-  border-top: 2px dashed var(--line);
+  border-top: 2px dashed var(--color-outline);
   padding-top: var(--space-md);
   margin-top: var(--space-lg);
 }
 
 .bench__title {
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-family: var(--text-label-strong-font);
+  font-size: var(--text-label-strong-size);
+  font-weight: var(--text-label-strong-weight);
+  line-height: var(--text-label-strong-line);
+  letter-spacing: var(--text-label-strong-tracking);
   text-transform: uppercase;
-  font-weight: 700;
-  color: var(--ink-soft);
-  margin-bottom: 8px;
+  color: var(--color-on-surface-variant);
+  margin-bottom: var(--space-sm);
 }
 
 .bench__names {
@@ -923,11 +1119,14 @@ a.button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--paper-edge);
+  background: var(--color-surface-sunken);
   border-radius: var(--radius-pill);
   padding: 5px 12px 5px 6px;
-  font-size: 14px;
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
   font-weight: 600;
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
   border: 0;
 }
 
@@ -936,7 +1135,7 @@ a.button {
 }
 
 .bench__name--selected {
-  background: var(--accent);
+  background: var(--color-secondary);
 }
 
 /* ---------- standings ---------- */
@@ -947,14 +1146,16 @@ a.button {
   align-items: center;
   gap: var(--space-sm);
   padding: 11px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--color-outline);
 }
 
 .standings__rank {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 800;
-  font-size: 17px;
-  color: var(--ink-soft);
+  font-family: var(--text-numeral-md-font);
+  font-size: var(--text-numeral-md-size);
+  font-weight: var(--text-numeral-md-weight);
+  line-height: var(--text-numeral-md-line);
+  letter-spacing: var(--text-numeral-md-tracking);
+  color: var(--color-on-surface-variant);
   font-variant-numeric: tabular-nums;
 }
 
@@ -967,15 +1168,21 @@ a.button {
 }
 
 .standings__total {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 800;
-  font-size: 19px;
+  font-family: var(--text-numeral-lg-font);
+  font-size: var(--text-numeral-lg-size);
+  font-weight: var(--text-numeral-lg-weight);
+  line-height: var(--text-numeral-lg-line);
+  letter-spacing: var(--text-numeral-lg-tracking);
   font-variant-numeric: tabular-nums;
 }
 
 .standings__detail {
-  font-size: 12px;
-  color: var(--ink-soft);
+  font-family: var(--text-body-xs-font);
+  font-size: var(--text-body-xs-size);
+  font-weight: var(--text-body-xs-weight);
+  line-height: var(--text-body-xs-line);
+  letter-spacing: var(--text-body-xs-tracking);
+  color: var(--color-on-surface-variant);
   font-variant-numeric: tabular-nums;
 }
 
@@ -999,24 +1206,32 @@ a.button {
    highlighter; the same two colours the logo uses. */
 .event__name {
   display: inline;
-  margin: 0;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  color: var(--court-dark);
-  background: linear-gradient(transparent 58%, var(--accent) 58%, var(--accent) 92%, transparent 92%);
-  padding: 0 4px;
-  margin-left: -4px;
+  margin: 0 0 0 -4px;
+  font-family: var(--text-headline-font);
+  font-size: var(--text-headline-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-headline-line);
+  letter-spacing: var(--text-headline-tracking);
+  color: var(--color-primary-strong);
+  background: linear-gradient(
+    transparent 58%,
+    var(--color-secondary) 58%,
+    var(--color-secondary) 92%,
+    transparent 92%
+  );
+  padding: 0 var(--space-xs);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
 
 .event__meta {
-  margin: 8px 0 0;
-  font-size: 12px;
-  color: var(--ink-soft);
+  margin: var(--space-sm) 0 0;
+  font-family: var(--text-body-xs-font);
+  font-size: var(--text-body-xs-size);
+  font-weight: var(--text-body-xs-weight);
+  line-height: var(--text-body-xs-line);
+  letter-spacing: var(--text-body-xs-tracking);
+  color: var(--color-on-surface-variant);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1024,7 +1239,8 @@ a.button {
 
 .cards-grid,
 .roster__list,
-.standings__list {
+.standings__list,
+.plain-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -1039,12 +1255,14 @@ a.button {
    Mobile first: everything above is the phone layout. From 720px the sheet
    widens, the tab bar becomes a rail under the header, reading blocks keep a
    readable measure, and courts and lists spread into grids. Breakpoints
-   follow the content (two courts side by side need ~720px, three ~1080px). */
+   follow the content (two courts side by side need ~720px, three ~1080px);
+   `layout.wide` and `layout.wider` in lib/theme.ts are the source for these
+   two numbers, which media queries cannot read from a custom property. */
 
 @media (min-width: 720px) {
   .app {
     max-width: var(--max-width-wide);
-    box-shadow: 0 0 0 1px var(--line);
+    box-shadow: 0 0 0 1px var(--color-outline);
   }
 
   .app__header {
@@ -1052,7 +1270,7 @@ a.button {
   }
 
   .app__title {
-    font-size: 22px;
+    font-size: var(--text-display-sm-size-wide);
   }
 
   .app__main {
@@ -1060,7 +1278,7 @@ a.button {
   }
 
   .screen__heading {
-    font-size: 30px;
+    font-size: var(--text-display-md-size-wide);
   }
 
   .screen__lede,
@@ -1088,18 +1306,16 @@ a.button {
     width: auto;
     height: 48px;
     display: flex;
-    gap: 4px;
+    gap: var(--space-xs);
     padding: 0 var(--space-xl);
     margin: calc(-1 * var(--space-xl)) calc(-1 * var(--space-xl)) var(--space-lg);
-    border-top: 1px solid rgba(243, 244, 238, 0.12);
+    border-top: 1px solid var(--brand-hairline);
   }
 
   .tabbar__button {
     flex-direction: column-reverse;
     gap: 0;
     padding: 0 14px;
-    font-size: 12px;
-    letter-spacing: 0.1em;
   }
 
   .tabbar__mark {
@@ -1149,14 +1365,27 @@ a.button {
   }
 }
 
-/* ---------- print ---------- */
+/* ---------- print ----------
+   Its own medium and its own scheme: see `printScheme` in lib/theme.ts. */
 
 .print {
   max-width: 820px;
   margin: 0 auto;
   padding: 28px;
-  background: #fff;
-  color: #000;
+  background: var(--print-surface);
+  color: var(--print-ink);
+}
+
+/* The sheet's own title, above the first round. */
+.print__title {
+  font-family: var(--text-headline-font);
+  font-size: var(--text-headline-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-headline-line);
+  letter-spacing: var(--text-headline-tracking);
+  margin: 0 0 6px;
+  border-bottom: 2px solid var(--print-ink);
+  padding-bottom: 3px;
 }
 
 .print__round {
@@ -1165,42 +1394,60 @@ a.button {
 }
 
 .print__roundTitle {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 800;
-  font-size: 17px;
+  font-family: var(--text-title-font);
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  line-height: var(--text-title-line);
+  letter-spacing: var(--text-title-tracking);
   margin: 0 0 6px;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--print-ink);
   padding-bottom: 3px;
 }
 
 .print__table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-family: var(--text-action-sm-font);
+  font-size: var(--text-action-sm-size);
+  font-weight: 400;
+  line-height: var(--text-action-sm-line);
+  letter-spacing: var(--text-action-sm-tracking);
 }
 
 .print__table th,
 .print__table td {
-  border: 1px solid #999;
+  border: 1px solid var(--print-rule);
   padding: 5px 7px;
   text-align: left;
 }
 
 .print__table th {
-  background: #eee;
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  background: var(--print-fill);
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
   text-transform: uppercase;
 }
 
+/* Left blank on purpose: where a score gets written in by hand. */
+.print__scoreCell {
+  width: 90px;
+}
+
 .print__rest {
-  font-size: 12px;
+  font-family: var(--text-body-xs-font);
+  font-size: var(--text-body-xs-size);
+  font-weight: var(--text-body-xs-weight);
+  line-height: var(--text-body-xs-line);
+  letter-spacing: var(--text-body-xs-tracking);
   margin: 6px 0 0;
 }
 
 @media print {
   body {
-    background: #fff;
+    background: var(--print-surface);
   }
 
   .print {

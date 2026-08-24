@@ -29,8 +29,8 @@ export function AdjustSchedule({ config, playerCount, maxCourts, usingSuggestion
   const courtOptions = ALL_COURT_OPTIONS.filter((n) => n <= maxCourts);
 
   return (
-    <div className="card stack" style={{ marginBottom: 14 }}>
-      <div className="row" style={{ justifyContent: "space-between" }}>
+    <div className="card stack" style={{ marginBottom: "var(--space-md)" }}>
+      <div className="row row--split">
         <button type="button" className="button button--quiet button--small" aria-expanded={open} onClick={() => setOpen(!open)}>
           {t.schedule.adjust}
         </button>
@@ -66,7 +66,7 @@ export function AdjustSchedule({ config, playerCount, maxCourts, usingSuggestion
               }}
             />
           </div>
-          <div className="row" style={{ justifyContent: "space-between" }}>
+          <div className="row row--split">
             <span className="standings__detail">
               {t.setup.capacity(capacity, playerCount - capacity)} {usingSuggestion ? t.setup.suggested : null}
             </span>
@@ -77,16 +77,16 @@ export function AdjustSchedule({ config, playerCount, maxCourts, usingSuggestion
             )}
           </div>
           <p className="standings__detail">
-            {t.setup.seed} <strong style={{ fontVariantNumeric: "tabular-nums" }}>{config.seed}</strong>
+            {t.setup.seed} <strong className="tabular">{config.seed}</strong>
           </p>
           {score ? (
             <div>
               <span className="label">{t.setup.quality}</span>
-              <div className="row" style={{ justifyContent: "space-between" }}>
+              <div className="row row--split">
                 <span className="standings__total">{score.final.toFixed(1)}</span>
                 <span className="roster__level">{t.grades[score.grade]}</span>
               </div>
-              <ul style={{ listStyle: "none", margin: "6px 0 0", padding: 0 }}>
+              <ul className="plain-list" style={{ marginTop: "var(--space-sm)" }}>
                 {score.laws.map((law) => (
                   <li key={law.id} className="standings__detail">
                     {law.passed ? "✓" : "✗"} {law.id} {t.laws[law.id]}
@@ -94,7 +94,7 @@ export function AdjustSchedule({ config, playerCount, maxCourts, usingSuggestion
                   </li>
                 ))}
               </ul>
-              <p className="standings__detail" style={{ marginTop: 6 }}>
+              <p className="standings__detail" style={{ marginTop: "var(--space-sm)" }}>
                 {t.setup.diagnostics(
                   score.diagnostics.maxPartnerRepeat,
                   score.diagnostics.maxConsecutiveOpponentStreak,
