@@ -337,7 +337,8 @@ email_optional = false
 
 # Organiser sign-in. Create a Google OAuth client (web application) in the
 # Google Cloud console with redirect URI http://127.0.0.1:54321/auth/v1/callback
-# and export both variables before `pnpm db:start`.
+# and put both values in `supabase/.env` (git-ignored; see supabase/.env.example).
+# `pnpm db:start` and `pnpm db:reset` load that file before running the CLI.
 [auth.external.google]
 enabled = true
 client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
