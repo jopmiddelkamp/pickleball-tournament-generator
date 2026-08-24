@@ -26,9 +26,12 @@ export function OrganiserHeader({ logoutAction }: { logoutAction: () => Promise<
       <Link href="/organiser/event" className="app__title">
         {t.title[0]} <span>{t.title[1]}</span>
       </Link>
-      <button type="button" className="menu__toggle" aria-label={t.menu} aria-expanded={open} onClick={() => setOpen(!open)}>
-        <BurgerIcon />
-      </button>
+      <div className="app__side">
+        <LanguageSelect className="app__flag" />
+        <button type="button" className="menu__toggle" aria-label={t.menu} aria-expanded={open} onClick={() => setOpen(!open)}>
+          <BurgerIcon />
+        </button>
+      </div>
       {open ? (
         <>
           <button type="button" className="menu__backdrop" aria-label={t.dismiss} onClick={() => setOpen(false)} />
@@ -36,10 +39,6 @@ export function OrganiserHeader({ logoutAction }: { logoutAction: () => Promise<
             <Link href="/organiser/event" className="menu__item" onClick={() => setOpen(false)}>
               {t.organiser.heading}
             </Link>
-            <div className="menu__row">
-              <span>{t.language}</span>
-              <LanguageSelect className="app__language" />
-            </div>
             <form action={logoutAction}>
               <button type="submit" className="menu__item menu__item--full">
                 {t.auth.logout}
