@@ -97,11 +97,15 @@ select {
 
 /* The language picker sits in the header, so it wears the header's colours. */
 .app__language {
-  background: rgba(243, 244, 238, 0.1);
+  appearance: none;
+  background-color: rgba(243, 244, 238, 0.1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23F3F4EE' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
   color: var(--paper);
   border: 1px solid rgba(243, 244, 238, 0.3);
   border-radius: var(--radius-sm);
-  padding: 4px 6px;
+  padding: 4px 24px 4px 8px;
   font-size: 16px;
   line-height: 1;
   max-width: 110px;
