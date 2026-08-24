@@ -37,6 +37,12 @@ describe("tournamentStatus", () => {
       }),
     ).toBe("finished");
   });
+
+  it("does not report live without a schedule, even if roundsStarted was left set", () => {
+    expect(
+      tournamentStatus({ registrationClosedAt: new Date(), schedule: null, roundsStarted: 2, finishedAt: null }),
+    ).toBe("closed");
+  });
 });
 
 describe("effectiveConfig", () => {

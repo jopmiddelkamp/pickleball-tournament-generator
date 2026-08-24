@@ -22,7 +22,7 @@ export function tournamentStatus(t: {
   finishedAt: Date | null;
 }): TournamentStatus {
   if (t.finishedAt != null) return "finished";
-  if (t.roundsStarted > 0) return "live";
+  if (t.schedule != null && t.roundsStarted > 0) return "live";
   if (t.schedule != null) return "generated";
   return t.registrationClosedAt ? "closed" : "open";
 }
