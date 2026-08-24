@@ -245,7 +245,7 @@ export const en = {
     spots: (confirmed: number, cap: number, waiting: number) =>
       waiting > 0 ? `${confirmed} of ${cap} places taken · ${waiting} waiting` : `${confirmed} of ${cap} places taken`,
     registerHeading: "Play along?",
-    registerLede: "Fill in your name once; this phone remembers you.",
+    registerLede: "Fill in your name once; this phone remembers you. Once you're in, you can add a +1.",
     register: "Sign me up",
     waitlistWarning: "The event is full — you would join the waiting list and move up when someone cancels.",
     youAreIn: "You're in!",
