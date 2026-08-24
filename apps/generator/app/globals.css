@@ -95,26 +95,6 @@ select {
   font-variant-numeric: tabular-nums;
 }
 
-/* The language picker sits in the header, so it wears the header's colours. */
-.app__language {
-  appearance: none;
-  background-color: rgba(243, 244, 238, 0.1);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23F3F4EE' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  color: var(--paper);
-  border: 1px solid rgba(243, 244, 238, 0.3);
-  border-radius: var(--radius-sm);
-  padding: 4px 24px 4px 8px;
-  font-size: 16px;
-  line-height: 1;
-  max-width: 110px;
-}
-
-.app__language option {
-  color: var(--ink);
-}
-
 .app__main {
   flex: 1;
   padding: var(--space-lg) var(--space-lg) calc(var(--tab-bar-height) + var(--space-xl));
@@ -265,48 +245,37 @@ a.button {
   position: relative;
 }
 
-/* The language select as a round flag chip beside the menu toggle. */
-.app__flag {
-  appearance: none;
+/* Header chips: the flag select and the menu toggle, on the page's paper. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 34px;
   height: 30px;
-  border: 1px solid rgba(243, 244, 238, 0.45);
+  flex-shrink: 0;
+  border: 0;
   border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--court-deep);
+  cursor: pointer;
+}
+
+.chip:hover,
+.chip[aria-expanded="true"] {
+  background: var(--paper-edge);
+}
+
+.chip--select {
+  appearance: none;
+  padding: 0;
   font-size: 14px;
   line-height: 30px;
   text-align: center;
   text-align-last: center;
-  padding: 0;
-  cursor: pointer;
 }
 
-.app__flag:hover {
-  background: rgba(243, 244, 238, 0.12);
-}
-
-.app__flag option {
+.chip--select option {
   color: var(--ink);
-}
-
-.menu__toggle {
-  width: 34px;
-  height: 30px;
-  flex-shrink: 0;
-  border: 1px solid rgba(243, 244, 238, 0.45);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--paper);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.menu__toggle:hover,
-.menu__toggle[aria-expanded="true"] {
-  background: rgba(243, 244, 238, 0.12);
 }
 
 .menu__backdrop {

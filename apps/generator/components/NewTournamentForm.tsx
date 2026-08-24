@@ -10,6 +10,7 @@ import { useLocale } from "../lib/i18n/useLocale";
 import { useTzOffset } from "../lib/useTzOffset";
 import { DateTimeField } from "./DateTimeField";
 import { PlayStyleFields } from "./PlayStyleFields";
+import { Segmented } from "./Segmented";
 import { Notice } from "./ui";
 
 const COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
@@ -54,35 +55,11 @@ export function NewTournamentForm({ defaults }: { defaults: EventDefaults | null
         </div>
         <div>
           <span className="label" id="courts-label">{t.organiser.form.maxCourts}</span>
-          <div className="segmented" role="group" aria-labelledby="courts-label">
-            {COURT_OPTIONS.map((n) => (
-              <button
-                key={n}
-                type="button"
-                className="segmented__option"
-                aria-pressed={courts === n}
-                onClick={() => setCourts(n)}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
+          <Segmented options={COURT_OPTIONS} value={courts} onChange={setCourts} labelledBy="courts-label" />
         </div>
         <div>
           <span className="label" id="per-court-label">{t.organiser.form.perCourt}</span>
-          <div className="segmented" role="group" aria-labelledby="per-court-label">
-            {PER_COURT_OPTIONS.map((n) => (
-              <button
-                key={n}
-                type="button"
-                className="segmented__option"
-                aria-pressed={perCourt === n}
-                onClick={() => setPerCourt(n)}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
+          <Segmented options={PER_COURT_OPTIONS} value={perCourt} onChange={setPerCourt} labelledBy="per-court-label" />
           <p className="standings__detail">{t.organiser.form.capacity(courts, maxPlayersFor(courts, perCourt))}</p>
         </div>
         <PlayStyleFields initialGameTarget={defaults?.gameTarget ?? 11} initialAlgorithmId={defaults?.algorithmId ?? "greedy"} />

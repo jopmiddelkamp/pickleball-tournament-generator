@@ -4,6 +4,7 @@ import { playingCapacity, type AlgorithmScore, type TournamentConfig } from "@pt
 import { useLocale } from "../lib/i18n/useLocale";
 import { LIMITS, maxRestSlots } from "../lib/config";
 import { EmptyState } from "./ui";
+import { Segmented } from "./Segmented";
 
 const ALL_COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
 
@@ -49,19 +50,7 @@ export function SetupScreen({
           <span className="label" id="courts-label">
             {t.setup.courts}
           </span>
-          <div className="segmented" role="group" aria-labelledby="courts-label">
-            {courtOptions.map((courts) => (
-              <button
-                key={courts}
-                type="button"
-                className="segmented__option"
-                aria-pressed={config.courts === courts}
-                onClick={() => onConfigChange({ courts })}
-              >
-                {courts}
-              </button>
-            ))}
-          </div>
+          <Segmented options={courtOptions} value={config.courts} onChange={(courts) => onConfigChange({ courts })} labelledBy="courts-label" />
         </div>
 
         <div className="row">

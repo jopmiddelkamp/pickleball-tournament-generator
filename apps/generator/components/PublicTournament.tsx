@@ -8,6 +8,7 @@ import { useLocale } from "../lib/i18n/useLocale";
 import type { PublicView } from "../lib/public";
 import { LanguageSelect } from "./LanguageSelect";
 import { PublicRegisterForm } from "./PublicRegisterForm";
+import { Segmented } from "./Segmented";
 import { RoundView } from "./RoundView";
 import { StandingsScreen } from "./StandingsScreen";
 import { Notice } from "./ui";
@@ -50,7 +51,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
         <h1 className="app__title">
           {t.title[0]} <span>{t.title[1]}</span>
         </h1>
-        <LanguageSelect className="app__language" />
+        <LanguageSelect />
       </header>
       <div className="app__main">
         <h2 className="screen__heading">{view.name}</h2>
@@ -164,24 +165,13 @@ export function PublicTournament({ view }: { view: PublicView }) {
 
             {view.status === "live" && liveRound && night ? (
               <>
-                <div className="segmented" role="group" aria-label={t.sections}>
-                  <button
-                    type="button"
-                    className="segmented__option"
-                    aria-pressed={tab === "now"}
-                    onClick={() => setTab("now")}
-                  >
-                    {t.public.tabs.now}
-                  </button>
-                  <button
-                    type="button"
-                    className="segmented__option"
-                    aria-pressed={tab === "standings"}
-                    onClick={() => setTab("standings")}
-                  >
-                    {t.public.tabs.standings}
-                  </button>
-                </div>
+                <Segmented
+                  options={["now", "standings"] as const}
+                  value={tab}
+                  onChange={setTab}
+                  format={(option) => t.public.tabs[option]}
+                  label={t.sections}
+                />
 
                 {tab === "now" ? (
                   <RoundView

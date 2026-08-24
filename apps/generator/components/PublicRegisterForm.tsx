@@ -5,10 +5,10 @@ import { useActionState, useState } from "react";
 import { addGuestAction, registerAction } from "../lib/actions/public";
 import { INITIAL_PUBLIC_STATE } from "../lib/actions/publicState";
 import { LIMITS } from "../lib/config";
+import { LevelPicker } from "./LevelPicker";
+import { Segmented } from "./Segmented";
 import { useLocale } from "../lib/i18n/useLocale";
 import { Notice } from "./ui";
-
-const LEVELS: Level[] = [1, 2, 3, 4, 5, 6];
 
 interface GuestDraft {
   key: number;
@@ -80,19 +80,13 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
           <span className="label" id="public-gender-label">
             {t.roster.playsAs}
           </span>
-          <div className="segmented" role="group" aria-labelledby="public-gender-label">
-            {(["F", "M"] as const).map((option) => (
-              <button
-                key={option}
-                type="button"
-                className="segmented__option"
-                aria-pressed={gender === option}
-                onClick={() => setGender(option)}
-              >
-                {t.gender[option]}
-              </button>
-            ))}
-          </div>
+          <Segmented
+            options={["F", "M"] as const}
+            value={gender}
+            onChange={setGender}
+            format={(option) => t.gender[option]}
+            labelledBy="public-gender-label"
+          />
           <input type="hidden" name="gender" value={gender} />
         </div>
 
@@ -100,19 +94,7 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
           <span className="label" id="public-level-label">
             {t.roster.level}
           </span>
-          <div className="levels" role="group" aria-labelledby="public-level-label">
-            {LEVELS.map((option) => (
-              <button
-                key={option}
-                type="button"
-                className="levels__option"
-                aria-pressed={level === option}
-                onClick={() => setLevel(option)}
-              >
-                {t.levels[option]}
-              </button>
-            ))}
-          </div>
+          <LevelPicker value={level} onChange={setLevel} labelledBy="public-level-label" />
           <input type="hidden" name="level" value={level} />
         </div>
 
@@ -137,32 +119,18 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
               value={draft.name}
               onChange={(e) => patchGuest(draft.key, { name: e.target.value })}
             />
-            <div className="segmented" role="group" aria-label={t.roster.playsAs}>
-              {(["F", "M"] as const).map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  className="segmented__option"
-                  aria-pressed={draft.gender === option}
-                  onClick={() => patchGuest(draft.key, { gender: option })}
-                >
-                  {t.gender[option]}
-                </button>
-              ))}
-            </div>
-            <div className="levels" role="group" aria-label={t.roster.level}>
-              {LEVELS.map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  className="levels__option"
-                  aria-pressed={draft.level === option}
-                  onClick={() => patchGuest(draft.key, { level: option })}
-                >
-                  {t.levels[option]}
-                </button>
-              ))}
-            </div>
+            <Segmented
+              options={["F", "M"] as const}
+              value={draft.gender}
+              onChange={(option) => patchGuest(draft.key, { gender: option })}
+              format={(option) => t.gender[option]}
+              label={t.roster.playsAs}
+            />
+            <LevelPicker
+              value={draft.level}
+              onChange={(option) => patchGuest(draft.key, { level: option })}
+              label={t.roster.level}
+            />
             <input type="hidden" name={`guestGender_${index}`} value={draft.gender} />
             <input type="hidden" name={`guestLevel_${index}`} value={draft.level} />
           </div>

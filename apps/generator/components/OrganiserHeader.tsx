@@ -27,8 +27,8 @@ export function OrganiserHeader({ logoutAction }: { logoutAction: () => Promise<
         {t.title[0]} <span>{t.title[1]}</span>
       </Link>
       <div className="app__side">
-        <LanguageSelect className="app__flag" />
-        <button type="button" className="menu__toggle" aria-label={t.menu} aria-expanded={open} onClick={() => setOpen(!open)}>
+        <LanguageSelect />
+        <button type="button" className="chip" aria-label={t.menu} aria-expanded={open} onClick={() => setOpen(!open)}>
           <BurgerIcon />
         </button>
       </div>

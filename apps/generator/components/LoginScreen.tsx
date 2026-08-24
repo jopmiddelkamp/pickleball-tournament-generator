@@ -23,7 +23,7 @@ export function LoginScreen({ failed }: { failed: boolean }) {
         <h1 className="app__title">
           {t.title[0]} <span>{t.title[1]}</span>
         </h1>
-        <LanguageSelect className="app__language" />
+        <LanguageSelect />
       </header>
       <div className="app__main">
         <h2 className="screen__heading">{t.auth.loginHeading}</h2>
