@@ -22,6 +22,33 @@ export async function createTournamentAction(_prev: CreateTournamentState, formD
   redirect(`/organiser/event/${created.id}`);
 }
 
+export async function updateEventDetailsAction(
+  id: string,
+  _prev: CreateTournamentState,
+  formData: FormData,
+): Promise<CreateTournamentState> {
+  const owner = await loadOwnedWorkspace(id);
+  const input = parseTournamentForm(formData);
+  if (!input) return { error: "invalid" };
+  // Capacity is frozen together with the roster once a schedule exists; the
+  // form disables those fields, so a change arriving here is stale.
+  const scheduleStored = owner.tournament.schedule != null;
+  if (
+    scheduleStored &&
+    (input.maxCourts !== owner.tournament.maxCourts || input.playersPerCourt !== owner.tournament.playersPerCourt)
+  ) {
+    return { error: "invalid" };
+  }
+  await updateTournament(owner.organiserId, owner.tournament.id, {
+    name: input.name,
+    startsAt: input.startsAt,
+    ...(scheduleStored ? {} : { maxCourts: input.maxCourts, playersPerCourt: input.playersPerCourt }),
+  });
+  revalidatePath(`/organiser/event/${owner.tournament.id}`);
+  revalidatePath(`/event/${owner.tournament.slug}`);
+  return { error: null };
+}
+
 /** Ownership check shared by every workspace action; a stranger's id is a 404. */
 async function owned(id: string): Promise<OwnedWorkspace> {
   return loadOwnedWorkspace(id);

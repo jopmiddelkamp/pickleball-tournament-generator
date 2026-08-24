@@ -210,6 +210,15 @@ export const es: Messages = {
       create: "Crear evento",
       invalid: "Revisa los campos: un nombre, una fecha y de 1 a 6 pistas.",
     },
+    edit: {
+      open: "Editar",
+      heading: "Editar evento",
+      save: "Guardar cambios",
+      cancel: "Cancelar",
+      signedUp: (n) => `Ya hay ${n} inscritos.`,
+      demote: (n) => (n === 1 ? "1 inscrito pasaría a la lista de espera." : `${n} inscritos pasarían a la lista de espera.`),
+      frozen: "El calendario está generado — descártalo en la pestaña de configuración para cambiar pistas o plazas.",
+    },
   },
 
   workspace: {

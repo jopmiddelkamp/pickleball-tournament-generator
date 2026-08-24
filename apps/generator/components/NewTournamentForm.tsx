@@ -1,11 +1,12 @@
 "use client";
 
 import { MAX_PLAYERS_PER_COURT, MIN_PLAYERS_PER_COURT, PLAYERS_PER_COURT, maxPlayersFor } from "@ptg/core";
-import { useActionState, useState, useSyncExternalStore } from "react";
+import { useActionState, useState } from "react";
 import { createTournamentAction } from "../lib/actions/tournaments";
 import { INITIAL_CREATE_STATE } from "../lib/actions/tournamentState";
 import { LIMITS } from "../lib/config";
 import { useLocale } from "../lib/i18n/useLocale";
+import { useTzOffset } from "../lib/useTzOffset";
 import { DateTimeField } from "./DateTimeField";
 import { Notice } from "./ui";
 
@@ -15,25 +16,10 @@ const PER_COURT_OPTIONS = Array.from(
   (_, i) => MIN_PLAYERS_PER_COURT + i,
 );
 
-function noopSubscribe(): () => void {
-  return () => {};
-}
-
-function getTzOffset(): number {
-  return new Date().getTimezoneOffset();
-}
-
-function getServerTzOffset(): number {
-  return 0;
-}
-
 export function NewTournamentForm() {
   const { t } = useLocale();
   const [state, formAction, pending] = useActionState(createTournamentAction, INITIAL_CREATE_STATE);
-  // The browser's zone, so "19:30" means 19:30 where the organiser is. The server
-  // renders 0 (UTC); the client snapshot corrects it after mount, so SSR and the
-  // hydrated markup agree before the correction lands.
-  const tzOffset = useSyncExternalStore(noopSubscribe, getTzOffset, getServerTzOffset);
+  const tzOffset = useTzOffset();
   const [courts, setCourts] = useState(4);
   const [perCourt, setPerCourt] = useState<number>(PLAYERS_PER_COURT);
 

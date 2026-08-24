@@ -210,6 +210,15 @@ export const vi: Messages = {
       create: "Tạo sự kiện",
       invalid: "Kiểm tra các trường: tên, ngày, và 1–6 sân.",
     },
+    edit: {
+      open: "Sửa",
+      heading: "Sửa sự kiện",
+      save: "Lưu thay đổi",
+      cancel: "Hủy",
+      signedUp: (n) => `Đã có ${n} người đăng ký.`,
+      demote: (n) => `${n} người đã đăng ký sẽ chuyển xuống danh sách chờ.`,
+      frozen: "Lịch thi đấu đã được tạo — hãy hủy lịch ở mục Thiết lập để đổi số sân hoặc số chỗ.",
+    },
   },
 
   workspace: {

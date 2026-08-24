@@ -209,6 +209,15 @@ export const ko: Messages = {
       create: "이벤트 만들기",
       invalid: "다음 항목을 확인하세요: 이름, 날짜, 코트 1~6개.",
     },
+    edit: {
+      open: "수정",
+      heading: "이벤트 수정",
+      save: "변경 저장",
+      cancel: "취소",
+      signedUp: (n) => `이미 ${n}명이 등록했습니다.`,
+      demote: (n) => `등록된 ${n}명이 대기 명단으로 이동합니다.`,
+      frozen: "일정이 이미 생성되었습니다. 코트 수나 인원을 바꾸려면 설정 탭에서 일정을 삭제하세요.",
+    },
   },
 
   workspace: {

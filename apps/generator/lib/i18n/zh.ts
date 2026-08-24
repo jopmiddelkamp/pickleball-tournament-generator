@@ -208,6 +208,15 @@ export const zh: Messages = {
       create: "创建活动",
       invalid: "请检查以下字段：名称、日期、以及 1–6 片场地。",
     },
+    edit: {
+      open: "编辑",
+      heading: "编辑活动",
+      save: "保存更改",
+      cancel: "取消",
+      signedUp: (n) => `已有 ${n} 人报名。`,
+      demote: (n) => `${n} 位已报名的选手将移入候补名单。`,
+      frozen: "赛程已生成——要修改场地或名额，请先在设置页丢弃赛程。",
+    },
   },
 
   workspace: {

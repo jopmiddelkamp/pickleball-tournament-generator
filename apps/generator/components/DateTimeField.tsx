@@ -42,6 +42,18 @@ function getServerStart(): null {
   return null;
 }
 
+/** Cached per ISO string so useSyncExternalStore sees stable snapshots. */
+const parsedInitials = new Map<string, Date>();
+
+function getInitial(iso: string): Date {
+  let d = parsedInitials.get(iso);
+  if (!d) {
+    d = new Date(iso);
+    parsedInitials.set(iso, d);
+  }
+  return d;
+}
+
 function sameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 }
@@ -66,9 +78,9 @@ function CalendarGlyph() {
  * popup cannot be themed, so the calendar and time pills are our own. Posts
  * the same value format through a hidden input.
  */
-export function DateTimeField({ id, name }: { id: string; name: string }) {
+export function DateTimeField({ id, name, initial }: { id: string; name: string; initial?: string }) {
   const { t, locale } = useLocale();
-  const fallback = useSyncExternalStore(noopSubscribe, getDefaultStart, getServerStart);
+  const fallback = useSyncExternalStore(noopSubscribe, () => (initial ? getInitial(initial) : getDefaultStart()), getServerStart);
   const [picked, setPicked] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<{ year: number; month: number } | null>(null);

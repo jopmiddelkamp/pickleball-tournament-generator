@@ -53,6 +53,7 @@ export interface WorkspaceView {
   registrationOpen: boolean;
   maxPlayers: number;
   maxCourts: number;
+  playersPerCourt: number;
   roundsStarted: number;
   confirmed: Player[];
   waiting: Player[];
@@ -98,6 +99,7 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
     registrationOpen: tournament.registrationClosedAt === null,
     maxPlayers,
     maxCourts: tournament.maxCourts,
+    playersPerCourt: tournament.playersPerCourt,
     roundsStarted: tournament.roundsStarted,
     confirmed: players,
     waiting: waiting.map(toPlayer),

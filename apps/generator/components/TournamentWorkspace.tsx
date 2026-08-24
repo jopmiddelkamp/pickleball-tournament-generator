@@ -20,6 +20,7 @@ import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
 import { CopyEventLink } from "./CopyEventLink";
+import { EditEventForm } from "./EditEventForm";
 import { RosterScreen } from "./RosterScreen";
 import { ScheduleScreen } from "./ScheduleScreen";
 import { SetupScreen } from "./SetupScreen";
@@ -30,6 +31,7 @@ import { Notice } from "./ui";
 export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
   const { t } = useLocale();
   const [tab, setTab] = useState<Tab>(view.status === "finished" ? "standings" : view.schedule ? "schedule" : "roster");
+  const [editing, setEditing] = useState(false);
   const [error, setError] = useState<ActionError | null>(null);
   const [, startTransition] = useTransition();
   // Score entry is per keystroke; show it immediately, the server confirms.
@@ -65,8 +67,21 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
     <>
       <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
         <h2 className="screen__heading">{view.name}</h2>
-        <CopyEventLink slug={view.slug} />
+        <div className="row">
+          <button type="button" className="button button--quiet button--small" onClick={() => setEditing(!editing)}>
+            {t.organiser.edit.open}
+          </button>
+          <CopyEventLink slug={view.slug} />
+        </div>
       </div>
+      {editing ? (
+        <EditEventForm
+          view={view}
+          registered={view.confirmed.length + view.waiting.length}
+          frozen={scheduleStored}
+          onClose={() => setEditing(false)}
+        />
+      ) : null}
       {view.notice ? <Notice tone="warn">{t.workspace.unreadable}</Notice> : null}
       {error ? (
         <Notice tone="warn" onDismiss={() => setError(null)}>
@@ -74,7 +89,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
         </Notice>
       ) : null}
 
-      {tab === "roster" ? (
+      {!editing && tab === "roster" ? (
         <RosterScreen
           confirmed={view.confirmed}
           waiting={view.waiting}
@@ -88,7 +103,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
         />
       ) : null}
 
-      {tab === "setup" ? (
+      {!editing && tab === "setup" ? (
         <SetupScreen
           config={view.config}
           playerCount={players.length}
@@ -109,7 +124,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
         />
       ) : null}
 
-      {tab === "schedule" ? (
+      {!editing && tab === "schedule" ? (
         <ScheduleScreen
           // Remount when a new round starts: roundIndex is seeded once from useState and
           // otherwise never follows roundsStarted, so without this the screen would stay

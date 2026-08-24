@@ -11,6 +11,10 @@ const SLUG = /^[A-Za-z0-9_-]{1,32}$/;
 export type TournamentPatch = Partial<
   Pick<
     NewTournament,
+    | "name"
+    | "startsAt"
+    | "maxCourts"
+    | "playersPerCourt"
     | "courts"
     | "restSlots"
     | "rounds"

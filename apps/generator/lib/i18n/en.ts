@@ -225,6 +225,15 @@ export const en = {
       create: "Create event",
       invalid: "Check the fields: a name, a date, and 1–6 courts.",
     },
+    edit: {
+      open: "Edit",
+      heading: "Edit event",
+      save: "Save changes",
+      cancel: "Cancel",
+      signedUp: (n: number) => `${n} already signed up.`,
+      demote: (n: number) => `${n} signed-up ${n === 1 ? "player" : "players"} would drop to the waiting list.`,
+      frozen: "The schedule is generated — discard it on the Set up tab to change courts or spots.",
+    },
   },
 
   workspace: {
