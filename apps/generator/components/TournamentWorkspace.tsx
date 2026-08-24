@@ -56,6 +56,9 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
   }
 
   const generateBlocker = view.registrationOpen ? "open" : players.length < 4 ? "players" : null;
+  // Derived from the raw column via view.status, not the parsed view.schedule: an unreadable
+  // schedule still needs to freeze the roster and offer Discard, so the organiser has a way out.
+  const scheduleStored = view.status === "generated" || view.status === "live" || view.status === "finished";
 
   return (
     <>
@@ -73,7 +76,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           waiting={view.waiting}
           maxPlayers={view.maxPlayers}
           registrationOpen={view.registrationOpen}
-          frozen={view.schedule !== null}
+          frozen={scheduleStored}
           onAdd={(player) => run(() => addWalkInAction(view.id, player))}
           onRemove={(id) => run(() => removeRegistrationAction(view.id, id))}
           onToggleRegistration={(open) => run(() => setRegistrationOpenAction(view.id, open))}
@@ -90,7 +93,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           gameTarget={view.gameTarget}
           score={score}
           generateBlocker={generateBlocker}
-          hasSchedule={view.schedule !== null}
+          hasSchedule={scheduleStored}
           onConfigChange={(change) => run(() => updateSetupAction(view.id, change))}
           onUseSuggestion={() => run(() => updateSetupAction(view.id, { useSuggestion: true }))}
           onAlgorithmChange={(algorithmId) => run(() => updateSetupAction(view.id, { algorithmId }))}
