@@ -7,6 +7,11 @@ email + password. There is no sign-up page and no confirmation email, so no
 SMTP provider is needed; the first Google sign-in creates the account. Where
 this document says email + password, read Google sign-in.
 
+Amended 2026-08-24 (later the same day): capacity is five per court — four
+playing, one resting — so 4 courts confirm 20 players, not 24. Everyone
+plays about four fifths of the rounds, matching how the club ran evenings
+before. Where this document derives capacity from six per court, read five.
+
 ## Goal
 
 An organiser creates a tournament evening and shares one URL in the club's

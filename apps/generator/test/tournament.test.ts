@@ -114,10 +114,10 @@ describe("buildWorkspaceView", () => {
     const view = buildWorkspaceView(t, registrations);
     expect(view.status).toBe("open");
     expect(view.maxPlayers).toBe(maxPlayersFor(t.maxCourts));
-    expect(view.confirmed.map((p) => p.id)).toEqual(["p1", "p2", "p3", "p4", "p5", "p6"]);
-    expect(view.waiting.map((p) => p.id)).toEqual(["p7"]);
+    expect(view.confirmed.map((p) => p.id)).toEqual(["p1", "p2", "p3", "p4", "p5"]);
+    expect(view.waiting.map((p) => p.id)).toEqual(["p6", "p7"]);
     expect(view.usingSuggestion).toBe(true);
-    expect(view.config).toEqual(effectiveConfig(t, 6));
+    expect(view.config).toEqual(effectiveConfig(t, 5));
     expect(view.schedule).toBeNull();
     expect(view.games).toEqual([]);
     expect(view.notice).toBeNull();
