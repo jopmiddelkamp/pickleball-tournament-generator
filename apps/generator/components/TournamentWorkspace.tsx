@@ -2,7 +2,7 @@
 
 import { computeNightPoints, scoreSchedule, type GameResult, type Player } from "@ptg/core";
 import { useMemo, useOptimistic, useState, useTransition } from "react";
-import { addWalkInAction, removeRegistrationAction, setRegistrationOpenAction } from "../lib/actions/registrations";
+import { removeRegistrationAction, setRegistrationOpenAction } from "../lib/actions/registrations";
 import type { ActionError, ActionResult } from "../lib/actions/result";
 import {
   discardScheduleAction,
@@ -97,7 +97,6 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           guestHosts={view.guestHosts}
           registrationOpen={view.registrationOpen}
           frozen={scheduleStored}
-          onAdd={(player) => run(() => addWalkInAction(view.id, player))}
           onRemove={(id) => run(() => removeRegistrationAction(view.id, id))}
           onToggleRegistration={(open) => run(() => setRegistrationOpenAction(view.id, open))}
         />

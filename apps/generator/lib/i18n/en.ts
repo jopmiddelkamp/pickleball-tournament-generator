@@ -44,8 +44,6 @@ export const en = {
     namePlaceholder: "Add a player",
     playsAs: "Plays as",
     level: "Level",
-    add: "Add player",
-    full: (max: number) => `The roster is full at ${max} players.`,
     count: (players: number, men: number, women: number) =>
       `${players === 1 ? "player" : "players"} · ${men} m · ${women} w`,
     empty: "No one on the list yet. Add the first player above.",
@@ -59,7 +57,6 @@ export const en = {
     registrationClosed: "Registration is closed",
     closeRegistration: "Close registration",
     openRegistration: "Reopen registration",
-    walkIn: "Add a walk-in",
   },
 
   setup: {

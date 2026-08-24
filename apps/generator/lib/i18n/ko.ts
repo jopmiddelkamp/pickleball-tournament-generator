@@ -34,8 +34,6 @@ export const ko: Messages = {
     namePlaceholder: "참가자 추가",
     playsAs: "성별",
     level: "레벨",
-    add: "참가자 추가",
-    full: (max) => `명단이 가득 찼습니다. 최대 ${max}명입니다.`,
     count: (_players, men, women) => `명 · 남 ${men} · 여 ${women}`,
     empty: "아직 아무도 없습니다. 위에서 첫 참가자를 추가하세요.",
     remove: "삭제",
@@ -48,7 +46,6 @@ export const ko: Messages = {
     registrationClosed: "등록이 마감되었습니다",
     closeRegistration: "등록 마감",
     openRegistration: "등록 다시 열기",
-    walkIn: "현장 참가자 추가",
   },
 
   setup: {

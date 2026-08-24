@@ -34,8 +34,6 @@ export const es: Messages = {
     namePlaceholder: "Añadir jugador",
     playsAs: "Juega como",
     level: "Nivel",
-    add: "Añadir jugador",
-    full: (max) => `La lista está completa con ${max} jugadores.`,
     count: (players, men, women) => `${players === 1 ? "jugador" : "jugadores"} · ${men} h · ${women} m`,
     empty: "Todavía no hay nadie en la lista. Añade al primer jugador arriba.",
     remove: "Quitar",
@@ -48,7 +46,6 @@ export const es: Messages = {
     registrationClosed: "La inscripción está cerrada",
     closeRegistration: "Cerrar inscripción",
     openRegistration: "Reabrir inscripción",
-    walkIn: "Añadir un jugador de última hora",
   },
 
   setup: {

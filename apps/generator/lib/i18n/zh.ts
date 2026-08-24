@@ -35,8 +35,6 @@ export const zh: Messages = {
     namePlaceholder: "添加球员",
     playsAs: "性别",
     level: "级别",
-    add: "添加球员",
-    full: (max) => `名单已满，最多 ${max} 人。`,
     count: (_players, men, women) => `人 · 男 ${men} · 女 ${women}`,
     empty: "名单还是空的。请在上方添加第一位球员。",
     remove: "移除",
@@ -49,7 +47,6 @@ export const zh: Messages = {
     registrationClosed: "报名已关闭",
     closeRegistration: "关闭报名",
     openRegistration: "重新开放报名",
-    walkIn: "添加现场球员",
   },
 
   setup: {

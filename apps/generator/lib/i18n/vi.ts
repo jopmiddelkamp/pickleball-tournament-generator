@@ -34,8 +34,6 @@ export const vi: Messages = {
     namePlaceholder: "Thêm người chơi",
     playsAs: "Giới tính",
     level: "Trình độ",
-    add: "Thêm người chơi",
-    full: (max) => `Danh sách đã đầy, tối đa ${max} người.`,
     count: (_players, men, women) => `người chơi · ${men} nam · ${women} nữ`,
     empty: "Chưa có ai trong danh sách. Hãy thêm người chơi đầu tiên ở trên.",
     remove: "Xóa",
@@ -48,7 +46,6 @@ export const vi: Messages = {
     registrationClosed: "Đã đóng đăng ký",
     closeRegistration: "Đóng đăng ký",
     openRegistration: "Mở lại đăng ký",
-    walkIn: "Thêm người chơi vãng lai",
   },
 
   setup: {

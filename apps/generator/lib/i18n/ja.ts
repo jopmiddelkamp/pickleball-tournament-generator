@@ -34,8 +34,6 @@ export const ja: Messages = {
     namePlaceholder: "プレーヤーを追加",
     playsAs: "性別",
     level: "レベル",
-    add: "プレーヤーを追加",
-    full: (max) => `名簿は ${max} 人で満員です。`,
     count: (_players, men, women) => `人 · 男性 ${men} · 女性 ${women}`,
     empty: "まだ誰もいません。上から最初のプレーヤーを追加してください。",
     remove: "削除",
@@ -48,7 +46,6 @@ export const ja: Messages = {
     registrationClosed: "受付を締め切りました",
     closeRegistration: "受付を締め切る",
     openRegistration: "受付を再開する",
-    walkIn: "飛び入り参加者を追加",
   },
 
   setup: {
