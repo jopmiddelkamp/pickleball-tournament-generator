@@ -27,7 +27,7 @@ The generator's visual language is a Material 3 -shaped token system: `apps/gene
 
 ## Commands
 
-`pnpm test`, `pnpm typecheck`, `pnpm lint` at the root; CI runs the same three.
+`pnpm test`, `pnpm typecheck`, `pnpm lint` at the root; CI runs the same three. Production is a manual Vercel CLI upload, not a Git integration — pushing to `master` deploys nothing; the `deploy` skill has the procedure.
 
 ## Easy to get wrong
 
