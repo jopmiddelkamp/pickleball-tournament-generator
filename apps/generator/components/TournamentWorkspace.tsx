@@ -66,6 +66,7 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
 
   return (
     <>
+      <TabBar active={tab} onChange={setTab} tabs={visibleTabs} />
       <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
         <h2 className="screen__heading">{view.name}</h2>
         <div className="row">
@@ -185,8 +186,6 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
       {tab === "standings" && features.scoreEntry ? (
         <StandingsScreen night={night} players={players} hasSchedule={view.schedule !== null} />
       ) : null}
-
-      <TabBar active={tab} onChange={setTab} tabs={visibleTabs} />
     </>
   );
 }

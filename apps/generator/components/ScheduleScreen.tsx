@@ -167,7 +167,8 @@ export function ScheduleScreen({
         </div>
       ) : null}
 
-      {round.matches.map((match) => (
+      <div className="courts">
+        {round.matches.map((match) => (
         <CourtCard
           key={match.court}
           match={match}
@@ -183,7 +184,8 @@ export function ScheduleScreen({
             : {})}
           {...(swapMode ? { selectedPlayerId: selected, onSelectPlayer: handleSelect } : {})}
         />
-      ))}
+        ))}
+      </div>
 
       {round.resting.length > 0 ? (
         <div className="bench">

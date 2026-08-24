@@ -29,7 +29,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
       {tournaments.length === 0 ? (
         <EmptyState>{t.organiser.empty}</EmptyState>
       ) : (
-        <ul style={{ listStyle: "none", margin: "22px 0 0", padding: 0 }} className="stack">
+        <ul className="cards-grid" style={{ marginTop: 22 }}>
           {tournaments.map((tournament) => (
             <li key={tournament.id} className="card">
               <div className="row" style={{ justifyContent: "space-between" }}>

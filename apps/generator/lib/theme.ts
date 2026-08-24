@@ -41,9 +41,15 @@ export const space = {
   xl: "34px",
 } as const;
 
-/** Longest layout width; the app is built for a phone held court-side. */
+/**
+ * Phone first: one column up to `maxWidth`. From `wide` up (a laptop or a
+ * desktop browser) the sheet grows to `maxWidthWide`, the tab bar moves under
+ * the header, and courts and lists lay out in grids.
+ */
 export const layout = {
   maxWidth: "460px",
+  maxWidthWide: "1120px",
+  wide: "720px",
   tabBarHeight: "62px",
 } as const;
 
@@ -70,5 +76,6 @@ export const cssVariables: Record<string, string> = {
   "--space-lg": space.lg,
   "--space-xl": space.xl,
   "--max-width": layout.maxWidth,
+  "--max-width-wide": layout.maxWidthWide,
   "--tab-bar-height": layout.tabBarHeight,
 };

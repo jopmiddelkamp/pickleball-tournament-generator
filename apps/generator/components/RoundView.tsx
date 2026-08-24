@@ -67,16 +67,18 @@ export function RoundView({
         </Notice>
       ) : null}
 
-      {round.matches.map((match) => (
-        <CourtCard
-          key={match.court}
-          match={match}
-          roundIndex={roundIndex}
-          playerById={playerById}
-          result={games.find((game) => game.round === roundIndex && game.court === match.court)}
-          selectedPlayerId={highlightId}
-        />
-      ))}
+      <div className="courts">
+        {round.matches.map((match) => (
+          <CourtCard
+            key={match.court}
+            match={match}
+            roundIndex={roundIndex}
+            playerById={playerById}
+            result={games.find((game) => game.round === roundIndex && game.court === match.court)}
+            selectedPlayerId={highlightId}
+          />
+        ))}
+      </div>
 
       {round.resting.length > 0 ? (
         <div className="bench">

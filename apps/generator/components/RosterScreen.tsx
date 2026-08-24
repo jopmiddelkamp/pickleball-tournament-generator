@@ -68,7 +68,7 @@ export function RosterScreen({
       {confirmed.length === 0 ? (
         <EmptyState>{t.roster.empty}</EmptyState>
       ) : (
-        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        <ul className="roster__list">
           {confirmed.map((player) => (
             <li key={player.id} className="roster__item">
               <GenderChip gender={player.gender} />
@@ -95,7 +95,7 @@ export function RosterScreen({
           <h3 className="screen__heading" style={{ fontSize: 18, marginTop: 24 }}>
             {t.roster.waitingHeading}
           </h3>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+          <ul className="roster__list">
             {waiting.map((player, index) => (
               <li key={player.id} className="roster__item">
                 <span className="roster__level">{t.roster.position(index + 1)}</span>

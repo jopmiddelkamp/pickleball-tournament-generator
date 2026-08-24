@@ -28,7 +28,7 @@ export function StandingsScreen({
       {!hasSchedule ? (
         <EmptyState>{t.standings.empty}</EmptyState>
       ) : (
-        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        <ul className="standings__list">
           {night.standings.map((entry) => {
             const player = playerById.get(entry.playerId);
             const parts = [t.standings.played(entry.gamesPlayed)];
