@@ -241,6 +241,12 @@ export const vi: Messages = {
     frozen: "Lịch đã được chốt. Hãy báo cho ban tổ chức nếu bạn không thể tham gia.",
     closed: "Đăng ký đã đóng.",
     fullMessage: "Đăng ký đã đóng — buổi tối đã đủ người.",
+    tabs: { now: "Đang thi đấu", standings: "Xếp hạng" },
+    round: (n) => `Vòng ${n}`,
+    yourCourt: (court, partner, a, b) => `Sân ${court} — cùng ${partner}, đấu với ${a} & ${b}`,
+    youRest: "Bạn nghỉ vòng này — quay lại ở vòng sau.",
+    finalHeading: "Bảng xếp hạng cuối cùng",
+    notStarted: "Lịch thi đấu đã sẵn sàng. Vòng đầu tiên sắp bắt đầu.",
     errors: {
       invalid: "Hãy nhập tên, và chọn cách chơi cùng trình độ của bạn.",
       closed: "Đăng ký đã đóng.",

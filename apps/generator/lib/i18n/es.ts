@@ -241,6 +241,12 @@ export const es: Messages = {
     frozen: "El calendario ya está fijado. Avisa al organizador si no puedes venir.",
     closed: "La inscripción está cerrada.",
     fullMessage: "La inscripción está cerrada — la noche está completamente llena.",
+    tabs: { now: "En juego", standings: "Ranking" },
+    round: (n) => `Ronda ${n}`,
+    yourCourt: (court, partner, a, b) => `Pista ${court} — con ${partner}, contra ${a} y ${b}`,
+    youRest: "Descansas esta ronda — vuelves en la siguiente.",
+    finalHeading: "Clasificación final",
+    notStarted: "El calendario está listo. La primera ronda empieza pronto.",
     errors: {
       invalid: "Introduce un nombre y elige cómo juegas y tu nivel.",
       closed: "La inscripción está cerrada.",

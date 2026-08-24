@@ -242,6 +242,12 @@ export const ja: Messages = {
     frozen: "スケジュールが確定しています。参加できない場合は主催者に連絡してください。",
     closed: "受付は終了しました。",
     fullMessage: "受付は終了しました——この夜の予定は満員です。",
+    tabs: { now: "進行中", standings: "順位" },
+    round: (n) => `ラウンド ${n}`,
+    yourCourt: (court, partner, a, b) => `コート ${court} — ${partner}とペア、対戦相手は${a}・${b}`,
+    youRest: "このラウンドは休憩です — 次のラウンドで復帰します。",
+    finalHeading: "最終順位",
+    notStarted: "スケジュールの準備ができました。まもなく第1ラウンドが始まります。",
     errors: {
       invalid: "名前を入力し、プレースタイルとレベルを選んでください。",
       closed: "受付は終了しました。",

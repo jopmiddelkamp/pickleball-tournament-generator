@@ -167,6 +167,16 @@ export function CourtCard({
             {t.court.void}
           </label>
         </div>
+      ) : result && !Number.isNaN(result.pointsA) && !Number.isNaN(result.pointsB) ? (
+        // Read-only view (public page, or an organiser mid-swap): the score
+        // already entered, with no input to edit it.
+        <div className="court__score">
+          <span className="court__scoreValue">{result.pointsA}</span>
+          <span className="court__scoreDash" aria-hidden="true">
+            –
+          </span>
+          <span className="court__scoreValue">{result.pointsB}</span>
+        </div>
       ) : null}
     </section>
   );

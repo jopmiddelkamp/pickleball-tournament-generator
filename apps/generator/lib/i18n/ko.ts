@@ -240,6 +240,12 @@ export const ko: Messages = {
     frozen: "일정이 확정되었습니다. 참석이 어려우면 주최자에게 알려주세요.",
     closed: "신청이 마감되었습니다.",
     fullMessage: "신청이 마감되었습니다 — 이 저녁 일정은 완전히 가득 찼습니다.",
+    tabs: { now: "진행 중", standings: "순위" },
+    round: (n) => `라운드 ${n}`,
+    yourCourt: (court, partner, a, b) => `코트 ${court} — ${partner}와 함께, 상대는 ${a} & ${b}`,
+    youRest: "이번 라운드는 휴식입니다 — 다음 라운드에 복귀합니다.",
+    finalHeading: "최종 순위",
+    notStarted: "일정이 준비되었습니다. 곧 1라운드가 시작됩니다.",
     errors: {
       invalid: "이름을 입력하고, 플레이 방식과 레벨을 선택하세요.",
       closed: "신청이 마감되었습니다.",

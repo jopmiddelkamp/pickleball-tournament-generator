@@ -256,6 +256,13 @@ export const en = {
     frozen: "The schedule is set. Tell the organiser if you cannot make it.",
     closed: "Registration is closed.",
     fullMessage: "Registration is closed — the evening is completely full.",
+    tabs: { now: "Now playing", standings: "Standings" },
+    round: (n: number) => `Round ${n}`,
+    yourCourt: (court: number, partner: string, a: string, b: string) =>
+      `Court ${court} — with ${partner}, against ${a} & ${b}`,
+    youRest: "You rest this round — back in the next one.",
+    finalHeading: "Final standings",
+    notStarted: "The schedule is ready. The first round starts soon.",
     errors: {
       invalid: "Enter a name, and pick how you play and your level.",
       closed: "Registration is closed.",
