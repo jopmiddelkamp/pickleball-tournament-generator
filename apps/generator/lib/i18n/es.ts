@@ -239,6 +239,7 @@ export const es: Messages = {
 
   public: {
     startsAt: (when) => `Empieza ${when}`,
+    playedTo: (n) => `Los partidos se juegan a ${n} puntos`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `${confirmed} de ${cap} plazas ocupadas · ${waiting} en espera` : `${confirmed} de ${cap} plazas ocupadas`,
     registerHeading: "¿Te apuntas?",

@@ -49,6 +49,8 @@ async function main(): Promise<void> {
     startsAt,
     maxCourts: 2,
     playersPerCourt: 5,
+    gameTarget: 11,
+    algorithmId: DEFAULT_ALGORITHM_ID,
   });
   for (const [name, gender, level] of NAMES) {
     await addRegistration(open.id, { name, gender, level, participantToken: null });
@@ -59,6 +61,8 @@ async function main(): Promise<void> {
     startsAt: new Date(Date.now() - 7 * 24 * 3600 * 1000),
     maxCourts: 4,
     playersPerCourt: 5,
+    gameTarget: 11,
+    algorithmId: DEFAULT_ALGORITHM_ID,
   });
   for (const [name, gender, level] of NAMES.slice(0, 14)) {
     await addRegistration(generated.id, { name, gender, level, participantToken: null });

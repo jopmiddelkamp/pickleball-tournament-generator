@@ -8,6 +8,7 @@ import { LIMITS } from "../lib/config";
 import { useLocale } from "../lib/i18n/useLocale";
 import { useTzOffset } from "../lib/useTzOffset";
 import { DateTimeField } from "./DateTimeField";
+import { PlayStyleFields } from "./PlayStyleFields";
 import { Notice } from "./ui";
 
 const COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
@@ -72,6 +73,7 @@ export function NewTournamentForm() {
           </div>
           <p className="standings__detail">{t.organiser.form.capacity(courts, maxPlayersFor(courts, perCourt))}</p>
         </div>
+        <PlayStyleFields initialGameTarget={11} initialAlgorithmId="greedy" />
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.form.create}
         </button>

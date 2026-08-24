@@ -142,15 +142,11 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           playerCount={players.length}
           maxCourts={view.maxCourts}
           usingSuggestion={view.usingSuggestion}
-          algorithmId={view.algorithmId}
-          gameTarget={view.gameTarget}
           score={score}
           generateBlocker={generateBlocker}
           hasSchedule={scheduleStored}
           onConfigChange={(change) => run(() => updateSetupAction(view.id, change))}
           onUseSuggestion={() => run(() => updateSetupAction(view.id, { useSuggestion: true }))}
-          onAlgorithmChange={(algorithmId) => run(() => updateSetupAction(view.id, { algorithmId }))}
-          onGameTargetChange={(gameTarget) => run(() => updateSetupAction(view.id, { gameTarget }))}
           onReroll={() => run(() => rerollAction(view.id))}
           onGenerate={() => run(() => generateAction(view.id), () => setTab("schedule"))}
           onDiscard={() => run(() => discardScheduleAction(view.id), () => setTab("roster"))}

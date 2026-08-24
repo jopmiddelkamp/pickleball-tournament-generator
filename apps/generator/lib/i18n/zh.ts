@@ -237,6 +237,7 @@ export const zh: Messages = {
 
   public: {
     startsAt: (when) => `开始时间 ${when}`,
+    playedTo: (n) => `每局打到 ${n} 分`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `已占 ${cap} 个名额中的 ${confirmed} 个 · ${waiting} 人候补` : `已占 ${cap} 个名额中的 ${confirmed} 个`,
     registerHeading: "要一起打吗？",

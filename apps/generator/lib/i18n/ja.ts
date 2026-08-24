@@ -238,6 +238,7 @@ export const ja: Messages = {
 
   public: {
     startsAt: (when) => `開始 ${when}`,
+    playedTo: (n) => `試合は ${n} 点先取`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0
         ? `定員${cap}人中${confirmed}人が申し込み済み · キャンセル待ち${waiting}人`

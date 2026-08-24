@@ -254,6 +254,7 @@ export const en = {
 
   public: {
     startsAt: (when: string) => `Starts ${when}`,
+    playedTo: (n: number) => `Games are played to ${n} points`,
     spots: (confirmed: number, cap: number, waiting: number) =>
       waiting > 0 ? `${confirmed} of ${cap} places taken · ${waiting} waiting` : `${confirmed} of ${cap} places taken`,
     registerHeading: "Play along?",

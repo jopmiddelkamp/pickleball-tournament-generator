@@ -54,7 +54,9 @@ export function PublicTournament({ view }: { view: PublicView }) {
       </header>
       <div className="app__main">
         <h2 className="screen__heading">{view.name}</h2>
-        <p className="screen__lede">{t.public.startsAt(when)}</p>
+        <p className="screen__lede">
+          {t.public.startsAt(when)} · {t.public.playedTo(view.gameTarget)}
+        </p>
 
         {cancelError ? (
           <Notice tone="warn" onDismiss={() => setCancelError(null)}>

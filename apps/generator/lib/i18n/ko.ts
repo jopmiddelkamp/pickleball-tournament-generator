@@ -238,6 +238,7 @@ export const ko: Messages = {
 
   public: {
     startsAt: (when) => `시작 ${when}`,
+    playedTo: (n) => `경기는 ${n}점까지`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `${cap}명 중 ${confirmed}명 등록 · 대기 ${waiting}명` : `${cap}명 중 ${confirmed}명 등록`,
     registerHeading: "함께 플레이하시겠어요?",

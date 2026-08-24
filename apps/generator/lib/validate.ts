@@ -1,5 +1,7 @@
 import {
   ALGORITHMS,
+  DEFAULT_ALGORITHM_ID,
+  DEFAULT_GAME_TARGET,
   MAX_PLAYERS_PER_COURT,
   MIN_PLAYERS_PER_COURT,
   PLAYERS_PER_COURT,
@@ -160,6 +162,8 @@ export interface TournamentInput {
   startsAt: Date;
   maxCourts: number;
   playersPerCourt: number;
+  gameTarget: number;
+  algorithmId: string;
 }
 
 function intField(formData: FormData, name: string): number | null {
@@ -190,7 +194,12 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   if (!name || !startsAt) return null;
   if (maxCourts === null || maxCourts < LIMITS.minCourts || maxCourts > LIMITS.maxCourts) return null;
   if (playersPerCourt < MIN_PLAYERS_PER_COURT || playersPerCourt > MAX_PLAYERS_PER_COURT) return null;
-  return { name, startsAt, maxCourts, playersPerCourt };
+  const gameTarget = intField(formData, "gameTarget") ?? DEFAULT_GAME_TARGET;
+  if (gameTarget < 1 || gameTarget > LIMITS.maxPoints) return null;
+  const rawAlgorithm = field(formData, "algorithmId");
+  const algorithmId = rawAlgorithm === "" ? DEFAULT_ALGORITHM_ID : rawAlgorithm;
+  if (!ALGORITHMS.some((a) => a.id === algorithmId)) return null;
+  return { name, startsAt, maxCourts, playersPerCourt, gameTarget, algorithmId };
 }
 
 /**

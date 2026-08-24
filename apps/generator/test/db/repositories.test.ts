@@ -43,6 +43,8 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     startsAt: new Date("2026-09-04T17:30:00Z"),
     maxCourts: 2,
     playersPerCourt: 5,
+    gameTarget: 11,
+    algorithmId: "greedy",
   };
 
   afterAll(async () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { ALGORITHMS, playingCapacity, type AlgorithmScore, type TournamentConfig } from "@ptg/core";
+import { playingCapacity, type AlgorithmScore, type TournamentConfig } from "@ptg/core";
 import { useLocale } from "../lib/i18n/useLocale";
 import { LIMITS, maxRestSlots } from "../lib/config";
 import { EmptyState } from "./ui";
@@ -12,15 +12,11 @@ export function SetupScreen({
   playerCount,
   maxCourts,
   usingSuggestion,
-  algorithmId,
-  gameTarget,
   score,
   generateBlocker,
   hasSchedule,
   onConfigChange,
   onUseSuggestion,
-  onAlgorithmChange,
-  onGameTargetChange,
   onReroll,
   onGenerate,
   onDiscard,
@@ -29,24 +25,16 @@ export function SetupScreen({
   playerCount: number;
   maxCourts: number;
   usingSuggestion: boolean;
-  algorithmId: string;
-  gameTarget: number;
   score: AlgorithmScore | null;
   generateBlocker: "open" | "players" | null;
   hasSchedule: boolean;
   onConfigChange: (change: Partial<TournamentConfig>) => void;
   onUseSuggestion: () => void;
-  onAlgorithmChange: (id: string) => void;
-  onGameTargetChange: (points: number) => void;
   onReroll: () => void;
   onGenerate: () => void;
   onDiscard: () => void;
 }) {
   const { t } = useLocale();
-  const algorithm = ALGORITHMS.find((a) => a.id === algorithmId) ?? ALGORITHMS[0];
-  // Core's names are English; an algorithm the catalog does not know keeps them.
-  const describe = (id: string, fallback: { name: string; description: string }) =>
-    t.algorithms[id] ?? fallback;
   const capacity = playingCapacity(playerCount, config);
   const restCeiling = maxRestSlots(playerCount);
   const courtOptions = ALL_COURT_OPTIONS.filter((n) => n <= maxCourts);
@@ -126,44 +114,6 @@ export function SetupScreen({
           )}
         </div>
 
-        <div>
-          <label className="label" htmlFor="algorithm">
-            {t.setup.scheduler}
-          </label>
-          <select
-            id="algorithm"
-            className="select"
-            value={algorithmId}
-            onChange={(event) => onAlgorithmChange(event.target.value)}
-          >
-            {ALGORITHMS.map((option) => (
-              <option key={option.id} value={option.id}>
-                {describe(option.id, option).name}
-              </option>
-            ))}
-          </select>
-          <p className="standings__detail" style={{ marginTop: 6 }}>
-            {algorithm ? describe(algorithm.id, algorithm).description : null}
-          </p>
-        </div>
-
-        <div>
-          <label className="label" htmlFor="target">
-            {t.setup.gameTarget}
-          </label>
-          <select
-            id="target"
-            className="select"
-            value={gameTarget}
-            onChange={(event) => onGameTargetChange(Number(event.target.value))}
-          >
-            {[11, 16, 21].map((points) => (
-              <option key={points} value={points}>
-                {t.setup.points(points)}
-              </option>
-            ))}
-          </select>
-        </div>
 
         <div className="row" style={{ justifyContent: "space-between" }}>
           <div>

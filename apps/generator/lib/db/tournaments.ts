@@ -1,4 +1,3 @@
-import { DEFAULT_ALGORITHM_ID, DEFAULT_GAME_TARGET } from "@ptg/core";
 import { and, desc, eq } from "drizzle-orm";
 import { newSeed, newSlug } from "../ids";
 import type { TournamentInput } from "../validate";
@@ -73,8 +72,8 @@ export async function createTournament(organiserId: string, input: TournamentInp
       maxCourts: input.maxCourts,
       playersPerCourt: input.playersPerCourt,
       rounds: 6,
-      gameTarget: DEFAULT_GAME_TARGET,
-      algorithmId: DEFAULT_ALGORITHM_ID,
+      gameTarget: input.gameTarget,
+      algorithmId: input.algorithmId,
       seed: newSeed(),
     })
     .returning();

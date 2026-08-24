@@ -239,6 +239,7 @@ export const vi: Messages = {
 
   public: {
     startsAt: (when) => `Bắt đầu lúc ${when}`,
+    playedTo: (n) => `Mỗi trận chơi đến ${n} điểm`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `${confirmed}/${cap} chỗ đã đăng ký · ${waiting} người chờ` : `${confirmed}/${cap} chỗ đã đăng ký`,
     registerHeading: "Tham gia chơi cùng?",

@@ -9,6 +9,7 @@ import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
 import { useTzOffset } from "../lib/useTzOffset";
 import { DateTimeField } from "./DateTimeField";
+import { PlayStyleFields } from "./PlayStyleFields";
 import { Notice } from "./ui";
 
 const COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
@@ -108,6 +109,7 @@ export function EditEventForm({ view, registered, frozen, onClose, onSaved }: {
           </p>
           {frozen ? <p className="standings__detail">{t.organiser.edit.frozen}</p> : null}
         </div>
+        <PlayStyleFields initialGameTarget={view.gameTarget} initialAlgorithmId={view.algorithmId} />
         {demoted > 0 && !frozen ? <Notice tone="warn">{t.organiser.edit.demote(demoted)}</Notice> : null}
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.edit.save}

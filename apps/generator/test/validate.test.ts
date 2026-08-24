@@ -24,7 +24,14 @@ describe("parseTournamentForm", () => {
   });
   it("ignores extra fields the form still posts", () => {
     const input = parseTournamentForm(form({ ...valid, maxPlayers: "16", rounds: "6", gameTarget: "11" }));
-    expect(input).toEqual({ name: "Friday mix", startsAt: new Date("2026-09-04T17:30:00.000Z"), maxCourts: 4, playersPerCourt: 5 });
+    expect(input).toEqual({
+      name: "Friday mix",
+      startsAt: new Date("2026-09-04T17:30:00.000Z"),
+      maxCourts: 4,
+      playersPerCourt: 5,
+      gameTarget: 11,
+      algorithmId: "greedy",
+    });
   });
   it.each([
     ["empty name", { name: "  " }],
