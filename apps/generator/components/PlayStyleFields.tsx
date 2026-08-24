@@ -5,11 +5,15 @@ import { useState } from "react";
 import { useLocale } from "../lib/i18n/useLocale";
 
 const TARGETS = [11, 16, 21];
+const ROUNDS = [3, 4, 5, 6, 7, 8, 9, 10];
 
 /** Game target and scheduler, shared by the create and edit event forms; both post as plain form fields. */
-export function PlayStyleFields({ initialGameTarget, initialAlgorithmId }: {
+export function PlayStyleFields({ initialRounds, initialGameTarget, initialAlgorithmId, roundsDisabled = false }: {
+  initialRounds: number;
   initialGameTarget: number;
   initialAlgorithmId: string;
+  /** rounds freeze with the schedule; the other two never do */
+  roundsDisabled?: boolean;
 }) {
   const { t } = useLocale();
   const [algorithmId, setAlgorithmId] = useState(initialAlgorithmId);
@@ -18,6 +22,17 @@ export function PlayStyleFields({ initialGameTarget, initialAlgorithmId }: {
 
   return (
     <>
+      <div>
+        <label className="label" htmlFor="event-rounds">{t.setup.rounds}</label>
+        <select id="event-rounds" name="rounds" className="select" defaultValue={initialRounds} disabled={roundsDisabled}>
+          {ROUNDS.map((n) => (
+            <option key={n} value={n}>
+              {n}
+            </option>
+          ))}
+        </select>
+        {roundsDisabled ? <input type="hidden" name="rounds" value={initialRounds} /> : null}
+      </div>
       <div>
         <label className="label" htmlFor="event-target">{t.setup.gameTarget}</label>
         <select id="event-target" name="gameTarget" className="select" defaultValue={initialGameTarget}>

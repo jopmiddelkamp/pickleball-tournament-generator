@@ -9,7 +9,6 @@ export const es: Messages = {
 
   tabs: {
     roster: "Jugadores",
-    setup: "Ajustes",
     schedule: "Pistas",
     standings: "Ranking",
   },
@@ -41,16 +40,14 @@ export const es: Messages = {
     confirmedCount: (confirmed, max) => `${confirmed} de ${max} plazas ocupadas`,
     waitingHeading: "Lista de espera",
     position: (n) => `#${n}`,
-    frozen: "El calendario ya está generado, así que la lista está bloqueada. Descarta el calendario en la pestaña Ajustes para cambiarla.",
+    frozen: "El evento ha comenzado, así que la lista está congelada. Usa Volver a la inscripción para cambiarla.",
     registrationOpen: "La inscripción está abierta",
     registrationClosed: "La inscripción está cerrada",
-    closeRegistration: "Cerrar inscripción",
-    openRegistration: "Reabrir inscripción",
+    startEvent: "Iniciar evento",
+    backToRegistration: "Volver a la inscripción",
   },
 
   setup: {
-    heading: "Prepara el evento",
-    lede: "Los mismos jugadores, ajustes y semilla siempre dan el mismo calendario. Cambia la semilla para obtener otro.",
     courts: "Pistas",
     rounds: "Rondas",
     restSlots: "Descansos",
@@ -60,20 +57,15 @@ export const es: Messages = {
     seed: "Semilla",
     reroll: "Cambiar",
     capacity: (onCourt, resting) => `${onCourt} en pista cada ronda, ${resting} descansando.`,
-    needPlayers: "Añade al menos cuatro jugadores antes de generar.",
-    generate: "Generar calendario",
+    needPlayers: "Se necesitan al menos cuatro jugadores confirmados para empezar.",
     quality: "Calidad del calendario",
     qualityLede:
       "La puntuación del algoritmo (SPEC-2). Juzga el calendario, nunca a un jugador, y solo se muestra aquí.",
     waived: "exento",
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `Máx. repetición de pareja ${partnerRepeat} · racha más larga contra el mismo rival ${opponentStreak} · diferencia de descansos ${byeSpread} · partidos desiguales ${blowoutPercent}%`,
-    noScore: "Genera un calendario para ver su puntuación.",
     suggested: "Las pistas y los descansos siguen el número de jugadores confirmados.",
     useSuggestion: "Usar la sugerencia",
-    closeFirst: "Cierra la inscripción antes de generar, para que la lista deje de moverse.",
-    discardFirst: "Ya se ha generado un calendario. Descártalo primero para generar uno nuevo.",
-    discard: "Descartar calendario",
   },
 
   grades: {
@@ -112,8 +104,9 @@ export const es: Messages = {
 
   schedule: {
     heading: "Pistas del evento",
-    empty: "Aún no hay calendario. Añade a los jugadores y genera uno desde la pestaña Ajustes.",
+    empty: "Aún no hay calendario. Inicia el evento desde la pestaña Lista cuando todos estén dentro.",
     print: "Imprimir",
+    adjust: "Ajustar calendario",
     rounds: "Rondas",
     roundChip: (round) => `R${round}`,
     roundOf: (round, total) => `Ronda ${round} de ${total}`,
@@ -217,7 +210,7 @@ export const es: Messages = {
       cancel: "Cancelar",
       signedUp: (n) => `Ya hay ${n} inscritos.`,
       demote: (n) => (n === 1 ? "1 inscrito pasaría a la lista de espera." : `${n} inscritos pasarían a la lista de espera.`),
-      frozen: "El calendario está generado — descártalo en la pestaña de configuración para cambiar pistas o plazas.",
+      frozen: "El evento ha comenzado — vuelve a la inscripción para cambiar pistas, plazas o rondas.",
       notify: (n) => (n === 1 ? "La capacidad bajó: 1 inscrito pasó a la lista de espera. Avisa en el grupo para que todos comprueben si conservan su plaza." : `La capacidad bajó: ${n} inscritos pasaron a la lista de espera. Avisa en el grupo para que todos comprueben si conservan su plaza.`),
       notifyPromoted: "Alguien subió de la lista de espera. Avisa en el grupo para que sepa que ya está dentro.",
       copyUpdate: "Copiar mensaje para el grupo",
@@ -231,7 +224,7 @@ export const es: Messages = {
     errors: {
       "not-found": "Este evento ya no existe.",
       invalid: "Ese cambio no era válido y se ignoró.",
-      frozen: "El calendario ya está generado; descártalo antes de cambiar la lista.",
+      frozen: "El evento ha comenzado; vuelve a la inscripción antes de cambiar la lista.",
       open: "Cierra primero la inscripción.",
       players: "Se necesitan al menos cuatro jugadores confirmados.",
       full: "Este evento ha alcanzado el límite de inscripciones.",

@@ -10,7 +10,6 @@ export const zh: Messages = {
 
   tabs: {
     roster: "名单",
-    setup: "设置",
     schedule: "场地",
     standings: "排名",
   },
@@ -42,16 +41,14 @@ export const zh: Messages = {
     confirmedCount: (confirmed, max) => `已确认 ${confirmed} / ${max} 位`,
     waitingHeading: "候补名单",
     position: (n) => `第 ${n} 位`,
-    frozen: "赛程已生成，名单已锁定。请在“设置”页丢弃赛程后再修改。",
+    frozen: "活动已开始，名单已锁定。要修改请使用返回报名。",
     registrationOpen: "报名进行中",
     registrationClosed: "报名已关闭",
-    closeRegistration: "关闭报名",
-    openRegistration: "重新开放报名",
+    startEvent: "开始活动",
+    backToRegistration: "返回报名",
   },
 
   setup: {
-    heading: "设置本场活动",
-    lede: "相同的球员、设置和种子始终生成相同的赛程。想换一个，就重新生成种子。",
     courts: "场地数",
     rounds: "轮数",
     restSlots: "轮空名额",
@@ -61,19 +58,14 @@ export const zh: Messages = {
     seed: "种子",
     reroll: "重新生成",
     capacity: (onCourt, resting) => `每轮 ${onCourt} 人上场，${resting} 人轮空。`,
-    needPlayers: "至少添加四位球员后才能生成赛程。",
-    generate: "生成赛程",
+    needPlayers: "至少需要四位已确认的选手才能开始。",
     quality: "赛程质量",
     qualityLede: "算法评分（SPEC-2）。它只评价赛程，不评价任何球员，并且只在这里显示。",
     waived: "免除",
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `最多重复搭档 ${partnerRepeat} 次 · 最长连续同对手 ${opponentStreak} 轮 · 轮空差距 ${byeSpread} · 悬殊对局占比 ${blowoutPercent}%`,
-    noScore: "生成赛程后即可查看评分。",
     suggested: "场地数和轮空名额会随已确认球员人数自动建议。",
     useSuggestion: "采用建议值",
-    closeFirst: "生成前请先关闭报名，这样名单就不会再变动。",
-    discardFirst: "赛程已生成。请先丢弃它才能生成新的赛程。",
-    discard: "丢弃赛程",
   },
 
   grades: {
@@ -110,8 +102,9 @@ export const zh: Messages = {
 
   schedule: {
     heading: "本场活动的场地",
-    empty: "还没有赛程。先添加球员，再到“设置”页生成。",
+    empty: "还没有赛程。人到齐后，请在名单页开始活动。",
     print: "打印",
+    adjust: "调整赛程",
     rounds: "轮次",
     roundChip: (round) => `第${round}轮`,
     roundOf: (round, total) => `第 ${round} 轮，共 ${total} 轮`,
@@ -215,7 +208,7 @@ export const zh: Messages = {
       cancel: "取消",
       signedUp: (n) => `已有 ${n} 人报名。`,
       demote: (n) => `${n} 位已报名的选手将移入候补名单。`,
-      frozen: "赛程已生成——要修改场地或名额，请先在设置页丢弃赛程。",
+      frozen: "活动已开始——要修改场地、名额或轮数，请先返回报名。",
       notify: (n) => `容量减少：${n} 位已报名的选手移入了候补名单。请在群里发个通知，让大家确认自己是否仍有名额。`,
       notifyPromoted: "有人从候补名单递补成功。请在群里发个通知，让对方知道自己已入选。",
       copyUpdate: "复制群通知消息",
@@ -229,7 +222,7 @@ export const zh: Messages = {
     errors: {
       "not-found": "这场活动已不存在。",
       invalid: "该操作无效，已被忽略。",
-      frozen: "赛程已生成；请先丢弃赛程再修改名单。",
+      frozen: "活动已开始；修改名单前请先返回报名。",
       open: "请先关闭报名。",
       players: "至少需要四位已确认球员。",
       full: "本场活动的报名人数已达上限。",

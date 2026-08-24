@@ -2,15 +2,15 @@
 
 import { computeNightPoints, scoreSchedule, type GameResult, type Player } from "@ptg/core";
 import { useMemo, useOptimistic, useState, useTransition } from "react";
-import { removeRegistrationAction, setRegistrationOpenAction } from "../lib/actions/registrations";
+import { removeRegistrationAction } from "../lib/actions/registrations";
 import type { ActionError, ActionResult } from "../lib/actions/result";
 import {
-  discardScheduleAction,
+  backToRegistrationAction,
   endEventAction,
-  generateAction,
   recordScoreAction,
   rerollAction,
   setVoidedAction,
+  startEventAction,
   startRoundAction,
   swapPlayersAction,
   updateSetupAction,
@@ -20,11 +20,11 @@ import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
 import Link from "next/link";
+import { AdjustSchedule } from "./AdjustSchedule";
 import { CopyButton } from "./CopyButton";
 import { CopyEventLink } from "./CopyEventLink";
 import { RosterScreen } from "./RosterScreen";
 import { ScheduleScreen } from "./ScheduleScreen";
-import { SetupScreen } from "./SetupScreen";
 import { StandingsScreen } from "./StandingsScreen";
 import { TabBar, TABS, type Tab } from "./TabBar";
 import { Notice } from "./ui";
@@ -60,7 +60,6 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
     });
   }
 
-  const generateBlocker = view.registrationOpen ? "open" : players.length < 4 ? "players" : null;
   // Derived from the raw column via view.status, not the parsed view.schedule: an unreadable
   // schedule still needs to freeze the roster and offer Discard, so the organiser has a way out.
   const scheduleStored = view.status === "generated" || view.status === "live" || view.status === "finished";
@@ -118,6 +117,10 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           guestHosts={view.guestHosts}
           registrationOpen={view.registrationOpen}
           frozen={scheduleStored}
+          canStart={players.length >= 4}
+          canGoBack={view.roundsStarted === 0}
+          onStart={() => run(() => startEventAction(view.id), () => setTab("schedule"))}
+          onBackToRegistration={() => run(() => backToRegistrationAction(view.id))}
           onRemove={(id) => {
             // Removing a confirmed player while others wait silently promotes
             // the first waiter; the organiser should announce that.
@@ -126,24 +129,19 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
               if (promotes) setPromotedNotice(true);
             });
           }}
-          onToggleRegistration={(open) => run(() => setRegistrationOpenAction(view.id, open))}
         />
       ) : null}
 
-      {tab === "setup" ? (
-        <SetupScreen
+      {tab === "schedule" && view.schedule && view.roundsStarted === 0 && view.status !== "finished" ? (
+        <AdjustSchedule
           config={view.config}
           playerCount={players.length}
           maxCourts={view.maxCourts}
           usingSuggestion={view.usingSuggestion}
           score={score}
-          generateBlocker={generateBlocker}
-          hasSchedule={scheduleStored}
           onConfigChange={(change) => run(() => updateSetupAction(view.id, change))}
           onUseSuggestion={() => run(() => updateSetupAction(view.id, { useSuggestion: true }))}
           onReroll={() => run(() => rerollAction(view.id))}
-          onGenerate={() => run(() => generateAction(view.id), () => setTab("schedule"))}
-          onDiscard={() => run(() => discardScheduleAction(view.id), () => setTab("roster"))}
         />
       ) : null}
 

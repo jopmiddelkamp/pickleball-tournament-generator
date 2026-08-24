@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parseEventDefaults } from "../lib/eventDefaults";
 
-const valid = { location: "Balanca", maxCourts: 4, playersPerCourt: 5, gameTarget: 11, algorithmId: "greedy" };
+const valid = { location: "Balanca", maxCourts: 4, playersPerCourt: 5, rounds: 6, gameTarget: 11, algorithmId: "greedy" };
 
 describe("parseEventDefaults", () => {
   it("accepts a round-tripped cookie", () => {

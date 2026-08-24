@@ -2,7 +2,7 @@
 
 import { useLocale } from "../lib/i18n/useLocale";
 
-export const TABS = ["roster", "setup", "schedule", "standings"] as const;
+export const TABS = ["roster", "schedule", "standings"] as const;
 export type Tab = (typeof TABS)[number];
 
 export function TabBar({

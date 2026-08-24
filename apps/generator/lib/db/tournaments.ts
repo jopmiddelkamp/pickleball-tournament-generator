@@ -73,7 +73,7 @@ export async function createTournament(organiserId: string, input: TournamentInp
       location: input.location,
       maxCourts: input.maxCourts,
       playersPerCourt: input.playersPerCourt,
-      rounds: 6,
+      rounds: input.rounds,
       gameTarget: input.gameTarget,
       algorithmId: input.algorithmId,
       seed: newSeed(),

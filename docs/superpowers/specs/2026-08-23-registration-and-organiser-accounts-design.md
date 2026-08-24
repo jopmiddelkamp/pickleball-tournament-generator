@@ -17,6 +17,14 @@ Amended 2026-08-24 (routes): the organiser side lives at /organiser/event
 public page moved from /t/<slug> to /event/<slug>, with /t/<slug> kept as a
 redirect for links shared before the move.
 
+Amended 2026-08-24 (start flow): "Close registration" and the Set up tab are
+gone. The roster's Start event button closes registration and draws the
+schedule in one step; Back to registration undoes it while nothing has been
+played. Rounds is an event property chosen on the create/edit form (frozen
+with the schedule, like capacity). Courts/rest overrides, reroll and the
+quality score live in an Adjust schedule panel on the Courts tab until round 1
+starts. Tabs: Roster · Courts · Standings.
+
 ## Goal
 
 An organiser creates a tournament evening and shares one URL in the club's

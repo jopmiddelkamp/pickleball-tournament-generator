@@ -38,7 +38,9 @@ export async function updateEventDetailsAction(
   const scheduleStored = owner.tournament.schedule != null;
   if (
     scheduleStored &&
-    (input.maxCourts !== owner.tournament.maxCourts || input.playersPerCourt !== owner.tournament.playersPerCourt)
+    (input.maxCourts !== owner.tournament.maxCourts ||
+      input.playersPerCourt !== owner.tournament.playersPerCourt ||
+      input.rounds !== owner.tournament.rounds)
   ) {
     return { error: "invalid", demoted: 0 };
   }
@@ -55,7 +57,7 @@ export async function updateEventDetailsAction(
     location: input.location,
     gameTarget: input.gameTarget,
     algorithmId: input.algorithmId,
-    ...(scheduleStored ? {} : { maxCourts: input.maxCourts, playersPerCourt: input.playersPerCourt }),
+    ...(scheduleStored ? {} : { maxCourts: input.maxCourts, playersPerCourt: input.playersPerCourt, rounds: input.rounds }),
   });
   revalidatePath(`/organiser/event/${owner.tournament.id}`);
   revalidatePath(`/event/${owner.tournament.slug}`);
@@ -87,6 +89,22 @@ export async function updateSetupAction(id: string, rawPatch: unknown): Promise<
   if (patch.rounds !== undefined) update.rounds = patch.rounds;
   if (patch.algorithmId !== undefined) update.algorithmId = patch.algorithmId;
   if (patch.gameTarget !== undefined) update.gameTarget = patch.gameTarget;
+  // With a schedule on the table and nothing played yet, an adjustment regenerates it in place.
+  if (owner.tournament.schedule != null && owner.tournament.roundsStarted === 0) {
+    const adjusted = {
+      ...owner,
+      tournament: {
+        ...owner.tournament,
+        courts: update.courts === undefined ? owner.tournament.courts : update.courts,
+        restSlots: update.restSlots === undefined ? owner.tournament.restSlots : update.restSlots,
+        rounds: update.rounds ?? owner.tournament.rounds,
+        algorithmId: update.algorithmId ?? owner.tournament.algorithmId,
+        gameTarget: update.gameTarget ?? owner.tournament.gameTarget,
+      },
+    };
+    const outcome = generateWith(adjusted, owner.tournament.seed);
+    return isFailure(outcome) ? outcome : save(owner, { ...update, ...outcome });
+  }
   return save(owner, update);
 }
 
@@ -103,13 +121,21 @@ function isFailure(value: ActionResult | TournamentPatch): value is ActionResult
   return "ok" in value;
 }
 
-export async function generateAction(id: string): Promise<ActionResult> {
+/** Sign-ups over, play begins: closes registration and draws the schedule in one step. */
+export async function startEventAction(id: string): Promise<ActionResult> {
   const owner = await owned(id);
-  // A schedule already exists: generating over it would silently wipe any
-  // scores entered so far. Reroll is the explicit, sanctioned way to redo it.
   if (owner.tournament.schedule != null) return fail("frozen");
-  const outcome = generateWith(owner, owner.tournament.seed);
-  return isFailure(outcome) ? outcome : save(owner, outcome);
+  const registrationClosedAt = owner.tournament.registrationClosedAt ?? new Date();
+  const closed = { ...owner, tournament: { ...owner.tournament, registrationClosedAt } };
+  const outcome = generateWith(closed, owner.tournament.seed);
+  return isFailure(outcome) ? outcome : save(owner, { registrationClosedAt, ...outcome });
+}
+
+/** Undo of start, while nothing has been played: drops the draw and reopens sign-ups. */
+export async function backToRegistrationAction(id: string): Promise<ActionResult> {
+  const owner = await owned(id);
+  if (owner.tournament.roundsStarted > 0) return fail("state");
+  return save(owner, { schedule: null, games: [], roundsStarted: 0, finishedAt: null, registrationClosedAt: null });
 }
 
 /** New seed; with a schedule on the table it is regenerated right away (spec "Setup"). Scores go with it. */
@@ -120,10 +146,6 @@ export async function rerollAction(id: string): Promise<ActionResult> {
   if (!owner.view.schedule) return save(owner, { seed });
   const outcome = generateWith(owner, seed);
   return isFailure(outcome) ? outcome : save(owner, outcome);
-}
-
-export async function discardScheduleAction(id: string): Promise<ActionResult> {
-  return save(await owned(id), { schedule: null, games: [], roundsStarted: 0, finishedAt: null });
 }
 
 /** Opens the next round for play; the organiser calls this once the players for it are on court. */

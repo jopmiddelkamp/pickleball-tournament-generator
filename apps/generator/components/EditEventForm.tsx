@@ -87,7 +87,12 @@ export function EditEventForm({ view, registered, frozen }: {
           </p>
           {frozen ? <p className="standings__detail">{t.organiser.edit.frozen}</p> : null}
         </div>
-        <PlayStyleFields initialGameTarget={view.gameTarget} initialAlgorithmId={view.algorithmId} />
+        <PlayStyleFields
+          initialRounds={view.config.rounds}
+          initialGameTarget={view.gameTarget}
+          initialAlgorithmId={view.algorithmId}
+          roundsDisabled={frozen}
+        />
         {demoted > 0 && !frozen ? <Notice tone="warn">{t.organiser.edit.demote(demoted)}</Notice> : null}
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.edit.save}

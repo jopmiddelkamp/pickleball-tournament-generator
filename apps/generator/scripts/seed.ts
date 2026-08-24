@@ -50,6 +50,7 @@ async function main(): Promise<void> {
     startsAt,
     maxCourts: 2,
     playersPerCourt: 5,
+    rounds: 6,
     gameTarget: 11,
     algorithmId: DEFAULT_ALGORITHM_ID,
   });
@@ -63,6 +64,7 @@ async function main(): Promise<void> {
     startsAt: new Date(Date.now() - 7 * 24 * 3600 * 1000),
     maxCourts: 4,
     playersPerCourt: 5,
+    rounds: 6,
     gameTarget: 11,
     algorithmId: DEFAULT_ALGORITHM_ID,
   });

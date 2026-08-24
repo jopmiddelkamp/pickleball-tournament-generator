@@ -9,7 +9,6 @@ export const ko: Messages = {
 
   tabs: {
     roster: "명단",
-    setup: "설정",
     schedule: "코트",
     standings: "순위",
   },
@@ -41,16 +40,14 @@ export const ko: Messages = {
     confirmedCount: (confirmed, max) => `${confirmed} / ${max}자리 확정`,
     waitingHeading: "대기 명단",
     position: (n) => `#${n}`,
-    frozen: "일정이 생성되어 명단이 잠겼습니다. 변경하려면 설정 탭에서 일정을 삭제하세요.",
+    frozen: "이벤트가 시작되어 명단이 고정되었습니다. 변경하려면 등록으로 돌아가기를 사용하세요.",
     registrationOpen: "등록이 진행 중입니다",
     registrationClosed: "등록이 마감되었습니다",
-    closeRegistration: "등록 마감",
-    openRegistration: "등록 다시 열기",
+    startEvent: "이벤트 시작",
+    backToRegistration: "등록으로 돌아가기",
   },
 
   setup: {
-    heading: "이벤트 설정",
-    lede: "같은 참가자, 설정, 시드에서는 항상 같은 일정이 나옵니다. 다른 일정을 원하면 시드를 다시 뽑으세요.",
     courts: "코트 수",
     rounds: "라운드 수",
     restSlots: "휴식 인원",
@@ -60,20 +57,15 @@ export const ko: Messages = {
     seed: "시드",
     reroll: "다시 뽑기",
     capacity: (onCourt, resting) => `라운드마다 ${onCourt}명이 코트에 서고 ${resting}명이 쉽니다.`,
-    needPlayers: "일정을 만들려면 참가자가 4명 이상 필요합니다.",
-    generate: "일정 생성",
+    needPlayers: "시작하려면 확정된 참가자가 최소 4명 필요합니다.",
     quality: "일정 품질",
     qualityLede:
       "알고리즘 점수(SPEC-2)입니다. 참가자가 아니라 일정을 평가하며, 여기에만 표시됩니다.",
     waived: "면제",
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `같은 파트너 최대 ${partnerRepeat}회 · 같은 상대 최장 연속 ${opponentStreak}라운드 · 휴식 횟수 차이 ${byeSpread} · 일방적 경기 비율 ${blowoutPercent}%`,
-    noScore: "일정을 생성하면 점수를 볼 수 있습니다.",
     suggested: "코트 수와 휴식 인원은 확정된 참가자 수에 따라 제안됩니다.",
     useSuggestion: "제안값 사용",
-    closeFirst: "생성하기 전에 등록을 마감해서 명단이 더 이상 바뀌지 않게 하세요.",
-    discardFirst: "일정이 이미 생성되어 있습니다. 새 일정을 생성하려면 먼저 삭제하세요.",
-    discard: "일정 삭제",
   },
 
   grades: {
@@ -111,8 +103,9 @@ export const ko: Messages = {
 
   schedule: {
     heading: "오늘의 코트",
-    empty: "아직 일정이 없습니다. 참가자를 추가한 뒤 설정 탭에서 생성하세요.",
+    empty: "아직 일정이 없습니다. 모두 모이면 명단 탭에서 이벤트를 시작하세요.",
     print: "인쇄",
+    adjust: "일정 조정",
     rounds: "라운드",
     roundChip: (round) => `R${round}`,
     roundOf: (round, total) => `라운드 ${round} / ${total}`,
@@ -216,7 +209,7 @@ export const ko: Messages = {
       cancel: "취소",
       signedUp: (n) => `이미 ${n}명이 등록했습니다.`,
       demote: (n) => `등록된 ${n}명이 대기 명단으로 이동합니다.`,
-      frozen: "일정이 이미 생성되었습니다. 코트 수나 인원을 바꾸려면 설정 탭에서 일정을 삭제하세요.",
+      frozen: "이벤트가 시작되었습니다. 코트 수, 인원, 라운드 수를 바꾸려면 등록으로 돌아가세요.",
       notify: (n) => `정원이 줄어 ${n}명이 대기 명단으로 이동했습니다. 그룹 채팅에 공지해서 모두 자기 자리가 남아 있는지 확인하게 하세요.`,
       notifyPromoted: "대기 명단에서 올라온 사람이 있습니다. 그룹 채팅에 공지해서 참가가 확정됐음을 알려 주세요.",
       copyUpdate: "그룹 채팅용 메시지 복사",
@@ -230,7 +223,7 @@ export const ko: Messages = {
     errors: {
       "not-found": "이 이벤트는 더 이상 존재하지 않습니다.",
       invalid: "그 변경 사항은 유효하지 않아 무시되었습니다.",
-      frozen: "일정이 생성되어 있습니다. 명단을 바꾸려면 먼저 일정을 삭제하세요.",
+      frozen: "이벤트가 시작되었습니다. 명단을 바꾸려면 먼저 등록으로 돌아가세요.",
       open: "먼저 등록을 마감하세요.",
       players: "확정된 참가자가 최소 4명 필요합니다.",
       full: "이 이벤트는 등록 인원 한도에 도달했습니다.",

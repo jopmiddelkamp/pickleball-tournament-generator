@@ -30,6 +30,7 @@ describe("parseTournamentForm", () => {
       startsAt: new Date("2026-09-04T17:30:00.000Z"),
       maxCourts: 4,
       playersPerCourt: 5,
+      rounds: 6,
       gameTarget: 11,
       algorithmId: "greedy",
     });

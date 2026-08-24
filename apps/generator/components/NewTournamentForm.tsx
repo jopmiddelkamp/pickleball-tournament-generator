@@ -62,7 +62,11 @@ export function NewTournamentForm({ defaults }: { defaults: EventDefaults | null
           <Segmented options={PER_COURT_OPTIONS} value={perCourt} onChange={setPerCourt} labelledBy="per-court-label" />
           <p className="standings__detail">{t.organiser.form.capacity(courts, maxPlayersFor(courts, perCourt))}</p>
         </div>
-        <PlayStyleFields initialGameTarget={defaults?.gameTarget ?? 11} initialAlgorithmId={defaults?.algorithmId ?? "greedy"} />
+        <PlayStyleFields
+          initialRounds={defaults?.rounds ?? 6}
+          initialGameTarget={defaults?.gameTarget ?? 11}
+          initialAlgorithmId={defaults?.algorithmId ?? "greedy"}
+        />
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.form.create}
         </button>

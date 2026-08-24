@@ -19,7 +19,6 @@ export const en = {
 
   tabs: {
     roster: "Roster",
-    setup: "Set up",
     schedule: "Courts",
     standings: "Standings",
   },
@@ -52,16 +51,14 @@ export const en = {
     confirmedCount: (confirmed: number, max: number) => `${confirmed} of ${max} places taken`,
     waitingHeading: "Waiting list",
     position: (n: number) => `#${n}`,
-    frozen: "The schedule is generated, so the list is frozen. Discard the schedule on the Set up tab to change it.",
+    frozen: "The event has started, so the list is frozen. Use Back to registration to change it.",
     registrationOpen: "Registration is open",
     registrationClosed: "Registration is closed",
-    closeRegistration: "Close registration",
-    openRegistration: "Reopen registration",
+    startEvent: "Start event",
+    backToRegistration: "Back to registration",
   },
 
   setup: {
-    heading: "Set up the event",
-    lede: "The same players, settings and seed always produce the same schedule. Reroll the seed for a different one.",
     courts: "Courts",
     rounds: "Rounds",
     restSlots: "Rest slots",
@@ -72,20 +69,15 @@ export const en = {
     reroll: "Reroll",
     capacity: (onCourt: number, resting: number) =>
       `${onCourt} on court each round, ${resting} resting.`,
-    needPlayers: "Add at least four players before generating.",
-    generate: "Generate schedule",
+    needPlayers: "At least four confirmed players are needed to start.",
     quality: "Schedule quality",
     qualityLede:
       "The algorithm score (SPEC-2). It judges the schedule, never a player, and is only shown here.",
     waived: "waived",
     diagnostics: (partnerRepeat: number, opponentStreak: number, byeSpread: number, blowoutPercent: number) =>
       `Max partner repeat ${partnerRepeat} · longest same-opponent streak ${opponentStreak} · bye spread ${byeSpread} · blowout share ${blowoutPercent}%`,
-    noScore: "Generate a schedule to see how it scores.",
     suggested: "Courts and rest slots follow the number of confirmed players.",
     useSuggestion: "Use the suggestion",
-    closeFirst: "Close registration before generating, so the list stops moving.",
-    discardFirst: "A schedule is already generated. Discard it first to generate a new one.",
-    discard: "Discard schedule",
   },
 
   grades: {
@@ -127,8 +119,9 @@ export const en = {
 
   schedule: {
     heading: "Today’s courts",
-    empty: "No schedule yet. Add your players, then generate one from the Set up tab.",
+    empty: "No schedule yet. Start the event from the Roster tab once everyone is in.",
     print: "Print",
+    adjust: "Adjust schedule",
     rounds: "Rounds",
     roundChip: (round: number) => `R${round}`,
     roundOf: (round: number, total: number) => `Round ${round} of ${total}`,
@@ -232,7 +225,7 @@ export const en = {
       cancel: "Cancel",
       signedUp: (n: number) => `${n} already signed up.`,
       demote: (n: number) => `${n} signed-up ${n === 1 ? "player" : "players"} would drop to the waiting list.`,
-      frozen: "The schedule is generated — discard it on the Set up tab to change courts or spots.",
+      frozen: "The event has started — go back to registration to change courts, spots or rounds.",
       notify: (n: number) => `Capacity went down: ${n} signed-up ${n === 1 ? "player" : "players"} dropped to the waiting list. Post an update in the group chat so everyone checks whether they still have a spot.`,
       notifyPromoted: "Someone moved up from the waiting list. Post an update in the group chat so they know they're in.",
       copyUpdate: "Copy message for the group chat",
@@ -246,7 +239,7 @@ export const en = {
     errors: {
       "not-found": "This event no longer exists.",
       invalid: "That change was not valid and was ignored.",
-      frozen: "The schedule is generated; discard it before changing the list.",
+      frozen: "The event has started; go back to registration before changing the list.",
       open: "Close registration first.",
       players: "At least four confirmed players are needed.",
       full: "This event has reached the registration limit.",

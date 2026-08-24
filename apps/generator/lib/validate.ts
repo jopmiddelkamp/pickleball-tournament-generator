@@ -163,6 +163,7 @@ export interface TournamentInput {
   location: string | null;
   maxCourts: number;
   playersPerCourt: number;
+  rounds: number;
   gameTarget: number;
   algorithmId: string;
 }
@@ -196,12 +197,14 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   if (!name || !startsAt) return null;
   if (maxCourts === null || maxCourts < LIMITS.minCourts || maxCourts > LIMITS.maxCourts) return null;
   if (playersPerCourt < MIN_PLAYERS_PER_COURT || playersPerCourt > MAX_PLAYERS_PER_COURT) return null;
+  const rounds = intField(formData, "rounds") ?? 6;
+  if (rounds < LIMITS.minRounds || rounds > LIMITS.maxRounds) return null;
   const gameTarget = intField(formData, "gameTarget") ?? DEFAULT_GAME_TARGET;
   if (gameTarget < 1 || gameTarget > LIMITS.maxPoints) return null;
   const rawAlgorithm = field(formData, "algorithmId");
   const algorithmId = rawAlgorithm === "" ? DEFAULT_ALGORITHM_ID : rawAlgorithm;
   if (!ALGORITHMS.some((a) => a.id === algorithmId)) return null;
-  return { name, startsAt, location, maxCourts, playersPerCourt, gameTarget, algorithmId };
+  return { name, startsAt, location, maxCourts, playersPerCourt, rounds, gameTarget, algorithmId };
 }
 
 /**

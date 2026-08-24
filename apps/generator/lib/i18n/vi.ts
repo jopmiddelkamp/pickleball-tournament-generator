@@ -9,7 +9,6 @@ export const vi: Messages = {
 
   tabs: {
     roster: "Danh sách",
-    setup: "Thiết lập",
     schedule: "Sân",
     standings: "Xếp hạng",
   },
@@ -41,16 +40,14 @@ export const vi: Messages = {
     confirmedCount: (confirmed, max) => `Đã xác nhận ${confirmed}/${max} chỗ`,
     waitingHeading: "Danh sách chờ",
     position: (n) => `#${n}`,
-    frozen: "Lịch đã được tạo nên danh sách đang bị khóa. Hãy hủy lịch ở mục Thiết lập để thay đổi.",
+    frozen: "Sự kiện đã bắt đầu nên danh sách bị khóa. Dùng Quay lại đăng ký để thay đổi.",
     registrationOpen: "Đang mở đăng ký",
     registrationClosed: "Đã đóng đăng ký",
-    closeRegistration: "Đóng đăng ký",
-    openRegistration: "Mở lại đăng ký",
+    startEvent: "Bắt đầu sự kiện",
+    backToRegistration: "Quay lại đăng ký",
   },
 
   setup: {
-    heading: "Thiết lập sự kiện",
-    lede: "Cùng người chơi, cài đặt và seed luôn cho ra cùng một lịch. Đổi seed để có lịch khác.",
     courts: "Số sân",
     rounds: "Số vòng",
     restSlots: "Suất nghỉ",
@@ -60,20 +57,15 @@ export const vi: Messages = {
     seed: "Seed",
     reroll: "Đổi seed",
     capacity: (onCourt, resting) => `Mỗi vòng ${onCourt} người trên sân, ${resting} người nghỉ.`,
-    needPlayers: "Cần ít nhất bốn người chơi trước khi tạo lịch.",
-    generate: "Tạo lịch thi đấu",
+    needPlayers: "Cần ít nhất bốn người chơi đã xác nhận để bắt đầu.",
     quality: "Chất lượng lịch",
     qualityLede:
       "Điểm thuật toán (SPEC-2). Nó đánh giá lịch thi đấu, không bao giờ đánh giá người chơi, và chỉ hiện ở đây.",
     waived: "miễn",
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `Lặp đồng đội tối đa ${partnerRepeat} · chuỗi gặp cùng đối thủ dài nhất ${opponentStreak} · chênh lệch lượt nghỉ ${byeSpread} · tỷ lệ trận chênh lệch ${blowoutPercent}%`,
-    noScore: "Tạo lịch để xem điểm của nó.",
     suggested: "Số sân và suất nghỉ được đề xuất theo số người chơi đã xác nhận.",
     useSuggestion: "Dùng đề xuất",
-    closeFirst: "Đóng đăng ký trước khi tạo lịch, để danh sách không đổi nữa.",
-    discardFirst: "Lịch thi đấu đã được tạo. Hãy hủy lịch trước khi tạo lịch mới.",
-    discard: "Hủy lịch thi đấu",
   },
 
   grades: {
@@ -112,8 +104,9 @@ export const vi: Messages = {
 
   schedule: {
     heading: "Sân hôm nay",
-    empty: "Chưa có lịch. Hãy thêm người chơi, rồi tạo lịch ở mục Thiết lập.",
+    empty: "Chưa có lịch. Hãy bắt đầu sự kiện từ mục Danh sách khi mọi người đã đủ.",
     print: "In",
+    adjust: "Điều chỉnh lịch",
     rounds: "Các vòng",
     roundChip: (round) => `V${round}`,
     roundOf: (round, total) => `Vòng ${round} / ${total}`,
@@ -217,7 +210,7 @@ export const vi: Messages = {
       cancel: "Hủy",
       signedUp: (n) => `Đã có ${n} người đăng ký.`,
       demote: (n) => `${n} người đã đăng ký sẽ chuyển xuống danh sách chờ.`,
-      frozen: "Lịch thi đấu đã được tạo — hãy hủy lịch ở mục Thiết lập để đổi số sân hoặc số chỗ.",
+      frozen: "Sự kiện đã bắt đầu — hãy quay lại đăng ký để đổi số sân, số chỗ hoặc số vòng.",
       notify: (n) => `Sức chứa giảm: ${n} người chơi đã chuyển xuống danh sách chờ. Hãy thông báo trong nhóm chat để mọi người kiểm tra xem mình còn suất không.`,
       notifyPromoted: "Có người vừa được chuyển lên từ danh sách chờ. Hãy thông báo trong nhóm chat để họ biết mình đã có suất.",
       copyUpdate: "Sao chép tin nhắn cho nhóm",
@@ -231,7 +224,7 @@ export const vi: Messages = {
     errors: {
       "not-found": "Sự kiện này không còn tồn tại.",
       invalid: "Thay đổi đó không hợp lệ và đã bị bỏ qua.",
-      frozen: "Lịch đã được tạo; hãy hủy lịch trước khi thay đổi danh sách.",
+      frozen: "Sự kiện đã bắt đầu; hãy quay lại đăng ký trước khi thay đổi danh sách.",
       open: "Hãy đóng đăng ký trước.",
       players: "Cần ít nhất bốn người chơi đã xác nhận.",
       full: "Sự kiện này đã đạt giới hạn đăng ký.",

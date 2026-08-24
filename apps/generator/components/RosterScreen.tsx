@@ -11,8 +11,11 @@ export function RosterScreen({
   guestHosts,
   registrationOpen,
   frozen,
+  canStart,
+  canGoBack,
   onRemove,
-  onToggleRegistration,
+  onStart,
+  onBackToRegistration,
 }: {
   confirmed: Player[];
   waiting: Player[];
@@ -21,8 +24,13 @@ export function RosterScreen({
   guestHosts: Record<string, string>;
   registrationOpen: boolean;
   frozen: boolean;
+  /** at least four confirmed players */
+  canStart: boolean;
+  /** nothing played yet, so the draw can be dropped */
+  canGoBack: boolean;
   onRemove: (playerId: string) => void;
-  onToggleRegistration: (open: boolean) => void;
+  onStart: () => void;
+  onBackToRegistration: () => void;
 }) {
   const { t } = useLocale();
   const men = confirmed.filter((p) => p.gender === "M").length;
@@ -41,15 +49,17 @@ export function RosterScreen({
 
       <div className="row" style={{ justifyContent: "space-between", margin: "22px 0 8px" }}>
         <span className="roster__countLabel">{registrationOpen ? t.roster.registrationOpen : t.roster.registrationClosed}</span>
-        <button
-          type="button"
-          className="button button--quiet button--small"
-          disabled={frozen}
-          onClick={() => onToggleRegistration(!registrationOpen)}
-        >
-          {registrationOpen ? t.roster.closeRegistration : t.roster.openRegistration}
-        </button>
+        {registrationOpen ? (
+          <button type="button" className="button button--accent button--small" disabled={!canStart} onClick={onStart}>
+            {t.roster.startEvent}
+          </button>
+        ) : (
+          <button type="button" className="button button--quiet button--small" disabled={!canGoBack} onClick={onBackToRegistration}>
+            {t.roster.backToRegistration}
+          </button>
+        )}
       </div>
+      {registrationOpen && !canStart ? <p className="standings__detail">{t.setup.needPlayers}</p> : null}
       <div className="roster__count">{confirmed.length}</div>
       <div className="roster__countLabel">
         {t.roster.confirmedCount(confirmed.length, maxPlayers)} · {t.roster.count(confirmed.length, men, confirmed.length - men)}

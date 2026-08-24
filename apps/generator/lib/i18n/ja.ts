@@ -9,7 +9,6 @@ export const ja: Messages = {
 
   tabs: {
     roster: "名簿",
-    setup: "設定",
     schedule: "コート",
     standings: "順位",
   },
@@ -41,16 +40,14 @@ export const ja: Messages = {
     confirmedCount: (confirmed, max) => `確定 ${confirmed} / ${max} 枠`,
     waitingHeading: "キャンセル待ち",
     position: (n) => `${n}番目`,
-    frozen: "スケジュールが生成されているため、名簿はロックされています。変更するには「設定」タブでスケジュールを破棄してください。",
+    frozen: "イベントが開始されたため名簿は固定されています。変更するには受付に戻ってください。",
     registrationOpen: "受付中",
     registrationClosed: "受付を締め切りました",
-    closeRegistration: "受付を締め切る",
-    openRegistration: "受付を再開する",
+    startEvent: "イベントを開始",
+    backToRegistration: "受付に戻る",
   },
 
   setup: {
-    heading: "イベントの設定",
-    lede: "同じメンバー・設定・シードからは常に同じスケジュールが生まれます。別のものにするにはシードを振り直してください。",
     courts: "コート数",
     rounds: "ラウンド数",
     restSlots: "休憩枠",
@@ -60,20 +57,15 @@ export const ja: Messages = {
     seed: "シード",
     reroll: "振り直す",
     capacity: (onCourt, resting) => `各ラウンド ${onCourt} 人がコートに入り、${resting} 人が休憩します。`,
-    needPlayers: "生成するには4人以上のプレーヤーが必要です。",
-    generate: "スケジュールを生成",
+    needPlayers: "開始するには確定した参加者が 4 人以上必要です。",
     quality: "スケジュールの質",
     qualityLede:
       "アルゴリズムスコア（SPEC-2）。評価するのはスケジュールであってプレーヤーではなく、ここにしか表示されません。",
     waived: "免除",
     diagnostics: (partnerRepeat, opponentStreak, byeSpread, blowoutPercent) =>
       `同じペアの最大回数 ${partnerRepeat} · 同じ相手との最長連続 ${opponentStreak} · 休憩回数の差 ${byeSpread} · 大差試合の割合 ${blowoutPercent}%`,
-    noScore: "スケジュールを生成するとスコアが表示されます。",
     suggested: "コート数と休憩枠は確定したプレーヤー数に応じて提案されます。",
     useSuggestion: "提案値を使う",
-    closeFirst: "生成する前に受付を締め切り、名簿が変わらないようにしてください。",
-    discardFirst: "スケジュールはすでに生成されています。新しいスケジュールを生成するには、先に破棄してください。",
-    discard: "スケジュールを破棄",
   },
 
   grades: {
@@ -111,8 +103,9 @@ export const ja: Messages = {
 
   schedule: {
     heading: "本日のコート",
-    empty: "まだスケジュールがありません。プレーヤーを追加して、「設定」タブから生成してください。",
+    empty: "スケジュールはまだありません。全員そろったら名簿タブからイベントを開始してください。",
     print: "印刷",
+    adjust: "スケジュールを調整",
     rounds: "ラウンド",
     roundChip: (round) => `R${round}`,
     roundOf: (round, total) => `ラウンド ${round} / ${total}`,
@@ -216,7 +209,7 @@ export const ja: Messages = {
       cancel: "キャンセル",
       signedUp: (n) => `すでに ${n} 人が登録済みです。`,
       demote: (n) => `登録済みの ${n} 人がキャンセル待ちに移ります。`,
-      frozen: "スケジュールが生成済みです。コート数や枠を変更するには、設定タブで破棄してください。",
+      frozen: "イベントは開始済みです。コート数・枠・ラウンド数を変更するには受付に戻ってください。",
       notify: (n) => `定員が減り、${n} 人がキャンセル待ちに移りました。グループチャットで知らせて、全員に参加状況を確認してもらいましょう。`,
       notifyPromoted: "キャンセル待ちから繰り上がった人がいます。グループチャットで知らせて、参加できることを伝えましょう。",
       copyUpdate: "グループ用メッセージをコピー",
@@ -230,7 +223,7 @@ export const ja: Messages = {
     errors: {
       "not-found": "このイベントはもう存在しません。",
       invalid: "その変更は無効だったため、無視されました。",
-      frozen: "スケジュールが生成されています。名簿を変更する前に破棄してください。",
+      frozen: "イベントは開始済みです。名簿を変更するには受付に戻ってください。",
       open: "先に受付を締め切ってください。",
       players: "確定したプレーヤーが4人以上必要です。",
       full: "このイベントは受付上限に達しています。",
