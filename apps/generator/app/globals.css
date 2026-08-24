@@ -256,6 +256,16 @@ a.button {
   background: var(--paper-edge);
 }
 
+/* Quiet buttons sit on paper; the header is court-deep, so invert them there. */
+.app__header .button--quiet {
+  color: var(--paper);
+  border-color: rgba(243, 244, 238, 0.45);
+}
+
+.app__header .button--quiet:hover:not(:disabled) {
+  background: rgba(243, 244, 238, 0.12);
+}
+
 .button--danger {
   background: transparent;
   color: #9a3324;
