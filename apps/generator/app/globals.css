@@ -531,15 +531,19 @@ a.button {
 }
 
 .picker__time {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-sm);
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
 }
 
 .picker__col {
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  width: 92px;
+}
+
+.picker__col .label {
+  text-align: center;
 }
 
 .picker__list {
