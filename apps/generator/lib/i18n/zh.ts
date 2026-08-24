@@ -4,6 +4,7 @@ import type { Messages } from "./en";
 export const zh: Messages = {
   title: ["混合", "双打"],
   language: "语言",
+  menu: "菜单",
   dismiss: "关闭",
   sections: "栏目",
 

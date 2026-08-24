@@ -3,6 +3,7 @@ import type { Messages } from "./en";
 export const ja: Messages = {
   title: ["ミックス", "ダブルス"],
   language: "言語",
+  menu: "メニュー",
   dismiss: "閉じる",
   sections: "セクション",
 

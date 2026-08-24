@@ -3,6 +3,7 @@ import type { Messages } from "./en";
 export const vi: Messages = {
   title: ["Đánh đôi", "nam nữ"],
   language: "Ngôn ngữ",
+  menu: "Menu",
   dismiss: "Đóng",
   sections: "Các mục",
 

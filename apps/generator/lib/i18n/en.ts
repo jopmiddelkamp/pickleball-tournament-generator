@@ -13,6 +13,7 @@ export const en = {
   /** the two halves of the app title; the second is highlighted */
   title: ["Mixed", "doubles"] as readonly [string, string],
   language: "Language",
+  menu: "Menu",
   dismiss: "Dismiss",
   sections: "Sections",
 

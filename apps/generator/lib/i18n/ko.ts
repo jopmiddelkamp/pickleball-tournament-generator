@@ -3,6 +3,7 @@ import type { Messages } from "./en";
 export const ko: Messages = {
   title: ["혼합", "복식"],
   language: "언어",
+  menu: "메뉴",
   dismiss: "닫기",
   sections: "섹션",
 

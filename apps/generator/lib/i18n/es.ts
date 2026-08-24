@@ -3,6 +3,7 @@ import type { Messages } from "./en";
 export const es: Messages = {
   title: ["Dobles", "mixtos"],
   language: "Idioma",
+  menu: "Menú",
   dismiss: "Cerrar",
   sections: "Secciones",
 
