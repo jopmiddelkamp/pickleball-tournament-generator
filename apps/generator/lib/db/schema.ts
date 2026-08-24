@@ -15,7 +15,7 @@ export const tournaments = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     /** Supabase auth user id; every organiser query filters on it */
     organiserId: uuid("organiser_id").notNull(),
-    /** public, shareable id used in /t/<slug> */
+    /** public, shareable id used in /event/<slug> */
     slug: text("slug").notNull().unique(),
     name: text("name").notNull(),
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),

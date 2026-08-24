@@ -1,6 +1,6 @@
 import { randomBytes, randomInt } from "node:crypto";
 
-/** 12 URL-safe characters; the shareable id in /t/<slug>. */
+/** 12 URL-safe characters; the shareable id in /event/<slug>. */
 export function newSlug(): string {
   return randomBytes(9).toString("base64url");
 }

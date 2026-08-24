@@ -21,7 +21,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
   const [copied, setCopied] = useState<string | null>(null);
 
   async function copyLink(tournament: TournamentSummary) {
-    const url = `${window.location.origin}/t/${tournament.slug}`;
+    const url = `${window.location.origin}/event/${tournament.slug}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(tournament.id);
@@ -34,7 +34,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
     <div>
       <h2 className="screen__heading">{t.organiser.heading}</h2>
       <p className="screen__lede">{t.organiser.lede}</p>
-      <Link href="/organiser/new" className="button button--accent button--full">{t.organiser.newTournament}</Link>
+      <Link href="/organiser/event/new" className="button button--accent button--full">{t.organiser.newTournament}</Link>
       {tournaments.length === 0 ? (
         <EmptyState>{t.organiser.empty}</EmptyState>
       ) : (
@@ -50,7 +50,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
                 {t.organiser.players(tournament.players, tournament.maxPlayers)}
               </p>
               <div className="row" style={{ marginTop: 10 }}>
-                <Link href={`/organiser/${tournament.id}`} className="button button--small">{t.organiser.open}</Link>
+                <Link href={`/organiser/event/${tournament.id}`} className="button button--small">{t.organiser.open}</Link>
                 <button type="button" className="button button--quiet button--small" onClick={() => copyLink(tournament)}>
                   {copied === tournament.id ? t.organiser.copied : t.organiser.copyLink}
                 </button>

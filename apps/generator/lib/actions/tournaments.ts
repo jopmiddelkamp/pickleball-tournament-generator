@@ -19,7 +19,7 @@ export async function createTournamentAction(_prev: CreateTournamentState, formD
   const input = parseTournamentForm(formData);
   if (!input) return { error: "invalid" };
   const created = await createTournament(organiserId, input);
-  redirect(`/organiser/${created.id}`);
+  redirect(`/organiser/event/${created.id}`);
 }
 
 /** Ownership check shared by every workspace action; a stranger's id is a 404. */
@@ -29,7 +29,7 @@ async function owned(id: string): Promise<OwnedWorkspace> {
 
 async function save(owner: OwnedWorkspace, patch: TournamentPatch): Promise<ActionResult> {
   await updateTournament(owner.organiserId, owner.tournament.id, patch);
-  revalidatePath(`/organiser/${owner.tournament.id}`);
+  revalidatePath(`/organiser/event/${owner.tournament.id}`);
   return OK;
 }
 

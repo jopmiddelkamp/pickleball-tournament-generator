@@ -45,7 +45,7 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
     path: "/",
     maxAge: 60 * 60 * 24 * 365,
   });
-  revalidatePath(`/t/${tournament.slug}`);
+  revalidatePath(`/event/${tournament.slug}`);
   return { error: null };
 }
 
@@ -62,6 +62,6 @@ export async function cancelMyRegistrationAction(slug: string): Promise<PublicFo
   if (tournament.schedule != null) return { error: "closed" };
 
   await cancelRegistration(tournament.id, registration.id);
-  revalidatePath(`/t/${tournament.slug}`);
+  revalidatePath(`/event/${tournament.slug}`);
   return { error: null };
 }

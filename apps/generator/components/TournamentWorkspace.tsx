@@ -114,7 +114,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           players={players}
           games={games}
           score={score}
-          printHref={`/organiser/print/${view.id}`}
+          printHref={`/organiser/event/${view.id}/print`}
           roundsStarted={view.roundsStarted}
           finished={view.status === "finished"}
           onStartRound={() => run(() => startRoundAction(view.id))}

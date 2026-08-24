@@ -21,7 +21,7 @@ export async function addWalkInAction(id: string, input: unknown): Promise<Actio
   if (!player) return fail("invalid");
   if ((await countActiveRegistrations(id)) >= LIMITS.maxRegistrations) return fail("full");
   await addRegistration(tournament.id, { name: player.name, gender: player.gender, level: player.level, participantToken: null });
-  revalidatePath(`/organiser/${id}`);
+  revalidatePath(`/organiser/event/${id}`);
   return OK;
 }
 
@@ -30,7 +30,7 @@ export async function removeRegistrationAction(id: string, registrationId: strin
   if (frozen) return fail("frozen");
   if (typeof registrationId !== "string") return fail("invalid");
   await cancelRegistration(id, registrationId);
-  revalidatePath(`/organiser/${id}`);
+  revalidatePath(`/organiser/event/${id}`);
   return OK;
 }
 
@@ -38,6 +38,6 @@ export async function setRegistrationOpenAction(id: string, open: boolean): Prom
   const { organiserId, frozen } = await ownedUnfrozen(id);
   if (frozen) return fail("frozen");
   await updateTournament(organiserId, id, { registrationClosedAt: open ? null : new Date() });
-  revalidatePath(`/organiser/${id}`);
+  revalidatePath(`/organiser/event/${id}`);
   return OK;
 }

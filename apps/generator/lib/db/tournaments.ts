@@ -40,7 +40,7 @@ export async function findTournament(organiserId: string, id: string): Promise<T
   return rows[0] ?? null;
 }
 
-/** Public lookup for /t/<slug>: no organiser scope, since anyone with the link may read it. */
+/** Public lookup for /event/<slug>: no organiser scope, since anyone with the link may read it. */
 export async function findTournamentBySlug(slug: string): Promise<TournamentRow | null> {
   if (!SLUG.test(slug)) return null;
   const rows = await db.select().from(tournaments).where(eq(tournaments.slug, slug)).limit(1);

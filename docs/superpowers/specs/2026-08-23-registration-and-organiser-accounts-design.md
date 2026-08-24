@@ -12,6 +12,11 @@ playing, one resting — so 4 courts confirm 20 players, not 24. Everyone
 plays about four fifths of the rounds, matching how the club ran evenings
 before. Where this document derives capacity from six per court, read five.
 
+Amended 2026-08-24 (routes): the organiser side lives at /organiser/event
+(list), /organiser/event/:id (manage) and /organiser/event/:id/print; the
+public page moved from /t/<slug> to /event/<slug>, with /t/<slug> kept as a
+redirect for links shared before the move.
+
 ## Goal
 
 An organiser creates a tournament evening and shares one URL in the club's
