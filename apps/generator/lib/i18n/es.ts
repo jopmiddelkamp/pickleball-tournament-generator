@@ -192,7 +192,8 @@ export const es: Messages = {
       finished: "Finalizada",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} jugadores`,
-    copyLink: "Copiar enlace de inscripción",
+    copyLink: "Copiar invitación",
+    inviteMessage: (name, when, url) => `¡Apúntate a ${name} el ${when}! Inscríbete y sigue el evento aquí: ${url}`,
     copied: "Enlace copiado",
     open: "Abrir",
     form: {
@@ -215,6 +216,11 @@ export const es: Messages = {
       signedUp: (n) => `Ya hay ${n} inscritos.`,
       demote: (n) => (n === 1 ? "1 inscrito pasaría a la lista de espera." : `${n} inscritos pasarían a la lista de espera.`),
       frozen: "El calendario está generado — descártalo en la pestaña de configuración para cambiar pistas o plazas.",
+      notify: (n) => (n === 1 ? "La capacidad bajó: 1 inscrito pasó a la lista de espera. Avisa en el grupo para que todos comprueben si conservan su plaza." : `La capacidad bajó: ${n} inscritos pasaron a la lista de espera. Avisa en el grupo para que todos comprueben si conservan su plaza.`),
+      notifyPromoted: "Alguien subió de la lista de espera. Avisa en el grupo para que sepa que ya está dentro.",
+      copyUpdate: "Copiar mensaje para el grupo",
+      updateDemoted: (name, url) => `Actualización de ${name}: hemos tenido que reducir la capacidad y la lista de confirmados cambió. Comprueba si conservas tu plaza: ${url}`,
+      updatePromoted: (name, url) => `Actualización de ${name}: se liberó una plaza y alguien subió de la lista de espera. Comprueba tu estado aquí: ${url}`,
     },
   },
 

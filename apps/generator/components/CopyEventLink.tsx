@@ -1,26 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { useLocale } from "../lib/i18n/useLocale";
+import { CopyButton } from "./CopyButton";
 
-/** Copies the event's public /event/<slug> link; the one way that URL is handed out. */
-export function CopyEventLink({ slug }: { slug: string }) {
-  const { t } = useLocale();
-  const [copied, setCopied] = useState(false);
-
-  async function copy(): Promise<void> {
-    const url = `${window.location.origin}/event/${slug}`;
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-    } catch {
-      window.prompt(t.organiser.copyLink, url);
-    }
-  }
-
+/** Copies a ready-to-paste group-chat invite carrying the public /event/<slug> link. */
+export function CopyEventLink({ slug, name, startsAt }: { slug: string; name: string; startsAt: string }) {
+  const { t, locale } = useLocale();
   return (
-    <button type="button" className="button button--quiet button--small" onClick={copy}>
-      {copied ? t.organiser.copied : t.organiser.copyLink}
-    </button>
+    <CopyButton
+      label={t.organiser.copyLink}
+      copiedLabel={t.organiser.copied}
+      buildText={() => {
+        const when = new Date(startsAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" });
+        return t.organiser.inviteMessage(name, when, `${window.location.origin}/event/${slug}`);
+      }}
+    />
   );
 }

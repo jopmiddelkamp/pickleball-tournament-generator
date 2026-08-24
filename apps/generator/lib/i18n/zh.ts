@@ -190,7 +190,8 @@ export const zh: Messages = {
       finished: "已结束",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} 名球员`,
-    copyLink: "复制报名链接",
+    copyLink: "复制邀请",
+    inviteMessage: (name, when, url) => `${when} 我们将举行「${name}」！在这里报名并关注活动：${url}`,
     copied: "链接已复制",
     open: "打开",
     form: {
@@ -213,6 +214,11 @@ export const zh: Messages = {
       signedUp: (n) => `已有 ${n} 人报名。`,
       demote: (n) => `${n} 位已报名的选手将移入候补名单。`,
       frozen: "赛程已生成——要修改场地或名额，请先在设置页丢弃赛程。",
+      notify: (n) => `容量减少：${n} 位已报名的选手移入了候补名单。请在群里发个通知，让大家确认自己是否仍有名额。`,
+      notifyPromoted: "有人从候补名单递补成功。请在群里发个通知，让对方知道自己已入选。",
+      copyUpdate: "复制群通知消息",
+      updateDemoted: (name, url) => `${name} 通知：由于容量减少，入选名单有变动。请确认你是否仍有名额：${url}`,
+      updatePromoted: (name, url) => `${name} 通知：有名额空出，候补名单有人递补。请在这里查看你的状态：${url}`,
     },
   },
 

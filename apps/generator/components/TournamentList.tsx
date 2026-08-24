@@ -41,7 +41,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
               </p>
               <div className="row" style={{ marginTop: 10 }}>
                 <Link href={`/organiser/event/${tournament.id}`} className="button button--small">{t.organiser.open}</Link>
-                <CopyEventLink slug={tournament.slug} />
+                <CopyEventLink slug={tournament.slug} name={tournament.name} startsAt={tournament.startsAt} />
               </div>
             </li>
           ))}

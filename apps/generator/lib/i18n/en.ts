@@ -207,7 +207,8 @@ export const en = {
       finished: "Finished",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} players`,
-    copyLink: "Copy sign-up link",
+    copyLink: "Copy invite",
+    inviteMessage: (name: string, when: string, url: string) => `Join us for ${name} on ${when}! Sign up and follow the event here: ${url}`,
     copied: "Link copied",
     open: "Open",
     form: {
@@ -230,6 +231,11 @@ export const en = {
       signedUp: (n: number) => `${n} already signed up.`,
       demote: (n: number) => `${n} signed-up ${n === 1 ? "player" : "players"} would drop to the waiting list.`,
       frozen: "The schedule is generated — discard it on the Set up tab to change courts or spots.",
+      notify: (n: number) => `Capacity went down: ${n} signed-up ${n === 1 ? "player" : "players"} dropped to the waiting list. Post an update in the group chat so everyone checks whether they still have a spot.`,
+      notifyPromoted: "Someone moved up from the waiting list. Post an update in the group chat so they know they're in.",
+      copyUpdate: "Copy message for the group chat",
+      updateDemoted: (name: string, url: string) => `Update for ${name}: we had to reduce capacity, so the confirmed list changed. Please check whether you still have a spot: ${url}`,
+      updatePromoted: (name: string, url: string) => `Update for ${name}: a spot opened up and someone moved off the waiting list. Check your status here: ${url}`,
     },
   },
 

@@ -191,7 +191,8 @@ export const ko: Messages = {
       finished: "종료됨",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max}명`,
-    copyLink: "가입 링크 복사",
+    copyLink: "초대 메시지 복사",
+    inviteMessage: (name, when, url) => `${when}에 ${name} 열립니다! 여기에서 등록하고 이벤트를 확인하세요: ${url}`,
     copied: "링크 복사됨",
     open: "열기",
     form: {
@@ -214,6 +215,11 @@ export const ko: Messages = {
       signedUp: (n) => `이미 ${n}명이 등록했습니다.`,
       demote: (n) => `등록된 ${n}명이 대기 명단으로 이동합니다.`,
       frozen: "일정이 이미 생성되었습니다. 코트 수나 인원을 바꾸려면 설정 탭에서 일정을 삭제하세요.",
+      notify: (n) => `정원이 줄어 ${n}명이 대기 명단으로 이동했습니다. 그룹 채팅에 공지해서 모두 자기 자리가 남아 있는지 확인하게 하세요.`,
+      notifyPromoted: "대기 명단에서 올라온 사람이 있습니다. 그룹 채팅에 공지해서 참가가 확정됐음을 알려 주세요.",
+      copyUpdate: "그룹 채팅용 메시지 복사",
+      updateDemoted: (name, url) => `${name} 안내: 정원이 줄어 확정 명단이 바뀌었습니다. 자리가 남아 있는지 확인해 주세요: ${url}`,
+      updatePromoted: (name, url) => `${name} 안내: 자리가 생겨 대기 명단에서 올라온 사람이 있습니다. 상태를 확인해 주세요: ${url}`,
     },
   },
 

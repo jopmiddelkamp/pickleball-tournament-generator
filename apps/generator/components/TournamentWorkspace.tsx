@@ -19,6 +19,7 @@ import { withScore, withVoided } from "../lib/evening";
 import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
+import { CopyButton } from "./CopyButton";
 import { CopyEventLink } from "./CopyEventLink";
 import { EditEventForm } from "./EditEventForm";
 import { RosterScreen } from "./RosterScreen";
@@ -32,6 +33,8 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
   const { t } = useLocale();
   const [tab, setTab] = useState<Tab>(view.status === "finished" ? "standings" : view.schedule ? "schedule" : "roster");
   const [editing, setEditing] = useState(false);
+  const [demotedNotice, setDemotedNotice] = useState(0);
+  const [promotedNotice, setPromotedNotice] = useState(false);
   const [error, setError] = useState<ActionError | null>(null);
   const [, startTransition] = useTransition();
   // Score entry is per keystroke; show it immediately, the server confirms.
@@ -71,15 +74,39 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           <button type="button" className="button button--quiet button--small" onClick={() => setEditing(!editing)}>
             {t.organiser.edit.open}
           </button>
-          <CopyEventLink slug={view.slug} />
+          <CopyEventLink slug={view.slug} name={view.name} startsAt={view.startsAt} />
         </div>
       </div>
+      {demotedNotice > 0 ? (
+        <Notice tone="warn" onDismiss={() => setDemotedNotice(0)}>
+          {t.organiser.edit.notify(demotedNotice)}{" "}
+          <CopyButton
+            label={t.organiser.edit.copyUpdate}
+            copiedLabel={t.organiser.copied}
+            buildText={() => t.organiser.edit.updateDemoted(view.name, `${window.location.origin}/event/${view.slug}`)}
+          />
+        </Notice>
+      ) : null}
+      {promotedNotice ? (
+        <Notice tone="warn" onDismiss={() => setPromotedNotice(false)}>
+          {t.organiser.edit.notifyPromoted}{" "}
+          <CopyButton
+            label={t.organiser.edit.copyUpdate}
+            copiedLabel={t.organiser.copied}
+            buildText={() => t.organiser.edit.updatePromoted(view.name, `${window.location.origin}/event/${view.slug}`)}
+          />
+        </Notice>
+      ) : null}
       {editing ? (
         <EditEventForm
           view={view}
           registered={view.confirmed.length + view.waiting.length}
           frozen={scheduleStored}
           onClose={() => setEditing(false)}
+          onSaved={(demoted) => {
+            setEditing(false);
+            setDemotedNotice(demoted);
+          }}
         />
       ) : null}
       {view.notice ? <Notice tone="warn">{t.workspace.unreadable}</Notice> : null}
@@ -97,7 +124,14 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           guestHosts={view.guestHosts}
           registrationOpen={view.registrationOpen}
           frozen={scheduleStored}
-          onRemove={(id) => run(() => removeRegistrationAction(view.id, id))}
+          onRemove={(id) => {
+            // Removing a confirmed player while others wait silently promotes
+            // the first waiter; the organiser should announce that.
+            const promotes = view.waiting.length > 0 && view.confirmed.some((p) => p.id === id);
+            run(() => removeRegistrationAction(view.id, id), () => {
+              if (promotes) setPromotedNotice(true);
+            });
+          }}
           onToggleRegistration={(open) => run(() => setRegistrationOpenAction(view.id, open))}
         />
       ) : null}

@@ -191,7 +191,8 @@ export const ja: Messages = {
       finished: "終了",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} 人`,
-    copyLink: "サインアップリンクをコピー",
+    copyLink: "招待をコピー",
+    inviteMessage: (name, when, url) => `${when}、「${name}」を開催します！登録とイベントの確認はこちら：${url}`,
     copied: "リンクをコピーしました",
     open: "開く",
     form: {
@@ -214,6 +215,11 @@ export const ja: Messages = {
       signedUp: (n) => `すでに ${n} 人が登録済みです。`,
       demote: (n) => `登録済みの ${n} 人がキャンセル待ちに移ります。`,
       frozen: "スケジュールが生成済みです。コート数や枠を変更するには、設定タブで破棄してください。",
+      notify: (n) => `定員が減り、${n} 人がキャンセル待ちに移りました。グループチャットで知らせて、全員に参加状況を確認してもらいましょう。`,
+      notifyPromoted: "キャンセル待ちから繰り上がった人がいます。グループチャットで知らせて、参加できることを伝えましょう。",
+      copyUpdate: "グループ用メッセージをコピー",
+      updateDemoted: (name, url) => `「${name}」のお知らせ：定員を減らしたため、参加確定リストが変わりました。参加状況をご確認ください：${url}`,
+      updatePromoted: (name, url) => `「${name}」のお知らせ：空きが出て、キャンセル待ちからの繰り上がりがありました。参加状況はこちらでご確認ください：${url}`,
     },
   },
 

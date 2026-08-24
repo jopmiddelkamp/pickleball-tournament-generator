@@ -3,7 +3,7 @@
 import { MAX_PLAYERS_PER_COURT, MIN_PLAYERS_PER_COURT, maxPlayersFor } from "@ptg/core";
 import { useActionState, useState } from "react";
 import { updateEventDetailsAction } from "../lib/actions/tournaments";
-import { INITIAL_CREATE_STATE, type CreateTournamentState } from "../lib/actions/tournamentState";
+import { INITIAL_EDIT_STATE, type EditEventState } from "../lib/actions/tournamentState";
 import { LIMITS } from "../lib/config";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
@@ -22,25 +22,26 @@ const PER_COURT_OPTIONS = Array.from(
  * freezes together with the roster once a schedule is generated; name and
  * start time stay editable.
  */
-export function EditEventForm({ view, registered, frozen, onClose }: {
+export function EditEventForm({ view, registered, frozen, onClose, onSaved }: {
   view: WorkspaceView;
   /** active registrations, confirmed + waiting */
   registered: number;
   /** a schedule is stored, so capacity cannot move */
   frozen: boolean;
   onClose: () => void;
+  onSaved: (demoted: number) => void;
 }) {
   const { t } = useLocale();
   const tzOffset = useTzOffset();
   const [courts, setCourts] = useState(view.maxCourts);
   const [perCourt, setPerCourt] = useState(view.playersPerCourt);
   const [state, formAction, pending] = useActionState(
-    async (prev: CreateTournamentState, formData: FormData) => {
+    async (prev: EditEventState, formData: FormData) => {
       const result = await updateEventDetailsAction(view.id, prev, formData);
-      if (result.error === null) onClose();
+      if (result.error === null) onSaved(result.demoted);
       return result;
     },
-    INITIAL_CREATE_STATE,
+    INITIAL_EDIT_STATE,
   );
 
   const capacity = maxPlayersFor(courts, perCourt);

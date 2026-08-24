@@ -1,6 +1,6 @@
 "use server";
 
-import { DEFAULT_ALGORITHM_ID, generateSchedule, getAlgorithm, playingCapacity, type Match } from "@ptg/core";
+import { DEFAULT_ALGORITHM_ID, generateSchedule, getAlgorithm, maxPlayersFor, playingCapacity, type Match } from "@ptg/core";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireOrganiserId } from "../auth";
@@ -12,7 +12,7 @@ import { effectiveConfig, type WorkspaceView } from "../tournament";
 import { parseSetupPatch, parseTournamentForm } from "../validate";
 import { loadOwnedWorkspace, type OwnedWorkspace } from "../workspace";
 import { fail, OK, type ActionResult } from "./result";
-import type { CreateTournamentState } from "./tournamentState";
+import type { CreateTournamentState, EditEventState } from "./tournamentState";
 
 export async function createTournamentAction(_prev: CreateTournamentState, formData: FormData): Promise<CreateTournamentState> {
   const organiserId = await requireOrganiserId();
@@ -24,12 +24,12 @@ export async function createTournamentAction(_prev: CreateTournamentState, formD
 
 export async function updateEventDetailsAction(
   id: string,
-  _prev: CreateTournamentState,
+  _prev: EditEventState,
   formData: FormData,
-): Promise<CreateTournamentState> {
+): Promise<EditEventState> {
   const owner = await loadOwnedWorkspace(id);
   const input = parseTournamentForm(formData);
-  if (!input) return { error: "invalid" };
+  if (!input) return { error: "invalid", demoted: 0 };
   // Capacity is frozen together with the roster once a schedule exists; the
   // form disables those fields, so a change arriving here is stale.
   const scheduleStored = owner.tournament.schedule != null;
@@ -37,8 +37,14 @@ export async function updateEventDetailsAction(
     scheduleStored &&
     (input.maxCourts !== owner.tournament.maxCourts || input.playersPerCourt !== owner.tournament.playersPerCourt)
   ) {
-    return { error: "invalid" };
+    return { error: "invalid", demoted: 0 };
   }
+  // Confirmed players a smaller capacity pushes onto the waiting list; the
+  // organiser is told to announce it so everyone re-checks their spot.
+  const active = owner.view.confirmed.length + owner.view.waiting.length;
+  const oldCapacity = maxPlayersFor(owner.tournament.maxCourts, owner.tournament.playersPerCourt);
+  const newCapacity = scheduleStored ? oldCapacity : maxPlayersFor(input.maxCourts, input.playersPerCourt);
+  const demoted = Math.max(0, Math.min(active, oldCapacity) - Math.min(active, newCapacity));
   await updateTournament(owner.organiserId, owner.tournament.id, {
     name: input.name,
     startsAt: input.startsAt,
@@ -46,7 +52,7 @@ export async function updateEventDetailsAction(
   });
   revalidatePath(`/organiser/event/${owner.tournament.id}`);
   revalidatePath(`/event/${owner.tournament.slug}`);
-  return { error: null };
+  return { error: null, demoted };
 }
 
 /** Ownership check shared by every workspace action; a stranger's id is a 404. */

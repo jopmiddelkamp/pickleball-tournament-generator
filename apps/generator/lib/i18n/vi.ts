@@ -192,7 +192,8 @@ export const vi: Messages = {
       finished: "Đã kết thúc",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} người chơi`,
-    copyLink: "Sao chép liên kết đăng ký",
+    copyLink: "Sao chép lời mời",
+    inviteMessage: (name, when, url) => `Tham gia ${name} vào ${when} nhé! Đăng ký và theo dõi sự kiện tại đây: ${url}`,
     copied: "Đã sao chép liên kết",
     open: "Mở",
     form: {
@@ -215,6 +216,11 @@ export const vi: Messages = {
       signedUp: (n) => `Đã có ${n} người đăng ký.`,
       demote: (n) => `${n} người đã đăng ký sẽ chuyển xuống danh sách chờ.`,
       frozen: "Lịch thi đấu đã được tạo — hãy hủy lịch ở mục Thiết lập để đổi số sân hoặc số chỗ.",
+      notify: (n) => `Sức chứa giảm: ${n} người chơi đã chuyển xuống danh sách chờ. Hãy thông báo trong nhóm chat để mọi người kiểm tra xem mình còn suất không.`,
+      notifyPromoted: "Có người vừa được chuyển lên từ danh sách chờ. Hãy thông báo trong nhóm chat để họ biết mình đã có suất.",
+      copyUpdate: "Sao chép tin nhắn cho nhóm",
+      updateDemoted: (name, url) => `Cập nhật về ${name}: sức chứa đã giảm nên danh sách xác nhận thay đổi. Hãy kiểm tra xem bạn còn suất không: ${url}`,
+      updatePromoted: (name, url) => `Cập nhật về ${name}: một suất vừa trống và có người được chuyển lên từ danh sách chờ. Kiểm tra trạng thái của bạn tại đây: ${url}`,
     },
   },
 
