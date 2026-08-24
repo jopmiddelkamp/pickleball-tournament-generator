@@ -201,13 +201,11 @@ export const vi: Messages = {
       name: "Tên",
       namePlaceholder: "Đôi nam nữ thứ Sáu",
       startsAt: "Bắt đầu",
-      maxPlayers: "Số người chơi tối đa",
-      maxPlayersHint: "Đăng ký vượt quá số này sẽ vào danh sách chờ, ai đăng ký trước được ưu tiên trước.",
       maxCourts: "Số sân có sẵn",
-      rounds: "Số vòng",
-      gameTarget: "Chơi đến",
+      capacity: (courts: number, cap: number) =>
+        `${courts} sân — tối đa ${cap} người chơi. Ai đăng ký vượt quá số đó sẽ vào danh sách chờ, ai đăng ký trước được ưu tiên trước.`,
       create: "Tạo buổi tối",
-      invalid: "Kiểm tra các trường được đánh dấu: tên, ngày trong tương lai, 4–64 người chơi, 1–6 sân, 1–20 vòng.",
+      invalid: "Kiểm tra các trường: tên, ngày, và 1–6 sân.",
     },
   },
 

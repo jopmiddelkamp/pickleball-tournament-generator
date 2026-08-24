@@ -199,13 +199,11 @@ export const zh: Messages = {
       name: "名称",
       namePlaceholder: "周五混双",
       startsAt: "开始时间",
-      maxPlayers: "最多球员数",
-      maxPlayersHint: "超出此人数的报名将进入候补名单，先到先得。",
       maxCourts: "可用场地数",
-      rounds: "轮次",
-      gameTarget: "比赛打到",
+      capacity: (courts: number, cap: number) =>
+        `${courts} 片场地 — 最多可容纳 ${cap} 名球员。超出人数将进入候补名单，先到先得。`,
       create: "创建活动之夜",
-      invalid: "请检查高亮字段：名称、未来的日期、4–64 名球员、1–6 片场地、1–20 轮次。",
+      invalid: "请检查以下字段：名称、日期、以及 1–6 片场地。",
     },
   },
 

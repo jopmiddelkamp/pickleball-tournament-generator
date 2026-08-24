@@ -201,13 +201,11 @@ export const es: Messages = {
       name: "Nombre",
       namePlaceholder: "Dobles mixtos del viernes",
       startsAt: "Empieza",
-      maxPlayers: "Jugadores máximos",
-      maxPlayersHint: "Las inscripciones por encima de este número pasan a la lista de espera, por orden de llegada.",
       maxCourts: "Pistas disponibles",
-      rounds: "Rondas",
-      gameTarget: "Los partidos se juegan a",
+      capacity: (courts: number, cap: number) =>
+        `${courts} ${courts === 1 ? "pista" : "pistas"} — hasta ${cap} jugadores. Quien se inscriba por encima de eso pasa a la lista de espera, por orden de llegada.`,
       create: "Crear noche",
-      invalid: "Revisa los campos resaltados: nombre, una fecha futura, 4–64 jugadores, 1–6 pistas, 1–20 rondas.",
+      invalid: "Revisa los campos: un nombre, una fecha y de 1 a 6 pistas.",
     },
   },
 

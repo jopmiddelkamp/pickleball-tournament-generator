@@ -216,13 +216,11 @@ export const en = {
       name: "Name",
       namePlaceholder: "Friday mixed doubles",
       startsAt: "Starts",
-      maxPlayers: "Maximum players",
-      maxPlayersHint: "Sign-ups above this go on the waiting list, first come first served.",
       maxCourts: "Courts available",
-      rounds: "Rounds",
-      gameTarget: "Games are played to",
+      capacity: (courts: number, cap: number) =>
+        `${courts} ${courts === 1 ? "court" : "courts"} — up to ${cap} players. Anyone above that joins the waiting list, first come first served.`,
       create: "Create evening",
-      invalid: "Check the highlighted fields: name, a date in the future, 4–64 players, 1–6 courts, 1–20 rounds.",
+      invalid: "Check the fields: a name, a date, and 1–6 courts.",
     },
   },
 

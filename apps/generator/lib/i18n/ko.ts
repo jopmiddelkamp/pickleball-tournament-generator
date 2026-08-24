@@ -200,13 +200,11 @@ export const ko: Messages = {
       name: "이름",
       namePlaceholder: "금요일 혼합 복식",
       startsAt: "시작 시간",
-      maxPlayers: "최대 인원",
-      maxPlayersHint: "이 인원을 초과한 신청은 선착순으로 대기 명단에 올라갑니다.",
       maxCourts: "이용 가능한 코트 수",
-      rounds: "라운드 수",
-      gameTarget: "경기 목표 점수",
+      capacity: (courts: number, cap: number) =>
+        `코트 ${courts}개 — 최대 ${cap}명까지. 이 인원을 초과한 신청은 선착순으로 대기 명단에 올라갑니다.`,
       create: "저녁 만들기",
-      invalid: "강조 표시된 항목을 확인하세요: 이름, 미래의 날짜, 4~64명, 코트 1~6개, 라운드 1~20회.",
+      invalid: "다음 항목을 확인하세요: 이름, 날짜, 코트 1~6개.",
     },
   },
 

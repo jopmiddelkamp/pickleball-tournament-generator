@@ -200,13 +200,11 @@ export const ja: Messages = {
       name: "名前",
       namePlaceholder: "金曜ミックスダブルス",
       startsAt: "開始日時",
-      maxPlayers: "最大参加人数",
-      maxPlayersHint: "この人数を超えた申し込みはキャンセル待ちになります（先着順）。",
       maxCourts: "利用可能なコート数",
-      rounds: "ラウンド数",
-      gameTarget: "得点目標",
+      capacity: (courts: number, cap: number) =>
+        `コート${courts}面 — 最大${cap}人まで。それを超える申し込みはキャンセル待ちになります（先着順）。`,
       create: "夜を作成",
-      invalid: "強調表示された項目を確認してください：名前、未来の日付、4〜64人、1〜6面のコート、1〜20ラウンド。",
+      invalid: "項目を確認してください：名前、日付、1〜6面のコート。",
     },
   },
 

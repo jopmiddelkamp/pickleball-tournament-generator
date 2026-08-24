@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useSyncExternalStore } from "react";
+import { maxPlayersFor } from "@ptg/core";
+import { useActionState, useState, useSyncExternalStore } from "react";
 import { createTournamentAction } from "../lib/actions/tournaments";
 import { INITIAL_CREATE_STATE } from "../lib/actions/tournamentState";
 import { LIMITS } from "../lib/config";
@@ -28,6 +29,7 @@ export function NewTournamentForm() {
   // renders 0 (UTC); the client snapshot corrects it after mount, so SSR and the
   // hydrated markup agree before the correction lands.
   const tzOffset = useSyncExternalStore(noopSubscribe, getTzOffset, getServerTzOffset);
+  const [courts, setCourts] = useState(4);
 
   return (
     <div>
@@ -35,6 +37,7 @@ export function NewTournamentForm() {
       {state.error ? <Notice tone="warn">{t.organiser.form.invalid}</Notice> : null}
       <form className="card stack" action={formAction}>
         <input type="hidden" name="tzOffset" value={tzOffset} />
+        <input type="hidden" name="maxCourts" value={courts} />
         <div>
           <label className="label" htmlFor="name">{t.organiser.form.name}</label>
           <input id="name" name="name" className="input" maxLength={LIMITS.maxTournamentName} placeholder={t.organiser.form.namePlaceholder} required />
@@ -43,28 +46,22 @@ export function NewTournamentForm() {
           <label className="label" htmlFor="startsAt">{t.organiser.form.startsAt}</label>
           <input id="startsAt" name="startsAt" className="input" type="datetime-local" required />
         </div>
-        <div className="row">
-          <div style={{ flex: 1 }}>
-            <label className="label" htmlFor="maxPlayers">{t.organiser.form.maxPlayers}</label>
-            <input id="maxPlayers" name="maxPlayers" className="input" type="number" inputMode="numeric" min={4} max={LIMITS.maxPlayers} defaultValue={16} required />
-          </div>
-          <div style={{ flex: 1 }}>
-            <label className="label" htmlFor="rounds">{t.organiser.form.rounds}</label>
-            <input id="rounds" name="rounds" className="input" type="number" inputMode="numeric" min={LIMITS.minRounds} max={LIMITS.maxRounds} defaultValue={6} required />
-          </div>
-        </div>
-        <p className="standings__detail">{t.organiser.form.maxPlayersHint}</p>
         <div>
-          <label className="label" htmlFor="maxCourts">{t.organiser.form.maxCourts}</label>
-          <select id="maxCourts" name="maxCourts" className="select" defaultValue={4}>
-            {COURT_OPTIONS.map((n) => <option key={n} value={n}>{n}</option>)}
-          </select>
-        </div>
-        <div>
-          <label className="label" htmlFor="gameTarget">{t.organiser.form.gameTarget}</label>
-          <select id="gameTarget" name="gameTarget" className="select" defaultValue={11}>
-            {[11, 16, 21].map((points) => <option key={points} value={points}>{t.setup.points(points)}</option>)}
-          </select>
+          <span className="label" id="courts-label">{t.organiser.form.maxCourts}</span>
+          <div className="segmented" role="group" aria-labelledby="courts-label">
+            {COURT_OPTIONS.map((n) => (
+              <button
+                key={n}
+                type="button"
+                className="segmented__option"
+                aria-pressed={courts === n}
+                onClick={() => setCourts(n)}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+          <p className="standings__detail">{t.organiser.form.capacity(courts, maxPlayersFor(courts))}</p>
         </div>
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.form.create}
