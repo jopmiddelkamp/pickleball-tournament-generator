@@ -253,16 +253,16 @@ a.button {
   width: 34px;
   height: 30px;
   flex-shrink: 0;
-  border: 0;
+  border: 1px solid rgba(243, 244, 238, 0.35);
   border-radius: var(--radius-sm);
-  background: var(--paper);
-  color: var(--court-deep);
+  background: rgba(243, 244, 238, 0.18);
+  color: var(--paper);
   cursor: pointer;
 }
 
 .chip:hover,
 .chip[aria-expanded="true"] {
-  background: var(--paper-edge);
+  background: rgba(243, 244, 238, 0.3);
 }
 
 .chip--select {
