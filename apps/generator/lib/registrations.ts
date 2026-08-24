@@ -6,6 +6,8 @@ export interface ActiveRegistration {
   gender: Gender;
   level: Level;
   registeredAt: Date;
+  /** id of the registration that brought this player as a +1, if any */
+  guestOf: string | null;
 }
 
 /**

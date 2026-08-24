@@ -62,6 +62,8 @@ export interface WorkspaceView {
   gameTarget: number;
   schedule: Schedule | null;
   games: GameResult[];
+  /** registration id of a +1 -> name of who brought them */
+  guestHosts: Record<string, string>;
   /** set when the stored schedule or games could not be validated */
   notice: "unreadable" | null;
 }
@@ -71,6 +73,13 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
   const { confirmed, waiting } = partitionRegistrations(registrations, maxPlayers);
   const players = confirmed.map(toPlayer);
   const known = new Set(players.map((p) => p.id));
+
+  const guestHosts: Record<string, string> = {};
+  for (const r of registrations) {
+    if (r.guestOf == null) continue;
+    const host = registrations.find((h) => h.id === r.guestOf);
+    if (host) guestHosts[r.id] = host.name;
+  }
 
   const schedule = tournament.schedule == null ? null : parseSchedule(tournament.schedule, known);
   const games = schedule ? parseGames(tournament.games, known) : [];
@@ -96,6 +105,7 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
     usingSuggestion: tournament.courts === null && tournament.restSlots === null,
     algorithmId,
     gameTarget: tournament.gameTarget,
+    guestHosts,
     schedule: unreadable ? null : schedule,
     games: unreadable || games === null ? [] : games,
     notice: unreadable ? "unreadable" : null,

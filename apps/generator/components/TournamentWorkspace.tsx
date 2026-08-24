@@ -79,6 +79,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           confirmed={view.confirmed}
           waiting={view.waiting}
           maxPlayers={view.maxPlayers}
+          guestHosts={view.guestHosts}
           registrationOpen={view.registrationOpen}
           frozen={scheduleStored}
           onAdd={(player) => run(() => addWalkInAction(view.id, player))}

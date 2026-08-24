@@ -6,12 +6,23 @@ import { partitionRegistrations, toPlayer, type ActiveRegistration } from "./reg
 import { tournamentStatus, type TournamentStatus } from "./tournament";
 import { parseGames, parseSchedule } from "./validate";
 
+export interface PublicGuest {
+  id: string;
+  name: string;
+  confirmed: boolean;
+  /** 1-based waiting-list position; null when confirmed */
+  position: number | null;
+}
+
 export interface PublicYou {
   name: string;
   confirmed: boolean;
   /** 1-based waiting-list position; null when confirmed */
   position: number | null;
   canCancel: boolean;
+  /** players this registration brought as +1s, in arrival order */
+  guests: PublicGuest[];
+  canAddGuest: boolean;
 }
 
 export interface PublicView {
@@ -48,17 +59,29 @@ export function buildPublicView(
   // on top of it, mirroring the organiser's own freeze rule.
   const canCancel = tournament.schedule == null;
 
+  const full = registrations.length >= LIMITS.maxRegistrations;
+
+  function placeOf(id: string): { name: string; confirmed: boolean; position: number | null } | null {
+    const confirmedMatch = confirmed.find((r) => r.id === id);
+    if (confirmedMatch) return { name: confirmedMatch.name, confirmed: true, position: null };
+    const waitingIndex = waiting.findIndex((r) => r.id === id);
+    const waitingMatch = waitingIndex === -1 ? null : waiting[waitingIndex];
+    return waitingMatch ? { name: waitingMatch.name, confirmed: false, position: waitingIndex + 1 } : null;
+  }
+
   let you: PublicYou | null = null;
   if (registrationId != null) {
-    const confirmedMatch = confirmed.find((r) => r.id === registrationId);
-    if (confirmedMatch) {
-      you = { name: confirmedMatch.name, confirmed: true, position: null, canCancel };
-    } else {
-      const waitingIndex = waiting.findIndex((r) => r.id === registrationId);
-      const waitingMatch = waitingIndex === -1 ? null : waiting[waitingIndex];
-      if (waitingMatch) {
-        you = { name: waitingMatch.name, confirmed: false, position: waitingIndex + 1, canCancel };
-      }
+    const own = placeOf(registrationId);
+    if (own) {
+      const guests = [...confirmed, ...waiting]
+        .filter((r) => r.guestOf === registrationId)
+        .map((r) => ({ id: r.id, ...(placeOf(r.id) as NonNullable<ReturnType<typeof placeOf>>) }));
+      you = {
+        ...own,
+        canCancel,
+        guests,
+        canAddGuest: status === "open" && !full && guests.length < LIMITS.maxGuests,
+      };
     }
   }
 
@@ -96,7 +119,7 @@ export function buildPublicView(
     waitingCount: waiting.length,
     you,
     yourId: registrationId,
-    full: registrations.length >= LIMITS.maxRegistrations,
+    full,
     gameTarget: tournament.gameTarget,
     roundsStarted: tournament.roundsStarted,
     players,

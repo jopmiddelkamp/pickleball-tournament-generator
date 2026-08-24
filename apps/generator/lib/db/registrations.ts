@@ -5,7 +5,7 @@ import { db } from "./client";
 import { registrations, type RegistrationRow } from "./schema";
 
 function toActive(row: RegistrationRow): ActiveRegistration {
-  return { id: row.id, name: row.name, gender: row.gender, level: row.level as Level, registeredAt: row.registeredAt };
+  return { id: row.id, name: row.name, gender: row.gender, level: row.level as Level, registeredAt: row.registeredAt, guestOf: row.guestOf };
 }
 
 export async function listActiveRegistrations(tournamentId: string): Promise<ActiveRegistration[]> {
@@ -43,7 +43,7 @@ export async function findActiveRegistrationByToken(tournamentId: string, token:
 
 export async function addRegistration(
   tournamentId: string,
-  input: { name: string; gender: Gender; level: Level; participantToken: string | null },
+  input: { name: string; gender: Gender; level: Level; participantToken: string | null; guestOf?: string | null },
 ): Promise<ActiveRegistration> {
   const rows = await db.insert(registrations).values({ tournamentId, ...input }).returning();
   const row = rows[0];

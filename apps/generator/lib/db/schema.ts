@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { bigint, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { bigint, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid, type AnyPgColumn } from "drizzle-orm/pg-core";
 
 /**
  * Source data only. Status, confirmed-vs-waiting and the effective config are
@@ -52,6 +52,8 @@ export const registrations = pgTable(
       .references(() => tournaments.id, { onDelete: "cascade" }),
     /** value of the player's cookie; null for walk-ins added by the organiser */
     participantToken: text("participant_token"),
+    /** set when this player was signed up as another registration's +1 */
+    guestOf: uuid("guest_of").references((): AnyPgColumn => registrations.id),
     name: text("name").notNull(),
     gender: text("gender").$type<"M" | "F">().notNull(),
     level: integer("level").notNull(),

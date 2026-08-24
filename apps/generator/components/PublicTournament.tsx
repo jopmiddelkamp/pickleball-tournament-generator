@@ -2,7 +2,7 @@
 
 import { computeNightPoints } from "@ptg/core";
 import { useState, useTransition } from "react";
-import { cancelMyRegistrationAction } from "../lib/actions/public";
+import { cancelGuestAction, cancelMyRegistrationAction } from "../lib/actions/public";
 import type { PublicFormState } from "../lib/actions/publicState";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { PublicView } from "../lib/public";
@@ -19,6 +19,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
   const [pending, startTransition] = useTransition();
   const [cancelError, setCancelError] = useState<PublicFormState["error"]>(null);
   const [tab, setTab] = useState<PublicTab>("now");
+  const [guestFormOpen, setGuestFormOpen] = useState(false);
   // Which round the (finished-evening) chip strip is browsing; defaults to the last one played.
   const [browseIndex, setBrowseIndex] = useState(() => Math.max(0, (view.schedule?.rounds.length ?? 1) - 1));
 
@@ -27,6 +28,13 @@ export function PublicTournament({ view }: { view: PublicView }) {
   function cancel() {
     startTransition(async () => {
       const result = await cancelMyRegistrationAction(view.slug);
+      setCancelError(result.error);
+    });
+  }
+
+  function cancelGuest(id: string) {
+    startTransition(async () => {
+      const result = await cancelGuestAction(view.slug, id);
       setCancelError(result.error);
     });
   }
@@ -93,6 +101,45 @@ export function PublicTournament({ view }: { view: PublicView }) {
             {view.you ? (
               <div className="card stack">
                 <Notice>{view.you.confirmed ? t.public.youAreIn : t.public.waiting(view.you.position ?? 0)}</Notice>
+                {view.you.guests.length > 0 ? (
+                  <div>
+                    <span className="label">{t.public.yourGuests}</span>
+                    <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                      {view.you.guests.map((guest) => (
+                        <li key={guest.id} className="roster__item">
+                          <span className="roster__name">{guest.name}</span>
+                          <span className="roster__level">
+                            {guest.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(guest.position ?? 0)}
+                          </span>
+                          {view.you?.canCancel ? (
+                            <button
+                              type="button"
+                              className="button button--quiet button--small"
+                              disabled={pending}
+                              onClick={() => cancelGuest(guest.id)}
+                            >
+                              {t.roster.remove}
+                            </button>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {view.you.canAddGuest ? (
+                  guestFormOpen ? (
+                    <PublicRegisterForm
+                      key={view.you.guests.length}
+                      slug={view.slug}
+                      waitlisted={view.confirmedCount + 1 > view.capacity}
+                      guest
+                    />
+                  ) : (
+                    <button type="button" className="button button--quiet" onClick={() => setGuestFormOpen(true)}>
+                      {t.public.addGuest}
+                    </button>
+                  )
+                ) : null}
                 {view.you.canCancel ? (
                   <button type="button" className="button button--quiet" disabled={pending} onClick={cancel}>
                     {t.public.cancel}

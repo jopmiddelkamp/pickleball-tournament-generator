@@ -2,7 +2,7 @@
 
 import type { Gender, Level } from "@ptg/core";
 import { useActionState, useState } from "react";
-import { registerAction } from "../lib/actions/public";
+import { addGuestAction, registerAction } from "../lib/actions/public";
 import { INITIAL_PUBLIC_STATE } from "../lib/actions/publicState";
 import { LIMITS } from "../lib/config";
 import { useLocale } from "../lib/i18n/useLocale";
@@ -16,16 +16,25 @@ const LEVELS: Level[] = [1, 2, 3, 4, 5, 6];
  * confirmed roster is already full: registration itself is still open, but a
  * new sign-up here would land on the waiting list.
  */
-export function PublicRegisterForm({ slug, waitlisted }: { slug: string; waitlisted: boolean }) {
+export function PublicRegisterForm({ slug, waitlisted, guest = false }: { slug: string; waitlisted: boolean; guest?: boolean }) {
   const { t } = useLocale();
-  const [state, formAction, pending] = useActionState(registerAction.bind(null, slug), INITIAL_PUBLIC_STATE);
+  const [state, formAction, pending] = useActionState((guest ? addGuestAction : registerAction).bind(null, slug), INITIAL_PUBLIC_STATE);
   const [gender, setGender] = useState<Gender>("F");
   const [level, setLevel] = useState<Level>(3);
 
   return (
     <div>
-      <h2 className="screen__heading">{t.public.registerHeading}</h2>
-      <p className="screen__lede">{t.public.registerLede}</p>
+      {guest ? (
+        <>
+          <h3 className="screen__heading" style={{ fontSize: 18 }}>{t.public.guestHeading}</h3>
+          <p className="screen__lede">{t.public.guestLede}</p>
+        </>
+      ) : (
+        <>
+          <h2 className="screen__heading">{t.public.registerHeading}</h2>
+          <p className="screen__lede">{t.public.registerLede}</p>
+        </>
+      )}
 
       {state.error ? <Notice tone="warn">{t.public.errors[state.error]}</Notice> : null}
 
@@ -87,7 +96,7 @@ export function PublicRegisterForm({ slug, waitlisted }: { slug: string; waitlis
         {waitlisted ? <Notice tone="warn">{t.public.waitlistWarning}</Notice> : null}
 
         <button type="submit" className="button button--accent button--full" disabled={pending}>
-          {t.public.register}
+          {guest ? t.public.addGuest : t.public.register}
         </button>
       </form>
     </div>

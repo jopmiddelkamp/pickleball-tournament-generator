@@ -12,6 +12,7 @@ export function RosterScreen({
   confirmed,
   waiting,
   maxPlayers,
+  guestHosts,
   registrationOpen,
   frozen,
   onAdd,
@@ -21,6 +22,8 @@ export function RosterScreen({
   confirmed: Player[];
   waiting: Player[];
   maxPlayers: number;
+  /** registration id of a +1 -> name of who brought them */
+  guestHosts: Record<string, string>;
   registrationOpen: boolean;
   frozen: boolean;
   onAdd: (player: Omit<Player, "id">) => void;
@@ -28,6 +31,11 @@ export function RosterScreen({
   onToggleRegistration: (open: boolean) => void;
 }) {
   const { t } = useLocale();
+
+  function guestTag(id: string): React.ReactNode {
+    const host = guestHosts[id];
+    return host ? <span className="roster__level"> · {t.roster.guestOf(host)}</span> : null;
+  }
   const [name, setName] = useState("");
   const [gender, setGender] = useState<Gender>("F");
   const [level, setLevel] = useState<Level>(3);
@@ -137,7 +145,10 @@ export function RosterScreen({
           {confirmed.map((player) => (
             <li key={player.id} className="roster__item">
               <GenderChip gender={player.gender} />
-              <span className="roster__name">{player.name}</span>
+              <span className="roster__name">
+                {player.name}
+                {guestTag(player.id)}
+              </span>
               <span className="roster__level">{t.levels[player.level]}</span>
               <button
                 type="button"
@@ -162,7 +173,10 @@ export function RosterScreen({
               <li key={player.id} className="roster__item">
                 <span className="roster__level">{t.roster.position(index + 1)}</span>
                 <GenderChip gender={player.gender} />
-                <span className="roster__name">{player.name}</span>
+                <span className="roster__name">
+                  {player.name}
+                  {guestTag(player.id)}
+                </span>
                 <button
                   type="button"
                   className="button button--quiet button--small"

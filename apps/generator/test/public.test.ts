@@ -31,7 +31,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
 }
 
 function reg(id: string, minute: number): ActiveRegistration {
-  return { id, name: `Player ${id}`, gender: "F", level: 3, registeredAt: new Date(Date.UTC(2026, 8, 1, 18, minute)) };
+  return { id, name: `Player ${id}`, gender: "F", level: 3, registeredAt: new Date(Date.UTC(2026, 8, 1, 18, minute)), guestOf: null };
 }
 
 // maxCourts: 1 -> maxPlayersFor(1) confirmed slots; the rest wait.
@@ -41,14 +41,46 @@ const registrations = Array.from({ length: cap + 2 }, (_, i) => reg(`p${i + 1}`,
 describe("buildPublicView", () => {
   it("recognises a confirmed visitor with no waiting-list position", () => {
     const view = buildPublicView(row(), registrations, "p1");
-    expect(view.you).toEqual({ name: "Player p1", confirmed: true, position: null, canCancel: true });
+    expect(view.you).toEqual({
+      name: "Player p1",
+      confirmed: true,
+      position: null,
+      canCancel: true,
+      guests: [],
+      canAddGuest: true,
+    });
     expect(view.yourId).toBe("p1");
   });
 
   it("gives a waiting visitor their 1-based position", () => {
     const lastId = registrations[registrations.length - 1]!.id;
     const view = buildPublicView(row(), registrations, lastId);
-    expect(view.you).toEqual({ name: `Player ${lastId}`, confirmed: false, position: 2, canCancel: true });
+    expect(view.you).toEqual({
+      name: `Player ${lastId}`,
+      confirmed: false,
+      position: 2,
+      canCancel: true,
+      guests: [],
+      canAddGuest: true,
+    });
+  });
+
+  it("lists the visitor's +1s with their own places in the queue", () => {
+    // The cap is 5, so p1's late-arriving guests p6 and p7 hold the two waiting spots.
+    const withGuests = registrations.map((r) => (r.id === "p6" || r.id === "p7" ? { ...r, guestOf: "p1" } : r));
+    const view = buildPublicView(row(), withGuests, "p1");
+    expect(view.you?.guests).toEqual([
+      { id: "p6", name: "Player p6", confirmed: false, position: 1 },
+      { id: "p7", name: "Player p7", confirmed: false, position: 2 },
+    ]);
+    expect(view.you?.canAddGuest).toBe(true);
+  });
+
+  it("stops the +1 form at the guest limit", () => {
+    const withGuests = registrations.map((r) => (["p5", "p6", "p7"].includes(r.id) ? { ...r, guestOf: "p1" } : r));
+    const view = buildPublicView(row(), withGuests, "p1");
+    expect(view.you?.guests).toHaveLength(3);
+    expect(view.you?.canAddGuest).toBe(false);
   });
 
   it("has no you for a stranger", () => {

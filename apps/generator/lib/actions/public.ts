@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { LIMITS } from "../config";
-import { addRegistration, cancelRegistration, countActiveRegistrations, findActiveRegistrationByToken } from "../db/registrations";
+import { addRegistration, cancelRegistration, countActiveRegistrations, findActiveRegistrationByToken, listActiveRegistrations } from "../db/registrations";
 import { findTournamentBySlug } from "../db/tournaments";
 import { newParticipantToken } from "../ids";
 import { PARTICIPANT_COOKIE, readParticipantToken } from "../participant";
@@ -49,6 +49,50 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
   return { error: null };
 }
 
+export async function addGuestAction(slug: string, _prev: PublicFormState, formData: FormData): Promise<PublicFormState> {
+  const tournament = await findTournamentBySlug(slug);
+  if (!tournament) notFound();
+
+  if (tournamentStatus(tournament) !== "open") return { error: "closed" };
+
+  const token = readParticipantToken(await cookies());
+  const host = token ? await findActiveRegistrationByToken(tournament.id, token) : null;
+  if (!host) return { error: "failed" };
+
+  const player = parsePlayerForm(formData);
+  if (!player) return { error: "invalid" };
+
+  const active = await listActiveRegistrations(tournament.id);
+  if (active.length >= LIMITS.maxRegistrations) return { error: "full" };
+  if (active.filter((r) => r.guestOf === host.id).length >= LIMITS.maxGuests) return { error: "guestLimit" };
+
+  try {
+    await addRegistration(tournament.id, { ...player, participantToken: null, guestOf: host.id });
+  } catch {
+    return { error: "failed" };
+  }
+  revalidatePath(`/event/${tournament.slug}`);
+  return { error: null };
+}
+
+export async function cancelGuestAction(slug: string, guestId: string): Promise<PublicFormState> {
+  const tournament = await findTournamentBySlug(slug);
+  if (!tournament) notFound();
+
+  const token = readParticipantToken(await cookies());
+  const host = token ? await findActiveRegistrationByToken(tournament.id, token) : null;
+  if (!host) return { error: "failed" };
+
+  if (tournament.schedule != null) return { error: "closed" };
+
+  const guest = (await listActiveRegistrations(tournament.id)).find((r) => r.id === guestId && r.guestOf === host.id);
+  if (!guest) return { error: "failed" };
+
+  await cancelRegistration(tournament.id, guest.id);
+  revalidatePath(`/event/${tournament.slug}`);
+  return { error: null };
+}
+
 export async function cancelMyRegistrationAction(slug: string): Promise<PublicFormState> {
   const tournament = await findTournamentBySlug(slug);
   if (!tournament) notFound();
@@ -61,7 +105,10 @@ export async function cancelMyRegistrationAction(slug: string): Promise<PublicFo
   // would silently desync it from who is actually on court.
   if (tournament.schedule != null) return { error: "closed" };
 
+  // +1s exist only through this registration, so they leave with it.
+  const guests = (await listActiveRegistrations(tournament.id)).filter((r) => r.guestOf === registration.id);
   await cancelRegistration(tournament.id, registration.id);
+  for (const guest of guests) await cancelRegistration(tournament.id, guest.id);
   revalidatePath(`/event/${tournament.slug}`);
   return { error: null };
 }

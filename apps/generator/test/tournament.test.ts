@@ -96,7 +96,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
 }
 
 function reg(id: string, minute: number): ActiveRegistration {
-  return { id, name: id, gender: "F", level: 3, registeredAt: new Date(Date.UTC(2026, 8, 1, 18, minute)) };
+  return { id, name: id, gender: "F", level: 3, registeredAt: new Date(Date.UTC(2026, 8, 1, 18, minute)), guestOf: null };
 }
 
 const registrations = [
