@@ -172,6 +172,13 @@ export const es: Messages = {
     error: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
   },
 
+  picker: {
+    prevMonth: "Mes anterior",
+    nextMonth: "Mes siguiente",
+    time: "Hora",
+    done: "Listo",
+  },
+
   organiser: {
     heading: "Tus noches",
     lede: "Crea una noche, comparte su enlace de inscripción en el grupo y gestiónala desde aquí la noche del evento.",

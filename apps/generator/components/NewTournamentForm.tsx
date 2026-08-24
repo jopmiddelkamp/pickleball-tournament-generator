@@ -6,6 +6,7 @@ import { createTournamentAction } from "../lib/actions/tournaments";
 import { INITIAL_CREATE_STATE } from "../lib/actions/tournamentState";
 import { LIMITS } from "../lib/config";
 import { useLocale } from "../lib/i18n/useLocale";
+import { DateTimeField } from "./DateTimeField";
 import { Notice } from "./ui";
 
 const COURT_OPTIONS = [1, 2, 3, 4, 5, 6];
@@ -44,7 +45,7 @@ export function NewTournamentForm() {
         </div>
         <div>
           <label className="label" htmlFor="startsAt">{t.organiser.form.startsAt}</label>
-          <input id="startsAt" name="startsAt" className="input" type="datetime-local" required />
+          <DateTimeField id="startsAt" name="startsAt" />
         </div>
         <div>
           <span className="label" id="courts-label">{t.organiser.form.maxCourts}</span>

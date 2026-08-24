@@ -187,6 +187,13 @@ export const en = {
     error: "Could not sign you in with Google. Try again.",
   },
 
+  picker: {
+    prevMonth: "Previous month",
+    nextMonth: "Next month",
+    time: "Time",
+    done: "Done",
+  },
+
   organiser: {
     heading: "Your evenings",
     lede: "Create an evening, share its link in the group chat, and run it from here on the night.",

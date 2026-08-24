@@ -172,6 +172,13 @@ export const vi: Messages = {
     error: "Không thể đăng nhập bằng Google. Hãy thử lại.",
   },
 
+  picker: {
+    prevMonth: "Tháng trước",
+    nextMonth: "Tháng sau",
+    time: "Giờ",
+    done: "Xong",
+  },
+
   organiser: {
     heading: "Các buổi tối",
     lede: "Tạo một buổi tối, chia sẻ liên kết đăng ký trong nhóm chat, và điều hành từ đây vào tối đó.",

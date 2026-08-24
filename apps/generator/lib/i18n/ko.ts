@@ -171,6 +171,13 @@ export const ko: Messages = {
     error: "Google 로그인에 실패했습니다. 다시 시도해 주세요.",
   },
 
+  picker: {
+    prevMonth: "이전 달",
+    nextMonth: "다음 달",
+    time: "시간",
+    done: "완료",
+  },
+
   organiser: {
     heading: "주최하는 저녁",
     lede: "저녁 일정을 만들고, 가입 링크를 단체 채팅방에 공유한 뒤, 당일 저녁에는 여기서 진행하세요.",

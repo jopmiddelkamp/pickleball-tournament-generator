@@ -171,6 +171,13 @@ export const ja: Messages = {
     error: "Google でログインできませんでした。もう一度お試しください。",
   },
 
+  picker: {
+    prevMonth: "前の月",
+    nextMonth: "次の月",
+    time: "時刻",
+    done: "完了",
+  },
+
   organiser: {
     heading: "主催する夜",
     lede: "夜の予定を作成し、サインアップ用のリンクをグループチャットで共有して、当日はここから運営します。",

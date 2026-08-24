@@ -170,6 +170,13 @@ export const zh: Messages = {
     error: "无法通过 Google 登录，请重试。",
   },
 
+  picker: {
+    prevMonth: "上个月",
+    nextMonth: "下个月",
+    time: "时间",
+    done: "完成",
+  },
+
   organiser: {
     heading: "活动之夜",
     lede: "创建一场活动之夜，把报名链接分享到群里，当晚就在这里运营。",
