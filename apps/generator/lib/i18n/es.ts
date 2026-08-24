@@ -126,6 +126,11 @@ export const es: Messages = {
     done: "Listo",
     swap: "Cambiar jugadores",
     resting: "Descansan esta ronda",
+    startRound: (n) => `Empezar ronda ${n}`,
+    endEvening: "Terminar la noche",
+    ended: "La noche ha terminado — la clasificación final está en la pestaña Clasificación.",
+    notStarted: "Todavía no ha empezado nada. Empieza la ronda 1 cuando los primeros partidos estén listos.",
+    currentRound: (n) => `La ronda ${n} está en pista`,
   },
 
   court: {
@@ -218,6 +223,7 @@ export const es: Messages = {
       open: "Cierra primero la inscripción.",
       players: "Se necesitan al menos cuatro jugadores confirmados.",
       full: "Esta noche ha alcanzado el límite de inscripciones.",
+      state: "Ese paso no está disponible ahora mismo.",
     },
   },
 };

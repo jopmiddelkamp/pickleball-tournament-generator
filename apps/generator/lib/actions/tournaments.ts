@@ -75,6 +75,7 @@ export async function generateAction(id: string): Promise<ActionResult> {
 /** New seed; with a schedule on the table it is regenerated right away (spec "Setup"). Scores go with it. */
 export async function rerollAction(id: string): Promise<ActionResult> {
   const owner = await owned(id);
+  if (owner.tournament.roundsStarted > 0) return fail("state");
   const seed = newSeed();
   if (!owner.view.schedule) return save(owner, { seed });
   const outcome = generateWith(owner, seed);
@@ -82,7 +83,24 @@ export async function rerollAction(id: string): Promise<ActionResult> {
 }
 
 export async function discardScheduleAction(id: string): Promise<ActionResult> {
-  return save(await owned(id), { schedule: null, games: [] });
+  return save(await owned(id), { schedule: null, games: [], roundsStarted: 0, finishedAt: null });
+}
+
+/** Opens the next round for play; the organiser calls this once the players for it are on court. */
+export async function startRoundAction(id: string): Promise<ActionResult> {
+  const owner = await owned(id);
+  const schedule = owner.view.schedule;
+  if (!schedule || owner.tournament.roundsStarted >= schedule.rounds.length || owner.tournament.finishedAt !== null) {
+    return fail("state");
+  }
+  return save(owner, { roundsStarted: owner.tournament.roundsStarted + 1 });
+}
+
+/** Closes the evening; standings become final. Requires at least one round to have started. */
+export async function endEveningAction(id: string): Promise<ActionResult> {
+  const owner = await owned(id);
+  if (owner.tournament.roundsStarted === 0 || owner.tournament.finishedAt !== null) return fail("state");
+  return save(owner, { finishedAt: new Date() });
 }
 
 function matchAt(view: WorkspaceView, roundIndex: number, court: number): Match | null {

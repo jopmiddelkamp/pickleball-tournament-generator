@@ -141,6 +141,11 @@ export const en = {
     done: "Done",
     swap: "Swap players",
     resting: "Sitting this one out",
+    startRound: (n: number) => `Start round ${n}`,
+    endEvening: "End the evening",
+    ended: "The evening is over — final standings are on the standings tab.",
+    notStarted: "Nothing has started yet. Start round 1 when the first games are ready.",
+    currentRound: (n: number) => `Round ${n} is on court`,
   },
 
   court: {
@@ -233,6 +238,7 @@ export const en = {
       open: "Close registration first.",
       players: "At least four confirmed players are needed.",
       full: "This evening has reached the registration limit.",
+      state: "That step is not available right now.",
     },
   },
 };

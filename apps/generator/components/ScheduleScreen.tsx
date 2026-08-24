@@ -6,7 +6,7 @@ import { useState } from "react";
 import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import { CourtCard } from "./CourtCard";
-import { EmptyState, GenderChip } from "./ui";
+import { EmptyState, GenderChip, Notice } from "./ui";
 
 /** Names the laws a swap has just broken, so the organiser sees the cost. */
 function brokenLaws(score: AlgorithmScore, joiner: string): string {
@@ -22,9 +22,13 @@ export function ScheduleScreen({
   games,
   score,
   printHref,
+  roundsStarted,
+  finished,
   onScoreChange,
   onVoidChange,
   onSwap,
+  onStartRound,
+  onEndEvening,
 }: {
   schedule: Schedule | null;
   players: Player[];
@@ -32,12 +36,18 @@ export function ScheduleScreen({
   /** SPEC-2 score of the schedule as it stands; shown only while swapping */
   score: AlgorithmScore | null;
   printHref: string;
+  roundsStarted: number;
+  finished: boolean;
   onScoreChange: (roundIndex: number, court: number, side: "A" | "B", points: number | null) => void;
   onVoidChange: (roundIndex: number, court: number, voided: boolean) => void;
   onSwap: (roundIndex: number, a: string, b: string) => void;
+  onStartRound: () => void;
+  onEndEvening: () => void;
 }) {
   const { t } = useLocale();
-  const [roundIndex, setRoundIndex] = useState(0);
+  const [roundIndex, setRoundIndex] = useState(() =>
+    schedule ? Math.max(0, Math.min(roundsStarted - 1, schedule.rounds.length - 1)) : 0,
+  );
   const [swapping, setSwapping] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -79,6 +89,34 @@ export function ScheduleScreen({
           {t.schedule.print}
         </Link>
       </div>
+      {roundsStarted > 0 && !finished ? (
+        <p className="standings__detail">{t.schedule.currentRound(roundsStarted)}</p>
+      ) : null}
+
+      {finished ? (
+        <Notice>{t.schedule.ended}</Notice>
+      ) : roundsStarted < schedule.rounds.length ? (
+        <>
+          {roundsStarted === 0 ? <p className="standings__detail">{t.schedule.notStarted}</p> : null}
+          <button
+            type="button"
+            className="button button--accent button--full"
+            style={{ marginBottom: 14 }}
+            onClick={onStartRound}
+          >
+            {t.schedule.startRound(roundsStarted + 1)}
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          className="button button--danger button--full"
+          style={{ marginBottom: 14 }}
+          onClick={onEndEvening}
+        >
+          {t.schedule.endEvening}
+        </button>
+      )}
 
       <nav className="rounds" aria-label={t.schedule.rounds}>
         {schedule.rounds.map((_, index) => (

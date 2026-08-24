@@ -124,6 +124,11 @@ export const zh: Messages = {
     done: "完成",
     swap: "交换球员",
     resting: "本轮轮空",
+    startRound: (n) => `开始第 ${n} 轮`,
+    endEvening: "结束活动",
+    ended: "活动之夜已结束 — 最终排名在“排名”页查看。",
+    notStarted: "还没有开始。第一场比赛准备好后就开始第 1 轮吧。",
+    currentRound: (n) => `第 ${n} 轮进行中`,
   },
 
   court: {
@@ -216,6 +221,7 @@ export const zh: Messages = {
       open: "请先关闭报名。",
       players: "至少需要四位已确认球员。",
       full: "本场活动之夜的报名人数已达上限。",
+      state: "该操作目前不可用。",
     },
   },
 };

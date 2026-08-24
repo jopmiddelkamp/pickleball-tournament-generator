@@ -125,6 +125,11 @@ export const ja: Messages = {
     done: "完了",
     swap: "プレーヤーを入れ替え",
     resting: "今回は休憩",
+    startRound: (n) => `ラウンド ${n} を開始`,
+    endEvening: "今夜を終了",
+    ended: "今夜は終了しました — 最終順位は「順位」タブでご覧いただけます。",
+    notStarted: "まだ何も始まっていません。最初のゲームの準備ができたらラウンド1を開始してください。",
+    currentRound: (n) => `ラウンド ${n} を進行中`,
   },
 
   court: {
@@ -217,6 +222,7 @@ export const ja: Messages = {
       open: "先に受付を締め切ってください。",
       players: "確定したプレーヤーが4人以上必要です。",
       full: "この夜の予定は受付上限に達しています。",
+      state: "その操作は今は行えません。",
     },
   },
 };

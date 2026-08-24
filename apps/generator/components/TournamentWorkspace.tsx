@@ -6,10 +6,12 @@ import { addWalkInAction, removeRegistrationAction, setRegistrationOpenAction } 
 import type { ActionError, ActionResult } from "../lib/actions/result";
 import {
   discardScheduleAction,
+  endEveningAction,
   generateAction,
   recordScoreAction,
   rerollAction,
   setVoidedAction,
+  startRoundAction,
   swapPlayersAction,
   updateSetupAction,
 } from "../lib/actions/tournaments";
@@ -26,7 +28,7 @@ import { Notice } from "./ui";
 
 export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
   const { t } = useLocale();
-  const [tab, setTab] = useState<Tab>(view.schedule ? "schedule" : "roster");
+  const [tab, setTab] = useState<Tab>(view.status === "finished" ? "standings" : view.schedule ? "schedule" : "roster");
   const [error, setError] = useState<ActionError | null>(null);
   const [, startTransition] = useTransition();
   // Score entry is per keystroke; show it immediately, the server confirms.
@@ -71,7 +73,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           waiting={view.waiting}
           maxPlayers={view.maxPlayers}
           registrationOpen={view.registrationOpen}
-          frozen={view.status === "generated"}
+          frozen={view.schedule !== null}
           onAdd={(player) => run(() => addWalkInAction(view.id, player))}
           onRemove={(id) => run(() => removeRegistrationAction(view.id, id))}
           onToggleRegistration={(open) => run(() => setRegistrationOpenAction(view.id, open))}
@@ -88,7 +90,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           gameTarget={view.gameTarget}
           score={score}
           generateBlocker={generateBlocker}
-          hasSchedule={view.status === "generated"}
+          hasSchedule={view.schedule !== null}
           onConfigChange={(change) => run(() => updateSetupAction(view.id, change))}
           onUseSuggestion={() => run(() => updateSetupAction(view.id, { useSuggestion: true }))}
           onAlgorithmChange={(algorithmId) => run(() => updateSetupAction(view.id, { algorithmId }))}
@@ -106,6 +108,10 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           games={games}
           score={score}
           printHref={`/organiser/print/${view.id}`}
+          roundsStarted={view.roundsStarted}
+          finished={view.status === "finished"}
+          onStartRound={() => run(() => startRoundAction(view.id))}
+          onEndEvening={() => run(() => endEveningAction(view.id))}
           onScoreChange={(roundIndex, court, side, points) => {
             const match = view.schedule?.rounds[roundIndex]?.matches.find((m) => m.court === court);
             if (!match) return;

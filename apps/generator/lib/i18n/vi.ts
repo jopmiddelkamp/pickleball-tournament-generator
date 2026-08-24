@@ -126,6 +126,11 @@ export const vi: Messages = {
     done: "Xong",
     swap: "Đổi chỗ người chơi",
     resting: "Nghỉ vòng này",
+    startRound: (n) => `Bắt đầu vòng ${n}`,
+    endEvening: "Kết thúc buổi tối",
+    ended: "Buổi tối đã kết thúc — bảng xếp hạng cuối cùng ở mục Xếp hạng.",
+    notStarted: "Chưa có gì bắt đầu. Hãy bắt đầu vòng 1 khi các trận đầu tiên đã sẵn sàng.",
+    currentRound: (n) => `Vòng ${n} đang thi đấu`,
   },
 
   court: {
@@ -218,6 +223,7 @@ export const vi: Messages = {
       open: "Hãy đóng đăng ký trước.",
       players: "Cần ít nhất bốn người chơi đã xác nhận.",
       full: "Buổi tối này đã đạt giới hạn đăng ký.",
+      state: "Bước đó hiện chưa thể thực hiện.",
     },
   },
 };

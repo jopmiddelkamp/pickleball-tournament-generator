@@ -125,6 +125,11 @@ export const ko: Messages = {
     done: "완료",
     swap: "참가자 교체",
     resting: "이번 라운드 휴식",
+    startRound: (n) => `${n}라운드 시작`,
+    endEvening: "저녁 마치기",
+    ended: "저녁이 끝났습니다 — 최종 순위는 순위 탭에서 확인하세요.",
+    notStarted: "아직 아무것도 시작하지 않았습니다. 첫 경기 준비가 끝나면 1라운드를 시작하세요.",
+    currentRound: (n) => `${n}라운드 진행 중`,
   },
 
   court: {
@@ -217,6 +222,7 @@ export const ko: Messages = {
       open: "먼저 등록을 마감하세요.",
       players: "확정된 참가자가 최소 4명 필요합니다.",
       full: "이 저녁 일정은 등록 인원 한도에 도달했습니다.",
+      state: "지금은 그 단계를 진행할 수 없습니다.",
     },
   },
 };
