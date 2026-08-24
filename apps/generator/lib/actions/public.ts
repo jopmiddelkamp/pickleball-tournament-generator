@@ -7,12 +7,10 @@ import { LIMITS } from "../config";
 import { addRegistration, cancelRegistration, countActiveRegistrations, findActiveRegistrationByToken } from "../db/registrations";
 import { findTournamentBySlug } from "../db/tournaments";
 import { newParticipantToken } from "../ids";
+import { PARTICIPANT_COOKIE, readParticipantToken } from "../participant";
 import { tournamentStatus } from "../tournament";
 import { parsePlayerForm } from "../validate";
 import type { PublicFormState } from "./publicState";
-
-const PARTICIPANT_COOKIE = "ptg_participant";
-const TOKEN = /^[A-Za-z0-9_-]{1,64}$/;
 
 export async function registerAction(slug: string, _prev: PublicFormState, formData: FormData): Promise<PublicFormState> {
   const tournament = await findTournamentBySlug(slug);
@@ -26,8 +24,7 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
   if ((await countActiveRegistrations(tournament.id)) >= LIMITS.maxRegistrations) return { error: "full" };
 
   const cookieStore = await cookies();
-  const existing = cookieStore.get(PARTICIPANT_COOKIE)?.value;
-  const token = existing && TOKEN.test(existing) ? existing : newParticipantToken();
+  const token = readParticipantToken(cookieStore) ?? newParticipantToken();
 
   try {
     await addRegistration(tournament.id, { ...player, participantToken: token });
@@ -52,7 +49,7 @@ export async function cancelMyRegistrationAction(slug: string): Promise<PublicFo
   const tournament = await findTournamentBySlug(slug);
   if (!tournament) notFound();
 
-  const token = (await cookies()).get(PARTICIPANT_COOKIE)?.value;
+  const token = readParticipantToken(await cookies());
   const registration = token ? await findActiveRegistrationByToken(tournament.id, token) : null;
   if (!registration) return { error: "failed" };
 

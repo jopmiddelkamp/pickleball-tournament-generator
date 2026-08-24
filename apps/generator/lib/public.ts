@@ -1,4 +1,4 @@
-import type { GameResult, Player, Schedule } from "@ptg/core";
+import type { GameResult, Player, Round } from "@ptg/core";
 import { maxPlayersFor } from "@ptg/core";
 import { LIMITS } from "./config";
 import type { TournamentRow } from "./db/schema";
@@ -30,8 +30,9 @@ export interface PublicView {
   full: boolean;
   gameTarget: number;
   roundsStarted: number;
-  players: Player[]; // confirmed only; empty until generated
-  schedule: Schedule | null; // present when status is live or finished (readable)
+  players: Player[]; // confirmed only; empty until status is live or finished
+  /** rounds only, never the seed or algorithm id: present when status is live or finished (readable) */
+  schedule: { rounds: Round[] } | null;
   games: GameResult[];
 }
 
@@ -61,14 +62,29 @@ export function buildPublicView(
     }
   }
 
-  const players = confirmed.map(toPlayer);
-  const known = new Set(players.map((p) => p.id));
+  // Both the confirmed roster (levels included) and the schedule stay private
+  // until the evening is live or finished: a generated-but-not-started
+  // schedule is a draft the organiser can still discard/regenerate, and
+  // nobody should be screenshotting levels or a draft matchup before then.
+  const rosterReadable = status === "live" || status === "finished";
+  let players: Player[] = [];
+  let schedule: { rounds: Round[] } | null = null;
+  let games: GameResult[] = [];
 
-  // A generated-but-not-started schedule stays private so the organiser can
-  // still discard/regenerate without players screenshotting a draft.
-  const scheduleReadable = status === "live" || status === "finished";
-  const schedule = scheduleReadable && tournament.schedule != null ? parseSchedule(tournament.schedule, known) : null;
-  const games = schedule ? parseGames(tournament.games, known) : [];
+  if (rosterReadable && tournament.schedule != null) {
+    const candidatePlayers = confirmed.map(toPlayer);
+    const known = new Set(candidatePlayers.map((p) => p.id));
+    const parsedSchedule = parseSchedule(tournament.schedule, known);
+    const parsedGames = parsedSchedule ? parseGames(tournament.games, known) : null;
+    // An unreadable schedule or games column behaves as "no schedule",
+    // mirroring buildWorkspaceView; the roster comes down with it rather
+    // than showing levels next to a broken or absent matchup.
+    if (parsedSchedule && parsedGames) {
+      players = candidatePlayers;
+      schedule = { rounds: parsedSchedule.rounds };
+      games = parsedGames;
+    }
+  }
 
   return {
     slug: tournament.slug,
@@ -85,6 +101,6 @@ export function buildPublicView(
     roundsStarted: tournament.roundsStarted,
     players,
     schedule,
-    games: games ?? [],
+    games,
   };
 }

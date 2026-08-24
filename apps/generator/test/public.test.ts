@@ -68,7 +68,7 @@ describe("buildPublicView", () => {
     expect(noSchedule.you?.canCancel).toBe(true);
   });
 
-  it("hides a generated schedule but exposes it once a round has started", () => {
+  it("hides a generated schedule and roster but exposes both once a round has started", () => {
     const confirmedIds = registrations.slice(0, cap).map((r) => r.id);
     const schedule = {
       algorithmId: "greedy",
@@ -80,11 +80,37 @@ describe("buildPublicView", () => {
     expect(generatedView.status).toBe("generated");
     expect(generatedView.schedule).toBeNull();
     expect(generatedView.games).toEqual([]);
+    expect(generatedView.players).toEqual([]);
 
     const live = row({ registrationClosedAt: new Date("2026-09-01T17:00:00Z"), schedule, roundsStarted: 1 });
     const liveView = buildPublicView(live, registrations, null);
     expect(liveView.status).toBe("live");
-    expect(liveView.schedule).toEqual(schedule);
+    expect(liveView.schedule?.rounds).toEqual(schedule.rounds);
+    expect(liveView.schedule && "seed" in liveView.schedule).toBe(false);
+    expect(liveView.schedule && "algorithmId" in liveView.schedule).toBe(false);
+    expect(liveView.players.map((p) => p.id)).toEqual(confirmedIds);
+  });
+
+  it("treats corrupt games as no schedule too, and hides the roster along with it", () => {
+    const confirmedIds = registrations.slice(0, cap).map((r) => r.id);
+    const schedule = {
+      algorithmId: "greedy",
+      seed: 7,
+      rounds: [{ matches: [{ court: 1, teamA: [confirmedIds[0]!, confirmedIds[1]!], teamB: [confirmedIds[2]!, confirmedIds[3]!] }], resting: [] }],
+    };
+    // "not-a-list" is not an array, so parseGames returns null: the schedule
+    // itself parses fine, but the games column next to it does not.
+    const live = row({
+      registrationClosedAt: new Date("2026-09-01T17:00:00Z"),
+      schedule,
+      games: "not-a-list",
+      roundsStarted: 1,
+    });
+    const view = buildPublicView(live, registrations, null);
+    expect(view.status).toBe("live");
+    expect(view.schedule).toBeNull();
+    expect(view.games).toEqual([]);
+    expect(view.players).toEqual([]);
   });
 
   it("never carries a seed, algorithm id or organiser id at the top level", () => {
