@@ -28,10 +28,14 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
 
   try {
     await addRegistration(tournament.id, { ...player, participantToken: token });
-  } catch {
-    // Most likely the partial unique index (postgres 23505): this phone
-    // already has an active registration for this evening.
-    return { error: "already" };
+  } catch (err) {
+    // The `postgres` driver exposes the postgres error code on `.code`; 23505 is the
+    // partial unique index firing because this phone already has an active
+    // registration for this evening. Anything else is a genuine failure.
+    if (typeof err === "object" && err !== null && "code" in err && err.code === "23505") {
+      return { error: "already" };
+    }
+    return { error: "failed" };
   }
 
   cookieStore.set(PARTICIPANT_COOKIE, token, {
