@@ -67,7 +67,7 @@ export interface WorkspaceView {
 }
 
 export function buildWorkspaceView(tournament: TournamentRow, registrations: readonly ActiveRegistration[]): WorkspaceView {
-  const maxPlayers = maxPlayersFor(tournament.maxCourts);
+  const maxPlayers = maxPlayersFor(tournament.maxCourts, tournament.playersPerCourt);
   const { confirmed, waiting } = partitionRegistrations(registrations, maxPlayers);
   const players = confirmed.map(toPlayer);
   const known = new Set(players.map((p) => p.id));

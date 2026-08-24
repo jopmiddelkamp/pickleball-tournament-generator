@@ -1,0 +1,1 @@
+ALTER TABLE "tournaments" ADD COLUMN "players_per_court" integer DEFAULT 5 NOT NULL;

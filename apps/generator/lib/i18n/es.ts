@@ -201,6 +201,7 @@ export const es: Messages = {
       namePlaceholder: "Dobles mixtos del viernes",
       startsAt: "Empieza",
       maxCourts: "Pistas disponibles",
+      perCourt: "Plazas por pista (jugando + descansando)",
       capacity: (courts: number, cap: number) =>
         `${courts} ${courts === 1 ? "pista" : "pistas"} — hasta ${cap} jugadores. Quien se inscriba por encima de eso pasa a la lista de espera, por orden de llegada.`,
       create: "Crear noche",

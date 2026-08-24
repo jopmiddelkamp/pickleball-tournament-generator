@@ -200,6 +200,7 @@ export const ja: Messages = {
       namePlaceholder: "金曜ミックスダブルス",
       startsAt: "開始日時",
       maxCourts: "利用可能なコート数",
+      perCourt: "コートあたりの枠（プレー + 休憩）",
       capacity: (courts: number, cap: number) =>
         `コート${courts}面 — 最大${cap}人まで。それを超える申し込みはキャンセル待ちになります（先着順）。`,
       create: "夜を作成",

@@ -56,6 +56,7 @@ export async function createTournament(organiserId: string, input: TournamentInp
       name: input.name,
       startsAt: input.startsAt,
       maxCourts: input.maxCourts,
+      playersPerCourt: input.playersPerCourt,
       rounds: 6,
       gameTarget: DEFAULT_GAME_TARGET,
       algorithmId: DEFAULT_ALGORITHM_ID,

@@ -41,7 +41,7 @@ export function buildPublicView(
   registrations: readonly ActiveRegistration[],
   registrationId: string | null, // the visitor's active registration id, or null
 ): PublicView {
-  const capacity = maxPlayersFor(tournament.maxCourts);
+  const capacity = maxPlayersFor(tournament.maxCourts, tournament.playersPerCourt);
   const { confirmed, waiting } = partitionRegistrations(registrations, capacity);
   const status = tournamentStatus(tournament);
   // The roster is frozen (and cancelling no longer safe) once a schedule sits

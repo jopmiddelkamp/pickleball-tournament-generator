@@ -10,7 +10,7 @@ export default async function OrganiserHome() {
   const rows = await listTournaments(organiserId);
   const summaries: TournamentSummary[] = await Promise.all(
     rows.map(async (t) => {
-      const maxPlayers = maxPlayersFor(t.maxCourts);
+      const maxPlayers = maxPlayersFor(t.maxCourts, t.playersPerCourt);
       return {
         id: t.id,
         slug: t.slug,

@@ -13,6 +13,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     name: "Tuesday night",
     startsAt: new Date("2026-09-01T18:00:00Z"),
     maxCourts: 1,
+    playersPerCourt: 5,
     rounds: 3,
     gameTarget: 11,
     algorithmId: "greedy",

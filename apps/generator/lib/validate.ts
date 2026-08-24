@@ -1,4 +1,12 @@
-import { ALGORITHMS, type GameResult, type Player, type Schedule } from "@ptg/core";
+import {
+  ALGORITHMS,
+  MAX_PLAYERS_PER_COURT,
+  MIN_PLAYERS_PER_COURT,
+  PLAYERS_PER_COURT,
+  type GameResult,
+  type Player,
+  type Schedule,
+} from "@ptg/core";
 import { LIMITS } from "./config";
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -151,6 +159,7 @@ export interface TournamentInput {
   name: string;
   startsAt: Date;
   maxCourts: number;
+  playersPerCourt: number;
 }
 
 function intField(formData: FormData, name: string): number | null {
@@ -177,9 +186,11 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   const tzOffset = intField(formData, "tzOffset") ?? 0;
   const startsAt = parseLocalDateTime(field(formData, "startsAt"), tzOffset);
   const maxCourts = intField(formData, "maxCourts");
+  const playersPerCourt = intField(formData, "playersPerCourt") ?? PLAYERS_PER_COURT;
   if (!name || !startsAt) return null;
   if (maxCourts === null || maxCourts < LIMITS.minCourts || maxCourts > LIMITS.maxCourts) return null;
-  return { name, startsAt, maxCourts };
+  if (playersPerCourt < MIN_PLAYERS_PER_COURT || playersPerCourt > MAX_PLAYERS_PER_COURT) return null;
+  return { name, startsAt, maxCourts, playersPerCourt };
 }
 
 export function parsePlayerForm(formData: FormData): Omit<Player, "id"> | null {

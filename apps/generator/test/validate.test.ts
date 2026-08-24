@@ -20,11 +20,11 @@ describe("parseTournamentForm", () => {
     expect(input?.name).toBe("Friday mix");
     // 19:30 at UTC+2 is 17:30Z
     expect(input?.startsAt.toISOString()).toBe("2026-09-04T17:30:00.000Z");
-    expect(input).toMatchObject({ maxCourts: 4 });
+    expect(input).toMatchObject({ maxCourts: 4, playersPerCourt: 5 });
   });
   it("ignores extra fields the form still posts", () => {
     const input = parseTournamentForm(form({ ...valid, maxPlayers: "16", rounds: "6", gameTarget: "11" }));
-    expect(input).toEqual({ name: "Friday mix", startsAt: new Date("2026-09-04T17:30:00.000Z"), maxCourts: 4 });
+    expect(input).toEqual({ name: "Friday mix", startsAt: new Date("2026-09-04T17:30:00.000Z"), maxCourts: 4, playersPerCourt: 5 });
   });
   it.each([
     ["empty name", { name: "  " }],

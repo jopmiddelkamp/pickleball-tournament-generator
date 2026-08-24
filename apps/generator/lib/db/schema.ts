@@ -20,6 +20,8 @@ export const tournaments = pgTable(
     name: text("name").notNull(),
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
     maxCourts: integer("max_courts").notNull(),
+    /** confirmed spots per court (playing + resting); capacity is derived from it */
+    playersPerCourt: integer("players_per_court").notNull().default(5),
     rounds: integer("rounds").notNull(),
     gameTarget: integer("game_target").notNull(),
     algorithmId: text("algorithm_id").notNull(),

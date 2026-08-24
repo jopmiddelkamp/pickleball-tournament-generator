@@ -216,6 +216,7 @@ export const en = {
       namePlaceholder: "Friday mixed doubles",
       startsAt: "Starts",
       maxCourts: "Courts available",
+      perCourt: "Spots per court (playing + resting)",
       capacity: (courts: number, cap: number) =>
         `${courts} ${courts === 1 ? "court" : "courts"} — up to ${cap} players. Anyone above that joins the waiting list, first come first served.`,
       create: "Create evening",

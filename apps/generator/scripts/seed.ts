@@ -48,6 +48,7 @@ async function main(): Promise<void> {
     name: "Friday mix (open)",
     startsAt,
     maxCourts: 2,
+    playersPerCourt: 5,
   });
   for (const [name, gender, level] of NAMES) {
     await addRegistration(open.id, { name, gender, level, participantToken: null });
@@ -57,12 +58,13 @@ async function main(): Promise<void> {
     name: "Last Tuesday (played)",
     startsAt: new Date(Date.now() - 7 * 24 * 3600 * 1000),
     maxCourts: 4,
+    playersPerCourt: 5,
   });
   for (const [name, gender, level] of NAMES.slice(0, 14)) {
     await addRegistration(generated.id, { name, gender, level, participantToken: null });
   }
   const active = await listActiveRegistrations(generated.id);
-  const players = partitionRegistrations(active, maxPlayersFor(generated.maxCourts)).confirmed.map(toPlayer);
+  const players = partitionRegistrations(active, maxPlayersFor(generated.maxCourts, generated.playersPerCourt)).confirmed.map(toPlayer);
   const config = effectiveConfig(generated, players.length);
   const schedule = generateSchedule(DEFAULT_ALGORITHM_ID, players, config);
   let games = [] as ReturnType<typeof withScore>;

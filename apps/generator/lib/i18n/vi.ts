@@ -201,6 +201,7 @@ export const vi: Messages = {
       namePlaceholder: "Đôi nam nữ thứ Sáu",
       startsAt: "Bắt đầu",
       maxCourts: "Số sân có sẵn",
+      perCourt: "Chỗ mỗi sân (thi đấu + nghỉ)",
       capacity: (courts: number, cap: number) =>
         `${courts} sân — tối đa ${cap} người chơi. Ai đăng ký vượt quá số đó sẽ vào danh sách chờ, ai đăng ký trước được ưu tiên trước.`,
       create: "Tạo buổi tối",

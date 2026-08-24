@@ -200,6 +200,7 @@ export const ko: Messages = {
       namePlaceholder: "금요일 혼합 복식",
       startsAt: "시작 시간",
       maxCourts: "이용 가능한 코트 수",
+      perCourt: "코트당 인원(경기 + 휴식)",
       capacity: (courts: number, cap: number) =>
         `코트 ${courts}개 — 최대 ${cap}명까지. 이 인원을 초과한 신청은 선착순으로 대기 명단에 올라갑니다.`,
       create: "저녁 만들기",

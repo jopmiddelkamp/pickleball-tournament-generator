@@ -199,6 +199,7 @@ export const zh: Messages = {
       namePlaceholder: "周五混双",
       startsAt: "开始时间",
       maxCourts: "可用场地数",
+      perCourt: "每片场地名额（上场 + 轮休）",
       capacity: (courts: number, cap: number) =>
         `${courts} 片场地 — 最多可容纳 ${cap} 名球员。超出人数将进入候补名单，先到先得。`,
       create: "创建活动之夜",
