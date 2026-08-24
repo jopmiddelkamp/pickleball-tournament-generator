@@ -28,7 +28,7 @@ export const es: Messages = {
 
   roster: {
     heading: "¿Quién juega?",
-    lede: "El nivel es el que cada uno eligió al inscribirse. Se queda en esta pantalla: nadie lo ve junto a un nombre durante la noche.",
+    lede: "El nivel es el que cada uno eligió al inscribirse. Se queda en esta pantalla: nadie lo ve junto a un nombre durante el evento.",
     name: "Nombre",
     namePlaceholder: "Añadir jugador",
     playsAs: "Juega como",
@@ -50,7 +50,7 @@ export const es: Messages = {
   },
 
   setup: {
-    heading: "Prepara la noche",
+    heading: "Prepara el evento",
     lede: "Los mismos jugadores, ajustes y semilla siempre dan el mismo calendario. Cambia la semilla para obtener otro.",
     courts: "Pistas",
     rounds: "Rondas",
@@ -112,7 +112,7 @@ export const es: Messages = {
   },
 
   schedule: {
-    heading: "Pistas de esta noche",
+    heading: "Pistas del evento",
     empty: "Aún no hay calendario. Añade a los jugadores y genera uno desde la pestaña Ajustes.",
     print: "Imprimir",
     rounds: "Rondas",
@@ -127,8 +127,8 @@ export const es: Messages = {
     swap: "Cambiar jugadores",
     resting: "Descansan esta ronda",
     startRound: (n) => `Empezar ronda ${n}`,
-    endEvening: "Terminar la noche",
-    ended: "La noche ha terminado — la clasificación final está en la pestaña Clasificación.",
+    endEvent: "Terminar el evento",
+    ended: "El evento ha terminado — la clasificación final está en la pestaña Clasificación.",
     notStarted: "Todavía no ha empezado nada. Empieza la ronda 1 cuando los primeros partidos estén listos.",
     currentRound: (n) => `La ronda ${n} está en pista`,
   },
@@ -166,7 +166,7 @@ export const es: Messages = {
 
   auth: {
     loginHeading: "Acceso de organizador",
-    lede: "Los organizadores preparan las noches y las gestionan desde la pista. Los jugadores nunca necesitan una cuenta.",
+    lede: "Los organizadores preparan los eventos y las gestionan desde la pista. Los jugadores nunca necesitan una cuenta.",
     continueWithGoogle: "Continuar con Google",
     logout: "Cerrar sesión",
     error: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
@@ -181,15 +181,15 @@ export const es: Messages = {
   },
 
   organiser: {
-    heading: "Tus noches",
-    lede: "Crea una noche, comparte su enlace de inscripción en el grupo y gestiónala desde aquí la noche del evento.",
-    newTournament: "Nueva noche",
-    empty: "Aún no hay noches. Crea la primera.",
+    heading: "Tus eventos",
+    lede: "Crea un evento, comparte su enlace de inscripción en el grupo y gestiónalo desde aquí el día del evento.",
+    newTournament: "Nuevo evento",
+    empty: "Aún no hay eventos. Crea el primero.",
     status: {
       open: "Inscripción abierta",
       closed: "Inscripción cerrada",
       generated: "Calendario listo",
-      live: "Noche en curso",
+      live: "Evento en curso",
       finished: "Finalizada",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} jugadores`,
@@ -197,7 +197,7 @@ export const es: Messages = {
     copied: "Enlace copiado",
     open: "Abrir",
     form: {
-      heading: "Nueva noche",
+      heading: "Nuevo evento",
       name: "Nombre",
       namePlaceholder: "Dobles mixtos del viernes",
       startsAt: "Empieza",
@@ -205,7 +205,7 @@ export const es: Messages = {
       perCourt: "Plazas por pista (jugando + descansando)",
       capacity: (courts: number, cap: number) =>
         `${courts} ${courts === 1 ? "pista" : "pistas"} — hasta ${cap} jugadores. Quien se inscriba por encima de eso pasa a la lista de espera, por orden de llegada.`,
-      create: "Crear noche",
+      create: "Crear evento",
       invalid: "Revisa los campos: un nombre, una fecha y de 1 a 6 pistas.",
     },
   },
@@ -213,12 +213,12 @@ export const es: Messages = {
   workspace: {
     unreadable: "No se pudo leer el calendario guardado. Descártalo y genera uno de nuevo.",
     errors: {
-      "not-found": "Esta noche ya no existe.",
+      "not-found": "Este evento ya no existe.",
       invalid: "Ese cambio no era válido y se ignoró.",
       frozen: "El calendario ya está generado; descártalo antes de cambiar la lista.",
       open: "Cierra primero la inscripción.",
       players: "Se necesitan al menos cuatro jugadores confirmados.",
-      full: "Esta noche ha alcanzado el límite de inscripciones.",
+      full: "Este evento ha alcanzado el límite de inscripciones.",
       state: "Ese paso no está disponible ahora mismo.",
     },
   },
@@ -230,13 +230,13 @@ export const es: Messages = {
     registerHeading: "¿Te apuntas?",
     registerLede: "Rellena tu nombre una vez; este teléfono te recordará.",
     register: "Apuntarme",
-    waitlistWarning: "La noche está completa — entrarías en la lista de espera y subirías cuando alguien cancele.",
+    waitlistWarning: "El evento está completo — entrarías en la lista de espera y subirías cuando alguien cancele.",
     youAreIn: "¡Ya estás dentro!",
     waiting: (n) => `Eres el número ${n} en la lista de espera.`,
     cancel: "Cancelar mi inscripción",
     frozen: "El calendario ya está fijado. Avisa al organizador si no puedes venir.",
     closed: "La inscripción está cerrada.",
-    fullMessage: "La inscripción está cerrada — la noche está completamente llena.",
+    fullMessage: "La inscripción está cerrada — el evento está completamente lleno.",
     tabs: { now: "En juego", standings: "Ranking" },
     round: (n) => `Ronda ${n}`,
     yourCourt: (court, partner, a, b) => `Pista ${court} — con ${partner}, contra ${a} y ${b}`,
@@ -246,8 +246,8 @@ export const es: Messages = {
     errors: {
       invalid: "Introduce un nombre y elige cómo juegas y tu nivel.",
       closed: "La inscripción está cerrada.",
-      full: "La noche está completamente llena.",
-      already: "Este teléfono ya tiene una inscripción activa para esta noche.",
+      full: "El evento está completamente lleno.",
+      already: "Este teléfono ya tiene una inscripción activa para este evento.",
       failed: "Eso no ha funcionado. Recarga la página e inténtalo de nuevo.",
     },
   },

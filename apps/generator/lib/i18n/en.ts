@@ -38,7 +38,7 @@ export const en = {
 
   roster: {
     heading: "Who is playing?",
-    lede: "Levels are the tier people picked at registration. They stay on this screen — nobody sees them next to a name during the evening.",
+    lede: "Levels are the tier people picked at registration. They stay on this screen — nobody sees them next to a name during the event.",
     name: "Name",
     namePlaceholder: "Add a player",
     playsAs: "Plays as",
@@ -61,7 +61,7 @@ export const en = {
   },
 
   setup: {
-    heading: "Set up the evening",
+    heading: "Set up the event",
     lede: "The same players, settings and seed always produce the same schedule. Reroll the seed for a different one.",
     courts: "Courts",
     rounds: "Rounds",
@@ -127,7 +127,7 @@ export const en = {
   } as Record<string, { name: string; description: string } | undefined>,
 
   schedule: {
-    heading: "Tonight’s courts",
+    heading: "Today’s courts",
     empty: "No schedule yet. Add your players, then generate one from the Set up tab.",
     print: "Print",
     rounds: "Rounds",
@@ -142,8 +142,8 @@ export const en = {
     swap: "Swap players",
     resting: "Sitting this one out",
     startRound: (n: number) => `Start round ${n}`,
-    endEvening: "End the evening",
-    ended: "The evening is over — final standings are on the standings tab.",
+    endEvent: "End the event",
+    ended: "The event is over — final standings are on the standings tab.",
     notStarted: "Nothing has started yet. Start round 1 when the first games are ready.",
     currentRound: (n: number) => `Round ${n} is on court`,
   },
@@ -181,7 +181,7 @@ export const en = {
 
   auth: {
     loginHeading: "Organiser login",
-    lede: "Organisers set up evenings and run them court-side. Players never need an account.",
+    lede: "Organisers set up events and run them court-side. Players never need an account.",
     continueWithGoogle: "Continue with Google",
     logout: "Log out",
     error: "Could not sign you in with Google. Try again.",
@@ -196,15 +196,15 @@ export const en = {
   },
 
   organiser: {
-    heading: "Your evenings",
-    lede: "Create an evening, share its link in the group chat, and run it from here on the night.",
-    newTournament: "New evening",
-    empty: "No evenings yet. Create the first one.",
+    heading: "Your events",
+    lede: "Create an event, share its link in the group chat, and run it from here on the day.",
+    newTournament: "New event",
+    empty: "No events yet. Create the first one.",
     status: {
       open: "Registration open",
       closed: "Registration closed",
       generated: "Schedule ready",
-      live: "Evening running",
+      live: "Event running",
       finished: "Finished",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} players`,
@@ -212,7 +212,7 @@ export const en = {
     copied: "Link copied",
     open: "Open",
     form: {
-      heading: "New evening",
+      heading: "New event",
       name: "Name",
       namePlaceholder: "Friday mixed doubles",
       startsAt: "Starts",
@@ -220,7 +220,7 @@ export const en = {
       perCourt: "Spots per court (playing + resting)",
       capacity: (courts: number, cap: number) =>
         `${courts} ${courts === 1 ? "court" : "courts"} — up to ${cap} players. Anyone above that joins the waiting list, first come first served.`,
-      create: "Create evening",
+      create: "Create event",
       invalid: "Check the fields: a name, a date, and 1–6 courts.",
     },
   },
@@ -228,12 +228,12 @@ export const en = {
   workspace: {
     unreadable: "The stored schedule could not be read. Discard it and generate again.",
     errors: {
-      "not-found": "This evening no longer exists.",
+      "not-found": "This event no longer exists.",
       invalid: "That change was not valid and was ignored.",
       frozen: "The schedule is generated; discard it before changing the list.",
       open: "Close registration first.",
       players: "At least four confirmed players are needed.",
-      full: "This evening has reached the registration limit.",
+      full: "This event has reached the registration limit.",
       state: "That step is not available right now.",
     },
   },
@@ -245,13 +245,13 @@ export const en = {
     registerHeading: "Play along?",
     registerLede: "Fill in your name once; this phone remembers you.",
     register: "Sign me up",
-    waitlistWarning: "The evening is full — you would join the waiting list and move up when someone cancels.",
+    waitlistWarning: "The event is full — you would join the waiting list and move up when someone cancels.",
     youAreIn: "You're in!",
     waiting: (n: number) => `You're number ${n} on the waiting list.`,
     cancel: "Cancel my registration",
     frozen: "The schedule is set. Tell the organiser if you cannot make it.",
     closed: "Registration is closed.",
-    fullMessage: "Registration is closed — the evening is completely full.",
+    fullMessage: "Registration is closed — the event is completely full.",
     tabs: { now: "Now playing", standings: "Standings" },
     round: (n: number) => `Round ${n}`,
     yourCourt: (court: number, partner: string, a: string, b: string) =>
@@ -262,8 +262,8 @@ export const en = {
     errors: {
       invalid: "Enter a name, and pick how you play and your level.",
       closed: "Registration is closed.",
-      full: "The evening is completely full.",
-      already: "This phone already has an active registration for this evening.",
+      full: "The event is completely full.",
+      already: "This phone already has an active registration for this event.",
       failed: "That did not work. Refresh the page and try again.",
     },
   },

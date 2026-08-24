@@ -97,7 +97,7 @@ export async function startRoundAction(id: string): Promise<ActionResult> {
 }
 
 /** Closes the evening; standings become final. Requires at least one round to have started. */
-export async function endEveningAction(id: string): Promise<ActionResult> {
+export async function endEventAction(id: string): Promise<ActionResult> {
   const owner = await owned(id);
   if (owner.tournament.roundsStarted === 0 || owner.tournament.finishedAt !== null) return fail("state");
   return save(owner, { finishedAt: new Date() });

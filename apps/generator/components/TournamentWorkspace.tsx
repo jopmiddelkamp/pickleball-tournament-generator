@@ -6,7 +6,7 @@ import { addWalkInAction, removeRegistrationAction, setRegistrationOpenAction } 
 import type { ActionError, ActionResult } from "../lib/actions/result";
 import {
   discardScheduleAction,
-  endEveningAction,
+  endEventAction,
   generateAction,
   recordScoreAction,
   rerollAction,
@@ -118,7 +118,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           roundsStarted={view.roundsStarted}
           finished={view.status === "finished"}
           onStartRound={() => run(() => startRoundAction(view.id))}
-          onEndEvening={() => run(() => endEveningAction(view.id))}
+          onEndEvening={() => run(() => endEventAction(view.id))}
           onScoreChange={(roundIndex, court, side, points) => {
             const match = view.schedule?.rounds[roundIndex]?.matches.find((m) => m.court === court);
             if (!match) return;

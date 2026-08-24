@@ -28,7 +28,7 @@ export const vi: Messages = {
 
   roster: {
     heading: "Ai sẽ chơi?",
-    lede: "Trình độ là bậc mọi người tự chọn khi đăng ký. Nó chỉ hiện ở màn hình này — không ai thấy nó cạnh tên trong suốt buổi tối.",
+    lede: "Trình độ là bậc mọi người tự chọn khi đăng ký. Nó chỉ hiện ở màn hình này — không ai thấy nó cạnh tên trong suốt sự kiện.",
     name: "Tên",
     namePlaceholder: "Thêm người chơi",
     playsAs: "Giới tính",
@@ -50,7 +50,7 @@ export const vi: Messages = {
   },
 
   setup: {
-    heading: "Thiết lập buổi tối",
+    heading: "Thiết lập sự kiện",
     lede: "Cùng người chơi, cài đặt và seed luôn cho ra cùng một lịch. Đổi seed để có lịch khác.",
     courts: "Số sân",
     rounds: "Số vòng",
@@ -112,7 +112,7 @@ export const vi: Messages = {
   },
 
   schedule: {
-    heading: "Sân tối nay",
+    heading: "Sân hôm nay",
     empty: "Chưa có lịch. Hãy thêm người chơi, rồi tạo lịch ở mục Thiết lập.",
     print: "In",
     rounds: "Các vòng",
@@ -127,8 +127,8 @@ export const vi: Messages = {
     swap: "Đổi chỗ người chơi",
     resting: "Nghỉ vòng này",
     startRound: (n) => `Bắt đầu vòng ${n}`,
-    endEvening: "Kết thúc buổi tối",
-    ended: "Buổi tối đã kết thúc — bảng xếp hạng cuối cùng ở mục Xếp hạng.",
+    endEvent: "Kết thúc sự kiện",
+    ended: "Sự kiện đã kết thúc — bảng xếp hạng cuối cùng ở mục Xếp hạng.",
     notStarted: "Chưa có gì bắt đầu. Hãy bắt đầu vòng 1 khi các trận đầu tiên đã sẵn sàng.",
     currentRound: (n) => `Vòng ${n} đang thi đấu`,
   },
@@ -166,7 +166,7 @@ export const vi: Messages = {
 
   auth: {
     loginHeading: "Đăng nhập ban tổ chức",
-    lede: "Ban tổ chức thiết lập buổi tối và điều hành ngay tại sân. Người chơi không cần tài khoản.",
+    lede: "Ban tổ chức thiết lập sự kiện và điều hành ngay tại sân. Người chơi không cần tài khoản.",
     continueWithGoogle: "Tiếp tục với Google",
     logout: "Đăng xuất",
     error: "Không thể đăng nhập bằng Google. Hãy thử lại.",
@@ -181,15 +181,15 @@ export const vi: Messages = {
   },
 
   organiser: {
-    heading: "Các buổi tối",
-    lede: "Tạo một buổi tối, chia sẻ liên kết đăng ký trong nhóm chat, và điều hành từ đây vào tối đó.",
-    newTournament: "Buổi tối mới",
-    empty: "Chưa có buổi tối nào. Hãy tạo buổi đầu tiên.",
+    heading: "Các sự kiện",
+    lede: "Tạo một sự kiện, chia sẻ liên kết đăng ký trong nhóm chat, và điều hành từ đây vào ngày diễn ra.",
+    newTournament: "Sự kiện mới",
+    empty: "Chưa có sự kiện nào. Hãy tạo sự kiện đầu tiên.",
     status: {
       open: "Đang mở đăng ký",
       closed: "Đã đóng đăng ký",
       generated: "Lịch đã sẵn sàng",
-      live: "Buổi tối đang diễn ra",
+      live: "Sự kiện đang diễn ra",
       finished: "Đã kết thúc",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} người chơi`,
@@ -197,7 +197,7 @@ export const vi: Messages = {
     copied: "Đã sao chép liên kết",
     open: "Mở",
     form: {
-      heading: "Buổi tối mới",
+      heading: "Sự kiện mới",
       name: "Tên",
       namePlaceholder: "Đôi nam nữ thứ Sáu",
       startsAt: "Bắt đầu",
@@ -205,7 +205,7 @@ export const vi: Messages = {
       perCourt: "Chỗ mỗi sân (thi đấu + nghỉ)",
       capacity: (courts: number, cap: number) =>
         `${courts} sân — tối đa ${cap} người chơi. Ai đăng ký vượt quá số đó sẽ vào danh sách chờ, ai đăng ký trước được ưu tiên trước.`,
-      create: "Tạo buổi tối",
+      create: "Tạo sự kiện",
       invalid: "Kiểm tra các trường: tên, ngày, và 1–6 sân.",
     },
   },
@@ -213,12 +213,12 @@ export const vi: Messages = {
   workspace: {
     unreadable: "Không đọc được lịch đã lưu. Hãy hủy và tạo lại.",
     errors: {
-      "not-found": "Buổi tối này không còn tồn tại.",
+      "not-found": "Sự kiện này không còn tồn tại.",
       invalid: "Thay đổi đó không hợp lệ và đã bị bỏ qua.",
       frozen: "Lịch đã được tạo; hãy hủy lịch trước khi thay đổi danh sách.",
       open: "Hãy đóng đăng ký trước.",
       players: "Cần ít nhất bốn người chơi đã xác nhận.",
-      full: "Buổi tối này đã đạt giới hạn đăng ký.",
+      full: "Sự kiện này đã đạt giới hạn đăng ký.",
       state: "Bước đó hiện chưa thể thực hiện.",
     },
   },
@@ -230,13 +230,13 @@ export const vi: Messages = {
     registerHeading: "Tham gia chơi cùng?",
     registerLede: "Chỉ cần điền tên một lần; điện thoại này sẽ ghi nhớ bạn.",
     register: "Đăng ký ngay",
-    waitlistWarning: "Buổi tối đã đủ người — bạn sẽ vào danh sách chờ và được xếp lên khi có người hủy.",
+    waitlistWarning: "Sự kiện đã đủ người — bạn sẽ vào danh sách chờ và được xếp lên khi có người hủy.",
     youAreIn: "Bạn đã đăng ký thành công!",
     waiting: (n) => `Bạn đang xếp thứ ${n} trong danh sách chờ.`,
     cancel: "Hủy đăng ký của tôi",
     frozen: "Lịch đã được chốt. Hãy báo cho ban tổ chức nếu bạn không thể tham gia.",
     closed: "Đăng ký đã đóng.",
-    fullMessage: "Đăng ký đã đóng — buổi tối đã đủ người.",
+    fullMessage: "Đăng ký đã đóng — sự kiện đã đủ người.",
     tabs: { now: "Đang thi đấu", standings: "Xếp hạng" },
     round: (n) => `Vòng ${n}`,
     yourCourt: (court, partner, a, b) => `Sân ${court} — cùng ${partner}, đấu với ${a} & ${b}`,
@@ -246,8 +246,8 @@ export const vi: Messages = {
     errors: {
       invalid: "Hãy nhập tên, và chọn cách chơi cùng trình độ của bạn.",
       closed: "Đăng ký đã đóng.",
-      full: "Buổi tối đã đủ người.",
-      already: "Điện thoại này đã có một đăng ký đang hoạt động cho buổi tối này.",
+      full: "Sự kiện đã đủ người.",
+      already: "Điện thoại này đã có một đăng ký đang hoạt động cho sự kiện này.",
       failed: "Thao tác không thành công. Hãy tải lại trang và thử lại.",
     },
   },

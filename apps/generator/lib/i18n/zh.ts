@@ -29,7 +29,7 @@ export const zh: Messages = {
 
   roster: {
     heading: "谁来打球？",
-    lede: "级别是大家报名时自选的档位，只显示在这个页面上——整晚都不会出现在名字旁边。",
+    lede: "级别是大家报名时自选的档位，只显示在这个页面上——全程都不会出现在名字旁边。",
     name: "姓名",
     namePlaceholder: "添加球员",
     playsAs: "性别",
@@ -51,7 +51,7 @@ export const zh: Messages = {
   },
 
   setup: {
-    heading: "设置今晚的活动",
+    heading: "设置本场活动",
     lede: "相同的球员、设置和种子始终生成相同的赛程。想换一个，就重新生成种子。",
     courts: "场地数",
     rounds: "轮数",
@@ -110,7 +110,7 @@ export const zh: Messages = {
   },
 
   schedule: {
-    heading: "今晚的场地",
+    heading: "本场活动的场地",
     empty: "还没有赛程。先添加球员，再到“设置”页生成。",
     print: "打印",
     rounds: "轮次",
@@ -125,8 +125,8 @@ export const zh: Messages = {
     swap: "交换球员",
     resting: "本轮轮空",
     startRound: (n) => `开始第 ${n} 轮`,
-    endEvening: "结束活动",
-    ended: "活动之夜已结束 — 最终排名在“排名”页查看。",
+    endEvent: "结束活动",
+    ended: "活动已结束 — 最终排名在“排名”页查看。",
     notStarted: "还没有开始。第一场比赛准备好后就开始第 1 轮吧。",
     currentRound: (n) => `第 ${n} 轮进行中`,
   },
@@ -164,7 +164,7 @@ export const zh: Messages = {
 
   auth: {
     loginHeading: "组织者登录",
-    lede: "组织者负责安排活动之夜并在场边运营。选手无需注册账户。",
+    lede: "组织者负责安排活动并在场边运营。选手无需注册账户。",
     continueWithGoogle: "使用 Google 继续",
     logout: "退出登录",
     error: "无法通过 Google 登录，请重试。",
@@ -179,15 +179,15 @@ export const zh: Messages = {
   },
 
   organiser: {
-    heading: "活动之夜",
-    lede: "创建一场活动之夜，把报名链接分享到群里，当晚就在这里运营。",
-    newTournament: "新建活动之夜",
-    empty: "还没有活动之夜。创建第一场吧。",
+    heading: "你的活动",
+    lede: "创建一场活动，把报名链接分享到群里，当天就在这里运营。",
+    newTournament: "新建活动",
+    empty: "还没有活动。创建第一场吧。",
     status: {
       open: "开放报名",
       closed: "报名已关闭",
       generated: "赛程已生成",
-      live: "当晚进行中",
+      live: "活动进行中",
       finished: "已结束",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max} 名球员`,
@@ -195,7 +195,7 @@ export const zh: Messages = {
     copied: "链接已复制",
     open: "打开",
     form: {
-      heading: "新建活动之夜",
+      heading: "新建活动",
       name: "名称",
       namePlaceholder: "周五混双",
       startsAt: "开始时间",
@@ -203,7 +203,7 @@ export const zh: Messages = {
       perCourt: "每片场地名额（上场 + 轮休）",
       capacity: (courts: number, cap: number) =>
         `${courts} 片场地 — 最多可容纳 ${cap} 名球员。超出人数将进入候补名单，先到先得。`,
-      create: "创建活动之夜",
+      create: "创建活动",
       invalid: "请检查以下字段：名称、日期、以及 1–6 片场地。",
     },
   },
@@ -211,12 +211,12 @@ export const zh: Messages = {
   workspace: {
     unreadable: "无法读取已保存的赛程。请丢弃后重新生成。",
     errors: {
-      "not-found": "这场活动之夜已不存在。",
+      "not-found": "这场活动已不存在。",
       invalid: "该操作无效，已被忽略。",
       frozen: "赛程已生成；请先丢弃赛程再修改名单。",
       open: "请先关闭报名。",
       players: "至少需要四位已确认球员。",
-      full: "本场活动之夜的报名人数已达上限。",
+      full: "本场活动的报名人数已达上限。",
       state: "该操作目前不可用。",
     },
   },
@@ -228,13 +228,13 @@ export const zh: Messages = {
     registerHeading: "要一起打吗？",
     registerLede: "填一次姓名即可；这部手机会记住你。",
     register: "报名参加",
-    waitlistWarning: "本场活动之夜名额已满——你将进入候补名单，有人取消后自动递补。",
+    waitlistWarning: "本场活动名额已满——你将进入候补名单，有人取消后自动递补。",
     youAreIn: "你已报名成功！",
     waiting: (n) => `你目前是候补名单第 ${n} 位。`,
     cancel: "取消我的报名",
     frozen: "赛程已经确定。如果你不能来，请告知组织者。",
     closed: "报名已关闭。",
-    fullMessage: "报名已关闭——本场活动之夜名额已满。",
+    fullMessage: "报名已关闭——本场活动名额已满。",
     tabs: { now: "正在进行", standings: "排名" },
     round: (n) => `第 ${n} 轮`,
     yourCourt: (court, partner, a, b) => `${court} 号场 — 搭档 ${partner}，对阵 ${a} 和 ${b}`,
@@ -244,8 +244,8 @@ export const zh: Messages = {
     errors: {
       invalid: "请输入姓名，并选择你的打法和级别。",
       closed: "报名已关闭。",
-      full: "本场活动之夜名额已满。",
-      already: "这部手机已经为本场活动之夜报名过了。",
+      full: "本场活动名额已满。",
+      already: "这部手机已经为本场活动报名过了。",
       failed: "操作未成功，请刷新页面重试。",
     },
   },

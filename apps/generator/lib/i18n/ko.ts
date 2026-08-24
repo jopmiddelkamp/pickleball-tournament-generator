@@ -28,7 +28,7 @@ export const ko: Messages = {
 
   roster: {
     heading: "누가 참가하나요?",
-    lede: "레벨은 등록할 때 본인이 고른 단계입니다. 이 화면에만 표시되며, 저녁 내내 이름 옆에는 나타나지 않습니다.",
+    lede: "레벨은 등록할 때 본인이 고른 단계입니다. 이 화면에만 표시되며, 이벤트 내내 이름 옆에는 나타나지 않습니다.",
     name: "이름",
     namePlaceholder: "참가자 추가",
     playsAs: "성별",
@@ -50,7 +50,7 @@ export const ko: Messages = {
   },
 
   setup: {
-    heading: "오늘 저녁 설정",
+    heading: "이벤트 설정",
     lede: "같은 참가자, 설정, 시드에서는 항상 같은 일정이 나옵니다. 다른 일정을 원하면 시드를 다시 뽑으세요.",
     courts: "코트 수",
     rounds: "라운드 수",
@@ -111,7 +111,7 @@ export const ko: Messages = {
   },
 
   schedule: {
-    heading: "오늘 저녁 코트",
+    heading: "오늘의 코트",
     empty: "아직 일정이 없습니다. 참가자를 추가한 뒤 설정 탭에서 생성하세요.",
     print: "인쇄",
     rounds: "라운드",
@@ -126,8 +126,8 @@ export const ko: Messages = {
     swap: "참가자 교체",
     resting: "이번 라운드 휴식",
     startRound: (n) => `${n}라운드 시작`,
-    endEvening: "저녁 마치기",
-    ended: "저녁이 끝났습니다 — 최종 순위는 순위 탭에서 확인하세요.",
+    endEvent: "이벤트 마치기",
+    ended: "이벤트가 끝났습니다 — 최종 순위는 순위 탭에서 확인하세요.",
     notStarted: "아직 아무것도 시작하지 않았습니다. 첫 경기 준비가 끝나면 1라운드를 시작하세요.",
     currentRound: (n) => `${n}라운드 진행 중`,
   },
@@ -165,7 +165,7 @@ export const ko: Messages = {
 
   auth: {
     loginHeading: "주최자 로그인",
-    lede: "주최자는 저녁 일정을 설정하고 코트에서 직접 진행합니다. 참가자는 계정이 필요 없습니다.",
+    lede: "주최자는 이벤트를 설정하고 코트에서 직접 진행합니다. 참가자는 계정이 필요 없습니다.",
     continueWithGoogle: "Google로 계속하기",
     logout: "로그아웃",
     error: "Google 로그인에 실패했습니다. 다시 시도해 주세요.",
@@ -180,15 +180,15 @@ export const ko: Messages = {
   },
 
   organiser: {
-    heading: "주최하는 저녁",
-    lede: "저녁 일정을 만들고, 가입 링크를 단체 채팅방에 공유한 뒤, 당일 저녁에는 여기서 진행하세요.",
-    newTournament: "새 저녁 만들기",
-    empty: "아직 저녁 일정이 없습니다. 첫 일정을 만들어 보세요.",
+    heading: "주최하는 이벤트",
+    lede: "이벤트를 만들고, 가입 링크를 단체 채팅방에 공유한 뒤, 당일에는 여기서 진행하세요.",
+    newTournament: "새 이벤트 만들기",
+    empty: "아직 이벤트가 없습니다. 첫 이벤트를 만들어 보세요.",
     status: {
       open: "등록 진행 중",
       closed: "등록 마감",
       generated: "일정 완성",
-      live: "저녁 진행 중",
+      live: "이벤트 진행 중",
       finished: "종료됨",
     },
     players: (confirmed: number, max: number) => `${confirmed} / ${max}명`,
@@ -196,7 +196,7 @@ export const ko: Messages = {
     copied: "링크 복사됨",
     open: "열기",
     form: {
-      heading: "새 저녁 만들기",
+      heading: "새 이벤트 만들기",
       name: "이름",
       namePlaceholder: "금요일 혼합 복식",
       startsAt: "시작 시간",
@@ -204,7 +204,7 @@ export const ko: Messages = {
       perCourt: "코트당 인원(경기 + 휴식)",
       capacity: (courts: number, cap: number) =>
         `코트 ${courts}개 — 최대 ${cap}명까지. 이 인원을 초과한 신청은 선착순으로 대기 명단에 올라갑니다.`,
-      create: "저녁 만들기",
+      create: "이벤트 만들기",
       invalid: "다음 항목을 확인하세요: 이름, 날짜, 코트 1~6개.",
     },
   },
@@ -212,12 +212,12 @@ export const ko: Messages = {
   workspace: {
     unreadable: "저장된 일정을 읽을 수 없습니다. 삭제하고 다시 생성하세요.",
     errors: {
-      "not-found": "이 저녁 일정은 더 이상 존재하지 않습니다.",
+      "not-found": "이 이벤트는 더 이상 존재하지 않습니다.",
       invalid: "그 변경 사항은 유효하지 않아 무시되었습니다.",
       frozen: "일정이 생성되어 있습니다. 명단을 바꾸려면 먼저 일정을 삭제하세요.",
       open: "먼저 등록을 마감하세요.",
       players: "확정된 참가자가 최소 4명 필요합니다.",
-      full: "이 저녁 일정은 등록 인원 한도에 도달했습니다.",
+      full: "이 이벤트는 등록 인원 한도에 도달했습니다.",
       state: "지금은 그 단계를 진행할 수 없습니다.",
     },
   },
@@ -229,13 +229,13 @@ export const ko: Messages = {
     registerHeading: "함께 플레이하시겠어요?",
     registerLede: "이름을 한 번만 입력하면 이 휴대폰이 기억합니다.",
     register: "참가 신청",
-    waitlistWarning: "이 저녁 일정은 이미 가득 찼습니다 — 신청하면 대기 명단에 오르며, 누군가 취소하면 순서가 올라갑니다.",
+    waitlistWarning: "이 이벤트는 이미 가득 찼습니다 — 신청하면 대기 명단에 오르며, 누군가 취소하면 순서가 올라갑니다.",
     youAreIn: "참가 신청 완료!",
     waiting: (n) => `대기 명단 ${n}번입니다.`,
     cancel: "내 신청 취소",
     frozen: "일정이 확정되었습니다. 참석이 어려우면 주최자에게 알려주세요.",
     closed: "신청이 마감되었습니다.",
-    fullMessage: "신청이 마감되었습니다 — 이 저녁 일정은 완전히 가득 찼습니다.",
+    fullMessage: "신청이 마감되었습니다 — 이 이벤트는 완전히 가득 찼습니다.",
     tabs: { now: "진행 중", standings: "순위" },
     round: (n) => `라운드 ${n}`,
     yourCourt: (court, partner, a, b) => `코트 ${court} — ${partner}와 함께, 상대는 ${a} & ${b}`,
@@ -245,8 +245,8 @@ export const ko: Messages = {
     errors: {
       invalid: "이름을 입력하고, 플레이 방식과 레벨을 선택하세요.",
       closed: "신청이 마감되었습니다.",
-      full: "이 저녁 일정은 완전히 가득 찼습니다.",
-      already: "이 휴대폰은 이미 이 저녁 일정에 활성 신청 내역이 있습니다.",
+      full: "이 이벤트는 완전히 가득 찼습니다.",
+      already: "이 휴대폰은 이미 이 이벤트에 활성 신청 내역이 있습니다.",
       failed: "처리하지 못했습니다. 페이지를 새로고침한 후 다시 시도하세요.",
     },
   },

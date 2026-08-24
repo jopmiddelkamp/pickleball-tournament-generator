@@ -114,7 +114,7 @@ export function ScheduleScreen({
           style={{ marginBottom: 14 }}
           onClick={onEndEvening}
         >
-          {t.schedule.endEvening}
+          {t.schedule.endEvent}
         </button>
       )}
 

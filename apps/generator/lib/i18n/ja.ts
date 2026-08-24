@@ -27,8 +27,8 @@ export const ja: Messages = {
   gender: { F: "女性", M: "男性" },
 
   roster: {
-    heading: "今夜のメンバーは？",
-    lede: "レベルは登録時に本人が選んだ区分です。この画面にだけ表示され、今夜の間に名前の横に出ることはありません。",
+    heading: "今日のメンバーは？",
+    lede: "レベルは登録時に本人が選んだ区分です。この画面にだけ表示され、イベントの間に名前の横に出ることはありません。",
     name: "名前",
     namePlaceholder: "プレーヤーを追加",
     playsAs: "性別",
@@ -50,7 +50,7 @@ export const ja: Messages = {
   },
 
   setup: {
-    heading: "今夜の設定",
+    heading: "イベントの設定",
     lede: "同じメンバー・設定・シードからは常に同じスケジュールが生まれます。別のものにするにはシードを振り直してください。",
     courts: "コート数",
     rounds: "ラウンド数",
@@ -111,7 +111,7 @@ export const ja: Messages = {
   },
 
   schedule: {
-    heading: "今夜のコート",
+    heading: "本日のコート",
     empty: "まだスケジュールがありません。プレーヤーを追加して、「設定」タブから生成してください。",
     print: "印刷",
     rounds: "ラウンド",
@@ -126,8 +126,8 @@ export const ja: Messages = {
     swap: "プレーヤーを入れ替え",
     resting: "今回は休憩",
     startRound: (n) => `ラウンド ${n} を開始`,
-    endEvening: "今夜を終了",
-    ended: "今夜は終了しました — 最終順位は「順位」タブでご覧いただけます。",
+    endEvent: "イベントを終了",
+    ended: "イベントは終了しました — 最終順位は「順位」タブでご覧いただけます。",
     notStarted: "まだ何も始まっていません。最初のゲームの準備ができたらラウンド1を開始してください。",
     currentRound: (n) => `ラウンド ${n} を進行中`,
   },
@@ -180,10 +180,10 @@ export const ja: Messages = {
   },
 
   organiser: {
-    heading: "主催する夜",
-    lede: "夜の予定を作成し、サインアップ用のリンクをグループチャットで共有して、当日はここから運営します。",
-    newTournament: "新しい夜を作成",
-    empty: "まだ夜の予定がありません。最初の予定を作成してください。",
+    heading: "主催するイベント",
+    lede: "イベントを作成し、サインアップ用のリンクをグループチャットで共有して、当日はここから運営します。",
+    newTournament: "新しいイベントを作成",
+    empty: "まだイベントがありません。最初のイベントを作成してください。",
     status: {
       open: "受付中",
       closed: "受付終了",
@@ -196,7 +196,7 @@ export const ja: Messages = {
     copied: "リンクをコピーしました",
     open: "開く",
     form: {
-      heading: "新しい夜を作成",
+      heading: "新しいイベントを作成",
       name: "名前",
       namePlaceholder: "金曜ミックスダブルス",
       startsAt: "開始日時",
@@ -204,7 +204,7 @@ export const ja: Messages = {
       perCourt: "コートあたりの枠（プレー + 休憩）",
       capacity: (courts: number, cap: number) =>
         `コート${courts}面 — 最大${cap}人まで。それを超える申し込みはキャンセル待ちになります（先着順）。`,
-      create: "夜を作成",
+      create: "イベントを作成",
       invalid: "項目を確認してください：名前、日付、1〜6面のコート。",
     },
   },
@@ -212,12 +212,12 @@ export const ja: Messages = {
   workspace: {
     unreadable: "保存されたスケジュールを読み込めませんでした。破棄してから作り直してください。",
     errors: {
-      "not-found": "この夜の予定はもう存在しません。",
+      "not-found": "このイベントはもう存在しません。",
       invalid: "その変更は無効だったため、無視されました。",
       frozen: "スケジュールが生成されています。名簿を変更する前に破棄してください。",
       open: "先に受付を締め切ってください。",
       players: "確定したプレーヤーが4人以上必要です。",
-      full: "この夜の予定は受付上限に達しています。",
+      full: "このイベントは受付上限に達しています。",
       state: "その操作は今は行えません。",
     },
   },
@@ -231,13 +231,13 @@ export const ja: Messages = {
     registerHeading: "参加しますか？",
     registerLede: "名前を一度入力すれば、このスマートフォンが記憶します。",
     register: "申し込む",
-    waitlistWarning: "この夜の予定は満員です——申し込むとキャンセル待ちになり、空きが出次第繰り上がります。",
+    waitlistWarning: "このイベントは満員です——申し込むとキャンセル待ちになり、空きが出次第繰り上がります。",
     youAreIn: "参加登録できました！",
     waiting: (n) => `キャンセル待ち${n}番目です。`,
     cancel: "申し込みを取り消す",
     frozen: "スケジュールが確定しています。参加できない場合は主催者に連絡してください。",
     closed: "受付は終了しました。",
-    fullMessage: "受付は終了しました——この夜の予定は満員です。",
+    fullMessage: "受付は終了しました——このイベントは満員です。",
     tabs: { now: "進行中", standings: "順位" },
     round: (n) => `ラウンド ${n}`,
     yourCourt: (court, partner, a, b) => `コート ${court} — ${partner}とペア、対戦相手は${a}・${b}`,
@@ -247,8 +247,8 @@ export const ja: Messages = {
     errors: {
       invalid: "名前を入力し、プレースタイルとレベルを選んでください。",
       closed: "受付は終了しました。",
-      full: "この夜の予定は満員です。",
-      already: "このスマートフォンはすでにこの夜の予定に申し込み済みです。",
+      full: "このイベントは満員です。",
+      already: "このスマートフォンはすでにこのイベントに申し込み済みです。",
       failed: "うまくいきませんでした。ページを更新してもう一度お試しください。",
     },
   },
