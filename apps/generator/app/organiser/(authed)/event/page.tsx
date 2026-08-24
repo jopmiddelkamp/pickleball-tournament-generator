@@ -16,6 +16,7 @@ export default async function OrganiserHome() {
         slug: t.slug,
         name: t.name,
         startsAt: t.startsAt.toISOString(),
+        location: t.location,
         status: tournamentStatus(t),
         players: Math.min(maxPlayers, await countActiveRegistrations(t.id)),
         maxPlayers,

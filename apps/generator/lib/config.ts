@@ -12,6 +12,7 @@ export const LIMITS = {
   /** spam guard per tournament, active registrations */
   maxRegistrations: 150,
   maxTournamentName: 80,
+  maxLocation: 120,
   /** +1s one registration can bring */
   maxGuests: 3,
 } as const;

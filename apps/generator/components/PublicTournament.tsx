@@ -55,6 +55,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
       <div className="app__main">
         <h2 className="screen__heading">{view.name}</h2>
         <p className="screen__lede">
+          {view.location ? <>{"\u{1F4CD}"} {view.location} · </> : null}
           {t.public.startsAt(when)} · {t.public.playedTo(view.gameTarget)}
         </p>
 

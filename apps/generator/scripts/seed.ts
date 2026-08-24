@@ -46,6 +46,7 @@ async function main(): Promise<void> {
 
   const open = await createTournament(organiserId, {
     name: "Friday mix (open)",
+    location: "Balanca Pickleball Court",
     startsAt,
     maxCourts: 2,
     playersPerCourt: 5,
@@ -58,6 +59,7 @@ async function main(): Promise<void> {
 
   const generated = await createTournament(organiserId, {
     name: "Last Tuesday (played)",
+    location: null,
     startsAt: new Date(Date.now() - 7 * 24 * 3600 * 1000),
     maxCourts: 4,
     playersPerCourt: 5,

@@ -37,6 +37,10 @@ export function NewTournamentForm() {
           <input id="name" name="name" className="input" maxLength={LIMITS.maxTournamentName} placeholder={t.organiser.form.namePlaceholder} required />
         </div>
         <div>
+          <label className="label" htmlFor="location">{t.organiser.form.location}</label>
+          <input id="location" name="location" className="input" maxLength={LIMITS.maxLocation} placeholder={t.organiser.form.locationPlaceholder} />
+        </div>
+        <div>
           <label className="label" htmlFor="startsAt">{t.organiser.form.startsAt}</label>
           <DateTimeField id="startsAt" name="startsAt" />
         </div>

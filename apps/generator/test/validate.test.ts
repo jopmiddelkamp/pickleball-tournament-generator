@@ -26,6 +26,7 @@ describe("parseTournamentForm", () => {
     const input = parseTournamentForm(form({ ...valid, maxPlayers: "16", rounds: "6", gameTarget: "11" }));
     expect(input).toEqual({
       name: "Friday mix",
+      location: null,
       startsAt: new Date("2026-09-04T17:30:00.000Z"),
       maxCourts: 4,
       playersPerCourt: 5,

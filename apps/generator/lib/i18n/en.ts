@@ -215,6 +215,8 @@ export const en = {
       heading: "New event",
       name: "Name",
       namePlaceholder: "Friday mixed doubles",
+      location: "Location (optional)",
+      locationPlaceholder: "Balanca Pickleball Court",
       startsAt: "Starts",
       maxCourts: "Courts available",
       perCourt: "Spots per court (playing + resting)",

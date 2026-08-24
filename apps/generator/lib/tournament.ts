@@ -49,6 +49,7 @@ export interface WorkspaceView {
   slug: string;
   name: string;
   startsAt: string; // ISO, for the client
+  location: string | null;
   status: TournamentStatus;
   registrationOpen: boolean;
   maxPlayers: number;
@@ -95,6 +96,7 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
     slug: tournament.slug,
     name: tournament.name,
     startsAt: tournament.startsAt.toISOString(),
+    location: tournament.location,
     status: tournamentStatus(tournament),
     registrationOpen: tournament.registrationClosedAt === null,
     maxPlayers,

@@ -73,7 +73,7 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           <Link href={`/organiser/event/${view.id}/edit`} className="button button--quiet button--small">
             {t.organiser.edit.open}
           </Link>
-          <CopyEventLink slug={view.slug} name={view.name} startsAt={view.startsAt} />
+          <CopyEventLink slug={view.slug} name={view.name} startsAt={view.startsAt} location={view.location} />
         </div>
       </div>
       {demotedNotice > 0 ? (

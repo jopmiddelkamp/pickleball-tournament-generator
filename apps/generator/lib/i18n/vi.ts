@@ -200,6 +200,8 @@ export const vi: Messages = {
       heading: "Sự kiện mới",
       name: "Tên",
       namePlaceholder: "Đôi nam nữ thứ Sáu",
+      location: "Địa điểm (không bắt buộc)",
+      locationPlaceholder: "Balanca Pickleball Court",
       startsAt: "Bắt đầu",
       maxCourts: "Số sân có sẵn",
       perCourt: "Chỗ mỗi sân (thi đấu + nghỉ)",

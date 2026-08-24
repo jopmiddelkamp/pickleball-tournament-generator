@@ -60,6 +60,17 @@ export function EditEventForm({ view, registered, frozen }: {
           />
         </div>
         <div>
+          <label className="label" htmlFor="edit-location">{t.organiser.form.location}</label>
+          <input
+            id="edit-location"
+            name="location"
+            className="input"
+            defaultValue={view.location ?? ""}
+            maxLength={LIMITS.maxLocation}
+            placeholder={t.organiser.form.locationPlaceholder}
+          />
+        </div>
+        <div>
           <label className="label" htmlFor="edit-startsAt">{t.organiser.form.startsAt}</label>
           <DateTimeField id="edit-startsAt" name="startsAt" initial={view.startsAt} />
         </div>

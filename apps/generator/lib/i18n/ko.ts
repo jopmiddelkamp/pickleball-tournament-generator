@@ -199,6 +199,8 @@ export const ko: Messages = {
       heading: "새 이벤트 만들기",
       name: "이름",
       namePlaceholder: "금요일 혼합 복식",
+      location: "장소(선택)",
+      locationPlaceholder: "Balanca Pickleball Court",
       startsAt: "시작 시간",
       maxCourts: "이용 가능한 코트 수",
       perCourt: "코트당 인원(경기 + 휴식)",

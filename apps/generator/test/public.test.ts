@@ -11,6 +11,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     organiserId: "org1",
     slug: "abcdefghijkl",
     name: "Tuesday night",
+    location: null,
     startsAt: new Date("2026-09-01T18:00:00Z"),
     maxCourts: 1,
     playersPerCourt: 5,

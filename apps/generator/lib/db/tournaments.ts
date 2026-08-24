@@ -12,6 +12,7 @@ export type TournamentPatch = Partial<
     NewTournament,
     | "name"
     | "startsAt"
+    | "location"
     | "maxCourts"
     | "playersPerCourt"
     | "courts"
@@ -69,6 +70,7 @@ export async function createTournament(organiserId: string, input: TournamentInp
       slug: newSlug(),
       name: input.name,
       startsAt: input.startsAt,
+      location: input.location,
       maxCourts: input.maxCourts,
       playersPerCourt: input.playersPerCourt,
       rounds: 6,

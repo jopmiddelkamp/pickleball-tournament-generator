@@ -199,6 +199,8 @@ export const ja: Messages = {
       heading: "新しいイベントを作成",
       name: "名前",
       namePlaceholder: "金曜ミックスダブルス",
+      location: "場所（任意）",
+      locationPlaceholder: "Balanca Pickleball Court",
       startsAt: "開始日時",
       maxCourts: "利用可能なコート数",
       perCourt: "コートあたりの枠（プレー + 休憩）",

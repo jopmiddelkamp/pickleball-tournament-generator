@@ -29,6 +29,7 @@ export interface PublicView {
   slug: string;
   name: string;
   startsAt: string; // ISO
+  location: string | null;
   status: TournamentStatus;
   capacity: number;
   confirmedCount: number;
@@ -113,6 +114,7 @@ export function buildPublicView(
     slug: tournament.slug,
     name: tournament.name,
     startsAt: tournament.startsAt.toISOString(),
+    location: tournament.location,
     status,
     capacity,
     confirmedCount: confirmed.length,

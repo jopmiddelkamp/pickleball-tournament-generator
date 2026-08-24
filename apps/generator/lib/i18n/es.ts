@@ -200,6 +200,8 @@ export const es: Messages = {
       heading: "Nuevo evento",
       name: "Nombre",
       namePlaceholder: "Dobles mixtos del viernes",
+      location: "Ubicación (opcional)",
+      locationPlaceholder: "Balanca Pickleball Court",
       startsAt: "Empieza",
       maxCourts: "Pistas disponibles",
       perCourt: "Plazas por pista (jugando + descansando)",

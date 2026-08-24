@@ -160,6 +160,7 @@ function field(formData: FormData, name: string): string {
 export interface TournamentInput {
   name: string;
   startsAt: Date;
+  location: string | null;
   maxCourts: number;
   playersPerCourt: number;
   gameTarget: number;
@@ -187,6 +188,7 @@ function parseLocalDateTime(raw: string, tzOffsetMinutes: number): Date | null {
 
 export function parseTournamentForm(formData: FormData): TournamentInput | null {
   const name = asString(field(formData, "name"), LIMITS.maxTournamentName);
+  const location = asString(field(formData, "location"), LIMITS.maxLocation);
   const tzOffset = intField(formData, "tzOffset") ?? 0;
   const startsAt = parseLocalDateTime(field(formData, "startsAt"), tzOffset);
   const maxCourts = intField(formData, "maxCourts");
@@ -199,7 +201,7 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   const rawAlgorithm = field(formData, "algorithmId");
   const algorithmId = rawAlgorithm === "" ? DEFAULT_ALGORITHM_ID : rawAlgorithm;
   if (!ALGORITHMS.some((a) => a.id === algorithmId)) return null;
-  return { name, startsAt, maxCourts, playersPerCourt, gameTarget, algorithmId };
+  return { name, startsAt, location, maxCourts, playersPerCourt, gameTarget, algorithmId };
 }
 
 /**

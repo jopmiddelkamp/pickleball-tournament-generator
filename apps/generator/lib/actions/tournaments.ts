@@ -48,6 +48,7 @@ export async function updateEventDetailsAction(
   await updateTournament(owner.organiserId, owner.tournament.id, {
     name: input.name,
     startsAt: input.startsAt,
+    location: input.location,
     gameTarget: input.gameTarget,
     algorithmId: input.algorithmId,
     ...(scheduleStored ? {} : { maxCourts: input.maxCourts, playersPerCourt: input.playersPerCourt }),

@@ -10,6 +10,7 @@ import { EmptyState } from "./ui";
 export interface TournamentSummary {
   id: string;
   slug: string;
+  location: string | null;
   name: string;
   startsAt: string;
   status: TournamentStatus;
@@ -41,7 +42,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
               </p>
               <div className="row" style={{ marginTop: 10 }}>
                 <Link href={`/organiser/event/${tournament.id}`} className="button button--small">{t.organiser.open}</Link>
-                <CopyEventLink slug={tournament.slug} name={tournament.name} startsAt={tournament.startsAt} />
+                <CopyEventLink slug={tournament.slug} name={tournament.name} startsAt={tournament.startsAt} location={tournament.location} />
               </div>
             </li>
           ))}

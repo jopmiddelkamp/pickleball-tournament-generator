@@ -40,6 +40,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
   const stranger = randomUUID();
   const input = {
     name: "Test night",
+    location: null,
     startsAt: new Date("2026-09-04T17:30:00Z"),
     maxCourts: 2,
     playersPerCourt: 5,

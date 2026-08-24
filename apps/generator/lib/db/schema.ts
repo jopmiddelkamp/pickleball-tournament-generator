@@ -19,6 +19,8 @@ export const tournaments = pgTable(
     slug: text("slug").notNull().unique(),
     name: text("name").notNull(),
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    /** free-text venue/address, rendered as a maps link on the public page */
+    location: text("location"),
     maxCourts: integer("max_courts").notNull(),
     /** confirmed spots per court (playing + resting); capacity is derived from it */
     playersPerCourt: integer("players_per_court").notNull().default(5),

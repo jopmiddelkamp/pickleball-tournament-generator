@@ -198,6 +198,8 @@ export const zh: Messages = {
       heading: "新建活动",
       name: "名称",
       namePlaceholder: "周五混双",
+      location: "地点（选填）",
+      locationPlaceholder: "Balanca Pickleball Court",
       startsAt: "开始时间",
       maxCourts: "可用场地数",
       perCourt: "每片场地名额（上场 + 轮休）",
