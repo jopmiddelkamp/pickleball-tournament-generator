@@ -106,6 +106,10 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
 
       {tab === "schedule" ? (
         <ScheduleScreen
+          // Remount when a new round starts: roundIndex is seeded once from useState and
+          // otherwise never follows roundsStarted, so without this the screen would stay
+          // on the old round after the organiser taps "Start round".
+          key={view.roundsStarted}
           schedule={view.schedule}
           players={players}
           games={games}
