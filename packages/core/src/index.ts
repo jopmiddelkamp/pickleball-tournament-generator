@@ -4,6 +4,7 @@ export * from "./types.js";
 export * from "./rng.js";
 export * from "./tracker.js";
 export * from "./feasibility.js";
+export * from "./maxPlayers.js";
 export * from "./suggestConfig.js";
 export * from "./roundBuilder.js";
 export * from "./constants.js";
