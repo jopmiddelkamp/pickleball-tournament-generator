@@ -12,8 +12,6 @@ export const LIMITS = {
   /** spam guard per tournament, active registrations */
   maxRegistrations: 150,
   maxTournamentName: 80,
-  minPassword: 8,
-  maxPassword: 128,
 } as const;
 
 export function clamp(value: number, min: number, max: number): number {

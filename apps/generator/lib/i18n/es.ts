@@ -166,23 +166,10 @@ export const es: Messages = {
 
   auth: {
     loginHeading: "Acceso de organizador",
-    signUpHeading: "Crear una cuenta de organizador",
     lede: "Los organizadores preparan las noches y las gestionan desde la pista. Los jugadores nunca necesitan una cuenta.",
-    email: "Correo electrónico",
-    password: "Contraseña",
-    passwordHint: (min) => `Al menos ${min} caracteres`,
-    login: "Iniciar sesión",
-    signUp: "Crear cuenta",
+    continueWithGoogle: "Continuar con Google",
     logout: "Cerrar sesión",
-    toSignUp: "¿Aún no tienes cuenta? Crea una",
-    toLogin: "¿Ya tienes cuenta? Inicia sesión",
-    confirmEmail: "Revisa tu bandeja de entrada y confirma tu correo, luego inicia sesión.",
-    errors: {
-      invalid: "Introduce un correo válido y una contraseña de al menos 8 caracteres.",
-      credentials: "Ese correo y contraseña no coinciden.",
-      exists: "Ya existe una cuenta con ese correo. Inicia sesión en su lugar.",
-      failed: "No se pudo crear la cuenta. Inténtalo de nuevo en un momento.",
-    },
+    error: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
   },
 
   organiser: {

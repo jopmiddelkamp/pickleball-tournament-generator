@@ -225,6 +225,15 @@ select {
   width: 100%;
 }
 
+a.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
 .button--accent {
   background: var(--accent);
   color: var(--court-deep);

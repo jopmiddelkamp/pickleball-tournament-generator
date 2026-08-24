@@ -146,18 +146,6 @@ function field(formData: FormData, name: string): string {
   return typeof value === "string" ? value : "";
 }
 
-export interface Credentials {
-  email: string;
-  password: string;
-}
-
-export function parseCredentials(formData: FormData): Credentials | null {
-  const email = field(formData, "email").trim().toLowerCase();
-  const password = field(formData, "password");
-  if (email.length === 0 || email.length > 254 || !email.includes("@")) return null;
-  if (password.length < LIMITS.minPassword || password.length > LIMITS.maxPassword) return null;
-  return { email, password };
-}
 
 export interface TournamentInput {
   name: string;

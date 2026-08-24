@@ -181,23 +181,10 @@ export const en = {
 
   auth: {
     loginHeading: "Organiser login",
-    signUpHeading: "Create an organiser account",
     lede: "Organisers set up evenings and run them court-side. Players never need an account.",
-    email: "Email",
-    password: "Password",
-    passwordHint: (min: number) => `At least ${min} characters`,
-    login: "Log in",
-    signUp: "Create account",
+    continueWithGoogle: "Continue with Google",
     logout: "Log out",
-    toSignUp: "No account yet? Create one",
-    toLogin: "Already have an account? Log in",
-    confirmEmail: "Check your inbox and confirm your email, then log in.",
-    errors: {
-      invalid: "Enter a valid email and a password of at least 8 characters.",
-      credentials: "That email and password do not match.",
-      exists: "There is already an account for that email. Log in instead.",
-      failed: "Could not create the account. Try again in a moment.",
-    },
+    error: "Could not sign you in with Google. Try again.",
   },
 
   organiser: {

@@ -164,23 +164,10 @@ export const zh: Messages = {
 
   auth: {
     loginHeading: "组织者登录",
-    signUpHeading: "创建组织者账户",
     lede: "组织者负责安排活动之夜并在场边运营。选手无需注册账户。",
-    email: "邮箱",
-    password: "密码",
-    passwordHint: (min) => `至少 ${min} 个字符`,
-    login: "登录",
-    signUp: "创建账户",
+    continueWithGoogle: "使用 Google 继续",
     logout: "退出登录",
-    toSignUp: "还没有账户？创建一个",
-    toLogin: "已有账户？去登录",
-    confirmEmail: "请查收邮箱并确认邮箱地址，然后登录。",
-    errors: {
-      invalid: "请输入有效的邮箱地址和至少 8 个字符的密码。",
-      credentials: "邮箱或密码不正确。",
-      exists: "该邮箱已注册账户，请直接登录。",
-      failed: "无法创建账户，请稍后重试。",
-    },
+    error: "无法通过 Google 登录，请重试。",
   },
 
   organiser: {

@@ -2,6 +2,11 @@
 
 Date: 2026-08-23. Status: approved design, awaiting implementation plan.
 
+Amended 2026-08-24: organiser sign-in is Google OAuth through Supabase, not
+email + password. There is no sign-up page and no confirmation email, so no
+SMTP provider is needed; the first Google sign-in creates the account. Where
+this document says email + password, read Google sign-in.
+
 ## Goal
 
 An organiser creates a tournament evening and shares one URL in the club's

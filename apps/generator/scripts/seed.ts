@@ -1,8 +1,9 @@
 /**
- * Dev data for the local stack: one organiser, one open tournament with a
- * full confirmed list plus two waiting, one generated tournament with scores.
- * Idempotent for the organiser; tournaments are added each run, so run it
- * after `supabase db reset` (that is what `pnpm db:reset` does).
+ * Dev data for the local stack: one open tournament with a full confirmed
+ * list plus two waiting, one generated tournament with scores, attached to
+ * the organiser who has signed in with Google. Log in once at
+ * /organiser/login, then run `pnpm db:seed`; straight after `pnpm db:reset`
+ * there is no organiser yet, so the seed politely does nothing.
  *
  * Env comes from `node --env-file=.env.local` in the package script: imports
  * are hoisted, so loading the file inside this module would be too late for
@@ -16,30 +17,31 @@ import { effectiveConfig } from "../lib/tournament";
 import { partitionRegistrations, toPlayer } from "../lib/registrations";
 import { withScore } from "../lib/evening";
 
-const EMAIL = "dev@example.com";
-const PASSWORD = "password";
-
 const NAMES: Array<[string, Gender, Level]> = [
   ["Ana", "F", 3], ["Bram", "M", 4], ["Chloé", "F", 2], ["Daan", "M", 5], ["Eva", "F", 4], ["Finn", "M", 3],
   ["Gwen", "F", 5], ["Hugo", "M", 2], ["Iris", "F", 3], ["Jens", "M", 4], ["Kim", "F", 6], ["Lars", "M", 3],
   ["Mara", "F", 4], ["Noah", "M", 1], ["Olga", "F", 2], ["Pim", "M", 5], ["Quinn", "F", 3], ["Ruben", "M", 4],
 ];
 
-async function ensureOrganiser(): Promise<string> {
+/** The earliest-created auth user: whoever signed in with Google first. */
+async function findOrganiser(): Promise<{ id: string; email: string | undefined } | null> {
   const url = process.env.SUPABASE_URL;
   const secret = process.env.SUPABASE_SECRET_KEY;
   if (!url || !secret) throw new Error("SUPABASE_URL and SUPABASE_SECRET_KEY are required; run `pnpm db:env`.");
   const admin = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } });
-  const created = await admin.auth.admin.createUser({ email: EMAIL, password: PASSWORD, email_confirm: true });
-  if (created.data.user) return created.data.user.id;
   const listed = await admin.auth.admin.listUsers({ perPage: 1000 });
-  const existing = listed.data.users.find((u) => u.email === EMAIL);
-  if (!existing) throw created.error ?? new Error("Could not create or find the dev organiser");
-  return existing.id;
+  if (listed.error) throw listed.error;
+  const [oldest] = [...listed.data.users].sort((a, b) => a.created_at.localeCompare(b.created_at));
+  return oldest ? { id: oldest.id, email: oldest.email } : null;
 }
 
 async function main(): Promise<void> {
-  const organiserId = await ensureOrganiser();
+  const organiser = await findOrganiser();
+  if (!organiser) {
+    console.log("No organiser yet. Sign in with Google at /organiser/login, then run `pnpm db:seed`.");
+    return;
+  }
+  const organiserId = organiser.id;
   const startsAt = new Date(Date.now() + 3 * 24 * 3600 * 1000);
 
   const open = await createTournament(organiserId, {
@@ -77,7 +79,7 @@ async function main(): Promise<void> {
     roundsStarted: 2,
   });
 
-  console.log(`Seeded organiser ${EMAIL} / ${PASSWORD} with tournaments ${open.slug} and ${generated.slug}`);
+  console.log(`Seeded organiser ${organiser.email ?? organiserId} with tournaments ${open.slug} and ${generated.slug}`);
 }
 
 main()

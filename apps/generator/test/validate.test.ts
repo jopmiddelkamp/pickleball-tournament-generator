@@ -1,28 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { parseCredentials, parsePlayerForm, parseTournamentForm } from "../lib/validate";
+import { parsePlayerForm, parseTournamentForm } from "../lib/validate";
 
 function form(fields: Record<string, string>): FormData {
   const data = new FormData();
   for (const [k, v] of Object.entries(fields)) data.set(k, v);
   return data;
 }
-
-describe("parseCredentials", () => {
-  it("accepts an email and a password of at least 8 characters", () => {
-    expect(parseCredentials(form({ email: " Org@Club.nl ", password: "longenough" }))).toEqual({
-      email: "org@club.nl",
-      password: "longenough",
-    });
-  });
-  it.each([
-    ["no at sign", { email: "org.club.nl", password: "longenough" }],
-    ["short password", { email: "org@club.nl", password: "short" }],
-    ["missing password", { email: "org@club.nl" }],
-    ["overlong password", { email: "org@club.nl", password: "x".repeat(129) }],
-  ])("rejects %s", (_label, fields) => {
-    expect(parseCredentials(form(fields))).toBeNull();
-  });
-});
 
 describe("parseTournamentForm", () => {
   const valid = {

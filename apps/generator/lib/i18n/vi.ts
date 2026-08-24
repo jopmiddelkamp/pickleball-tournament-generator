@@ -166,23 +166,10 @@ export const vi: Messages = {
 
   auth: {
     loginHeading: "Đăng nhập ban tổ chức",
-    signUpHeading: "Tạo tài khoản ban tổ chức",
     lede: "Ban tổ chức thiết lập buổi tối và điều hành ngay tại sân. Người chơi không cần tài khoản.",
-    email: "Email",
-    password: "Mật khẩu",
-    passwordHint: (min) => `Ít nhất ${min} ký tự`,
-    login: "Đăng nhập",
-    signUp: "Tạo tài khoản",
+    continueWithGoogle: "Tiếp tục với Google",
     logout: "Đăng xuất",
-    toSignUp: "Chưa có tài khoản? Tạo một tài khoản",
-    toLogin: "Đã có tài khoản? Đăng nhập",
-    confirmEmail: "Kiểm tra hộp thư và xác nhận email, sau đó đăng nhập.",
-    errors: {
-      invalid: "Nhập email hợp lệ và mật khẩu ít nhất 8 ký tự.",
-      credentials: "Email và mật khẩu không khớp.",
-      exists: "Email này đã có tài khoản. Hãy đăng nhập thay vì tạo mới.",
-      failed: "Không thể tạo tài khoản. Thử lại sau một chút.",
-    },
+    error: "Không thể đăng nhập bằng Google. Hãy thử lại.",
   },
 
   organiser: {

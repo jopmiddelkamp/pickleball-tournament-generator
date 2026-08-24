@@ -1,9 +1,13 @@
 import { redirect } from "next/navigation";
-import { AuthForm } from "../../../components/AuthForm";
-import { loginAction } from "../../../lib/actions/auth";
+import { LoginScreen } from "../../../components/LoginScreen";
 import { currentOrganiserId } from "../../../lib/auth";
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
   if (await currentOrganiserId()) redirect("/organiser");
-  return <AuthForm mode="login" action={loginAction} />;
+  const { error } = await searchParams;
+  return <LoginScreen failed={error != null} />;
 }

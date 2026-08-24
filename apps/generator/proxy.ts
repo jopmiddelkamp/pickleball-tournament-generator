@@ -13,7 +13,7 @@ import { env } from "./lib/env";
  *    expired, and bounce unauthenticated visitors off /organiser/*. This is an
  *    optimistic check only; every Server Action and page verifies again.
  */
-const PUBLIC_ORGANISER_PATHS = new Set(["/organiser/login", "/organiser/sign-up"]);
+const PUBLIC_ORGANISER_PATHS = new Set(["/organiser/login", "/organiser/auth/login", "/organiser/auth/callback"]);
 
 function contentSecurityPolicy(nonce: string): string {
   const devEval = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
