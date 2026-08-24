@@ -226,4 +226,27 @@ export const vi: Messages = {
       state: "Bước đó hiện chưa thể thực hiện.",
     },
   },
+
+  public: {
+    startsAt: (when) => `Bắt đầu lúc ${when}`,
+    spots: (confirmed, cap, waiting) =>
+      waiting > 0 ? `${confirmed}/${cap} chỗ đã đăng ký · ${waiting} người chờ` : `${confirmed}/${cap} chỗ đã đăng ký`,
+    registerHeading: "Tham gia chơi cùng?",
+    registerLede: "Chỉ cần điền tên một lần; điện thoại này sẽ ghi nhớ bạn.",
+    register: "Đăng ký ngay",
+    waitlistWarning: "Buổi tối đã đủ người — bạn sẽ vào danh sách chờ và được xếp lên khi có người hủy.",
+    youAreIn: "Bạn đã đăng ký thành công!",
+    waiting: (n) => `Bạn đang xếp thứ ${n} trong danh sách chờ.`,
+    cancel: "Hủy đăng ký của tôi",
+    frozen: "Lịch đã được chốt. Hãy báo cho ban tổ chức nếu bạn không thể tham gia.",
+    closed: "Đăng ký đã đóng.",
+    fullMessage: "Đăng ký đã đóng — buổi tối đã đủ người.",
+    errors: {
+      invalid: "Hãy nhập tên, và chọn cách chơi cùng trình độ của bạn.",
+      closed: "Đăng ký đã đóng.",
+      full: "Buổi tối đã đủ người.",
+      already: "Điện thoại này đã có một đăng ký đang hoạt động cho buổi tối này.",
+      failed: "Thao tác không thành công. Hãy tải lại trang và thử lại.",
+    },
+  },
 };

@@ -25,6 +25,22 @@ export async function countActiveRegistrations(tournamentId: string): Promise<nu
   return rows[0]?.n ?? 0;
 }
 
+/** The visitor's own active registration, matched by their `ptg_participant` cookie. */
+export async function findActiveRegistrationByToken(tournamentId: string, token: string): Promise<RegistrationRow | null> {
+  const rows = await db
+    .select()
+    .from(registrations)
+    .where(
+      and(
+        eq(registrations.tournamentId, tournamentId),
+        eq(registrations.participantToken, token),
+        isNull(registrations.cancelledAt),
+      ),
+    )
+    .limit(1);
+  return rows[0] ?? null;
+}
+
 export async function addRegistration(
   tournamentId: string,
   input: { name: string; gender: Gender; level: Level; participantToken: string | null },

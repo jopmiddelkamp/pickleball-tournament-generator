@@ -241,6 +241,29 @@ export const en = {
       state: "That step is not available right now.",
     },
   },
+
+  public: {
+    startsAt: (when: string) => `Starts ${when}`,
+    spots: (confirmed: number, cap: number, waiting: number) =>
+      waiting > 0 ? `${confirmed} of ${cap} places taken · ${waiting} waiting` : `${confirmed} of ${cap} places taken`,
+    registerHeading: "Play along?",
+    registerLede: "Fill in your name once; this phone remembers you.",
+    register: "Sign me up",
+    waitlistWarning: "The evening is full — you would join the waiting list and move up when someone cancels.",
+    youAreIn: "You're in!",
+    waiting: (n: number) => `You're number ${n} on the waiting list.`,
+    cancel: "Cancel my registration",
+    frozen: "The schedule is set. Tell the organiser if you cannot make it.",
+    closed: "Registration is closed.",
+    fullMessage: "Registration is closed — the evening is completely full.",
+    errors: {
+      invalid: "Enter a name, and pick how you play and your level.",
+      closed: "Registration is closed.",
+      full: "The evening is completely full.",
+      already: "This phone already has an active registration for this evening.",
+      failed: "That did not work. Refresh the page and try again.",
+    },
+  },
 };
 
 export type Messages = typeof en;

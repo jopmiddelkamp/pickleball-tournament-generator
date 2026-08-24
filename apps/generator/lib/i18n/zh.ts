@@ -224,4 +224,27 @@ export const zh: Messages = {
       state: "该操作目前不可用。",
     },
   },
+
+  public: {
+    startsAt: (when) => `开始时间 ${when}`,
+    spots: (confirmed, cap, waiting) =>
+      waiting > 0 ? `已占 ${cap} 个名额中的 ${confirmed} 个 · ${waiting} 人候补` : `已占 ${cap} 个名额中的 ${confirmed} 个`,
+    registerHeading: "要一起打吗？",
+    registerLede: "填一次姓名即可；这部手机会记住你。",
+    register: "报名参加",
+    waitlistWarning: "本场活动之夜名额已满——你将进入候补名单，有人取消后自动递补。",
+    youAreIn: "你已报名成功！",
+    waiting: (n) => `你目前是候补名单第 ${n} 位。`,
+    cancel: "取消我的报名",
+    frozen: "赛程已经确定。如果你不能来，请告知组织者。",
+    closed: "报名已关闭。",
+    fullMessage: "报名已关闭——本场活动之夜名额已满。",
+    errors: {
+      invalid: "请输入姓名，并选择你的打法和级别。",
+      closed: "报名已关闭。",
+      full: "本场活动之夜名额已满。",
+      already: "这部手机已经为本场活动之夜报名过了。",
+      failed: "操作未成功，请刷新页面重试。",
+    },
+  },
 };

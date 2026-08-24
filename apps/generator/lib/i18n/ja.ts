@@ -225,4 +225,29 @@ export const ja: Messages = {
       state: "その操作は今は行えません。",
     },
   },
+
+  public: {
+    startsAt: (when) => `開始 ${when}`,
+    spots: (confirmed, cap, waiting) =>
+      waiting > 0
+        ? `定員${cap}人中${confirmed}人が申し込み済み · キャンセル待ち${waiting}人`
+        : `定員${cap}人中${confirmed}人が申し込み済み`,
+    registerHeading: "参加しますか？",
+    registerLede: "名前を一度入力すれば、このスマートフォンが記憶します。",
+    register: "申し込む",
+    waitlistWarning: "この夜の予定は満員です——申し込むとキャンセル待ちになり、空きが出次第繰り上がります。",
+    youAreIn: "参加登録できました！",
+    waiting: (n) => `キャンセル待ち${n}番目です。`,
+    cancel: "申し込みを取り消す",
+    frozen: "スケジュールが確定しています。参加できない場合は主催者に連絡してください。",
+    closed: "受付は終了しました。",
+    fullMessage: "受付は終了しました——この夜の予定は満員です。",
+    errors: {
+      invalid: "名前を入力し、プレースタイルとレベルを選んでください。",
+      closed: "受付は終了しました。",
+      full: "この夜の予定は満員です。",
+      already: "このスマートフォンはすでにこの夜の予定に申し込み済みです。",
+      failed: "うまくいきませんでした。ページを更新してもう一度お試しください。",
+    },
+  },
 };

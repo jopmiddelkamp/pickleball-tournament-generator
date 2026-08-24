@@ -12,19 +12,22 @@ type Registrations = typeof RegistrationsModule;
 describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () => {
   let createTournament: Tournaments["createTournament"];
   let findTournament: Tournaments["findTournament"];
+  let findTournamentBySlug: Tournaments["findTournamentBySlug"];
   let listTournaments: Tournaments["listTournaments"];
   let updateTournament: Tournaments["updateTournament"];
   let addRegistration: Registrations["addRegistration"];
   let cancelRegistration: Registrations["cancelRegistration"];
   let countActiveRegistrations: Registrations["countActiveRegistrations"];
   let listActiveRegistrations: Registrations["listActiveRegistrations"];
+  let findActiveRegistrationByToken: Registrations["findActiveRegistrationByToken"];
   let cleanup: () => Promise<void>;
 
   beforeAll(async () => {
-    ({ createTournament, findTournament, listTournaments, updateTournament } = await import("../../lib/db/tournaments"));
-    ({ addRegistration, cancelRegistration, countActiveRegistrations, listActiveRegistrations } = await import(
-      "../../lib/db/registrations"
+    ({ createTournament, findTournament, findTournamentBySlug, listTournaments, updateTournament } = await import(
+      "../../lib/db/tournaments"
     ));
+    ({ addRegistration, cancelRegistration, countActiveRegistrations, listActiveRegistrations, findActiveRegistrationByToken } =
+      await import("../../lib/db/registrations"));
     const { db } = await import("../../lib/db/client");
     const { tournaments } = await import("../../lib/db/schema");
     const { eq } = await import("drizzle-orm");
@@ -81,5 +84,22 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     await expect(
       addRegistration(created.id, { name: "A again", gender: "F", level: 3, participantToken: "same" }),
     ).rejects.toThrow();
+  });
+
+  it("finds a tournament by slug with no organiser scope, and rejects garbage slugs before querying", async () => {
+    const created = await createTournament(organiser, input);
+    expect(await findTournamentBySlug(created.slug)).toMatchObject({ id: created.id });
+    expect(await findTournamentBySlug("not-a-real-slug")).toBeNull();
+    expect(await findTournamentBySlug("has a space")).toBeNull();
+    expect(await findTournamentBySlug("x".repeat(33))).toBeNull();
+  });
+
+  it("finds an active registration by token but not a cancelled one", async () => {
+    const created = await createTournament(organiser, input);
+    const a = await addRegistration(created.id, { name: "A", gender: "F", level: 3, participantToken: "tok-a" });
+    expect(await findActiveRegistrationByToken(created.id, "tok-a")).toMatchObject({ id: a.id });
+    expect(await findActiveRegistrationByToken(created.id, "no-such-token")).toBeNull();
+    await cancelRegistration(created.id, a.id);
+    expect(await findActiveRegistrationByToken(created.id, "tok-a")).toBeNull();
   });
 });

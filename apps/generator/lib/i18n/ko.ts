@@ -225,4 +225,27 @@ export const ko: Messages = {
       state: "지금은 그 단계를 진행할 수 없습니다.",
     },
   },
+
+  public: {
+    startsAt: (when) => `시작 ${when}`,
+    spots: (confirmed, cap, waiting) =>
+      waiting > 0 ? `${cap}명 중 ${confirmed}명 등록 · 대기 ${waiting}명` : `${cap}명 중 ${confirmed}명 등록`,
+    registerHeading: "함께 플레이하시겠어요?",
+    registerLede: "이름을 한 번만 입력하면 이 휴대폰이 기억합니다.",
+    register: "참가 신청",
+    waitlistWarning: "이 저녁 일정은 이미 가득 찼습니다 — 신청하면 대기 명단에 오르며, 누군가 취소하면 순서가 올라갑니다.",
+    youAreIn: "참가 신청 완료!",
+    waiting: (n) => `대기 명단 ${n}번입니다.`,
+    cancel: "내 신청 취소",
+    frozen: "일정이 확정되었습니다. 참석이 어려우면 주최자에게 알려주세요.",
+    closed: "신청이 마감되었습니다.",
+    fullMessage: "신청이 마감되었습니다 — 이 저녁 일정은 완전히 가득 찼습니다.",
+    errors: {
+      invalid: "이름을 입력하고, 플레이 방식과 레벨을 선택하세요.",
+      closed: "신청이 마감되었습니다.",
+      full: "이 저녁 일정은 완전히 가득 찼습니다.",
+      already: "이 휴대폰은 이미 이 저녁 일정에 활성 신청 내역이 있습니다.",
+      failed: "처리하지 못했습니다. 페이지를 새로고침한 후 다시 시도하세요.",
+    },
+  },
 };

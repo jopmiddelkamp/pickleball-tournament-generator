@@ -6,6 +6,7 @@ import { db } from "./client";
 import { tournaments, type NewTournament, type TournamentRow } from "./schema";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const SLUG = /^[A-Za-z0-9_-]{1,32}$/;
 
 export type TournamentPatch = Partial<
   Pick<
@@ -36,6 +37,13 @@ export async function findTournament(organiserId: string, id: string): Promise<T
     .from(tournaments)
     .where(and(eq(tournaments.id, id), eq(tournaments.organiserId, organiserId)))
     .limit(1);
+  return rows[0] ?? null;
+}
+
+/** Public lookup for /t/<slug>: no organiser scope, since anyone with the link may read it. */
+export async function findTournamentBySlug(slug: string): Promise<TournamentRow | null> {
+  if (!SLUG.test(slug)) return null;
+  const rows = await db.select().from(tournaments).where(eq(tournaments.slug, slug)).limit(1);
   return rows[0] ?? null;
 }
 

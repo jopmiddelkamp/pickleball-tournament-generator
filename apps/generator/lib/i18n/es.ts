@@ -226,4 +226,27 @@ export const es: Messages = {
       state: "Ese paso no está disponible ahora mismo.",
     },
   },
+
+  public: {
+    startsAt: (when) => `Empieza ${when}`,
+    spots: (confirmed, cap, waiting) =>
+      waiting > 0 ? `${confirmed} de ${cap} plazas ocupadas · ${waiting} en espera` : `${confirmed} de ${cap} plazas ocupadas`,
+    registerHeading: "¿Te apuntas?",
+    registerLede: "Rellena tu nombre una vez; este teléfono te recordará.",
+    register: "Apuntarme",
+    waitlistWarning: "La noche está completa — entrarías en la lista de espera y subirías cuando alguien cancele.",
+    youAreIn: "¡Ya estás dentro!",
+    waiting: (n) => `Eres el número ${n} en la lista de espera.`,
+    cancel: "Cancelar mi inscripción",
+    frozen: "El calendario ya está fijado. Avisa al organizador si no puedes venir.",
+    closed: "La inscripción está cerrada.",
+    fullMessage: "La inscripción está cerrada — la noche está completamente llena.",
+    errors: {
+      invalid: "Introduce un nombre y elige cómo juegas y tu nivel.",
+      closed: "La inscripción está cerrada.",
+      full: "La noche está completamente llena.",
+      already: "Este teléfono ya tiene una inscripción activa para esta noche.",
+      failed: "Eso no ha funcionado. Recarga la página e inténtalo de nuevo.",
+    },
+  },
 };
