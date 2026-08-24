@@ -2,12 +2,14 @@
 
 import { DEFAULT_ALGORITHM_ID, generateSchedule, getAlgorithm, maxPlayersFor, playingCapacity, type Match } from "@ptg/core";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { requireOrganiserId } from "../auth";
 import { LIMITS } from "../config";
 import { createTournament, updateTournament, type TournamentPatch } from "../db/tournaments";
 import { realignGames, swapInRound, withScore, withVoided } from "../evening";
 import { newSeed } from "../ids";
+import { writeEventDefaults } from "../eventDefaults";
 import { effectiveConfig, type WorkspaceView } from "../tournament";
 import { parseSetupPatch, parseTournamentForm } from "../validate";
 import { loadOwnedWorkspace, type OwnedWorkspace } from "../workspace";
@@ -18,6 +20,7 @@ export async function createTournamentAction(_prev: CreateTournamentState, formD
   const organiserId = await requireOrganiserId();
   const input = parseTournamentForm(formData);
   if (!input) return { error: "invalid" };
+  writeEventDefaults(await cookies(), input);
   const created = await createTournament(organiserId, input);
   redirect(`/organiser/event/${created.id}`);
 }
@@ -41,6 +44,7 @@ export async function updateEventDetailsAction(
   }
   // Confirmed players a smaller capacity pushes onto the waiting list; the
   // organiser is told to announce it so everyone re-checks their spot.
+  writeEventDefaults(await cookies(), input);
   const active = owner.view.confirmed.length + owner.view.waiting.length;
   const oldCapacity = maxPlayersFor(owner.tournament.maxCourts, owner.tournament.playersPerCourt);
   const newCapacity = scheduleStored ? oldCapacity : maxPlayersFor(input.maxCourts, input.playersPerCourt);

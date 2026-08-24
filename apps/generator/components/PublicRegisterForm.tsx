@@ -177,7 +177,7 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
         {waitlisted ? <Notice tone="warn">{t.public.waitlistWarning}</Notice> : null}
 
         <button type="submit" className="button button--accent button--full" disabled={pending}>
-          {guest ? t.public.addGuest : t.public.register}
+          {guest ? t.public.addGuest : guests.length > 0 ? t.public.registerGroup : t.public.register}
         </button>
       </form>
     </div>

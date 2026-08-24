@@ -247,6 +247,7 @@ export const vi: Messages = {
     registerHeading: "Tham gia chơi cùng?",
     registerLede: "Chỉ cần điền tên một lần; điện thoại này sẽ ghi nhớ bạn.",
     register: "Đăng ký ngay",
+    registerGroup: "Đăng ký cho chúng tôi",
     waitlistWarning: "Sự kiện đã đủ người — bạn sẽ vào danh sách chờ và được xếp lên khi có người hủy.",
     youAreIn: "Bạn đã đăng ký thành công!",
     waiting: (n) => `Bạn đang xếp thứ ${n} trong danh sách chờ.`,

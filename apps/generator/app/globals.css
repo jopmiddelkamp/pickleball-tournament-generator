@@ -268,10 +268,10 @@ a.button {
 /* The language select as a round flag chip beside the menu toggle. */
 .app__flag {
   appearance: none;
-  width: 38px;
+  width: 42px;
   height: 38px;
   border: 1px solid rgba(243, 244, 238, 0.45);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--paper);
   font-size: 16px;
@@ -291,11 +291,11 @@ a.button {
 }
 
 .menu__toggle {
-  width: 38px;
+  width: 42px;
   height: 38px;
   flex-shrink: 0;
   border: 1px solid rgba(243, 244, 238, 0.45);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--paper);
   cursor: pointer;

@@ -248,6 +248,7 @@ export const ja: Messages = {
     registerHeading: "参加しますか？",
     registerLede: "名前を一度入力すれば、このスマートフォンが記憶します。",
     register: "申し込む",
+    registerGroup: "まとめて登録",
     waitlistWarning: "このイベントは満員です——申し込むとキャンセル待ちになり、空きが出次第繰り上がります。",
     youAreIn: "参加登録できました！",
     waiting: (n) => `キャンセル待ち${n}番目です。`,

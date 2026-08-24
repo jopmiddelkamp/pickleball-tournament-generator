@@ -247,6 +247,7 @@ export const es: Messages = {
     registerHeading: "¿Te apuntas?",
     registerLede: "Rellena tu nombre una vez; este teléfono te recordará.",
     register: "Apuntarme",
+    registerGroup: "Apúntanos",
     waitlistWarning: "El evento está completo — entrarías en la lista de espera y subirías cuando alguien cancele.",
     youAreIn: "¡Ya estás dentro!",
     waiting: (n) => `Eres el número ${n} en la lista de espera.`,

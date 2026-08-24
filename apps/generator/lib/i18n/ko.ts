@@ -246,6 +246,7 @@ export const ko: Messages = {
     registerHeading: "함께 플레이하시겠어요?",
     registerLede: "이름을 한 번만 입력하면 이 휴대폰이 기억합니다.",
     register: "참가 신청",
+    registerGroup: "함께 등록하기",
     waitlistWarning: "이 이벤트는 이미 가득 찼습니다 — 신청하면 대기 명단에 오르며, 누군가 취소하면 순서가 올라갑니다.",
     youAreIn: "참가 신청 완료!",
     waiting: (n) => `대기 명단 ${n}번입니다.`,

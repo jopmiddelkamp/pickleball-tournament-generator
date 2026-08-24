@@ -5,6 +5,7 @@ import { useActionState, useState } from "react";
 import { createTournamentAction } from "../lib/actions/tournaments";
 import { INITIAL_CREATE_STATE } from "../lib/actions/tournamentState";
 import { LIMITS } from "../lib/config";
+import type { EventDefaults } from "../lib/eventDefaults";
 import { useLocale } from "../lib/i18n/useLocale";
 import { useTzOffset } from "../lib/useTzOffset";
 import { DateTimeField } from "./DateTimeField";
@@ -17,12 +18,12 @@ const PER_COURT_OPTIONS = Array.from(
   (_, i) => MIN_PLAYERS_PER_COURT + i,
 );
 
-export function NewTournamentForm() {
+export function NewTournamentForm({ defaults }: { defaults: EventDefaults | null }) {
   const { t } = useLocale();
   const [state, formAction, pending] = useActionState(createTournamentAction, INITIAL_CREATE_STATE);
   const tzOffset = useTzOffset();
-  const [courts, setCourts] = useState(4);
-  const [perCourt, setPerCourt] = useState<number>(PLAYERS_PER_COURT);
+  const [courts, setCourts] = useState(defaults?.maxCourts ?? 4);
+  const [perCourt, setPerCourt] = useState<number>(defaults?.playersPerCourt ?? PLAYERS_PER_COURT);
 
   return (
     <div>
@@ -38,7 +39,14 @@ export function NewTournamentForm() {
         </div>
         <div>
           <label className="label" htmlFor="location">{t.organiser.form.location}</label>
-          <input id="location" name="location" className="input" maxLength={LIMITS.maxLocation} placeholder={t.organiser.form.locationPlaceholder} />
+          <input
+            id="location"
+            name="location"
+            className="input"
+            defaultValue={defaults?.location ?? ""}
+            maxLength={LIMITS.maxLocation}
+            placeholder={t.organiser.form.locationPlaceholder}
+          />
         </div>
         <div>
           <label className="label" htmlFor="startsAt">{t.organiser.form.startsAt}</label>
@@ -77,7 +85,7 @@ export function NewTournamentForm() {
           </div>
           <p className="standings__detail">{t.organiser.form.capacity(courts, maxPlayersFor(courts, perCourt))}</p>
         </div>
-        <PlayStyleFields initialGameTarget={11} initialAlgorithmId="greedy" />
+        <PlayStyleFields initialGameTarget={defaults?.gameTarget ?? 11} initialAlgorithmId={defaults?.algorithmId ?? "greedy"} />
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.form.create}
         </button>

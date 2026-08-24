@@ -262,6 +262,7 @@ export const en = {
     registerHeading: "Play along?",
     registerLede: "Fill in your name once; this phone remembers you.",
     register: "Sign me up",
+    registerGroup: "Sign us up",
     waitlistWarning: "The event is full — you would join the waiting list and move up when someone cancels.",
     youAreIn: "You're in!",
     waiting: (n: number) => `You're number ${n} on the waiting list.`,

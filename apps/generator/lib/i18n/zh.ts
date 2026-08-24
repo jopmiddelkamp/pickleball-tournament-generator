@@ -245,6 +245,7 @@ export const zh: Messages = {
     registerHeading: "要一起打吗？",
     registerLede: "填一次姓名即可；这部手机会记住你。",
     register: "报名参加",
+    registerGroup: "为我们报名",
     waitlistWarning: "本场活动名额已满——你将进入候补名单，有人取消后自动递补。",
     youAreIn: "你已报名成功！",
     waiting: (n) => `你目前是候补名单第 ${n} 位。`,
