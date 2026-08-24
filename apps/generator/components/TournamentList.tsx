@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+
 import { useLocale } from "../lib/i18n/useLocale";
+import { CopyEventLink } from "./CopyEventLink";
 import type { TournamentStatus } from "../lib/tournament";
 import { EmptyState } from "./ui";
 
@@ -18,17 +19,6 @@ export interface TournamentSummary {
 
 export function TournamentList({ tournaments }: { tournaments: TournamentSummary[] }) {
   const { t, locale } = useLocale();
-  const [copied, setCopied] = useState<string | null>(null);
-
-  async function copyLink(tournament: TournamentSummary) {
-    const url = `${window.location.origin}/event/${tournament.slug}`;
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(tournament.id);
-    } catch {
-      window.prompt(t.organiser.copyLink, url);
-    }
-  }
 
   return (
     <div>
@@ -51,9 +41,7 @@ export function TournamentList({ tournaments }: { tournaments: TournamentSummary
               </p>
               <div className="row" style={{ marginTop: 10 }}>
                 <Link href={`/organiser/event/${tournament.id}`} className="button button--small">{t.organiser.open}</Link>
-                <button type="button" className="button button--quiet button--small" onClick={() => copyLink(tournament)}>
-                  {copied === tournament.id ? t.organiser.copied : t.organiser.copyLink}
-                </button>
+                <CopyEventLink slug={tournament.slug} />
               </div>
             </li>
           ))}

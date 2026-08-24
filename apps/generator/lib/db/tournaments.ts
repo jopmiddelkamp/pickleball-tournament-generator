@@ -40,6 +40,17 @@ export async function findTournament(organiserId: string, id: string): Promise<T
   return rows[0] ?? null;
 }
 
+/**
+ * Public lookup by id, so a manage URL's id pasted into /event/<...> can be
+ * forwarded to the canonical slug page. Unscoped like the slug lookup: both
+ * identifiers are unguessable and the page is public by link.
+ */
+export async function findTournamentById(id: string): Promise<TournamentRow | null> {
+  if (!UUID.test(id)) return null;
+  const rows = await db.select().from(tournaments).where(eq(tournaments.id, id)).limit(1);
+  return rows[0] ?? null;
+}
+
 /** Public lookup for /event/<slug>: no organiser scope, since anyone with the link may read it. */
 export async function findTournamentBySlug(slug: string): Promise<TournamentRow | null> {
   if (!SLUG.test(slug)) return null;

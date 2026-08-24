@@ -19,6 +19,7 @@ import { withScore, withVoided } from "../lib/evening";
 import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
+import { CopyEventLink } from "./CopyEventLink";
 import { RosterScreen } from "./RosterScreen";
 import { ScheduleScreen } from "./ScheduleScreen";
 import { SetupScreen } from "./SetupScreen";
@@ -62,7 +63,10 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
 
   return (
     <>
-      <h2 className="screen__heading">{view.name}</h2>
+      <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
+        <h2 className="screen__heading">{view.name}</h2>
+        <CopyEventLink slug={view.slug} />
+      </div>
       {view.notice ? <Notice tone="warn">{t.workspace.unreadable}</Notice> : null}
       {error ? (
         <Notice tone="warn" onDismiss={() => setError(null)}>
