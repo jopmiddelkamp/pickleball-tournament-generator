@@ -241,6 +241,7 @@ export const es: Messages = {
     guestHeading: "Trae un +1",
     guestLede: "Se apunta a tu nombre y cuenta como cualquier inscripción.",
     guestConfirmed: "Dentro",
+    guestNumber: (n) => `+1 n.º ${n}`,
     guestWaiting: (n) => `En espera n.º ${n}`,
     frozen: "El calendario ya está fijado. Avisa al organizador si no puedes venir.",
     closed: "La inscripción está cerrada.",

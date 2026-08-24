@@ -241,6 +241,7 @@ export const vi: Messages = {
     guestHeading: "Dẫn theo +1",
     guestLede: "Họ đăng ký dưới tên bạn và được tính như mọi đăng ký khác.",
     guestConfirmed: "Có suất",
+    guestNumber: (n) => `+1 thứ ${n}`,
     guestWaiting: (n) => `Chờ thứ ${n}`,
     frozen: "Lịch đã được chốt. Hãy báo cho ban tổ chức nếu bạn không thể tham gia.",
     closed: "Đăng ký đã đóng.",

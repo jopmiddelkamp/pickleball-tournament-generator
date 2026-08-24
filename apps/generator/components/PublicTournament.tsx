@@ -131,7 +131,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                     <PublicRegisterForm
                       key={view.you.guests.length}
                       slug={view.slug}
-                      waitlisted={view.confirmedCount + 1 > view.capacity}
+                      capacityLeft={Math.max(0, view.capacity - view.confirmedCount)}
                       guest
                     />
                   ) : (
@@ -150,7 +150,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
               </div>
             ) : view.status === "open" && !view.full ? (
               <>
-                <PublicRegisterForm slug={view.slug} waitlisted={view.confirmedCount >= view.capacity} />
+                <PublicRegisterForm slug={view.slug} capacityLeft={Math.max(0, view.capacity - view.confirmedCount)} />
                 <p className="standings__detail">{t.public.spots(view.confirmedCount, view.capacity, view.waitingCount)}</p>
               </>
             ) : (

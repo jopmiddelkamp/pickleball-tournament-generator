@@ -240,6 +240,7 @@ export const ko: Messages = {
     guestHeading: "+1 데려오기",
     guestLede: "내 이름으로 등록되며 일반 등록과 똑같이 계산됩니다.",
     guestConfirmed: "확정",
+    guestNumber: (n) => `+1 ${n}번`,
     guestWaiting: (n) => `대기 ${n}번`,
     frozen: "일정이 확정되었습니다. 참석이 어려우면 주최자에게 알려주세요.",
     closed: "신청이 마감되었습니다.",

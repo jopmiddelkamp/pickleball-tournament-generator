@@ -242,6 +242,7 @@ export const ja: Messages = {
     guestHeading: "+1 を連れて行く",
     guestLede: "あなたの名前で登録され、通常の登録と同じ扱いです。",
     guestConfirmed: "参加確定",
+    guestNumber: (n) => `+1（${n} 人目）`,
     guestWaiting: (n) => `キャンセル待ち ${n} 番`,
     frozen: "スケジュールが確定しています。参加できない場合は主催者に連絡してください。",
     closed: "受付は終了しました。",

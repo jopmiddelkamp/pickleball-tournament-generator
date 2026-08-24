@@ -193,6 +193,24 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   return { name, startsAt, maxCourts, playersPerCourt };
 }
 
+/**
+ * The +1s posted with a public sign-up as guestName_i / guestGender_i /
+ * guestLevel_i. Empty slots are skipped; a half-filled one rejects the form.
+ */
+export function parseGuestsForm(formData: FormData): Omit<Player, "id">[] | null {
+  const guests: Omit<Player, "id">[] = [];
+  for (let i = 0; i < LIMITS.maxGuests; i++) {
+    const name = field(formData, `guestName_${i}`);
+    const gender = field(formData, `guestGender_${i}`);
+    const level = field(formData, `guestLevel_${i}`);
+    if (name.trim() === "" && gender === "" && level === "") continue;
+    const guest = parsePlayer({ id: "form", name, gender, level: /^\d+$/.test(level) ? Number(level) : null });
+    if (!guest) return null;
+    guests.push({ name: guest.name, gender: guest.gender, level: guest.level });
+  }
+  return guests;
+}
+
 export function parsePlayerForm(formData: FormData): Omit<Player, "id"> | null {
   const player = parsePlayer({
     id: "form",

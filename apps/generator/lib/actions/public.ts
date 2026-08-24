@@ -9,7 +9,7 @@ import { findTournamentBySlug } from "../db/tournaments";
 import { newParticipantToken } from "../ids";
 import { PARTICIPANT_COOKIE, readParticipantToken } from "../participant";
 import { tournamentStatus } from "../tournament";
-import { parsePlayerForm } from "../validate";
+import { parseGuestsForm, parsePlayerForm } from "../validate";
 import type { PublicFormState } from "./publicState";
 
 export async function registerAction(slug: string, _prev: PublicFormState, formData: FormData): Promise<PublicFormState> {
@@ -20,14 +20,19 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
 
   const player = parsePlayerForm(formData);
   if (!player) return { error: "invalid" };
+  const guests = parseGuestsForm(formData);
+  if (guests === null) return { error: "invalid" };
 
-  if ((await countActiveRegistrations(tournament.id)) >= LIMITS.maxRegistrations) return { error: "full" };
+  if ((await countActiveRegistrations(tournament.id)) + 1 + guests.length > LIMITS.maxRegistrations) return { error: "full" };
 
   const cookieStore = await cookies();
   const token = readParticipantToken(cookieStore) ?? newParticipantToken();
 
   try {
-    await addRegistration(tournament.id, { ...player, participantToken: token });
+    const host = await addRegistration(tournament.id, { ...player, participantToken: token });
+    for (const guest of guests) {
+      await addRegistration(tournament.id, { ...guest, participantToken: null, guestOf: host.id });
+    }
   } catch (err) {
     // The `postgres` driver exposes the postgres error code on `.code`; 23505 is the
     // partial unique index firing because this phone already has an active

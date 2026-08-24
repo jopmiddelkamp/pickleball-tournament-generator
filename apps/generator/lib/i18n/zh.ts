@@ -239,6 +239,7 @@ export const zh: Messages = {
     guestHeading: "带一位 +1",
     guestLede: "以你的名义报名，和普通报名一样计算。",
     guestConfirmed: "已入选",
+    guestNumber: (n) => `第 ${n} 位 +1`,
     guestWaiting: (n) => `候补第 ${n} 位`,
     frozen: "赛程已经确定。如果你不能来，请告知组织者。",
     closed: "报名已关闭。",

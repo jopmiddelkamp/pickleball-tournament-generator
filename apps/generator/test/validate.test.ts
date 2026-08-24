@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parsePlayerForm, parseTournamentForm } from "../lib/validate";
+import { parseGuestsForm, parsePlayerForm, parseTournamentForm } from "../lib/validate";
 
 function form(fields: Record<string, string>): FormData {
   const data = new FormData();
@@ -55,5 +55,20 @@ describe("parsePlayerForm", () => {
     ["empty name", { name: "", gender: "F", level: "4" }],
   ])("rejects %s", (_label, fields) => {
     expect(parsePlayerForm(form(fields))).toBeNull();
+  });
+});
+
+describe("parseGuestsForm", () => {
+  it("returns no guests for a plain sign-up", () => {
+    expect(parseGuestsForm(form({ name: "Linh" }))).toEqual([]);
+  });
+  it("collects the filled +1 slots", () => {
+    expect(
+      parseGuestsForm(form({ guestName_0: " Jop ", guestGender_0: "M", guestLevel_0: "4" })),
+    ).toEqual([{ name: "Jop", gender: "M", level: 4 }]);
+  });
+  it("rejects the whole form on a half-filled +1", () => {
+    expect(parseGuestsForm(form({ guestName_0: "Jop" }))).toBeNull();
+    expect(parseGuestsForm(form({ guestName_1: "Jop", guestGender_1: "M", guestLevel_1: "9" }))).toBeNull();
   });
 });

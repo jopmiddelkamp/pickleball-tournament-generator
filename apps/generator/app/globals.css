@@ -493,6 +493,15 @@ a.button {
   color: var(--paper);
 }
 
+/* A +1's fields inside the public sign-up form. */
+.guest {
+  border-top: 1px dashed var(--line);
+  padding-top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
 /* ---------- date & time picker ---------- */
 
 .picker__field {

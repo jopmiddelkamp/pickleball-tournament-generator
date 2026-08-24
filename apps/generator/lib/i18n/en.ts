@@ -245,7 +245,7 @@ export const en = {
     spots: (confirmed: number, cap: number, waiting: number) =>
       waiting > 0 ? `${confirmed} of ${cap} places taken · ${waiting} waiting` : `${confirmed} of ${cap} places taken`,
     registerHeading: "Play along?",
-    registerLede: "Fill in your name once; this phone remembers you. Once you're in, you can add a +1.",
+    registerLede: "Fill in your name once; this phone remembers you.",
     register: "Sign me up",
     waitlistWarning: "The event is full — you would join the waiting list and move up when someone cancels.",
     youAreIn: "You're in!",
@@ -256,6 +256,7 @@ export const en = {
     guestHeading: "Bring a +1",
     guestLede: "They sign up under your name and count like any registration.",
     guestConfirmed: "In",
+    guestNumber: (n: number) => `+1 #${n}`,
     guestWaiting: (n: number) => `Waiting #${n}`,
     frozen: "The schedule is set. Tell the organiser if you cannot make it.",
     closed: "Registration is closed.",
