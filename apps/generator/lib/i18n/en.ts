@@ -190,7 +190,8 @@ export const en = {
   picker: {
     prevMonth: "Previous month",
     nextMonth: "Next month",
-    time: "Time",
+    hour: "Hour",
+    minutes: "Minutes",
     done: "Done",
   },
 

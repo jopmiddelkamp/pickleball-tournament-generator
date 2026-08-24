@@ -469,8 +469,13 @@ a.button {
   justify-content: center;
 }
 
-.picker__navbtn:hover {
+.picker__navbtn:hover:not(:disabled) {
   background: var(--paper-edge);
+}
+
+.picker__navbtn:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .picker__grid {
@@ -499,8 +504,15 @@ a.button {
   cursor: pointer;
 }
 
-.picker__day:hover {
+.picker__day:hover:not(:disabled) {
   background: var(--paper-edge);
+}
+
+.picker__day:disabled {
+  color: var(--ink-soft);
+  opacity: 0.3;
+  cursor: default;
+  background: none;
 }
 
 .picker__day--muted {
@@ -518,17 +530,29 @@ a.button {
   font-weight: 700;
 }
 
-.picker__slots {
+.picker__time {
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.picker__col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.picker__list {
+  position: relative;
+  max-height: 176px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   gap: 4px;
-}
-
-.picker__slots--hours {
-  grid-template-columns: repeat(6, 1fr);
-}
-
-.picker__slots--minutes {
-  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  scrollbar-width: thin;
 }
 
 .picker__slot {

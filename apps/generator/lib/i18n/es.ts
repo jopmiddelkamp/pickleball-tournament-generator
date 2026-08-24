@@ -175,7 +175,8 @@ export const es: Messages = {
   picker: {
     prevMonth: "Mes anterior",
     nextMonth: "Mes siguiente",
-    time: "Hora",
+    hour: "Hora",
+    minutes: "Minutos",
     done: "Listo",
   },
 

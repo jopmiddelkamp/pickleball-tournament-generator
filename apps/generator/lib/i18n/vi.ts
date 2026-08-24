@@ -175,7 +175,8 @@ export const vi: Messages = {
   picker: {
     prevMonth: "Tháng trước",
     nextMonth: "Tháng sau",
-    time: "Giờ",
+    hour: "Giờ",
+    minutes: "Phút",
     done: "Xong",
   },
 

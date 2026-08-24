@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useLocale } from "../lib/i18n/useLocale";
 
 const MINUTES = [0, 15, 30, 45] as const;
@@ -97,7 +97,19 @@ export function DateTimeField({ id, name }: { id: string; name: string }) {
     setView({ year: d.getFullYear(), month: d.getMonth() });
   }
 
+  // Centre the chosen hour in its column whenever the panel opens.
+  const hourListRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const list = hourListRef.current;
+    const chosen = list?.querySelector<HTMLElement>('[aria-pressed="true"]');
+    if (list && chosen) list.scrollTop = chosen.offsetTop - list.clientHeight / 2 + chosen.clientHeight / 2;
+  }, [open]);
+
   const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const viewingCurrentMonth =
+    current !== null && current.year === today.getFullYear() && current.month === today.getMonth();
   return (
     <div
       className="picker"
@@ -115,7 +127,13 @@ export function DateTimeField({ id, name }: { id: string; name: string }) {
           <div className="picker__head">
             <span className="picker__month">{monthTitle.format(new Date(current.year, current.month, 1))}</span>
             <div className="picker__nav">
-              <button type="button" className="picker__navbtn" aria-label={t.picker.prevMonth} onClick={() => moveMonth(-1)}>
+              <button
+                type="button"
+                className="picker__navbtn"
+                aria-label={t.picker.prevMonth}
+                disabled={viewingCurrentMonth}
+                onClick={() => moveMonth(-1)}
+              >
                 ‹
               </button>
               <button type="button" className="picker__navbtn" aria-label={t.picker.nextMonth} onClick={() => moveMonth(1)}>
@@ -139,26 +157,34 @@ export function DateTimeField({ id, name }: { id: string; name: string }) {
                   sameDay(day, today) ? "picker__day--today" : "",
                 ].join(" ")}
                 aria-pressed={sameDay(day, value)}
+                disabled={day < todayStart}
                 onClick={() => pickDay(day)}
               >
                 {day.getDate()}
               </button>
             ))}
           </div>
-          <span className="label">{t.picker.time}</span>
-          <div className="picker__slots picker__slots--hours">
-            {HOURS.map((h) => (
-              <button key={h} type="button" className="picker__slot" aria-pressed={h === value.getHours()} onClick={() => pickTime(h, value.getMinutes())}>
-                {pad(h)}
-              </button>
-            ))}
-          </div>
-          <div className="picker__slots picker__slots--minutes">
-            {MINUTES.map((m) => (
-              <button key={m} type="button" className="picker__slot" aria-pressed={m === value.getMinutes()} onClick={() => pickTime(value.getHours(), m)}>
-                :{pad(m)}
-              </button>
-            ))}
+          <div className="picker__time">
+            <div className="picker__col">
+              <span className="label">{t.picker.hour}</span>
+              <div className="picker__list" ref={hourListRef}>
+                {HOURS.map((h) => (
+                  <button key={h} type="button" className="picker__slot" aria-pressed={h === value.getHours()} onClick={() => pickTime(h, value.getMinutes())}>
+                    {pad(h)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="picker__col">
+              <span className="label">{t.picker.minutes}</span>
+              <div className="picker__list">
+                {MINUTES.map((m) => (
+                  <button key={m} type="button" className="picker__slot" aria-pressed={m === value.getMinutes()} onClick={() => pickTime(value.getHours(), m)}>
+                    {pad(m)}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
           <button type="button" className="button button--small picker__done" onClick={() => setOpen(false)}>
             {t.picker.done}

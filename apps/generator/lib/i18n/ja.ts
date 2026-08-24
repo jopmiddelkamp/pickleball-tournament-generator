@@ -174,7 +174,8 @@ export const ja: Messages = {
   picker: {
     prevMonth: "前の月",
     nextMonth: "次の月",
-    time: "時刻",
+    hour: "時",
+    minutes: "分",
     done: "完了",
   },
 

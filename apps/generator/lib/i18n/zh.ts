@@ -173,7 +173,8 @@ export const zh: Messages = {
   picker: {
     prevMonth: "上个月",
     nextMonth: "下个月",
-    time: "时间",
+    hour: "时",
+    minutes: "分",
     done: "完成",
   },
 

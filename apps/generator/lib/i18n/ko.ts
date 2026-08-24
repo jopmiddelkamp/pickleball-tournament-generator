@@ -174,7 +174,8 @@ export const ko: Messages = {
   picker: {
     prevMonth: "이전 달",
     nextMonth: "다음 달",
-    time: "시간",
+    hour: "시",
+    minutes: "분",
     done: "완료",
   },
 
