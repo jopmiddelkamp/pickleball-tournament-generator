@@ -1,9 +1,10 @@
 "use client";
 
 import { MAX_PLAYERS_PER_COURT, MIN_PLAYERS_PER_COURT, maxPlayersFor } from "@ptg/core";
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { updateEventDetailsAction } from "../lib/actions/tournaments";
-import { INITIAL_EDIT_STATE, type EditEventState } from "../lib/actions/tournamentState";
+import { INITIAL_EDIT_STATE } from "../lib/actions/tournamentState";
 import { LIMITS } from "../lib/config";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
@@ -23,27 +24,18 @@ const PER_COURT_OPTIONS = Array.from(
  * freezes together with the roster once a schedule is generated; name and
  * start time stay editable.
  */
-export function EditEventForm({ view, registered, frozen, onClose, onSaved }: {
+export function EditEventForm({ view, registered, frozen }: {
   view: WorkspaceView;
   /** active registrations, confirmed + waiting */
   registered: number;
   /** a schedule is stored, so capacity cannot move */
   frozen: boolean;
-  onClose: () => void;
-  onSaved: (demoted: number) => void;
 }) {
   const { t } = useLocale();
   const tzOffset = useTzOffset();
   const [courts, setCourts] = useState(view.maxCourts);
   const [perCourt, setPerCourt] = useState(view.playersPerCourt);
-  const [state, formAction, pending] = useActionState(
-    async (prev: EditEventState, formData: FormData) => {
-      const result = await updateEventDetailsAction(view.id, prev, formData);
-      if (result.error === null) onSaved(result.demoted);
-      return result;
-    },
-    INITIAL_EDIT_STATE,
-  );
+  const [state, formAction, pending] = useActionState(updateEventDetailsAction.bind(null, view.id), INITIAL_EDIT_STATE);
 
   const capacity = maxPlayersFor(courts, perCourt);
   const demoted = Math.max(0, registered - capacity);
@@ -114,9 +106,9 @@ export function EditEventForm({ view, registered, frozen, onClose, onSaved }: {
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.edit.save}
         </button>
-        <button type="button" className="button button--quiet button--full" onClick={onClose}>
+        <Link href={`/organiser/event/${view.id}`} className="button button--quiet button--full">
           {t.organiser.edit.cancel}
-        </button>
+        </Link>
       </form>
     </div>
   );

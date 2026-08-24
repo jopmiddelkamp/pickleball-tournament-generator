@@ -54,7 +54,7 @@ export async function updateEventDetailsAction(
   });
   revalidatePath(`/organiser/event/${owner.tournament.id}`);
   revalidatePath(`/event/${owner.tournament.slug}`);
-  return { error: null, demoted };
+  redirect(`/organiser/event/${owner.tournament.id}${demoted > 0 ? `?demoted=${demoted}` : ""}`);
 }
 
 /** Ownership check shared by every workspace action; a stranger's id is a 404. */

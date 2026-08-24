@@ -19,9 +19,9 @@ import { withScore, withVoided } from "../lib/evening";
 import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
+import Link from "next/link";
 import { CopyButton } from "./CopyButton";
 import { CopyEventLink } from "./CopyEventLink";
-import { EditEventForm } from "./EditEventForm";
 import { RosterScreen } from "./RosterScreen";
 import { ScheduleScreen } from "./ScheduleScreen";
 import { SetupScreen } from "./SetupScreen";
@@ -29,11 +29,10 @@ import { StandingsScreen } from "./StandingsScreen";
 import { TabBar, TABS, type Tab } from "./TabBar";
 import { Notice } from "./ui";
 
-export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
+export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: WorkspaceView; initialDemoted?: number }) {
   const { t } = useLocale();
   const [tab, setTab] = useState<Tab>(view.status === "finished" ? "standings" : view.schedule ? "schedule" : "roster");
-  const [editing, setEditing] = useState(false);
-  const [demotedNotice, setDemotedNotice] = useState(0);
+  const [demotedNotice, setDemotedNotice] = useState(initialDemoted);
   const [promotedNotice, setPromotedNotice] = useState(false);
   const [error, setError] = useState<ActionError | null>(null);
   const [, startTransition] = useTransition();
@@ -71,14 +70,20 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
       <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
         <h2 className="screen__heading">{view.name}</h2>
         <div className="row">
-          <button type="button" className="button button--quiet button--small" onClick={() => setEditing(!editing)}>
+          <Link href={`/organiser/event/${view.id}/edit`} className="button button--quiet button--small">
             {t.organiser.edit.open}
-          </button>
+          </Link>
           <CopyEventLink slug={view.slug} name={view.name} startsAt={view.startsAt} />
         </div>
       </div>
       {demotedNotice > 0 ? (
-        <Notice tone="warn" onDismiss={() => setDemotedNotice(0)}>
+        <Notice
+          tone="warn"
+          onDismiss={() => {
+            setDemotedNotice(0);
+            window.history.replaceState(null, "", `/organiser/event/${view.id}`);
+          }}
+        >
           {t.organiser.edit.notify(demotedNotice)}{" "}
           <CopyButton
             label={t.organiser.edit.copyUpdate}
@@ -97,18 +102,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
           />
         </Notice>
       ) : null}
-      {editing ? (
-        <EditEventForm
-          view={view}
-          registered={view.confirmed.length + view.waiting.length}
-          frozen={scheduleStored}
-          onClose={() => setEditing(false)}
-          onSaved={(demoted) => {
-            setEditing(false);
-            setDemotedNotice(demoted);
-          }}
-        />
-      ) : null}
+
       {view.notice ? <Notice tone="warn">{t.workspace.unreadable}</Notice> : null}
       {error ? (
         <Notice tone="warn" onDismiss={() => setError(null)}>
@@ -116,7 +110,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
         </Notice>
       ) : null}
 
-      {!editing && tab === "roster" ? (
+      {tab === "roster" ? (
         <RosterScreen
           confirmed={view.confirmed}
           waiting={view.waiting}
@@ -136,7 +130,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
         />
       ) : null}
 
-      {!editing && tab === "setup" ? (
+      {tab === "setup" ? (
         <SetupScreen
           config={view.config}
           playerCount={players.length}
@@ -153,7 +147,7 @@ export function TournamentWorkspace({ view }: { view: WorkspaceView }) {
         />
       ) : null}
 
-      {!editing && tab === "schedule" ? (
+      {tab === "schedule" ? (
         <ScheduleScreen
           // Remount when a new round starts: roundIndex is seeded once from useState and
           // otherwise never follows roundsStarted, so without this the screen would stay
