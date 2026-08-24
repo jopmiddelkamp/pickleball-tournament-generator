@@ -1,5 +1,5 @@
 ---
-name: deploy
+name: deploy-vercel
 description: Ship the generator to production on Vercel. Use when asked to deploy, release, ship, push live, or "is it deployed" — and after any push to master, because pushing alone deploys nothing here.
 ---
 
