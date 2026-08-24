@@ -1005,7 +1005,7 @@ a.button {
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  color: var(--court);
+  color: var(--court-dark);
   background: linear-gradient(transparent 58%, var(--accent) 58%, var(--accent) 92%, transparent 92%);
   padding: 0 4px;
   margin-left: -4px;
