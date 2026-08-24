@@ -57,11 +57,21 @@ Dev login: `dev@example.com` / `password`. `pnpm db:studio` prints the Studio UR
 
 ## The generator app
 
-`apps/generator` is what an organiser uses standing on a court. Enter the roster, pick courts,
-rounds and rest slots, generate, and the evening is on screen as court cards. Scores go in per game
-and the standings follow SPEC-1. Tournaments, registrations and results live in a Supabase Postgres
-database reached only from server code; organisers sign in, players will register through a shared
-link (slice 2). Nothing is stored in the browser beyond the session cookie and UI language.
+`apps/generator` is what an organiser uses standing on a court. Signed in, they create an evening
+with just a name, date and number of courts — rounds, game target and algorithm start from the
+Setup tab's defaults (6 rounds, games to 11, the greedy algorithm) and can be changed there before
+play starts. They share the evening's `/t/<slug>` link, watch registrations come in, then walk the
+night round by round: Start round, enter scores as games finish, Start the next round, and End the
+evening once play is done. Tournaments, registrations and results live in a Supabase Postgres
+database reached only from server code.
+
+Players open the shared link, register with a name, gender and level, and are remembered by a
+cookie so they can come back or cancel without an account. The first `maxPlayersFor(maxCourts)`
+players in — six per court — are confirmed; anyone after that joins a first-come-first-served
+waiting list and moves up automatically if someone cancels. Once the organiser starts a round, the
+page switches from registration to a live view: which court to go to, who's the partner, who's the
+opponents, and the running standings, ending with the final scoreboard after the organiser ends the
+evening. Nothing is stored in the browser beyond the registration cookie and UI language.
 
 Two things to know:
 
