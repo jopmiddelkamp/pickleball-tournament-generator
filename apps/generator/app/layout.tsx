@@ -23,7 +23,7 @@ const body = Public_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Mixed doubles night",
+  title: "Mixed doubles",
   description: "Build and run a rotating-partner mixed doubles evening, court-side.",
   robots: { index: false, follow: false },
 };

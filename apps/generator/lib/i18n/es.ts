@@ -1,7 +1,7 @@
 import type { Messages } from "./en";
 
 export const es: Messages = {
-  title: ["Noche de dobles", "mixtos"],
+  title: ["Dobles", "mixtos"],
   language: "Idioma",
   dismiss: "Cerrar",
   sections: "Secciones",

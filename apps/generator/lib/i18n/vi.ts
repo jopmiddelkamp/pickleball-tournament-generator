@@ -1,7 +1,7 @@
 import type { Messages } from "./en";
 
 export const vi: Messages = {
-  title: ["Đêm đánh đôi", "nam nữ"],
+  title: ["Đánh đôi", "nam nữ"],
   language: "Ngôn ngữ",
   dismiss: "Đóng",
   sections: "Các mục",

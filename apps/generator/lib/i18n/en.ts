@@ -11,7 +11,7 @@ import type { Band, Grade, LawId, Level } from "@ptg/core";
  */
 export const en = {
   /** the two halves of the app title; the second is highlighted */
-  title: ["Mixed doubles", "night"] as readonly [string, string],
+  title: ["Mixed", "doubles"] as readonly [string, string],
   language: "Language",
   dismiss: "Dismiss",
   sections: "Sections",

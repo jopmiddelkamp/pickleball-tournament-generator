@@ -2,7 +2,7 @@ import type { Messages } from "./en";
 
 /** Simplified Chinese */
 export const zh: Messages = {
-  title: ["混双", "之夜"],
+  title: ["混合", "双打"],
   language: "语言",
   dismiss: "关闭",
   sections: "栏目",
