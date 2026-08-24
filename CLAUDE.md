@@ -33,8 +33,7 @@ Apps import all algorithm and scoring logic from core and never reimplement it. 
 - Never store derived values. Standings and bonuses are computed from games and rounds (SPEC-1 §6); persist only the source data.
 - The night screen is for fun: no "worst player", no lowest-score highlights, no skill tiers next to names (SPEC-1 §5).
 - Levels are self-reported and can be a full tier off, so judgment logic works on bands (low/mid/high), not raw levels.
-- Confirmed vs waiting list is derived from `registered_at` order and `max_players` (`lib/registrations.ts`), never stored.
-- The player cap is `maxPlayersFor(maxCourts)` from core (6 per court), never stored; the waiting list is the `registered_at` order beyond it.
+- Confirmed vs waiting is derived from `registered_at` order beyond `maxPlayersFor(maxCourts)` (6 per court, from core; `lib/registrations.ts`), never stored.
 - Every Server Action re-checks the organiser owns the tournament; a stranger gets 404.
 
 ## How to work here
