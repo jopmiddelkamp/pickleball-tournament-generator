@@ -6,6 +6,7 @@ import { cancelGuestAction, cancelMyRegistrationAction } from "../lib/actions/pu
 import type { PublicFormState } from "../lib/actions/publicState";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { PublicView } from "../lib/public";
+import { EventBanner } from "./EventBanner";
 import { LanguageSelect } from "./LanguageSelect";
 import { PublicRegisterForm } from "./PublicRegisterForm";
 import { Segmented } from "./Segmented";
@@ -16,7 +17,7 @@ import { Notice } from "./ui";
 type PublicTab = "now" | "standings";
 
 export function PublicTournament({ view }: { view: PublicView }) {
-  const { t, locale } = useLocale();
+  const { t } = useLocale();
   const [pending, startTransition] = useTransition();
   const [cancelError, setCancelError] = useState<PublicFormState["error"]>(null);
   const [tab, setTab] = useState<PublicTab>("now");
@@ -24,7 +25,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
   // Which round the (finished-evening) chip strip is browsing; defaults to the last one played.
   const [browseIndex, setBrowseIndex] = useState(() => Math.max(0, (view.schedule?.rounds.length ?? 1) - 1));
 
-  const when = new Date(view.startsAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" });
 
   function cancel() {
     startTransition(async () => {
@@ -54,11 +54,8 @@ export function PublicTournament({ view }: { view: PublicView }) {
         <LanguageSelect />
       </header>
       <div className="app__main">
-        <h2 className="screen__heading">{view.name}</h2>
-        <p className="screen__lede">
-          {view.location ? <>{"\u{1F4CD}"} {view.location} · </> : null}
-          {t.public.startsAt(when)} · {t.public.playedTo(view.gameTarget)}
-        </p>
+        <EventBanner name={view.name} startsAt={view.startsAt} location={view.location} />
+        <p className="screen__lede">{t.public.playedTo(view.gameTarget)}</p>
 
         {cancelError ? (
           <Notice tone="warn" onDismiss={() => setCancelError(null)}>
