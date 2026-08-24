@@ -334,3 +334,90 @@ tournament, player accounts, editing a registration after submitting
 localStorage and no backend; both get corrected. `BUILD-PROMPT.md` gets a
 note that the generator scope was extended by this spec, leaving the
 original text intact.
+
+## Amendment — 2026-08-24: courts drive everything, and the evening runs round by round
+
+Decided with the user after slice 1 shipped. Where this section disagrees
+with the text above, this section wins.
+
+### The two experiences, end to end
+
+**Organiser.** Creating an evening asks for exactly three things: a name, a
+date and time, and how many courts they host. That is all they must ever
+decide. They share the `/t/<slug>` link in the group chat and watch the
+list fill. On the night: close registration, generate, then run the evening
+one round at a time — **Start round 1**, enter the scores as games finish,
+**Start round 2**, … and after the last round **End the evening**. Rounds,
+game target and algorithm keep living on the Setup tab with sensible
+defaults (6 rounds, 11 points, greedy) for organisers who care; nobody has
+to touch them.
+
+**Player.** Open the link, enter name, gender and level; the cookie
+remembers them. They see "you're in" or "number N on the waiting list", and
+can cancel. On the night the same link shows the current round — their
+court, their partner, their opponents, or "you rest this round" — plus the
+full round layout and the SPEC-1 standings. When the organiser ends the
+evening the page becomes the final scoreboard.
+
+### The player cap is derived from the courts
+
+`maxPlayersFor(courts) = 6 × courts` (4 playing + 2 resting per court, so
+everyone plays at least about two thirds of the rounds), clamped to the
+roster limit of 64. This is one pure function in `packages/core` next to
+`suggestConfig`, and the single constant (6) is the only tuning knob.
+Registrations beyond the cap join the FIFO waiting list exactly as before.
+
+Consequences:
+- The `tournaments.max_players` column is **dropped** (it is now derived —
+  the derive-don't-store rule applies). `partitionRegistrations` keeps its
+  signature; callers pass `maxPlayersFor(maxCourts)`.
+- The creation form loses the max-players, rounds and game-target fields;
+  `createTournament` fills rounds = 6 and game target = 11. The form shows
+  the derived capacity as a hint ("4 courts → up to 24 players; more join
+  the waiting list").
+
+### Round-by-round play is source data
+
+Two new `tournaments` columns, both organiser events (not derived):
+
+| column | type | meaning |
+|---|---|---|
+| rounds_started | int, not null, default 0 | how many rounds the organiser has started; the current round is the last started one |
+| finished_at | timestamptz, nullable | set by "End the evening" |
+
+Derived status extends to: `open` → `closed` → `generated` → `live`
+(rounds_started > 0) → `finished` (finished_at set). Starting a round is
+only possible up to the schedule's round count and only once generated;
+ending the evening only when live. Discarding the schedule resets
+`rounds_started` to 0 and clears `finished_at` (the columns are organiser
+events about a schedule that no longer exists).
+
+Organiser Schedule tab: the current round is front and centre with its
+score entry; a primary button starts the next round; after the last round
+it becomes **End the evening**. Earlier rounds stay reachable through the
+existing round chips.
+
+### Public page states (`/t/<slug>`, no login)
+
+| state | what the visitor sees |
+|---|---|
+| open | evening info, spots taken of the derived cap, waiting-list length; form (name, gender toggle, six-tier level picker) or, when the cookie matches, their status + Cancel |
+| closed / generated, not live | "Registration is closed" / "Starts at …"; own status; Cancel works until a schedule exists |
+| live | current round: own match highlighted (court, partner, opponents) or "you rest this round"; the full round's courts; a standings tab (SPEC-1 §5 applies — fun only) |
+| finished | final standings, scoreboard first |
+
+The registration cookie is `ptg_participant` as specced above (httpOnly,
+Secure, SameSite=Lax, one year, random token, never signed). Players
+refresh the page for updates; no live push in this slice.
+
+### Build order for the remainder
+
+1. Core `maxPlayersFor` + status/schema changes (migration 0001: drop
+   `max_players`, add `rounds_started`, `finished_at`) + simplified
+   creation form.
+2. Organiser round flow (start round, end evening, current-round Schedule
+   tab).
+3. Public registration (`/t/<slug>` form, cookie, status, cancel).
+4. Public live view (current round, own-match highlight, standings, final
+   scoreboard).
+5. Docs + cloud migration + deploy.
