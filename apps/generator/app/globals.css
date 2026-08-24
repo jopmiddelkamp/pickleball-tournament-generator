@@ -102,7 +102,8 @@ select {
   border: 1px solid rgba(243, 244, 238, 0.3);
   border-radius: var(--radius-sm);
   padding: 4px 6px;
-  font-size: 12px;
+  font-size: 16px;
+  line-height: 1;
   max-width: 110px;
 }
 

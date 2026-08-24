@@ -8,6 +8,20 @@ export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "en";
 
+/**
+ * Flag shorthand for the compact header picker. A language is not a country,
+ * but on a phone-width header the flag is the smallest symbol everyone at the
+ * club recognises; the picker keeps the language's own name as its label.
+ */
+export const LOCALE_FLAGS: Readonly<Record<Locale, string>> = {
+  en: "\u{1F1EC}\u{1F1E7}",
+  zh: "\u{1F1E8}\u{1F1F3}",
+  vi: "\u{1F1FB}\u{1F1F3}",
+  ja: "\u{1F1EF}\u{1F1F5}",
+  ko: "\u{1F1F0}\u{1F1F7}",
+  es: "\u{1F1EA}\u{1F1F8}",
+};
+
 /** Each language named in itself, so anyone can find their own in the list. */
 export const LOCALE_NAMES: Readonly<Record<Locale, string>> = {
   en: "English",

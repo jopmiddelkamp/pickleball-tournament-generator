@@ -1,6 +1,6 @@
 "use client";
 
-import { LOCALES, LOCALE_NAMES, isLocale } from "../lib/i18n";
+import { LOCALES, LOCALE_FLAGS, LOCALE_NAMES, isLocale } from "../lib/i18n";
 import { useLocale } from "../lib/i18n/useLocale";
 
 export function LanguageSelect({ className }: { className?: string }) {
@@ -15,8 +15,8 @@ export function LanguageSelect({ className }: { className?: string }) {
       }}
     >
       {LOCALES.map((option) => (
-        <option key={option} value={option} lang={option}>
-          {LOCALE_NAMES[option]}
+        <option key={option} value={option} lang={option} aria-label={LOCALE_NAMES[option]}>
+          {LOCALE_FLAGS[option]}
         </option>
       ))}
     </select>
