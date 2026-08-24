@@ -43,6 +43,12 @@ describe("tournamentStatus", () => {
       tournamentStatus({ registrationClosedAt: new Date(), schedule: null, roundsStarted: 2, finishedAt: null }),
     ).toBe("closed");
   });
+
+  it("does not report finished without a schedule, even if finishedAt was left set", () => {
+    expect(
+      tournamentStatus({ registrationClosedAt: new Date(), schedule: null, roundsStarted: 0, finishedAt: new Date() }),
+    ).toBe("closed");
+  });
 });
 
 describe("effectiveConfig", () => {
