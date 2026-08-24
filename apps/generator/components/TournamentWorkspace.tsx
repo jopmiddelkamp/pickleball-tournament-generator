@@ -30,7 +30,7 @@ import { TabBar, TABS, type Tab } from "./TabBar";
 import { Notice } from "./ui";
 
 export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: WorkspaceView; initialDemoted?: number }) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const [tab, setTab] = useState<Tab>(view.status === "finished" ? "standings" : view.schedule ? "schedule" : "roster");
   const [demotedNotice, setDemotedNotice] = useState(initialDemoted);
   const [promotedNotice, setPromotedNotice] = useState(false);
@@ -67,15 +67,21 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
   return (
     <>
       <TabBar active={tab} onChange={setTab} tabs={visibleTabs} />
-      <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
-        <h2 className="screen__heading">{view.name}</h2>
+      <header className="event event--marker">
+        <div className="event__text">
+          <h2 className="event__name">{view.name}</h2>
+          <p className="event__meta">
+            {new Date(view.startsAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" })}
+            {view.location ? ` · ${view.location}` : ""}
+          </p>
+        </div>
         <div className="row">
           <Link href={`/organiser/event/${view.id}/edit`} className="button button--quiet button--small">
             {t.organiser.edit.open}
           </Link>
           <CopyEventLink slug={view.slug} name={view.name} startsAt={view.startsAt} location={view.location} />
         </div>
-      </div>
+      </header>
       {demotedNotice > 0 ? (
         <Notice
           tone="warn"

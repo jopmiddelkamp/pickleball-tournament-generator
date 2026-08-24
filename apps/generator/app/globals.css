@@ -979,6 +979,98 @@ a.button {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- event banner ----------
+   The event's identity above every organiser tab: context, not content, so
+   it must read differently from the screen heading below it. */
+
+.event {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.event__text {
+  min-width: 0;
+}
+
+.event__name {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  line-height: 1.15;
+}
+
+.event__meta {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A: eyebrow — small tracked caps in court green with a ball-coloured dot */
+.event--eyebrow .event__name {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--court);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.event--eyebrow .event__name::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* B: plate — the header's green continues as a scoreboard block */
+.event--plate {
+  background: var(--court-deep);
+  color: var(--paper);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  align-items: center;
+}
+
+.event--plate .event__name {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.event--plate .event__meta {
+  color: rgba(243, 244, 238, 0.7);
+}
+
+.event--plate .button--quiet {
+  color: var(--paper);
+  border-color: rgba(243, 244, 238, 0.45);
+}
+
+/* C: marker — the name carries a swipe of ball yellow, like a highlighter */
+.event--marker .event__name {
+  display: inline;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(transparent 58%, var(--accent) 58%, var(--accent) 92%, transparent 92%);
+  padding: 0 4px;
+  margin-left: -4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.event--marker .event__meta {
+  margin-top: 8px;
+}
+
 /* ---------- list containers ---------- */
 
 .cards-grid,
