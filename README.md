@@ -130,9 +130,17 @@ All randomness must come from the `rng` argument. Nothing in core may read the c
 
 ## Deployment
 
-The generator deploys to Vercel from `apps/generator` with the Next.js preset and the repo root as
-the build root, so the workspace resolves. Install command `pnpm install --frozen-lockfile`, build
-command `pnpm --filter @ptg/generator build`.
+The generator runs on Vercel (project `pickleball-generator`, root directory `apps/generator`) with
+Supabase attached through the Vercel Marketplace, which injects the database and auth env vars.
+Deploys never run migrations; apply them explicitly, then deploy:
+
+```bash
+cd apps/generator && vercel env pull --environment production .env.cloud.local && cd ../..
+pnpm db:migrate:cloud
+vercel deploy --prod
+```
+
+Production: https://pickleball-generator-eta.vercel.app
 
 The benchmark is a CLI, not a deployed app: it runs locally and in CI, and there is nothing internal
 exposed on the web.
