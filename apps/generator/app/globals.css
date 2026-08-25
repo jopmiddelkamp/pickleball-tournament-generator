@@ -1330,6 +1330,19 @@ a.button {
 
 /* ---------- standings ---------- */
 
+/* The tiebreaker (SPEC-1 §3), always visible so it is never a hidden criterion. */
+.standings__difference {
+  display: block;
+  color: var(--color-on-surface-variant);
+  font-family: var(--text-body-xs-font);
+  font-size: var(--text-body-xs-size);
+  font-weight: var(--text-body-xs-weight);
+  line-height: var(--text-body-xs-line);
+  letter-spacing: var(--text-body-xs-tracking);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
 .standings__row {
   display: grid;
   grid-template-columns: 34px 1fr auto;

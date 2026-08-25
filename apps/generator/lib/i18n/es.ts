@@ -149,7 +149,7 @@ export const es: Messages = {
 
   standings: {
     heading: "Clasificación",
-    lede: "Cada uno suma los puntos que hizo su propio equipo. Un descanso vale la media de la ronda, y una pareja del mismo género suma dos más.",
+    lede: "Cada uno suma los puntos que hizo su propio equipo. Un descanso vale la media de la ronda, y una pareja del mismo género suma dos más. Los empates se deshacen por diferencia de puntos, que aparece bajo el total.",
     empty: "Genera primero un calendario y luego anota los resultados al acabar cada partido.",
     played: (games) => `${games} jugados`,
     bye: (points) => `+${points} descanso`,

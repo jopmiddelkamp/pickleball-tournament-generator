@@ -25,7 +25,8 @@ For players the schedule treated less well. Applied automatically after each rou
 ## 3. Standings and ties
 
 - Ranking: descending total points.
-- Ties: shared rank. No tiebreaker games, no hidden criteria.
+- Ties on total are broken by point difference: points scored minus points conceded across the player's games. Byes, bonuses and voided games do not count toward it. Equal on both: shared rank.
+- The difference is always shown next to the total, so the tiebreaker is never a hidden criterion. No tiebreaker games.
 - Standings may later feed the Mexicano format (pairing by current standing). That is their only functional use.
 
 ## 4. Edge cases

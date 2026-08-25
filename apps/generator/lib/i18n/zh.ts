@@ -147,7 +147,7 @@ export const zh: Messages = {
 
   standings: {
     heading: "排名",
-    lede: "每个人获得自己队伍打出的分数。轮空按该轮平均分计，同性组合额外加两分。",
+    lede: "每个人获得自己队伍打出的分数。轮空按该轮平均分计，同性组合额外加两分。总分相同时按净胜分排序，显示在总分下方。",
     empty: "先生成赛程，然后在每局结束后录入比分。",
     played: (games) => `已打 ${games} 局`,
     bye: (points) => `轮空 +${points}`,

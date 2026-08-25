@@ -21,7 +21,7 @@ The generator's visual language is a Material 3 -shaped token system: `apps/gene
 
 ## Source of truth
 
-`docs/SPEC-1-night-points.md` and `docs/SPEC-2-algorithm-score.md` beat `BUILD-PROMPT.md`, which beats your own judgment. The specs are frozen while algorithms are tuned — if the judge changes during tuning, the benchmark numbers stop meaning anything — and a hook blocks edits to them, so a spec change is something you describe to the user. When a spec is ambiguous, conflicts with the build prompt, or a constant looks wrong in practice, stop and ask rather than quietly working around it. The same applies to the core contracts in `BUILD-PROMPT.md` (`Player`, `TournamentConfig`, `Schedule`, `SchedulingAlgorithm`).
+`docs/SPEC-1-night-points.md` and `docs/SPEC-2-algorithm-score.md` beat `BUILD-PROMPT.md`, which beats your own judgment. The specs evolve with the app: when a rule turns out wrong on a real evening, change the spec and the code together, in the same commit, and say in the commit message what changed and why. SPEC-2 is the benchmark judge, so a change to it invalidates earlier bench numbers; note that when it happens. When a spec is ambiguous, conflicts with the build prompt, or a constant looks wrong in practice, stop and ask rather than quietly working around it. The same applies to the core contracts in `BUILD-PROMPT.md` (`Player`, `TournamentConfig`, `Schedule`, `SchedulingAlgorithm`).
 
 `BUILD-PROMPT.md` holds the full build plan: algorithms and their weights, app scope, phases, definition of done. Read it before starting a phase.
 

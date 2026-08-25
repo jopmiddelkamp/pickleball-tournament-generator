@@ -149,7 +149,7 @@ export const vi: Messages = {
 
   standings: {
     heading: "Bảng xếp hạng",
-    lede: "Mỗi người nhận số điểm đội mình ghi được. Lượt nghỉ được tính bằng điểm trung bình của vòng, và đội cùng giới được cộng thêm hai.",
+    lede: "Mỗi người nhận số điểm đội mình ghi được. Lượt nghỉ được tính bằng điểm trung bình của vòng, và đội cùng giới được cộng thêm hai. Bằng điểm thì xét hiệu số điểm, hiển thị dưới tổng điểm.",
     empty: "Tạo lịch trước, rồi nhập tỷ số khi các ván kết thúc.",
     played: (games) => `${games} ván`,
     bye: (points) => `+${points} nghỉ`,

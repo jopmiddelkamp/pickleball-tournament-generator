@@ -164,7 +164,7 @@ export const en = {
 
   standings: {
     heading: "Standings",
-    lede: "Everyone scores the points their own team made. A bye pays the round’s average, and a same-gender team pays two on top.",
+    lede: "Everyone scores the points their own team made. A bye pays the round’s average, and a same-gender team pays two on top. Equal totals are split by point difference, shown under the total.",
     empty: "Generate a schedule first, then enter scores as the games finish.",
     played: (games: number) => `${games} played`,
     bye: (points: number) => `+${points} bye`,

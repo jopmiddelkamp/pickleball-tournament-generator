@@ -44,7 +44,10 @@ export function StandingsScreen({
                   </span>
                   <span className="standings__detail">{parts.join(" · ")}</span>
                 </span>
-                <span className="standings__total">{entry.total}</span>
+                <span className="standings__total">
+                  {entry.total}
+                  <span className="standings__difference">{entry.difference > 0 ? `+${entry.difference}` : entry.difference}</span>
+                </span>
               </li>
             );
           })}

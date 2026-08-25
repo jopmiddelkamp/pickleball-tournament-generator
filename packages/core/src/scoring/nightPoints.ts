@@ -35,6 +35,10 @@ export interface GameResult {
 export interface PlayerNightPoints {
   playerId: string;
   gamePoints: number;
+  /** points the opposing team made in the player's games; byes and voided games count nothing */
+  pointsAgainst: number;
+  /** gamePoints - pointsAgainst: the SPEC-1 §3 tiebreaker */
+  difference: number;
   byeBonus: number;
   sameGenderBonus: number;
   total: number;
@@ -86,6 +90,8 @@ export function computeNightPoints(
     totals.set(p.id, {
       playerId: p.id,
       gamePoints: 0,
+      pointsAgainst: 0,
+      difference: 0,
       byeBonus: 0,
       sameGenderBonus: 0,
       total: 0,
@@ -124,15 +130,16 @@ export function computeNightPoints(
       if (!result || result.voided) continue;
 
       playedGames += 1;
-      const sides: [Team, number][] = [
-        [result.teamA, result.pointsA],
-        [result.teamB, result.pointsB],
+      const sides: [Team, number, number][] = [
+        [result.teamA, result.pointsA, result.pointsB],
+        [result.teamB, result.pointsB, result.pointsA],
       ];
-      for (const [team, points] of sides) {
+      for (const [team, points, against] of sides) {
         for (const id of team) {
           const entry = entryFor(id);
           if (entry) {
             entry.gamePoints += points;
+            entry.pointsAgainst += against;
             entry.gamesPlayed += 1;
           }
           personalPointsSum += points;
@@ -160,19 +167,24 @@ export function computeNightPoints(
   const standings = [...totals.values()];
   for (const entry of standings) {
     entry.total = entry.gamePoints + entry.byeBonus + entry.sameGenderBonus;
+    entry.difference = entry.gamePoints - entry.pointsAgainst;
   }
-  standings.sort((a, b) => (b.total !== a.total ? b.total - a.total : a.playerId < b.playerId ? -1 : 1));
+  standings.sort((a, b) => {
+    if (b.total !== a.total) return b.total - a.total;
+    if (b.difference !== a.difference) return b.difference - a.difference;
+    return a.playerId < b.playerId ? -1 : 1;
+  });
 
-  // Shared ranks: everyone on the same total gets the same rank, and the next
-  // distinct total skips the places used up (SPEC-1 §3).
+  // Shared ranks: the same total and the same difference share a rank, and
+  // the next distinct pair skips the places used up (SPEC-1 §3).
   let rank = 0;
   let seen = 0;
-  let previousTotal: number | null = null;
+  let previous: PlayerNightPoints | null = null;
   for (const entry of standings) {
     seen += 1;
-    if (previousTotal === null || entry.total !== previousTotal) {
+    if (previous === null || entry.total !== previous.total || entry.difference !== previous.difference) {
       rank = seen;
-      previousTotal = entry.total;
+      previous = entry;
     }
     entry.rank = rank;
   }
