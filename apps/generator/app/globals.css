@@ -148,6 +148,11 @@ select {
 }
 
 /* A section inside a screen, below the screen's own heading. */
+/* A section that follows other content on the same screen. */
+.screen__block {
+  margin-top: var(--space-lg);
+}
+
 .screen__section {
   font-family: var(--text-title-font);
   font-size: var(--text-title-size);

@@ -223,7 +223,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
 
             {view.status === "generated" ? <p className="standings__detail">{t.public.notStarted}</p> : null}
 
-            <section>
+            <section className="screen__block">
               <h3 className="screen__section">{t.public.signedUpHeading(view.signedUp.length)}</h3>
               {view.signedUp.length === 0 ? (
                 <p className="standings__detail">{t.public.nobodyYet}</p>
