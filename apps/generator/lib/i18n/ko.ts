@@ -255,7 +255,7 @@ export const ko: Messages = {
     waitlistWarning: "이 이벤트는 이미 가득 찼습니다 — 신청하면 대기 명단에 오르며, 누군가 취소하면 순서가 올라갑니다.",
     youAreIn: "참가 신청 완료!",
     registeredAs: (name, when) => `${name}(으)로 신청 · ${when}`,
-    signedUpHeading: (n) => `참가 예정 (${n}명)`,
+    signedUpHeading: (n) => `참가자 (${n}명)`,
     nobodyYet: "아직 아무도 신청하지 않았어요. 첫 번째가 되어 보세요.",
     you: "나",
     yourGuest: "내 +1",

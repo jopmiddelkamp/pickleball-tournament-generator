@@ -256,7 +256,7 @@ export const vi: Messages = {
     waitlistWarning: "Sự kiện đã đủ người — bạn sẽ vào danh sách chờ và được xếp lên khi có người hủy.",
     youAreIn: "Bạn đã đăng ký thành công!",
     registeredAs: (name, when) => `Đã đăng ký với tên ${name} · ${when}`,
-    signedUpHeading: (n) => `Ai sẽ đến (${n})`,
+    signedUpHeading: (n) => `Người tham dự (${n})`,
     nobodyYet: "Chưa có ai đăng ký. Hãy là người đầu tiên.",
     you: "bạn",
     yourGuest: "+1 của bạn",

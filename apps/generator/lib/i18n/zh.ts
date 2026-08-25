@@ -254,7 +254,7 @@ export const zh: Messages = {
     waitlistWarning: "本场活动名额已满——你将进入候补名单，有人取消后自动递补。",
     youAreIn: "你已报名成功！",
     registeredAs: (name, when) => `以 ${name} 的名义报名 · ${when}`,
-    signedUpHeading: (n) => `谁会来（${n}人）`,
+    signedUpHeading: (n) => `参加者（${n}人）`,
     nobodyYet: "还没有人报名，来做第一个吧。",
     you: "你",
     yourGuest: "你的 +1",

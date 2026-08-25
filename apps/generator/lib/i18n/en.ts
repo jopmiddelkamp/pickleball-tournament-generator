@@ -271,7 +271,7 @@ export const en = {
     waitlistWarning: "The event is full — you would join the waiting list and move up when someone cancels.",
     youAreIn: "You're in!",
     registeredAs: (name: string, when: string) => `Signed up as ${name} · ${when}`,
-    signedUpHeading: (n: number) => `Who's coming (${n})`,
+    signedUpHeading: (n: number) => `Attendees (${n})`,
     nobodyYet: "Nobody has signed up yet — be the first.",
     you: "you",
     yourGuest: "your +1",

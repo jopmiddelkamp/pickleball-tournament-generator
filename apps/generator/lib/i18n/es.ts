@@ -256,7 +256,7 @@ export const es: Messages = {
     waitlistWarning: "El evento está completo — entrarías en la lista de espera y subirías cuando alguien cancele.",
     youAreIn: "¡Ya estás dentro!",
     registeredAs: (name, when) => `Inscrito como ${name} · ${when}`,
-    signedUpHeading: (n) => `Quién viene (${n})`,
+    signedUpHeading: (n) => `Asistentes (${n})`,
     nobodyYet: "Nadie se ha inscrito todavía. Sé el primero.",
     you: "tú",
     yourGuest: "tu +1",

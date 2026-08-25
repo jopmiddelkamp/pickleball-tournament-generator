@@ -257,7 +257,7 @@ export const ja: Messages = {
     waitlistWarning: "このイベントは満員です——申し込むとキャンセル待ちになり、空きが出次第繰り上がります。",
     youAreIn: "参加登録できました！",
     registeredAs: (name, when) => `${name} として登録 · ${when}`,
-    signedUpHeading: (n) => `参加予定（${n}人）`,
+    signedUpHeading: (n) => `参加者（${n}人）`,
     nobodyYet: "まだ誰も登録していません。最初の一人になりましょう。",
     you: "あなた",
     yourGuest: "あなたの +1",
