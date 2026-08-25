@@ -66,6 +66,12 @@ export function PublicTournament({ view }: { view: PublicView }) {
     ? new Date(view.you.registeredAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" })
     : null;
   const guestIds = new Set(view.you?.guests.map((guest) => guest.id) ?? []);
+  // Gender/level for the rows the visitor may correct: their own and their +1s.
+  const editable = new Map<string, PlayerProfile>();
+  if (you && yourId) {
+    editable.set(yourId, { gender: you.gender, level: you.level });
+    for (const guest of you.guests) editable.set(guest.id, { gender: guest.gender, level: guest.level });
+  }
 
   const rounds = view.schedule?.rounds ?? [];
   const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, view.games) : null;
@@ -133,63 +139,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
                   <br />
                   <span className="standings__detail">{t.public.registeredAs(you.name, registeredWhen ?? "")}</span>
                 </Notice>
-                <p className="standings__detail">{t.public.spots(view.confirmedCount, view.capacity, view.waitingCount)}</p>
-                {you.canCancel ? (
-                  editingId === yourId ? (
-                    <ProfileEditor
-                      name={you.name}
-                      initial={{ gender: you.gender, level: you.level }}
-                      pending={pending}
-                      onSave={(profile) => saveProfile(yourId, profile)}
-                      onCancel={() => setEditingId(null)}
-                    />
-                  ) : (
-                    <div className="row row--split">
-                      <span className="standings__detail">{t.public.editLede}</span>
-                      {editButton(yourId)}
-                    </div>
-                  )
-                ) : null}
-                {you.guests.length > 0 ? (
-                  <div>
-                    <span className="label">{t.public.yourGuests}</span>
-                    <ul className="plain-list">
-                      {you.guests.map((guest) =>
-                        editingId === guest.id ? (
-                          <li key={guest.id}>
-                            <ProfileEditor
-                              name={guest.name}
-                              initial={{ gender: guest.gender, level: guest.level }}
-                              pending={pending}
-                              onSave={(profile) => saveProfile(guest.id, profile)}
-                              onCancel={() => setEditingId(null)}
-                            />
-                          </li>
-                        ) : (
-                          <li key={guest.id} className="roster__item">
-                            <span className="roster__name">{guest.name}</span>
-                            <span className="roster__level">
-                              {guest.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(guest.position ?? 0)}
-                            </span>
-                            {you.canCancel ? (
-                              <>
-                                {editButton(guest.id)}
-                                <button
-                                  type="button"
-                                  className="button button--quiet button--small"
-                                  disabled={pending}
-                                  onClick={() => cancelGuest(guest.id)}
-                                >
-                                  {t.roster.remove}
-                                </button>
-                              </>
-                            ) : null}
-                          </li>
-                        ),
-                      )}
-                    </ul>
-                  </div>
-                ) : null}
                 {you.canAddGuest ? (
                   guestFormOpen ? (
                     <PublicRegisterForm
@@ -232,6 +181,20 @@ export function PublicTournament({ view }: { view: PublicView }) {
                   {view.signedUp.map((entry) => {
                     const self = entry.id === view.yourId;
                     const mine = self || guestIds.has(entry.id);
+                    const profile = editable.get(entry.id);
+                    if (profile && editingId === entry.id) {
+                      return (
+                        <li key={entry.id}>
+                          <ProfileEditor
+                            name={entry.name}
+                            initial={profile}
+                            pending={pending}
+                            onSave={(next) => saveProfile(entry.id, next)}
+                            onCancel={() => setEditingId(null)}
+                          />
+                        </li>
+                      );
+                    }
                     return (
                       <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
                         <span className="roster__name">
@@ -241,6 +204,21 @@ export function PublicTournament({ view }: { view: PublicView }) {
                         <span className="roster__level">
                           {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
                         </span>
+                        {profile && you?.canCancel ? (
+                          <>
+                            {editButton(entry.id)}
+                            {!self ? (
+                              <button
+                                type="button"
+                                className="button button--quiet button--small"
+                                disabled={pending}
+                                onClick={() => cancelGuest(entry.id)}
+                              >
+                                {t.roster.remove}
+                              </button>
+                            ) : null}
+                          </>
+                        ) : null}
                       </li>
                     );
                   })}

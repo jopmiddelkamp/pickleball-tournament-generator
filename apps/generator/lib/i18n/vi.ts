@@ -254,8 +254,6 @@ export const vi: Messages = {
     waiting: (n) => `Bạn đang xếp thứ ${n} trong danh sách chờ.`,
     cancel: "Hủy đăng ký của tôi",
     cancelGroup: "Hủy đăng ký của chúng tôi",
-    editLede: "Sửa cách bạn chơi hoặc trình độ; vị trí trong hàng đợi vẫn giữ nguyên.",
-    yourGuests: "+1 của bạn",
     addGuest: "Thêm +1",
     guestHeading: "Dẫn theo +1",
     guestLede: "Họ đăng ký dưới tên bạn và được tính như mọi đăng ký khác.",

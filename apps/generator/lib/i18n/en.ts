@@ -269,8 +269,6 @@ export const en = {
     waiting: (n: number) => `You're number ${n} on the waiting list.`,
     cancel: "Cancel my registration",
     cancelGroup: "Cancel our registration",
-    editLede: "Correct how you play or your level; your place in the queue stays.",
-    yourGuests: "Your +1s",
     addGuest: "Add a +1",
     guestHeading: "Bring a +1",
     guestLede: "They sign up under your name and count like any registration.",

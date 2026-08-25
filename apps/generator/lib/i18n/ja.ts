@@ -255,8 +255,6 @@ export const ja: Messages = {
     waiting: (n) => `キャンセル待ち${n}番目です。`,
     cancel: "申し込みを取り消す",
     cancelGroup: "全員の申し込みを取り消す",
-    editLede: "プレー区分やレベルを修正できます。順番はそのままです。",
-    yourGuests: "あなたの +1",
     addGuest: "+1 を追加",
     guestHeading: "+1 を連れて行く",
     guestLede: "あなたの名前で登録され、通常の登録と同じ扱いです。",

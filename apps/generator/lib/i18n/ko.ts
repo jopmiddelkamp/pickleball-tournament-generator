@@ -253,8 +253,6 @@ export const ko: Messages = {
     waiting: (n) => `대기 명단 ${n}번입니다.`,
     cancel: "내 신청 취소",
     cancelGroup: "우리 신청 취소",
-    editLede: "플레이 구분이나 레벨을 고칠 수 있어요. 순서는 그대로예요.",
-    yourGuests: "내 +1",
     addGuest: "+1 추가",
     guestHeading: "+1 데려오기",
     guestLede: "내 이름으로 등록되며 일반 등록과 똑같이 계산됩니다.",

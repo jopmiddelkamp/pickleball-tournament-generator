@@ -254,8 +254,6 @@ export const es: Messages = {
     waiting: (n) => `Eres el número ${n} en la lista de espera.`,
     cancel: "Cancelar mi inscripción",
     cancelGroup: "Cancelar nuestra inscripción",
-    editLede: "Corrige cómo juegas o tu nivel; tu lugar en la cola no cambia.",
-    yourGuests: "Tus +1",
     addGuest: "Añadir un +1",
     guestHeading: "Trae un +1",
     guestLede: "Se apunta a tu nombre y cuenta como cualquier inscripción.",
