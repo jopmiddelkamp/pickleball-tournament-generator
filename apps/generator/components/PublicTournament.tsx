@@ -72,6 +72,10 @@ export function PublicTournament({ view }: { view: PublicView }) {
     editable.set(yourId, { gender: you.gender, level: you.level });
     for (const guest of you.guests) editable.set(guest.id, { gender: guest.gender, level: guest.level });
   }
+  // The row being corrected; its editor renders in the visitor's card.
+  const editingEntry = editingId ? view.signedUp.find((entry) => entry.id === editingId) : undefined;
+  const editingProfile = editingId ? editable.get(editingId) : undefined;
+  const editing = editingEntry && editingProfile ? { id: editingEntry.id, name: editingEntry.name, profile: editingProfile } : null;
 
   const rounds = view.schedule?.rounds ?? [];
   const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, view.games) : null;
@@ -139,6 +143,16 @@ export function PublicTournament({ view }: { view: PublicView }) {
                   <br />
                   <span className="standings__detail">{t.public.registeredAs(you.name, registeredWhen ?? "")}</span>
                 </Notice>
+                {editing ? (
+                  <ProfileEditor
+                    key={editing.id}
+                    name={editing.name}
+                    initial={editing.profile}
+                    pending={pending}
+                    onSave={(next) => saveProfile(editing.id, next)}
+                    onCancel={() => setEditingId(null)}
+                  />
+                ) : null}
                 {you.canAddGuest ? (
                   guestFormOpen ? (
                     <PublicRegisterForm
@@ -146,6 +160,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                       slug={view.slug}
                       capacityLeft={Math.max(0, view.capacity - view.confirmedCount)}
                       guest
+                      onCancel={() => setGuestFormOpen(false)}
                     />
                   ) : (
                     <button type="button" className="button button--quiet" onClick={() => setGuestFormOpen(true)}>
@@ -182,19 +197,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
                     const self = entry.id === view.yourId;
                     const mine = self || guestIds.has(entry.id);
                     const profile = editable.get(entry.id);
-                    if (profile && editingId === entry.id) {
-                      return (
-                        <li key={entry.id}>
-                          <ProfileEditor
-                            name={entry.name}
-                            initial={profile}
-                            pending={pending}
-                            onSave={(next) => saveProfile(entry.id, next)}
-                            onCancel={() => setEditingId(null)}
-                          />
-                        </li>
-                      );
-                    }
                     return (
                       <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
                         <span className="roster__name">

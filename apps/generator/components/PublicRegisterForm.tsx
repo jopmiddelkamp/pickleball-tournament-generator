@@ -25,7 +25,13 @@ interface GuestDraft {
  * `capacityLeft` is how many confirmed places remain, for the waiting-list
  * warning.
  */
-export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug: string; capacityLeft: number; guest?: boolean }) {
+export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel }: {
+  slug: string;
+  capacityLeft: number;
+  guest?: boolean;
+  /** closes the form without submitting; rendered as a Cancel button when given */
+  onCancel?: () => void;
+}) {
   const { t } = useLocale();
   const [state, formAction, pending] = useActionState((guest ? addGuestAction : registerAction).bind(null, slug), INITIAL_PUBLIC_STATE);
   const [gender, setGender] = useState<Gender>("F");
@@ -61,7 +67,7 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
 
       {state.error ? <Notice tone="warn">{t.public.errors[state.error]}</Notice> : null}
 
-      <form className="card stack" action={formAction}>
+      <form className={guest ? "stack" : "card stack"} action={formAction}>
         <div>
           <label className="label" htmlFor="public-name">
             {t.roster.name}
@@ -147,6 +153,11 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false }: { slug
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {guest ? t.public.addGuest : guests.length > 0 ? t.public.registerGroup : t.public.register}
         </button>
+        {onCancel ? (
+          <button type="button" className="button button--quiet button--full" disabled={pending} onClick={onCancel}>
+            {t.roster.cancelEdit}
+          </button>
+        ) : null}
       </form>
     </div>
   );
