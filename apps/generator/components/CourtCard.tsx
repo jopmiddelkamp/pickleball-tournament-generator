@@ -11,6 +11,8 @@ export interface CourtCardProps {
   playerById: ReadonlyMap<string, Player>;
   result: GameResult | undefined;
   onScoreChange?: (side: "A" | "B", points: number | null) => void;
+  /** the game target: typed points are clamped to it */
+  maxPoints?: number;
   onVoidChange?: (voided: boolean) => void;
   /** id of the player waiting to be swapped, if swap mode is on */
   selectedPlayerId?: string | null;
@@ -98,6 +100,7 @@ export function CourtCard({
   playerById,
   result,
   onScoreChange,
+  maxPoints,
   onVoidChange,
   selectedPlayerId,
   onSelectPlayer,
@@ -140,7 +143,7 @@ export function CourtCard({
             value={result && !Number.isNaN(result.pointsA) ? String(result.pointsA) : ""}
             placeholder="–"
             disabled={result?.voided ?? false}
-            onChange={(event) => onScoreChange("A", parsePoints(event.target.value))}
+            onChange={(event) => onScoreChange("A", parsePoints(event.target.value, maxPoints))}
           />
           <span className="court__scoreDash" aria-hidden="true">
             –
@@ -156,7 +159,7 @@ export function CourtCard({
             value={result && !Number.isNaN(result.pointsB) ? String(result.pointsB) : ""}
             placeholder="–"
             disabled={result?.voided ?? false}
-            onChange={(event) => onScoreChange("B", parsePoints(event.target.value))}
+            onChange={(event) => onScoreChange("B", parsePoints(event.target.value, maxPoints))}
           />
           <label className="court__void">
             <input
@@ -182,8 +185,9 @@ export function CourtCard({
   );
 }
 
-function parsePoints(raw: string): number | null {
+function parsePoints(raw: string, max?: number): number | null {
   const digits = raw.replace(/[^0-9]/g, "").slice(0, 3);
   if (digits.length === 0) return null;
-  return Number(digits);
+  const points = Number(digits);
+  return max === undefined ? points : Math.min(points, max);
 }

@@ -16,7 +16,7 @@ import { RoundView } from "./RoundView";
 import { StandingsScreen } from "./StandingsScreen";
 import { GenderChip, Notice, Wordmark } from "./ui";
 
-type PublicTab = "now" | "standings";
+type PublicTab = "now" | "standings" | "coming";
 
 export function PublicTournament({ view }: { view: PublicView }) {
   const { t, locale } = useLocale();
@@ -97,6 +97,36 @@ export function PublicTournament({ view }: { view: PublicView }) {
   const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, view.games) : null;
   const liveRound = rounds[view.roundsStarted - 1];
   const browseRound = rounds[browseIndex];
+
+  // The attendee list: a tab of its own once the evening is live, a section before that.
+  const signedUp = (
+    <section className="screen__block">
+      <h3 className="screen__section">{t.public.signedUpHeading(view.signedUp.length)}</h3>
+      {view.signedUp.length === 0 ? (
+        <p className="standings__detail">{t.public.nobodyYet}</p>
+      ) : (
+        <ul className="plain-list">
+          {view.signedUp.map((entry, index) => {
+            const self = entry.id === view.yourId;
+            const mine = self || guestIds.has(entry.id);
+            return (
+              <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
+                <span className="standings__rank roster__number">{index + 1}</span>
+                <GenderChip gender={entry.gender} />
+                <span className="roster__name">
+                  {entry.name}
+                  {mine ? <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span> : null}
+                </span>
+                <span className="roster__level">
+                  {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
+  );
 
   return (
     <main className="app">
@@ -235,37 +265,10 @@ export function PublicTournament({ view }: { view: PublicView }) {
 
             {view.status === "generated" ? <p className="standings__detail">{t.public.notStarted}</p> : null}
 
-            <section className="screen__block">
-              <h3 className="screen__section">{t.public.signedUpHeading(view.signedUp.length)}</h3>
-              {view.signedUp.length === 0 ? (
-                <p className="standings__detail">{t.public.nobodyYet}</p>
-              ) : (
-                <ul className="plain-list">
-                  {view.signedUp.map((entry, index) => {
-                    const self = entry.id === view.yourId;
-                    const mine = self || guestIds.has(entry.id);
-                    return (
-                      <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
-                        <span className="standings__rank roster__number">{index + 1}</span>
-                        <GenderChip gender={entry.gender} />
-                        <span className="roster__name">
-                          {entry.name}
-                          {mine ? <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span> : null}
-                        </span>
-                        <span className="roster__level">
-                          {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </section>
-
             {view.status === "live" && liveRound && night ? (
-              <>
+              <div className="screen__block stack">
                 <Segmented
-                  options={["now", "standings"] as const}
+                  options={["now", "standings", "coming"] as const}
                   value={tab}
                   onChange={setTab}
                   format={(option) => t.public.tabs[option]}
@@ -280,11 +283,15 @@ export function PublicTournament({ view }: { view: PublicView }) {
                     roundNumber={view.roundsStarted}
                     highlightId={view.yourId}
                   />
-                ) : (
+                ) : tab === "standings" ? (
                   <StandingsScreen night={night} players={view.players} hasSchedule={true} />
+                ) : (
+                  signedUp
                 )}
-              </>
-            ) : null}
+              </div>
+            ) : (
+              signedUp
+            )}
           </>
         )}
       </div>

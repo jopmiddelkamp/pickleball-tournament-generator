@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { requireOrganiserId } from "../auth";
-import { LIMITS } from "../config";
 import { createTournament, updateTournament, type TournamentPatch } from "../db/tournaments";
 import { realignGames, swapInRound, withScore, withVoided } from "../evening";
 import { newSeed } from "../ids";
@@ -180,7 +179,8 @@ export async function recordScoreAction(
   const owner = await owned(id);
   const match = matchAt(owner.view, roundIndex, court);
   if (!match || (side !== "A" && side !== "B")) return fail("invalid");
-  if (points !== null && (!Number.isInteger(points) || points < 0 || points > LIMITS.maxPoints)) return fail("invalid");
+  // A game is played to the target, so no side can score past it.
+  if (points !== null && (!Number.isInteger(points) || points < 0 || points > owner.tournament.gameTarget)) return fail("invalid");
   return save(owner, { games: withScore(owner.view.games, match, roundIndex, side, points) });
 }
 

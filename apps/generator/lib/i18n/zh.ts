@@ -261,7 +261,7 @@ export const zh: Messages = {
     frozen: "赛程已经确定。如果你不能来，请告知组织者。",
     closed: "报名已关闭。",
     fullMessage: "报名已关闭——本场活动名额已满。",
-    tabs: { now: "正在进行", standings: "排名" },
+    tabs: { now: "正在进行", standings: "排名", coming: "谁会来" },
     round: (n) => `第 ${n} 轮`,
     yourCourt: (court, partner, a, b) => `${court} 号场 — 搭档 ${partner}，对阵 ${a} 和 ${b}`,
     youRest: "本轮轮空——下一轮回归。",

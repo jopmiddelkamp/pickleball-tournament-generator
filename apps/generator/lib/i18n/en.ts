@@ -278,7 +278,7 @@ export const en = {
     frozen: "The schedule is set. Tell the organiser if you cannot make it.",
     closed: "Registration is closed.",
     fullMessage: "Registration is closed — the event is completely full.",
-    tabs: { now: "Now playing", standings: "Standings" },
+    tabs: { now: "Now playing", standings: "Standings", coming: "Who's coming" },
     round: (n: number) => `Round ${n}`,
     yourCourt: (court: number, partner: string, a: string, b: string) =>
       `Court ${court} — with ${partner}, against ${a} & ${b}`,

@@ -263,7 +263,7 @@ export const vi: Messages = {
     frozen: "Lịch đã được chốt. Hãy báo cho ban tổ chức nếu bạn không thể tham gia.",
     closed: "Đăng ký đã đóng.",
     fullMessage: "Đăng ký đã đóng — sự kiện đã đủ người.",
-    tabs: { now: "Đang thi đấu", standings: "Xếp hạng" },
+    tabs: { now: "Đang thi đấu", standings: "Xếp hạng", coming: "Ai sẽ đến" },
     round: (n) => `Vòng ${n}`,
     yourCourt: (court, partner, a, b) => `Sân ${court} — cùng ${partner}, đấu với ${a} & ${b}`,
     youRest: "Bạn nghỉ vòng này — quay lại ở vòng sau.",

@@ -159,6 +159,7 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           // on the old round after the organiser taps "Start round".
           key={view.roundsStarted}
           schedule={view.schedule}
+          gameTarget={view.gameTarget}
           players={players}
           games={games}
           score={score}

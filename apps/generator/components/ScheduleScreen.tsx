@@ -25,6 +25,7 @@ export function ScheduleScreen({
   roundsStarted,
   finished,
   onScoreChange,
+  gameTarget,
   onVoidChange,
   onSwap,
   onStartRound,
@@ -39,6 +40,8 @@ export function ScheduleScreen({
   roundsStarted: number;
   finished: boolean;
   onScoreChange: (roundIndex: number, court: number, side: "A" | "B", points: number | null) => void;
+  /** the game target: scores cannot go past it */
+  gameTarget: number;
   onVoidChange: (roundIndex: number, court: number, voided: boolean) => void;
   onSwap: (roundIndex: number, a: string, b: string) => void;
   onStartRound: () => void;
@@ -179,6 +182,7 @@ export function ScheduleScreen({
             ? {
                 onScoreChange: (side: "A" | "B", points: number | null) =>
                   onScoreChange(current, match.court, side, points),
+                maxPoints: gameTarget,
                 onVoidChange: (voided: boolean) => onVoidChange(current, match.court, voided),
               }
             : {})}
