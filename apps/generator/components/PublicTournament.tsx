@@ -9,12 +9,11 @@ import { useLocale } from "../lib/i18n/useLocale";
 import type { PublicView } from "../lib/public";
 import type { PlayerProfile } from "../lib/validate";
 import { EventBanner } from "./EventBanner";
-import { GamesTable } from "./GamesTable";
 import { LanguageSelect } from "./LanguageSelect";
 import { ProfileEditor } from "./ProfileEditor";
 import { PublicRegisterForm } from "./PublicRegisterForm";
-import { RoundClock } from "./RoundClock";
-import { RoundView } from "./RoundView";
+import { RosterScreen } from "./RosterScreen";
+import { ScheduleScreen } from "./ScheduleScreen";
 import { StandingsScreen } from "./StandingsScreen";
 import { TabBar } from "./TabBar";
 import { GenderChip, Notice, Wordmark } from "./ui";
@@ -31,10 +30,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
   const [guestFormOpen, setGuestFormOpen] = useState(false);
   // registration id (own or a +1) whose gender/level is being corrected
   const [editingId, setEditingId] = useState<string | null>(null);
-  // Which round the chip strip is browsing; defaults to the round on court, or the last one once over.
-  const [browseIndex, setBrowseIndex] = useState(() =>
-    Math.max(0, Math.min(view.roundsStarted - 1, (view.schedule?.rounds.length ?? 1) - 1)),
-  );
 
 
   function cancel() {
@@ -109,36 +104,20 @@ export function PublicTournament({ view }: { view: PublicView }) {
     roundMinutes: view.roundMinutes,
   });
   const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, settledGames) : null;
-  const browseRound = rounds[browseIndex];
 
-  // The attendee list: the roster tab once a schedule exists, a section before that.
-  const signedUp = (
-    <section className="screen__block">
-      <h3 className="screen__section">{t.public.signedUpHeading(view.signedUp.length)}</h3>
-      {view.signedUp.length === 0 ? (
-        <p className="standings__detail">{t.public.nobodyYet}</p>
-      ) : (
-        <ul className="plain-list">
-          {view.signedUp.map((entry, index) => {
-            const self = entry.id === view.yourId;
-            const mine = self || guestIds.has(entry.id);
-            return (
-              <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
-                <span className="standings__rank roster__number">{index + 1}</span>
-                <GenderChip gender={entry.gender} />
-                <span className="roster__name">
-                  {entry.name}
-                  {mine ? <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span> : null}
-                </span>
-                <span className="roster__level">
-                  {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </section>
+  // The attendee list is the same roster screen the organiser sees, minus the controls.
+  const mine: Record<string, "you" | "guest"> = {};
+  if (view.yourId) mine[view.yourId] = "you";
+  for (const id of guestIds) mine[id] = "guest";
+  const roster = (
+    <RosterScreen
+      confirmed={view.signedUp.filter((entry) => entry.confirmed)}
+      waiting={view.signedUp.filter((entry) => !entry.confirmed)}
+      maxPlayers={view.capacity}
+      guestHosts={{}}
+      registrationOpen={view.status === "open"}
+      mine={mine}
+    />
   );
 
   return (
@@ -247,7 +226,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
             ) : (
               <Notice>{view.full ? t.public.fullMessage : t.public.closed}</Notice>
             )}
-            {signedUp}
+            {roster}
           </>
         ) : tab === "roster" ? (
           <>
@@ -331,42 +310,21 @@ export function PublicTournament({ view }: { view: PublicView }) {
             ) : (
               <Notice>{view.full ? t.public.fullMessage : t.public.closed}</Notice>
             )}
-            {signedUp}
+            {roster}
           </>
-        ) : tab === "schedule" && view.status === "finished" ? (
-          <GamesTable rounds={rounds} players={view.players} games={settledGames} highlightId={view.yourId} />
         ) : tab === "schedule" ? (
-          <>
-            {view.status === "generated" ? <p className="standings__detail">{t.public.notStarted}</p> : null}
-            <nav className="rounds" aria-label={t.schedule.rounds}>
-              {rounds.map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className="rounds__chip"
-                  aria-current={index === browseIndex}
-                  onClick={() => setBrowseIndex(index)}
-                >
-                  {t.schedule.roundChip(index + 1)}
-                </button>
-              ))}
-            </nav>
-            {browseRound ? (
-              <>
-                {view.status === "live" && browseIndex === view.roundsStarted - 1 && view.roundMinutes !== null ? (
-                  <RoundClock minutes={view.roundMinutes} startedAt={view.clockStartedAt} />
-                ) : null}
-                <RoundView
-                  round={browseRound}
-                  players={view.players}
-                  games={view.games}
-                  settledGames={settledGames}
-                  roundNumber={browseIndex + 1}
-                  highlightId={view.yourId}
-                />
-              </>
-            ) : null}
-          </>
+          <ScheduleScreen
+            rounds={rounds}
+            players={view.players}
+            games={view.games}
+            settledGames={settledGames}
+            roundsStarted={view.roundsStarted}
+            finished={view.status === "finished"}
+            gameTarget={view.gameTarget}
+            roundMinutes={view.roundMinutes}
+            clockStartedAt={view.clockStartedAt}
+            highlightId={view.yourId}
+          />
         ) : night ? (
           <>
             {view.status === "finished" ? <h3 className="screen__section">{t.public.finalHeading}</h3> : null}

@@ -141,32 +141,34 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           maxPlayers={view.maxPlayers}
           guestHosts={view.guestHosts}
           registrationOpen={view.registrationOpen}
-          frozen={scheduleStored}
-          canStart={players.length >= 4}
-          canGoBack={view.roundsStarted === 0}
-          starting={starting}
-          onStart={() => {
-            setStarting(true);
-            startTransition(async () => {
-              const result = await startEventAction(view.id);
-              setStarting(false);
-              if (result.ok) {
-                setError(null);
-                setTab("schedule");
-              } else {
-                setError(result.error);
-              }
-            });
-          }}
-          onBackToRegistration={() => run(() => backToRegistrationAction(view.id))}
-          onEdit={(id, profile) => run(() => updateRegistrationAction(view.id, id, profile))}
-          onRemove={(id) => {
-            // Removing a confirmed player while others wait silently promotes
-            // the first waiter; the organiser should announce that.
-            const promotes = view.waiting.length > 0 && view.confirmed.some((p) => p.id === id);
-            run(() => removeRegistrationAction(view.id, id), () => {
-              if (promotes) setPromotedNotice(true);
-            });
+          controls={{
+            frozen: scheduleStored,
+            canStart: players.length >= 4,
+            canGoBack: view.roundsStarted === 0,
+            starting,
+            onStart: () => {
+              setStarting(true);
+              startTransition(async () => {
+                const result = await startEventAction(view.id);
+                setStarting(false);
+                if (result.ok) {
+                  setError(null);
+                  setTab("schedule");
+                } else {
+                  setError(result.error);
+                }
+              });
+            },
+            onBackToRegistration: () => run(() => backToRegistrationAction(view.id)),
+            onEdit: (id, profile) => run(() => updateRegistrationAction(view.id, id, profile)),
+            onRemove: (id) => {
+              // Removing a confirmed player while others wait silently promotes
+              // the first waiter; the organiser should announce that.
+              const promotes = view.waiting.length > 0 && view.confirmed.some((p) => p.id === id);
+              run(() => removeRegistrationAction(view.id, id), () => {
+                if (promotes) setPromotedNotice(true);
+              });
+            },
           }}
         />
       ) : null}
@@ -190,36 +192,38 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           // otherwise never follows roundsStarted, so without this the screen would stay
           // on the old round after the organiser taps "Start round".
           key={view.roundsStarted}
-          schedule={view.schedule}
+          rounds={view.schedule?.rounds ?? []}
           gameTarget={view.gameTarget}
           players={players}
           games={games}
           settledGames={settledGames}
-          printHref={`/organiser/event/${view.id}/print`}
           roundsStarted={view.roundsStarted}
           finished={view.status === "finished"}
           roundMinutes={view.roundMinutes}
           clockStartedAt={view.clockStartedAt}
-          onStartClock={() => run(() => startClockAction(view.id))}
-          onStopClock={() => run(() => stopClockAction(view.id))}
-          onAdvanceRound={() => run(() => advanceRoundAction(view.id))}
-          onScoreChange={(roundIndex, court, side, points) => {
-            const match = view.schedule?.rounds[roundIndex]?.matches.find((m) => m.court === court);
-            if (!match) return;
-            startTransition(async () => {
-              showGames(withScore(games, match, roundIndex, side, points));
-              const result = await recordScoreAction(view.id, roundIndex, court, side, points);
-              if (!result.ok) setError(result.error);
-            });
-          }}
-          onVoidChange={(roundIndex, court, voided) => {
-            const match = view.schedule?.rounds[roundIndex]?.matches.find((m) => m.court === court);
-            if (!match) return;
-            startTransition(async () => {
-              showGames(withVoided(games, match, roundIndex, voided));
-              const result = await setVoidedAction(view.id, roundIndex, court, voided);
-              if (!result.ok) setError(result.error);
-            });
+          controls={{
+            printHref: `/organiser/event/${view.id}/print`,
+            onAdvanceRound: () => run(() => advanceRoundAction(view.id)),
+            onStartClock: () => run(() => startClockAction(view.id)),
+            onStopClock: () => run(() => stopClockAction(view.id)),
+            onScoreChange: (roundIndex, court, side, points) => {
+              const match = view.schedule?.rounds[roundIndex]?.matches.find((m) => m.court === court);
+              if (!match) return;
+              startTransition(async () => {
+                showGames(withScore(games, match, roundIndex, side, points));
+                const result = await recordScoreAction(view.id, roundIndex, court, side, points);
+                if (!result.ok) setError(result.error);
+              });
+            },
+            onVoidChange: (roundIndex, court, voided) => {
+              const match = view.schedule?.rounds[roundIndex]?.matches.find((m) => m.court === court);
+              if (!match) return;
+              startTransition(async () => {
+                showGames(withVoided(games, match, roundIndex, voided));
+                const result = await setVoidedAction(view.id, roundIndex, court, voided);
+                if (!result.ok) setError(result.error);
+              });
+            },
           }}
         />
       ) : null}
