@@ -155,16 +155,16 @@ export const en = {
   rules: {
     heading: "How scoring works",
     lede: "Everything on the standings comes from the scores entered on court. Nothing is judged by hand.",
-    points: (target: number) => ({
+    points: {
       title: "Game points",
-      body: `Games are played to ${target}. You score the points your own team made, win or lose.`,
-      example: `A game ends ${target}–${Math.max(0, target - 4)}: both winners get ${target}, both losers get ${Math.max(0, target - 4)}.`,
-    }),
-    clock: (minutes: number, target: number) => ({
+      body: (target: number) => `Games are played to ${target}. You score the points your own team made, win or lose.`,
+      example: (target: number) => `A game ends ${target}–${Math.max(0, target - 4)}: both winners get ${target}, both losers get ${Math.max(0, target - 4)}.`,
+    },
+    clock: {
       title: "The clock",
-      body: `Each round has ${minutes} minutes. When the next round is confirmed, a game that did not finish is rounded up: the leading team goes to ${target} and the other team gets the same lift, so the margin stands.`,
-      example: `Time is up at 5–8: it counts as ${target - 3}–${target}.`,
-    }),
+      body: (minutes: number, target: number) => `Each round has ${minutes} minutes. When the next round is confirmed, a game that did not finish is rounded up: the leading team goes to ${target} and the other team gets the same lift, so the margin stands.`,
+      example: (minutes: number, target: number) => `Time is up at 5–8: it counts as ${target - 3}–${target}.`,
+    },
     bye: {
       title: "Resting",
       body: "When you sit a round out you get the average of what everyone on court scored that round, so resting never costs you and never beats playing.",

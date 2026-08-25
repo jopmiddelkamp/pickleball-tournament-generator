@@ -139,16 +139,16 @@ export const ko: Messages = {
   rules: {
     heading: "점수 계산 방식",
     lede: "순위는 모두 코트에서 입력한 점수로 계산됩니다. 사람이 판단하는 부분은 없습니다.",
-    points: (target) => ({
+    points: {
       title: "게임 점수",
-      body: `게임은 ${target}점까지 합니다. 이기든 지든 자기 팀이 낸 점수를 그대로 받습니다.`,
-      example: `${target}–${Math.max(0, target - 4)}로 끝나면 이긴 두 명은 각 ${target}점, 진 두 명은 각 ${Math.max(0, target - 4)}점.`,
-    }),
-    clock: (minutes, target) => ({
+      body: (target) => `게임은 ${target}점까지 합니다. 이기든 지든 자기 팀이 낸 점수를 그대로 받습니다.`,
+      example: (target) => `${target}–${Math.max(0, target - 4)}로 끝나면 이긴 두 명은 각 ${target}점, 진 두 명은 각 ${Math.max(0, target - 4)}점.`,
+    },
+    clock: {
       title: "제한 시간",
-      body: `라운드마다 ${minutes}분입니다. 다음 라운드를 확정할 때 끝나지 않은 게임은 올림 처리합니다. 앞선 팀을 ${target}점으로 올리고 상대 팀도 같은 점수를 더하므로 점수 차는 그대로입니다.`,
-      example: `5–8에서 시간 종료: ${target - 3}–${target}로 계산.`,
-    }),
+      body: (minutes, target) => `라운드마다 ${minutes}분입니다. 다음 라운드를 확정할 때 끝나지 않은 게임은 올림 처리합니다. 앞선 팀을 ${target}점으로 올리고 상대 팀도 같은 점수를 더하므로 점수 차는 그대로입니다.`,
+      example: (minutes, target) => `5–8에서 시간 종료: ${target - 3}–${target}로 계산.`,
+    },
     bye: {
       title: "휴식",
       body: "한 라운드를 쉬면 그 라운드에 코트에서 뛴 모든 사람의 평균 점수를 받습니다. 쉰다고 손해 보지 않고, 뛰는 것보다 유리하지도 않습니다.",

@@ -138,16 +138,16 @@ export const zh: Messages = {
   rules: {
     heading: "计分方式",
     lede: "排名全部由场上录入的比分算出，没有人为评判。",
-    points: (target) => ({
+    points: {
       title: "比赛得分",
-      body: `每局打到 ${target} 分。无论输赢，你得到的就是自己队伍打出的分数。`,
-      example: `一局 ${target}–${Math.max(0, target - 4)} 结束：赢的两人各得 ${target}，输的两人各得 ${Math.max(0, target - 4)}。`,
-    }),
-    clock: (minutes, target) => ({
+      body: (target) => `每局打到 ${target} 分。无论输赢，你得到的就是自己队伍打出的分数。`,
+      example: (target) => `一局 ${target}–${Math.max(0, target - 4)} 结束：赢的两人各得 ${target}，输的两人各得 ${Math.max(0, target - 4)}。`,
+    },
+    clock: {
       title: "计时",
-      body: `每轮 ${minutes} 分钟。确认下一轮时，未打完的比赛向上取整：领先的一队补到 ${target} 分，另一队加同样的分数，分差不变。`,
-      example: `5–8 时到时：按 ${target - 3}–${target} 计。`,
-    }),
+      body: (minutes, target) => `每轮 ${minutes} 分钟。确认下一轮时，未打完的比赛向上取整：领先的一队补到 ${target} 分，另一队加同样的分数，分差不变。`,
+      example: (minutes, target) => `5–8 时到时：按 ${target - 3}–${target} 计。`,
+    },
     bye: {
       title: "轮空",
       body: "轮空一轮时，你得到该轮所有上场球员得分的平均值：轮空不会吃亏，也不会比上场更有利。",

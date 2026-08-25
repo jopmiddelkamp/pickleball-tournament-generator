@@ -140,16 +140,16 @@ export const es: Messages = {
   rules: {
     heading: "Cómo se puntúa",
     lede: "Todo lo que ves en el ranking sale de los resultados anotados en pista. Nada se juzga a mano.",
-    points: (target) => ({
+    points: {
       title: "Puntos de partido",
-      body: `Los partidos se juegan a ${target}. Sumas los puntos que hizo tu propio equipo, ganes o pierdas.`,
-      example: `Un partido acaba ${target}–${Math.max(0, target - 4)}: los ganadores suman ${target} cada uno, los perdedores ${Math.max(0, target - 4)}.`,
-    }),
-    clock: (minutes, target) => ({
+      body: (target) => `Los partidos se juegan a ${target}. Sumas los puntos que hizo tu propio equipo, ganes o pierdas.`,
+      example: (target) => `Un partido acaba ${target}–${Math.max(0, target - 4)}: los ganadores suman ${target} cada uno, los perdedores ${Math.max(0, target - 4)}.`,
+    },
+    clock: {
       title: "El reloj",
-      body: `Cada ronda dura ${minutes} minutos. Al confirmar la siguiente ronda, un partido sin terminar se redondea: el equipo que va ganando sube a ${target} y el otro sube lo mismo, así se mantiene la diferencia.`,
-      example: `Se acaba el tiempo con 5–8: cuenta como ${target - 3}–${target}.`,
-    }),
+      body: (minutes, target) => `Cada ronda dura ${minutes} minutos. Al confirmar la siguiente ronda, un partido sin terminar se redondea: el equipo que va ganando sube a ${target} y el otro sube lo mismo, así se mantiene la diferencia.`,
+      example: (minutes, target) => `Se acaba el tiempo con 5–8: cuenta como ${target - 3}–${target}.`,
+    },
     bye: {
       title: "Descanso",
       body: "Cuando descansas una ronda recibes la media de lo que anotaron todos los que jugaron esa ronda: descansar nunca te perjudica ni supera a jugar.",

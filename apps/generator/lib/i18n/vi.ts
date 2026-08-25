@@ -140,16 +140,16 @@ export const vi: Messages = {
   rules: {
     heading: "Cách tính điểm",
     lede: "Mọi thứ trên bảng xếp hạng đều tính từ điểm nhập ở sân. Không có gì do người chấm.",
-    points: (target) => ({
+    points: {
       title: "Điểm trận",
-      body: `Mỗi trận chơi đến ${target}. Bạn nhận số điểm đội mình ghi được, thắng hay thua.`,
-      example: `Trận kết thúc ${target}–${Math.max(0, target - 4)}: hai người thắng mỗi người ${target}, hai người thua mỗi người ${Math.max(0, target - 4)}.`,
-    }),
-    clock: (minutes, target) => ({
+      body: (target) => `Mỗi trận chơi đến ${target}. Bạn nhận số điểm đội mình ghi được, thắng hay thua.`,
+      example: (target) => `Trận kết thúc ${target}–${Math.max(0, target - 4)}: hai người thắng mỗi người ${target}, hai người thua mỗi người ${Math.max(0, target - 4)}.`,
+    },
+    clock: {
       title: "Đồng hồ",
-      body: `Mỗi vòng ${minutes} phút. Khi xác nhận vòng tiếp theo, trận chưa xong được làm tròn lên: đội đang dẫn lên ${target} và đội kia được cộng bằng số đó, nên cách biệt giữ nguyên.`,
-      example: `Hết giờ ở 5–8: tính là ${target - 3}–${target}.`,
-    }),
+      body: (minutes, target) => `Mỗi vòng ${minutes} phút. Khi xác nhận vòng tiếp theo, trận chưa xong được làm tròn lên: đội đang dẫn lên ${target} và đội kia được cộng bằng số đó, nên cách biệt giữ nguyên.`,
+      example: (minutes, target) => `Hết giờ ở 5–8: tính là ${target - 3}–${target}.`,
+    },
     bye: {
       title: "Nghỉ",
       body: "Khi nghỉ một vòng, bạn nhận điểm trung bình của tất cả người chơi trong vòng đó: nghỉ không bao giờ thiệt và không bao giờ hơn chơi.",

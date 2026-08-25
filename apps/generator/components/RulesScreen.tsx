@@ -7,8 +7,10 @@ export function RulesScreen({ gameTarget, roundMinutes }: { gameTarget: number; 
   const { t } = useLocale();
   const r = t.rules;
   const sections = [
-    r.points(gameTarget),
-    ...(roundMinutes !== null ? [r.clock(roundMinutes, gameTarget)] : []),
+    { title: r.points.title, body: r.points.body(gameTarget), example: r.points.example(gameTarget) },
+    ...(roundMinutes !== null
+      ? [{ title: r.clock.title, body: r.clock.body(roundMinutes, gameTarget), example: r.clock.example(roundMinutes, gameTarget) }]
+      : []),
     r.bye,
     r.sameGender,
     r.ranking,

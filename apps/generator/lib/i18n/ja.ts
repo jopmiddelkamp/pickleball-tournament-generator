@@ -139,16 +139,16 @@ export const ja: Messages = {
   rules: {
     heading: "得点の仕組み",
     lede: "順位はすべてコートで入力されたスコアから計算されます。手作業の判断はありません。",
-    points: (target) => ({
+    points: {
       title: "ゲームの得点",
-      body: `ゲームは ${target} 点先取です。勝っても負けても、自分のチームが取った点がそのまま得点になります。`,
-      example: `${target}–${Math.max(0, target - 4)} で終了：勝者は各 ${target} 点、敗者は各 ${Math.max(0, target - 4)} 点。`,
-    }),
-    clock: (minutes, target) => ({
+      body: (target) => `ゲームは ${target} 点先取です。勝っても負けても、自分のチームが取った点がそのまま得点になります。`,
+      example: (target) => `${target}–${Math.max(0, target - 4)} で終了：勝者は各 ${target} 点、敗者は各 ${Math.max(0, target - 4)} 点。`,
+    },
+    clock: {
       title: "制限時間",
-      body: `各ラウンドは ${minutes} 分です。次のラウンドを確定するとき、終わっていないゲームは切り上げます。リードしているチームを ${target} 点にし、相手チームにも同じ点を足すので点差は変わりません。`,
-      example: `5–8 で時間切れ：${target - 3}–${target} として扱います。`,
-    }),
+      body: (minutes, target) => `各ラウンドは ${minutes} 分です。次のラウンドを確定するとき、終わっていないゲームは切り上げます。リードしているチームを ${target} 点にし、相手チームにも同じ点を足すので点差は変わりません。`,
+      example: (minutes, target) => `5–8 で時間切れ：${target - 3}–${target} として扱います。`,
+    },
     bye: {
       title: "休憩",
       body: "休憩するラウンドは、そのラウンドにプレーした全員の平均点をもらえます。休憩で損をすることも、プレーより得をすることもありません。",
