@@ -1163,7 +1163,7 @@ a.button {
      that one team carrying a note never drops the other team's names out of
      line. The height leaves room for it on both halves. */
   position: relative;
-  padding: var(--space-md) 12px;
+  padding: var(--space-md) 16px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -1197,6 +1197,18 @@ a.button {
   white-space: nowrap;
 }
 
+/* The right half mirrors the left: names flush to the outside edge, the
+   gender mark on the outside of the name, so the two teams face the net. */
+.court__side--right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.court__side--right .court__player {
+  flex-direction: row-reverse;
+  max-width: 100%;
+}
+
 /* The visitor's own name on the public page. */
 .court__player--highlight {
   background: var(--color-secondary);
@@ -1213,8 +1225,8 @@ a.button {
    one line beside two names. */
 .court__badge {
   position: absolute;
-  left: 12px;
-  right: 12px;
+  left: 16px;
+  right: 16px;
   bottom: var(--space-sm);
   padding-top: 5px;
   border-top: 1px solid var(--court-line-soft);
