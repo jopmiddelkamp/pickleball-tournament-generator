@@ -1660,8 +1660,9 @@ a.button {
     max-width: 64ch;
   }
 
-  /* forms, notices, single-column cards and primary actions keep a comfortable measure */
+  /* forms, notices, single-column cards, the games summary and primary actions keep a comfortable measure */
   .card,
+  .games,
   .button--full {
     max-width: 640px;
   }
