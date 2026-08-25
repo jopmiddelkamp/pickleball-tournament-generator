@@ -6,22 +6,21 @@ import { partitionRegistrations, toPlayer, type ActiveRegistration } from "./reg
 import { tournamentStatus, type TournamentStatus } from "./tournament";
 import { parseGames, parseSchedule } from "./validate";
 
-/** One name on the public sign-up list: never a level or gender (SPEC-1 §5). */
+/** One name on the public sign-up list, with its gender marker; never a level (SPEC-1 §5). */
 export interface PublicSignup {
   id: string;
   name: string;
+  gender: Gender;
   confirmed: boolean;
   /** 1-based waiting-list position; null when confirmed */
   position: number | null;
 }
 
 /**
- * A +1 holds its own place in the queue, described like any sign-up. Gender
- * and level are here so the host can correct them; they are the host's own
- * data and never reach the public list.
+ * A +1 holds its own place in the queue, described like any sign-up. The
+ * level is here so the host can correct it; it never reaches the public list.
  */
 export interface PublicGuest extends PublicSignup {
-  gender: Gender;
   level: Level;
 }
 
@@ -80,8 +79,8 @@ export function buildPublicView(
   const full = registrations.length >= LIMITS.maxRegistrations;
 
   const signedUp: PublicSignup[] = [
-    ...confirmed.map((r) => ({ id: r.id, name: r.name, confirmed: true, position: null })),
-    ...waiting.map((r, index) => ({ id: r.id, name: r.name, confirmed: false, position: index + 1 })),
+    ...confirmed.map((r) => ({ id: r.id, name: r.name, gender: r.gender, confirmed: true, position: null })),
+    ...waiting.map((r, index) => ({ id: r.id, name: r.name, gender: r.gender, confirmed: false, position: index + 1 })),
   ];
 
   function placeOf(id: string): PublicSignup | null {
@@ -97,7 +96,7 @@ export function buildPublicView(
         .filter((r) => r.guestOf === registrationId)
         .flatMap((r) => {
           const place = placeOf(r.id);
-          return place ? [{ ...place, gender: r.gender, level: r.level }] : [];
+          return place ? [{ ...place, level: r.level }] : [];
         });
       you = {
         name: own.name,

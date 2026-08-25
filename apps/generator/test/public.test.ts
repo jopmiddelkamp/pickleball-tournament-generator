@@ -56,17 +56,14 @@ describe("buildPublicView", () => {
     expect(view.yourId).toBe("p1");
   });
 
-  it("lists everyone signed up by name only, in arrival order, confirmed before waiting", () => {
+  it("lists everyone signed up by name and gender, never level, in arrival order, confirmed before waiting", () => {
     const shuffled = [...registrations].reverse();
     const view = buildPublicView(row(), shuffled, null);
     expect(view.signedUp.map((s) => s.id)).toEqual(registrations.map((r) => r.id));
-    expect(view.signedUp[0]).toEqual({ id: "p1", name: "Player p1", confirmed: true, position: null });
+    expect(view.signedUp[0]).toEqual({ id: "p1", name: "Player p1", gender: "F", confirmed: true, position: null });
     const last = view.signedUp[view.signedUp.length - 1]!;
-    expect(last).toEqual({ id: `p${cap + 2}`, name: `Player p${cap + 2}`, confirmed: false, position: 2 });
-    for (const entry of view.signedUp) {
-      expect(entry).not.toHaveProperty("level");
-      expect(entry).not.toHaveProperty("gender");
-    }
+    expect(last).toEqual({ id: `p${cap + 2}`, name: `Player p${cap + 2}`, gender: "F", confirmed: false, position: 2 });
+    for (const entry of view.signedUp) expect(entry).not.toHaveProperty("level");
   });
 
   it("lists sign-ups for a stranger before the evening is live, and for a finished evening too", () => {

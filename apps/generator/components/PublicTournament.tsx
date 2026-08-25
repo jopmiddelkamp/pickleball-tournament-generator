@@ -14,7 +14,7 @@ import { PublicRegisterForm } from "./PublicRegisterForm";
 import { Segmented } from "./Segmented";
 import { RoundView } from "./RoundView";
 import { StandingsScreen } from "./StandingsScreen";
-import { Notice, Wordmark } from "./ui";
+import { GenderChip, Notice, Wordmark } from "./ui";
 
 type PublicTab = "now" | "standings";
 
@@ -163,6 +163,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                   {mineRows.map(({ entry, self }) => (
                     <li key={entry.id} className={editing?.id === entry.id ? "form-under" : undefined}>
                       <div className="roster__item">
+                      <GenderChip gender={entry.gender} />
                       <span className="roster__name">
                         {entry.name}
                         <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span>
@@ -245,6 +246,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                     const mine = self || guestIds.has(entry.id);
                     return (
                       <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
+                        <GenderChip gender={entry.gender} />
                         <span className="roster__name">
                           {entry.name}
                           {mine ? <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span> : null}
