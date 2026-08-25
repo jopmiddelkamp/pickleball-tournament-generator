@@ -1398,6 +1398,25 @@ a.button {
   font-variant-numeric: tabular-nums;
 }
 
+/* Medals for the first three places; a shared rank shares the medal. */
+.medal {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+.medal--1 {
+  --medal: var(--color-medal-gold);
+}
+
+.medal--2 {
+  --medal: var(--color-medal-silver);
+}
+
+.medal--3 {
+  --medal: var(--color-medal-bronze);
+}
+
 /* The tiebreaker (SPEC-1 §3), always visible so it is never a hidden criterion. */
 .standings__difference {
   display: block;

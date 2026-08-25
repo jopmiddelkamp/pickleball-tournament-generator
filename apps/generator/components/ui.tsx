@@ -47,6 +47,18 @@ export function Wordmark() {
   );
 }
 
+/** A medal for a podium place: a disc on a short ribbon, coloured by the `--medal` token the caller sets. */
+export function Medal({ place }: { place: 1 | 2 | 3 }) {
+  return (
+    <svg className={`medal medal--${place}`} viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 2h3l1 4-2.5 4L6 4z" fill="var(--medal)" opacity="0.7" />
+      <path d="M16 2h-3l-1 4 2.5 4L18 4z" fill="var(--medal)" opacity="0.7" />
+      <circle cx="12" cy="15" r="6.5" fill="var(--medal)" />
+      <circle cx="12" cy="15" r="4.5" fill="none" stroke="var(--color-surface)" strokeWidth="1" opacity="0.6" />
+    </svg>
+  );
+}
+
 export function GenderChip({ gender }: { gender: Gender }) {
   return (
     <span className={`gender gender--${gender}`} aria-hidden="true">

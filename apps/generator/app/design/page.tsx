@@ -247,8 +247,16 @@ export default function DesignSystemPage() {
           </div>
           <p className="ds__note">
             These mark gender because mixed doubles is the whole point of the evening. They never mark skill: SPEC-1 §5
-            keeps levels off every screen a player sees.
+            keeps levels off the courts, and the standings spell the level out as a word rather than a colour.
           </p>
+
+          <h3 className="ds__groupTitle">Medals</h3>
+          <div className="ds__grid">
+            <Role role="medalGold" hex={lightScheme.medalGold} />
+            <Role role="medalSilver" hex={lightScheme.medalSilver} />
+            <Role role="medalBronze" hex={lightScheme.medalBronze} />
+          </div>
+          <p className="ds__note">The first three places on the standings. A shared rank shares the medal.</p>
 
           <h3 className="ds__groupTitle">Print</h3>
           <div className="ds__grid">

@@ -2,7 +2,7 @@
 
 import type { NightPoints, Player, PlayerNightPoints } from "@ptg/core";
 import { useLocale } from "../lib/i18n/useLocale";
-import { EmptyState, GenderChip } from "./ui";
+import { EmptyState, GenderChip, Medal } from "./ui";
 
 function signed(n: number): string {
   return n > 0 ? `+${n}` : String(n);
@@ -65,7 +65,9 @@ export function StandingsScreen({
               if (entry.byeBonus > 0) parts.push(t.standings.bye(entry.byeBonus));
               return (
                 <li key={entry.playerId} className="standings__row">
-                  <span className="standings__rank">{entry.rank}</span>
+                  <span className="standings__rank">
+                    {entry.rank <= 3 ? <Medal place={entry.rank as 1 | 2 | 3} /> : entry.rank}
+                  </span>
                   <span>
                     <span className="standings__name">
                       {player ? <GenderChip gender={player.gender} /> : null}

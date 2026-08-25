@@ -23,7 +23,7 @@ Three files hold it:
 | Paper — a printed draw sheet | `hsl(74 16%)` | 82 `#D3D7CA`, 88 `#E4E6DC`, 95 `#F3F4EE`, 100 `#FFFFFF` |
 | Ink — text | `hsl(150 8%)` | 9 `#151A17`, 37 `#5A635C` |
 
-Outside the ramps: `men #2B5FA8`, `women #A64A78` (categorical, they never shade), `error #9A3324`, `warning #C4762A`.
+Outside the ramps: `men #2B5FA8`, `women #A64A78` (categorical, they never shade), `error #9A3324`, `warning #C4762A`, and the medals `gold #D4A017`, `silver #9AA3AB`, `bronze #B0713A`.
 
 The ramps were not designed; they were *found*. Converting the app's existing hexes to HSL showed the brand already sat on consistent hues at regular lightness steps. This tier writes that down.
 
@@ -54,6 +54,7 @@ The ramps were not designed; they were *found*. Converting the app's existing he
 | `--color-warning` | `#C4762A` | 3.52:1 — a rule or an icon, never text |
 | `--color-focus` | `#2B5FA8` | The keyboard focus ring |
 | `--color-men` / `--color-women` | | Gender markers, with `--color-on-men` / `--color-on-women` |
+| `--color-medal-gold` / `-silver` / `-bronze` | | The three podium medals on the standings; a shared rank shares the medal |
 | `--color-shadow` | ink 9 | Tints every elevation |
 
 `--color-focus` shares a value with `--color-men` but not a meaning: a focus ring is not a gender marker, and either may move without the other. Levels never get a colour at all — SPEC-1 §5 keeps them off every screen a player sees.

@@ -65,6 +65,10 @@ export const palette = {
   /** Feedback. */
   error: "#9A3324",
   warning: "#C4762A",
+  /** The three medals on the standings. Categorical, like the gender marks. */
+  gold: "#D4A017",
+  silver: "#9AA3AB",
+  bronze: "#B0713A",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -125,6 +129,11 @@ export const lightScheme = {
   onMen: palette.paper[100],
   women: palette.women,
   onWomen: palette.paper[100],
+
+  /** Standings medals for the first three places. */
+  medalGold: palette.gold,
+  medalSilver: palette.silver,
+  medalBronze: palette.bronze,
 
   /** Tints every shadow so elevation follows the scheme. */
   shadow: palette.ink[9],
