@@ -888,10 +888,13 @@ a.button {
   align-self: flex-end;
 }
 
+/* Two equal columns as wide as the longest tier name, never the full row. */
 .levels {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 6px;
+  width: fit-content;
+  max-width: 100%;
 }
 
 .levels__option {
