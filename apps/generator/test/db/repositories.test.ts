@@ -16,6 +16,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
   let listTournaments: Tournaments["listTournaments"];
   let updateTournament: Tournaments["updateTournament"];
   let addRegistration: Registrations["addRegistration"];
+  let addRegistrationGroup: Registrations["addRegistrationGroup"];
   let cancelRegistration: Registrations["cancelRegistration"];
   let countActiveRegistrations: Registrations["countActiveRegistrations"];
   let listActiveRegistrations: Registrations["listActiveRegistrations"];
@@ -26,7 +27,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     ({ createTournament, findTournament, findTournamentBySlug, listTournaments, updateTournament } = await import(
       "../../lib/db/tournaments"
     ));
-    ({ addRegistration, cancelRegistration, countActiveRegistrations, listActiveRegistrations, findActiveRegistrationByToken } =
+    ({ addRegistration, addRegistrationGroup, cancelRegistration, countActiveRegistrations, listActiveRegistrations, findActiveRegistrationByToken } =
       await import("../../lib/db/registrations"));
     const { db } = await import("../../lib/db/client");
     const { tournaments } = await import("../../lib/db/schema");
@@ -89,6 +90,29 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     await expect(
       addRegistration(created.id, { name: "A again", gender: "F", level: 3, participantToken: "same" }),
     ).rejects.toThrow();
+  });
+
+  it("registers a host with +1s as one group, guests linked to the host", async () => {
+    const created = await createTournament(organiser, input);
+    const host = await addRegistrationGroup(
+      created.id,
+      { name: "Host", gender: "F", level: 3, participantToken: "tok-host" },
+      [{ name: "Plus one", gender: "M", level: 2 }],
+    );
+    const active = await listActiveRegistrations(created.id);
+    expect(active.map((r) => [r.name, r.guestOf])).toEqual([
+      ["Host", null],
+      ["Plus one", host.id],
+    ]);
+  });
+
+  it("leaves nothing behind when a +1 in the group cannot be stored", async () => {
+    const created = await createTournament(organiser, input);
+    const broken = { name: null as unknown as string, gender: "M" as const, level: 2 as const };
+    await expect(
+      addRegistrationGroup(created.id, { name: "Host", gender: "F", level: 3, participantToken: "tok-host" }, [broken]),
+    ).rejects.toThrow();
+    expect(await listActiveRegistrations(created.id)).toEqual([]);
   });
 
   it("finds a tournament by slug with no organiser scope, and rejects garbage slugs before querying", async () => {

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { LIMITS } from "../config";
-import { addRegistration, cancelRegistration, countActiveRegistrations, findActiveRegistrationByToken, listActiveRegistrations } from "../db/registrations";
+import { addRegistration, addRegistrationGroup, cancelRegistration, countActiveRegistrations, findActiveRegistrationByToken, listActiveRegistrations } from "../db/registrations";
 import { findTournamentBySlug } from "../db/tournaments";
 import { newParticipantToken } from "../ids";
 import { PARTICIPANT_COOKIE, readParticipantToken } from "../participant";
@@ -29,10 +29,7 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
   const token = readParticipantToken(cookieStore) ?? newParticipantToken();
 
   try {
-    const host = await addRegistration(tournament.id, { ...player, participantToken: token });
-    for (const guest of guests) {
-      await addRegistration(tournament.id, { ...guest, participantToken: null, guestOf: host.id });
-    }
+    await addRegistrationGroup(tournament.id, { ...player, participantToken: token }, guests);
   } catch (err) {
     // The `postgres` driver exposes the postgres error code on `.code`; 23505 is the
     // partial unique index firing because this phone already has an active
@@ -40,6 +37,7 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
     if (typeof err === "object" && err !== null && "code" in err && err.code === "23505") {
       return { error: "already" };
     }
+    console.error(`registerAction failed for tournament ${tournament.id}`, err);
     return { error: "failed" };
   }
 
@@ -73,7 +71,8 @@ export async function addGuestAction(slug: string, _prev: PublicFormState, formD
 
   try {
     await addRegistration(tournament.id, { ...player, participantToken: null, guestOf: host.id });
-  } catch {
+  } catch (err) {
+    console.error(`addGuestAction failed for tournament ${tournament.id}`, err);
     return { error: "failed" };
   }
   revalidatePath(`/event/${tournament.slug}`);

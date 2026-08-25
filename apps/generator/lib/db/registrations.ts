@@ -1,8 +1,11 @@
 import type { Gender, Level } from "@ptg/core";
-import { and, asc, count, eq, isNull } from "drizzle-orm";
+import { and, asc, count, eq, isNull, sql, type SQL } from "drizzle-orm";
 import type { ActiveRegistration } from "../registrations";
-import { db } from "./client";
+import { db, type Db } from "./client";
 import { registrations, type RegistrationRow } from "./schema";
+
+type Executor = Db | Parameters<Parameters<Db["transaction"]>[0]>[0];
+type NewPlayer = { name: string; gender: Gender; level: Level };
 
 function toActive(row: RegistrationRow): ActiveRegistration {
   return { id: row.id, name: row.name, gender: row.gender, level: row.level as Level, registeredAt: row.registeredAt, guestOf: row.guestOf };
@@ -43,12 +46,36 @@ export async function findActiveRegistrationByToken(tournamentId: string, token:
 
 export async function addRegistration(
   tournamentId: string,
-  input: { name: string; gender: Gender; level: Level; participantToken: string | null; guestOf?: string | null },
+  input: NewPlayer & { participantToken: string | null; guestOf?: string | null; registeredAt?: SQL },
+  executor: Executor = db,
 ): Promise<ActiveRegistration> {
-  const rows = await db.insert(registrations).values({ tournamentId, ...input }).returning();
+  const rows = await executor.insert(registrations).values({ tournamentId, ...input }).returning();
   const row = rows[0];
   if (!row) throw new Error("insert returned no row");
   return toActive(row);
+}
+
+/**
+ * A visitor and their +1s sign up as one group: either every row is stored
+ * or none is. Without the transaction a failing guest insert would leave a
+ * host row whose token no phone holds, and the visitor's retry would run
+ * into it. `now()` is frozen for the whole transaction, so the rows are
+ * stamped with `clock_timestamp()` to keep the host ahead of their +1s in
+ * arrival order. Returns the host.
+ */
+export async function addRegistrationGroup(
+  tournamentId: string,
+  host: NewPlayer & { participantToken: string },
+  guests: NewPlayer[],
+): Promise<ActiveRegistration> {
+  return db.transaction(async (tx) => {
+    const registeredAt = sql`clock_timestamp()`;
+    const stored = await addRegistration(tournamentId, { ...host, registeredAt }, tx);
+    for (const guest of guests) {
+      await addRegistration(tournamentId, { ...guest, participantToken: null, guestOf: stored.id, registeredAt }, tx);
+    }
+    return stored;
+  });
 }
 
 /** True when an active registration was cancelled; false when there was none to cancel. */
