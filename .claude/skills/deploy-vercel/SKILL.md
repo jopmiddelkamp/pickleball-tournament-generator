@@ -11,7 +11,7 @@ Production is Vercel project `pickleball-generator` on team `jm-8d10`, live at h
 
 1. Commit and push first, so what is live matches a commit someone can find.
 2. If the change added a migration under `apps/generator/drizzle/`, run `pnpm db:migrate:cloud` before deploying. It reads the git-ignored cloud env file and runs Drizzle against the production database; the app on Vercel has no migration step of its own. Skip this when there is no new migration.
-3. From the repo root: `vercel deploy --prod --yes`. Takes about a minute. It prints the deployment URL and then `Aliased https://pickleball-generator-eta.vercel.app`; the alias line is the one that means production moved.
+3. From the repo root: `vercel deploy --prod --yes`. Takes about a minute. Read its output in full (`| tail -15`, never a `grep` that can hide an error); it prints the deployment URL and then `Aliased https://pickleball-generator-eta.vercel.app`, and the alias line is the one that means production moved. If in doubt, `vercel ls pickleball-generator` — the first row must be a new deployment, and `vercel inspect <that url>` must say `target production`.
 4. Verify without secrets: `curl -s -o /dev/null -w '%{http_code}' https://pickleball-generator-eta.vercel.app/design` (200, public) and `/organiser/login` (200). A public event page from the local seed will 404 in production; that is a different database, not a broken deploy.
 
 ## What the project is set to
