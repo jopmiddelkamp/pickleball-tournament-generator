@@ -83,7 +83,7 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
 
   return (
     <>
-      <TabBar active={tab} onChange={setTab} tabs={visibleTabs} />
+      <TabBar active={tab} onChange={setTab} tabs={visibleTabs} label={(tab) => t.tabs[tab]} />
       <EventBanner
         name={view.name}
         startsAt={view.startsAt}

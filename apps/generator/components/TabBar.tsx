@@ -5,14 +5,17 @@ import { useLocale } from "../lib/i18n/useLocale";
 export const TABS = ["roster", "schedule", "standings"] as const;
 export type Tab = (typeof TABS)[number];
 
-export function TabBar({
+/** The fixed bottom bar both the organiser's workspace and the public live page navigate with. */
+export function TabBar<T extends string>({
   active,
   onChange,
   tabs,
+  label,
 }: {
-  active: Tab;
-  onChange: (tab: Tab) => void;
-  tabs: readonly Tab[];
+  active: T;
+  onChange: (tab: T) => void;
+  tabs: readonly T[];
+  label: (tab: T) => string;
 }) {
   const { t } = useLocale();
   return (
@@ -26,7 +29,7 @@ export function TabBar({
           onClick={() => onChange(tab)}
         >
           <span className="tabbar__mark" aria-hidden="true" />
-          {t.tabs[tab]}
+          {label(tab)}
         </button>
       ))}
     </nav>

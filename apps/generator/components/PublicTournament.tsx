@@ -12,13 +12,14 @@ import { EventBanner } from "./EventBanner";
 import { LanguageSelect } from "./LanguageSelect";
 import { ProfileEditor } from "./ProfileEditor";
 import { PublicRegisterForm } from "./PublicRegisterForm";
-import { Segmented } from "./Segmented";
 import { RoundClock } from "./RoundClock";
 import { RoundView } from "./RoundView";
 import { StandingsScreen } from "./StandingsScreen";
+import { TabBar } from "./TabBar";
 import { GenderChip, Notice, Wordmark } from "./ui";
 
-type PublicTab = "now" | "standings" | "coming";
+const PUBLIC_TABS = ["now", "standings", "coming"] as const;
+type PublicTab = (typeof PUBLIC_TABS)[number];
 
 export function PublicTournament({ view }: { view: PublicView }) {
   const { t, locale } = useLocale();
@@ -145,6 +146,9 @@ export function PublicTournament({ view }: { view: PublicView }) {
         </h1>
         <LanguageSelect />
       </header>
+      {view.status === "live" && liveRound && night ? (
+        <TabBar active={tab} onChange={setTab} tabs={PUBLIC_TABS} label={(option) => t.public.tabs[option]} />
+      ) : null}
       <div className="app__main">
         <EventBanner name={view.name} startsAt={view.startsAt} location={view.location} />
         <p className="screen__lede">
@@ -280,14 +284,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
 
             {view.status === "live" && liveRound && night ? (
               <div className="screen__block stack">
-                <Segmented
-                  options={["now", "standings", "coming"] as const}
-                  value={tab}
-                  onChange={setTab}
-                  format={(option) => t.public.tabs[option]}
-                  label={t.sections}
-                />
-
                 {tab === "now" ? (
                   <>
                     {view.roundMinutes !== null ? <RoundClock minutes={view.roundMinutes} startedAt={view.clockStartedAt} /> : null}
