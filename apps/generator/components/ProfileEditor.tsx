@@ -24,7 +24,7 @@ export function ProfileEditor({ name, initial, pending, onSave, onCancel }: {
   const [level, setLevel] = useState<Level>(initial.level);
 
   return (
-    <div className="guest">
+    <div className="stack">
       <span className="label label--inline">{name}</span>
       <Segmented
         options={["F", "M"] as const}

@@ -52,9 +52,20 @@ export function PublicTournament({ view }: { view: PublicView }) {
     });
   }
 
+  // The card shows one form at a time: the editor and the +1 form replace each other.
+  function openEditor(id: string) {
+    setGuestFormOpen(false);
+    setEditingId(id);
+  }
+
+  function openGuestForm() {
+    setEditingId(null);
+    setGuestFormOpen(true);
+  }
+
   function editButton(id: string) {
     return (
-      <button type="button" className="button button--quiet button--small" disabled={pending} onClick={() => setEditingId(id)}>
+      <button type="button" className="button button--quiet button--small" disabled={pending} onClick={() => openEditor(id)}>
         {t.roster.edit}
       </button>
     );
@@ -196,7 +207,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                       onCancel={() => setGuestFormOpen(false)}
                     />
                   ) : (
-                    <button type="button" className="button button--quiet" onClick={() => setGuestFormOpen(true)}>
+                    <button type="button" className="button button--quiet" onClick={openGuestForm}>
                       {t.public.addGuest}
                     </button>
                   )
