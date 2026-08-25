@@ -9,6 +9,7 @@ import { useLocale } from "../lib/i18n/useLocale";
 import type { PublicView } from "../lib/public";
 import type { PlayerProfile } from "../lib/validate";
 import { EventBanner } from "./EventBanner";
+import { GamesTable } from "./GamesTable";
 import { LanguageSelect } from "./LanguageSelect";
 import { ProfileEditor } from "./ProfileEditor";
 import { PublicRegisterForm } from "./PublicRegisterForm";
@@ -332,6 +333,8 @@ export function PublicTournament({ view }: { view: PublicView }) {
             )}
             {signedUp}
           </>
+        ) : tab === "schedule" && view.status === "finished" ? (
+          <GamesTable rounds={rounds} players={view.players} games={settledGames} highlightId={view.yourId} />
         ) : tab === "schedule" ? (
           <>
             {view.status === "generated" ? <p className="standings__detail">{t.public.notStarted}</p> : null}

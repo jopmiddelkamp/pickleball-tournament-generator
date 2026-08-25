@@ -480,6 +480,69 @@ a.button {
   align-items: baseline;
 }
 
+/* ---------- games table ----------
+   The finished evening on one screen. Scrolls sideways inside its own box on
+   a narrow phone rather than pushing the page wider. */
+
+.games__scroll {
+  overflow-x: auto;
+  margin-bottom: var(--space-lg);
+}
+
+.games {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
+}
+
+.games th,
+.games td {
+  border-bottom: 1px solid var(--color-outline);
+  padding: var(--space-xs) var(--space-sm);
+  text-align: left;
+  vertical-align: top;
+}
+
+.games thead th {
+  background: var(--color-surface-sunken);
+  color: var(--color-on-surface-variant);
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.games tbody th {
+  font-family: var(--text-numeral-md-font);
+  font-size: var(--text-numeral-md-size);
+  font-weight: var(--text-numeral-md-weight);
+  line-height: var(--text-numeral-md-line);
+  letter-spacing: var(--text-numeral-md-tracking);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.games__score {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.games tr[aria-current] td {
+  background: var(--color-surface-raised);
+  font-weight: 600;
+}
+
+.games__rest td {
+  color: var(--color-on-surface-variant);
+}
+
 /* ---------- round clock ----------
    The one big number while a round is on court. Tabular so it does not jitter
    as the seconds tick. */
