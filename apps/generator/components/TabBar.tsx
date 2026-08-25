@@ -2,7 +2,7 @@
 
 import { useLocale } from "../lib/i18n/useLocale";
 
-export const TABS = ["roster", "schedule", "standings"] as const;
+export const TABS = ["roster", "schedule", "standings", "rules"] as const;
 export type Tab = (typeof TABS)[number];
 
 /** The fixed bottom bar both the organiser's workspace and the public live page navigate with. */

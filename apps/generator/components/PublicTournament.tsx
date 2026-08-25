@@ -13,13 +13,14 @@ import { LanguageSelect } from "./LanguageSelect";
 import { ProfileEditor } from "./ProfileEditor";
 import { PublicRegisterForm } from "./PublicRegisterForm";
 import { RosterScreen } from "./RosterScreen";
+import { RulesScreen } from "./RulesScreen";
 import { ScheduleScreen } from "./ScheduleScreen";
 import { StandingsScreen } from "./StandingsScreen";
 import { TabBar } from "./TabBar";
 import { GenderChip, Notice, Wordmark } from "./ui";
 
 /** Same three sections as the organiser's workspace, once a schedule exists. */
-const PUBLIC_TABS = ["roster", "schedule", "standings"] as const;
+const PUBLIC_TABS = ["roster", "schedule", "standings", "rules"] as const;
 type PublicTab = (typeof PUBLIC_TABS)[number];
 
 export function PublicTournament({ view }: { view: PublicView }) {
@@ -325,6 +326,8 @@ export function PublicTournament({ view }: { view: PublicView }) {
             clockStartedAt={view.clockStartedAt}
             highlightId={view.yourId}
           />
+        ) : tab === "rules" ? (
+          <RulesScreen gameTarget={view.gameTarget} roundMinutes={view.roundMinutes} />
         ) : night ? (
           <>
             {view.status === "finished" ? <h3 className="screen__section">{t.public.finalHeading}</h3> : null}

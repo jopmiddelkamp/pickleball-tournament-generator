@@ -11,6 +11,7 @@ export const es: Messages = {
     roster: "Jugadores",
     schedule: "Pistas",
     standings: "Ranking",
+    rules: "Reglas",
   },
 
   levels: {
@@ -134,6 +135,36 @@ export const es: Messages = {
     timeUp: "Se acabó el tiempo: terminad el punto y traed el resultado.",
     stop: "Parar",
     reset: "Borrar",
+  },
+
+  rules: {
+    heading: "Cómo se puntúa",
+    lede: "Todo lo que ves en el ranking sale de los resultados anotados en pista. Nada se juzga a mano.",
+    points: (target) => ({
+      title: "Puntos de partido",
+      body: `Los partidos se juegan a ${target}. Sumas los puntos que hizo tu propio equipo, ganes o pierdas.`,
+      example: `Un partido acaba ${target}–${Math.max(0, target - 4)}: los ganadores suman ${target} cada uno, los perdedores ${Math.max(0, target - 4)}.`,
+    }),
+    clock: (minutes, target) => ({
+      title: "El reloj",
+      body: `Cada ronda dura ${minutes} minutos. Al confirmar la siguiente ronda, un partido sin terminar se redondea: el equipo que va ganando sube a ${target} y el otro sube lo mismo, así se mantiene la diferencia.`,
+      example: `Se acaba el tiempo con 5–8: cuenta como ${target - 3}–${target}.`,
+    }),
+    bye: {
+      title: "Descanso",
+      body: "Cuando descansas una ronda recibes la media de lo que anotaron todos los que jugaron esa ronda: descansar nunca te perjudica ni supera a jugar.",
+      example: "Las pistas anotaron 11, 11, 5, 5, 11, 11, 9, 9 → la media es 9, así que cada uno que descansa suma +9.",
+    },
+    sameGender: {
+      title: "Pareja del mismo género",
+      body: "Cuando los números no cuadran y juegas en una pareja del mismo género, sumas +2 en ese partido.",
+      example: "Dos hombres emparejados que hacen 7: cada uno suma 7 + 2.",
+    },
+    ranking: {
+      title: "Ranking",
+      body: "Gana el total más alto. Los empates se deshacen por diferencia de puntos: los que anotaron tus equipos menos los que te anotaron. Si también empatan, se comparte el puesto.",
+      example: "Dos jugadores con 61: +12 de diferencia queda por delante de +4.",
+    },
   },
 
   court: {

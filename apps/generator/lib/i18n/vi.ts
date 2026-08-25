@@ -11,6 +11,7 @@ export const vi: Messages = {
     roster: "Danh sách",
     schedule: "Sân",
     standings: "Xếp hạng",
+    rules: "Luật",
   },
 
   levels: {
@@ -134,6 +135,36 @@ export const vi: Messages = {
     timeUp: "Hết giờ — đánh xong pha bóng rồi báo điểm.",
     stop: "Dừng",
     reset: "Xóa",
+  },
+
+  rules: {
+    heading: "Cách tính điểm",
+    lede: "Mọi thứ trên bảng xếp hạng đều tính từ điểm nhập ở sân. Không có gì do người chấm.",
+    points: (target) => ({
+      title: "Điểm trận",
+      body: `Mỗi trận chơi đến ${target}. Bạn nhận số điểm đội mình ghi được, thắng hay thua.`,
+      example: `Trận kết thúc ${target}–${Math.max(0, target - 4)}: hai người thắng mỗi người ${target}, hai người thua mỗi người ${Math.max(0, target - 4)}.`,
+    }),
+    clock: (minutes, target) => ({
+      title: "Đồng hồ",
+      body: `Mỗi vòng ${minutes} phút. Khi xác nhận vòng tiếp theo, trận chưa xong được làm tròn lên: đội đang dẫn lên ${target} và đội kia được cộng bằng số đó, nên cách biệt giữ nguyên.`,
+      example: `Hết giờ ở 5–8: tính là ${target - 3}–${target}.`,
+    }),
+    bye: {
+      title: "Nghỉ",
+      body: "Khi nghỉ một vòng, bạn nhận điểm trung bình của tất cả người chơi trong vòng đó: nghỉ không bao giờ thiệt và không bao giờ hơn chơi.",
+      example: "Các sân ghi 11, 11, 5, 5, 11, 11, 9, 9 → trung bình 9, mỗi người nghỉ được +9.",
+    },
+    sameGender: {
+      title: "Đội cùng giới",
+      body: "Khi số người không chia đều và bạn chơi trong đội cùng giới, bạn được +2 cho trận đó.",
+      example: "Hai nam ghép đội ghi 7: mỗi người 7 + 2.",
+    },
+    ranking: {
+      title: "Xếp hạng",
+      body: "Tổng cao nhất thắng. Bằng tổng thì xét hiệu số điểm: điểm đội bạn ghi trừ điểm đối phương ghi. Bằng cả hai thì chia sẻ thứ hạng.",
+      example: "Hai người cùng 61: hiệu số +12 xếp trên +4.",
+    },
   },
 
   court: {

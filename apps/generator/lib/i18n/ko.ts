@@ -11,6 +11,7 @@ export const ko: Messages = {
     roster: "명단",
     schedule: "코트",
     standings: "순위",
+    rules: "규칙",
   },
 
   levels: {
@@ -133,6 +134,36 @@ export const ko: Messages = {
     timeUp: "시간 종료 — 진행 중인 랠리를 마치고 점수를 알려주세요.",
     stop: "정지",
     reset: "지우기",
+  },
+
+  rules: {
+    heading: "점수 계산 방식",
+    lede: "순위는 모두 코트에서 입력한 점수로 계산됩니다. 사람이 판단하는 부분은 없습니다.",
+    points: (target) => ({
+      title: "게임 점수",
+      body: `게임은 ${target}점까지 합니다. 이기든 지든 자기 팀이 낸 점수를 그대로 받습니다.`,
+      example: `${target}–${Math.max(0, target - 4)}로 끝나면 이긴 두 명은 각 ${target}점, 진 두 명은 각 ${Math.max(0, target - 4)}점.`,
+    }),
+    clock: (minutes, target) => ({
+      title: "제한 시간",
+      body: `라운드마다 ${minutes}분입니다. 다음 라운드를 확정할 때 끝나지 않은 게임은 올림 처리합니다. 앞선 팀을 ${target}점으로 올리고 상대 팀도 같은 점수를 더하므로 점수 차는 그대로입니다.`,
+      example: `5–8에서 시간 종료: ${target - 3}–${target}로 계산.`,
+    }),
+    bye: {
+      title: "휴식",
+      body: "한 라운드를 쉬면 그 라운드에 코트에서 뛴 모든 사람의 평균 점수를 받습니다. 쉰다고 손해 보지 않고, 뛰는 것보다 유리하지도 않습니다.",
+      example: "코트 점수가 11, 11, 5, 5, 11, 11, 9, 9 → 평균 9, 쉬는 사람은 각 +9.",
+    },
+    sameGender: {
+      title: "동성 팀",
+      body: "인원이 맞지 않아 동성 팀으로 뛰면 그 게임에 +2점을 받습니다.",
+      example: "남자 둘이 한 팀으로 7점: 각자 7 + 2.",
+    },
+    ranking: {
+      title: "순위",
+      body: "합계가 높은 순입니다. 동점이면 득실차(우리 팀 득점 − 상대 득점)로 가리고, 그것도 같으면 같은 순위입니다.",
+      example: "61점인 두 명: 득실차 +12가 +4보다 위.",
+    },
   },
 
   court: {

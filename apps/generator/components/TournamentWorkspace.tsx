@@ -25,6 +25,7 @@ import { CopyButton } from "./CopyButton";
 import { CopyEventLink } from "./CopyEventLink";
 import { EventBanner } from "./EventBanner";
 import { RosterScreen } from "./RosterScreen";
+import { RulesScreen } from "./RulesScreen";
 import { ScheduleScreen } from "./ScheduleScreen";
 import { StandingsScreen } from "./StandingsScreen";
 import { TabBar, TABS, type Tab } from "./TabBar";
@@ -227,6 +228,8 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           }}
         />
       ) : null}
+
+      {tab === "rules" ? <RulesScreen gameTarget={view.gameTarget} roundMinutes={view.roundMinutes} /> : null}
 
       {tab === "standings" && features.scoreEntry ? (
         <StandingsScreen night={night} players={players} hasSchedule={view.schedule !== null} />

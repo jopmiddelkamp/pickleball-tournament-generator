@@ -21,6 +21,7 @@ export const en = {
     roster: "Roster",
     schedule: "Courts",
     standings: "Standings",
+    rules: "Rules",
   },
 
   levels: {
@@ -149,6 +150,36 @@ export const en = {
     timeUp: "Time's up — finish the rally and report your score.",
     stop: "Stop",
     reset: "Clear",
+  },
+
+  rules: {
+    heading: "How scoring works",
+    lede: "Everything on the standings comes from the scores entered on court. Nothing is judged by hand.",
+    points: (target: number) => ({
+      title: "Game points",
+      body: `Games are played to ${target}. You score the points your own team made, win or lose.`,
+      example: `A game ends ${target}–${Math.max(0, target - 4)}: both winners get ${target}, both losers get ${Math.max(0, target - 4)}.`,
+    }),
+    clock: (minutes: number, target: number) => ({
+      title: "The clock",
+      body: `Each round has ${minutes} minutes. When the next round is confirmed, a game that did not finish is rounded up: the leading team goes to ${target} and the other team gets the same lift, so the margin stands.`,
+      example: `Time is up at 5–8: it counts as ${target - 3}–${target}.`,
+    }),
+    bye: {
+      title: "Resting",
+      body: "When you sit a round out you get the average of what everyone on court scored that round, so resting never costs you and never beats playing.",
+      example: "The courts scored 11, 11, 5, 5, 11, 11, 9, 9 → the average is 9, so each resting player gets +9.",
+    },
+    sameGender: {
+      title: "Same-gender team",
+      body: "When the numbers do not work out and you play in a same-gender team, you get +2 for that game.",
+      example: "Two men paired up who score 7: each gets 7 + 2.",
+    },
+    ranking: {
+      title: "Ranking",
+      body: "Highest total wins. Equal totals are split by point difference: the points your teams scored minus the points scored against you. Equal on both and you share the place.",
+      example: "Two players on 61: +12 difference ranks above +4.",
+    },
   },
 
   court: {
