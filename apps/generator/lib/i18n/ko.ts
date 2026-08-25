@@ -42,7 +42,6 @@ export const ko: Messages = {
     guestOf: (host) => `${host}의 +1`,
     confirmedCount: (confirmed, max) => `${confirmed} / ${max}자리 확정`,
     waitingHeading: "대기 명단",
-    position: (n) => `#${n}`,
     frozen: "이벤트가 시작되어 명단이 고정되었습니다. 변경하려면 등록으로 돌아가기를 사용하세요.",
     registrationOpen: "등록이 진행 중입니다",
     registrationClosed: "등록이 마감되었습니다",

@@ -42,7 +42,6 @@ export const ja: Messages = {
     guestOf: (host) => `${host} さんの +1`,
     confirmedCount: (confirmed, max) => `確定 ${confirmed} / ${max} 枠`,
     waitingHeading: "キャンセル待ち",
-    position: (n) => `${n}番目`,
     frozen: "イベントが開始されたため名簿は固定されています。変更するには受付に戻ってください。",
     registrationOpen: "受付中",
     registrationClosed: "受付を締め切りました",

@@ -246,7 +246,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                     const mine = self || guestIds.has(entry.id);
                     return (
                       <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
-                        <span className="roster__number">{t.roster.position(index + 1)}</span>
+                        <span className="standings__rank roster__number">{index + 1}</span>
                         <GenderChip gender={entry.gender} />
                         <span className="roster__name">
                           {entry.name}

@@ -42,7 +42,6 @@ export const vi: Messages = {
     guestOf: (host) => `+1 của ${host}`,
     confirmedCount: (confirmed, max) => `Đã xác nhận ${confirmed}/${max} chỗ`,
     waitingHeading: "Danh sách chờ",
-    position: (n) => `#${n}`,
     frozen: "Sự kiện đã bắt đầu nên danh sách bị khóa. Dùng Quay lại đăng ký để thay đổi.",
     registrationOpen: "Đang mở đăng ký",
     registrationClosed: "Đã đóng đăng ký",

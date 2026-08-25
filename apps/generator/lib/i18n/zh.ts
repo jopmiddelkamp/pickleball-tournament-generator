@@ -43,7 +43,6 @@ export const zh: Messages = {
     guestOf: (host) => `${host} 的 +1`,
     confirmedCount: (confirmed, max) => `已确认 ${confirmed} / ${max} 位`,
     waitingHeading: "候补名单",
-    position: (n) => `第 ${n} 位`,
     frozen: "活动已开始，名单已锁定。要修改请使用返回报名。",
     registrationOpen: "报名进行中",
     registrationClosed: "报名已关闭",

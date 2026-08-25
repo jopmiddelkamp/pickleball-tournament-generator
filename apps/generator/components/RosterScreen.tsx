@@ -109,7 +109,7 @@ export function RosterScreen({
               <li key={player.id}>{editor(player)}</li>
             ) : (
               <li key={player.id} className="roster__item">
-                <span className="roster__number">{t.roster.position(index + 1)}</span>
+                <span className="standings__rank roster__number">{index + 1}</span>
                 <GenderChip gender={player.gender} />
                 <span className="roster__name">
                   {player.name}
@@ -134,7 +134,7 @@ export function RosterScreen({
                 <li key={player.id}>{editor(player)}</li>
               ) : (
                 <li key={player.id} className="roster__item">
-                  <span className="roster__number">{t.roster.position(confirmed.length + index + 1)}</span>
+                  <span className="standings__rank roster__number">{confirmed.length + index + 1}</span>
                   <GenderChip gender={player.gender} />
                   <span className="roster__name">
                     {player.name}

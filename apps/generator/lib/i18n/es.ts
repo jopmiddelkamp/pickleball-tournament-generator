@@ -42,7 +42,6 @@ export const es: Messages = {
     guestOf: (host) => `+1 de ${host}`,
     confirmedCount: (confirmed, max) => `${confirmed} de ${max} plazas ocupadas`,
     waitingHeading: "Lista de espera",
-    position: (n) => `#${n}`,
     frozen: "El evento ha comenzado, así que la lista está congelada. Usa Volver a la inscripción para cambiarla.",
     registrationOpen: "La inscripción está abierta",
     registrationClosed: "La inscripción está cerrada",

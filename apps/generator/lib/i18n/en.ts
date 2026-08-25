@@ -53,7 +53,6 @@ export const en = {
     guestOf: (host: string) => `+1 of ${host}`,
     confirmedCount: (confirmed: number, max: number) => `${confirmed} of ${max} places taken`,
     waitingHeading: "Waiting list",
-    position: (n: number) => `#${n}`,
     frozen: "The event has started, so the list is frozen. Use Back to registration to change it.",
     registrationOpen: "Registration is open",
     registrationClosed: "Registration is closed",
