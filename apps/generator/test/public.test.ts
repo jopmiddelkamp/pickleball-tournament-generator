@@ -17,6 +17,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     playersPerCourt: 5,
     rounds: 3,
     gameTarget: 11,
+    roundMinutes: null,
     algorithmId: "greedy",
     seed: 7,
     courts: null,
@@ -40,6 +41,9 @@ const cap = maxPlayersFor(1);
 const registrations = Array.from({ length: cap + 2 }, (_, i) => reg(`p${i + 1}`, i + 1));
 
 describe("buildPublicView", () => {
+  it("tells visitors about the round clock", () => {
+    expect(buildPublicView(row({ roundMinutes: 15 }), registrations, null).roundMinutes).toBe(15);
+  });
   it("recognises a confirmed visitor with no waiting-list position", () => {
     const view = buildPublicView(row(), registrations, "p1");
     expect(view.you).toEqual({

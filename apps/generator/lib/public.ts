@@ -57,6 +57,7 @@ export interface PublicView {
   /** the hard spam cap is reached; the form is closed even while status is open */
   full: boolean;
   gameTarget: number;
+  roundMinutes: number | null;
   roundsStarted: number;
   players: Player[]; // confirmed only; empty until status is live or finished
   /** rounds only, never the seed or algorithm id: present when status is live or finished (readable) */
@@ -150,6 +151,7 @@ export function buildPublicView(
     yourId: registrationId,
     full,
     gameTarget: tournament.gameTarget,
+    roundMinutes: tournament.roundMinutes,
     roundsStarted: tournament.roundsStarted,
     players,
     schedule,

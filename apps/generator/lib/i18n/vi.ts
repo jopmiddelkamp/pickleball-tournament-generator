@@ -58,6 +58,10 @@ export const vi: Messages = {
     scheduler: "Thuật toán xếp lịch",
     gameTarget: "Mỗi ván chơi đến",
     points: (points) => `${points} điểm`,
+    roundMinutes: "Giới hạn thời gian mỗi vòng",
+    noClock: "Không tính giờ",
+    minutes: (n) => `${n} phút`,
+    roundMinutesHint: "Khi bắt đầu vòng tiếp theo, trận chưa xong sẽ được làm tròn lên: đội đang dẫn lên mức mục tiêu và đội kia được cộng bằng số đó, nên 5–8 tính là 8–11.",
     seed: "Seed",
     reroll: "Đổi seed",
     capacity: (onCourt, resting) => `Mỗi vòng ${onCourt} người trên sân, ${resting} người nghỉ.`,
@@ -127,6 +131,8 @@ export const vi: Messages = {
     sameGender: (bands) => `cùng giới · ${bands}`,
     void: "Hủy",
     voided: "đã hủy",
+    countsAs: (score) => `Tính là ${score} — hết giờ.`,
+    roundedFrom: (score) => `Làm tròn lên từ ${score} khi hết giờ.`,
     pointsLeft: (court) => `Điểm của đội bên trái trên sân ${court}`,
     pointsRight: (court) => `Điểm của đội bên phải trên sân ${court}`,
   },
@@ -232,6 +238,7 @@ export const vi: Messages = {
   public: {
     startsAt: (when) => `Bắt đầu lúc ${when}`,
     playedTo: (n) => `Mỗi trận chơi đến ${n} điểm`,
+    timeLimit: (n) => `với ${n} phút mỗi vòng; trận chưa xong khi hết giờ sẽ được làm tròn lên.`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `${confirmed}/${cap} chỗ đã đăng ký · ${waiting} người chờ` : `${confirmed}/${cap} chỗ đã đăng ký`,
     registerHeading: "Tham gia chơi cùng?",

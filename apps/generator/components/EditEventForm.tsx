@@ -90,6 +90,7 @@ export function EditEventForm({ view, registered, frozen }: {
         <PlayStyleFields
           initialRounds={view.config.rounds}
           initialGameTarget={view.gameTarget}
+          initialRoundMinutes={view.roundMinutes}
           initialAlgorithmId={view.algorithmId}
           roundsDisabled={frozen}
         />

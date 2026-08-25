@@ -58,6 +58,10 @@ export const ja: Messages = {
     scheduler: "組み合わせ方式",
     gameTarget: "1ゲームの得点",
     points: (points) => `${points} 点`,
+    roundMinutes: "ラウンドの制限時間",
+    noClock: "時計なし",
+    minutes: (n) => `${n} 分`,
+    roundMinutesHint: "次のラウンド開始時に、終わっていない試合は切り上げます。リードしているチームを目標点まで上げ、相手チームにも同じ点を足します（5–8 は 8–11 として扱います）。",
     seed: "シード",
     reroll: "振り直す",
     capacity: (onCourt, resting) => `各ラウンド ${onCourt} 人がコートに入り、${resting} 人が休憩します。`,
@@ -126,6 +130,8 @@ export const ja: Messages = {
     sameGender: (bands) => `同性ペア · ${bands}`,
     void: "無効",
     voided: "無効",
+    countsAs: (score) => `時間切れのため ${score} として計算。`,
+    roundedFrom: (score) => `時間切れで ${score} から切り上げ。`,
     pointsLeft: (court) => `コート ${court} 左側チームの得点`,
     pointsRight: (court) => `コート ${court} 右側チームの得点`,
   },
@@ -231,6 +237,7 @@ export const ja: Messages = {
   public: {
     startsAt: (when) => `開始 ${when}`,
     playedTo: (n) => `試合は ${n} 点先取`,
+    timeLimit: (n) => `各ラウンド ${n} 分。時間切れの試合は切り上げます。`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0
         ? `定員${cap}人中${confirmed}人が申し込み済み · キャンセル待ち${waiting}人`

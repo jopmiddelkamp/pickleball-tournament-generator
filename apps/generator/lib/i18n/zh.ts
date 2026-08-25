@@ -59,6 +59,10 @@ export const zh: Messages = {
     scheduler: "排程算法",
     gameTarget: "每局打到",
     points: (points) => `${points} 分`,
+    roundMinutes: "每轮限时",
+    noClock: "不限时",
+    minutes: (n) => `${n} 分钟`,
+    roundMinutesHint: "开始下一轮时，未打完的比赛会向上取整：领先的一队补到目标分，另一队加同样的分数，所以 5–8 按 8–11 计。",
     seed: "种子",
     reroll: "重新生成",
     capacity: (onCourt, resting) => `每轮 ${onCourt} 人上场，${resting} 人轮空。`,
@@ -125,6 +129,8 @@ export const zh: Messages = {
     sameGender: (bands) => `同性组合 · ${bands}`,
     void: "作废",
     voided: "作废",
+    countsAs: (score) => `到时，按 ${score} 计。`,
+    roundedFrom: (score) => `到时，由 ${score} 向上取整。`,
     pointsLeft: (court) => `${court} 号场左侧队伍的得分`,
     pointsRight: (court) => `${court} 号场右侧队伍的得分`,
   },
@@ -230,6 +236,7 @@ export const zh: Messages = {
   public: {
     startsAt: (when) => `开始时间 ${when}`,
     playedTo: (n) => `每局打到 ${n} 分`,
+    timeLimit: (n) => `每轮 ${n} 分钟；到时未打完的比赛向上取整。`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `已占 ${cap} 个名额中的 ${confirmed} 个 · ${waiting} 人候补` : `已占 ${cap} 个名额中的 ${confirmed} 个`,
     registerHeading: "要一起打吗？",

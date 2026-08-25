@@ -6,11 +6,14 @@ import { useLocale } from "../lib/i18n/useLocale";
 
 const TARGETS = [11, 16, 21];
 const ROUNDS = [3, 4, 5, 6, 7, 8, 9, 10];
+/** minutes; 0 is "no clock" and posts as such */
+const ROUND_MINUTES = [0, 10, 12, 15, 20, 25, 30];
 
 /** Game target and scheduler, shared by the create and edit event forms; both post as plain form fields. */
-export function PlayStyleFields({ initialRounds, initialGameTarget, initialAlgorithmId, roundsDisabled = false }: {
+export function PlayStyleFields({ initialRounds, initialGameTarget, initialRoundMinutes, initialAlgorithmId, roundsDisabled = false }: {
   initialRounds: number;
   initialGameTarget: number;
+  initialRoundMinutes: number | null;
   initialAlgorithmId: string;
   /** rounds freeze with the schedule; the other two never do */
   roundsDisabled?: boolean;
@@ -42,6 +45,17 @@ export function PlayStyleFields({ initialRounds, initialGameTarget, initialAlgor
             </option>
           ))}
         </select>
+      </div>
+      <div>
+        <label className="label" htmlFor="event-round-minutes">{t.setup.roundMinutes}</label>
+        <select id="event-round-minutes" name="roundMinutes" className="select" defaultValue={initialRoundMinutes ?? 0}>
+          {ROUND_MINUTES.map((minutes) => (
+            <option key={minutes} value={minutes}>
+              {minutes === 0 ? t.setup.noClock : t.setup.minutes(minutes)}
+            </option>
+          ))}
+        </select>
+        <p className="standings__detail" style={{ marginTop: "var(--space-sm)" }}>{t.setup.roundMinutesHint}</p>
       </div>
       <div>
         <label className="label" htmlFor="event-algorithm">{t.setup.scheduler}</label>

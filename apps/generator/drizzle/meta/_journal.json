@@ -36,6 +36,13 @@
       "when": 1787582163431,
       "tag": "0004_event-location",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1787661335052,
+      "tag": "0005_round-minutes",
+      "breakpoints": true
     }
   ]
 }

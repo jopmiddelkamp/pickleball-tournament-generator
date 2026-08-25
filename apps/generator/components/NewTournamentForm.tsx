@@ -65,6 +65,7 @@ export function NewTournamentForm({ defaults }: { defaults: EventDefaults | null
         <PlayStyleFields
           initialRounds={defaults?.rounds ?? 6}
           initialGameTarget={defaults?.gameTarget ?? 11}
+          initialRoundMinutes={defaults?.roundMinutes ?? null}
           initialAlgorithmId={defaults?.algorithmId ?? "greedy"}
         />
         <button type="submit" className="button button--accent button--full" disabled={pending}>

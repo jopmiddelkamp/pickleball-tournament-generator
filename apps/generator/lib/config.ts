@@ -9,6 +9,8 @@ export const LIMITS = {
   minRounds: 1,
   maxRounds: 20,
   maxPoints: 999,
+  /** time limit per round, minutes */
+  maxRoundMinutes: 60,
   /** spam guard per tournament, active registrations */
   maxRegistrations: 150,
   maxTournamentName: 80,

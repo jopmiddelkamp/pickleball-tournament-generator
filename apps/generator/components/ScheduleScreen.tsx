@@ -12,6 +12,7 @@ export function ScheduleScreen({
   schedule,
   players,
   games,
+  settledGames,
   printHref,
   roundsStarted,
   finished,
@@ -24,6 +25,8 @@ export function ScheduleScreen({
   schedule: Schedule | null;
   players: Player[];
   games: GameResult[];
+  /** games as scoring counts them (round clock applied) */
+  settledGames: GameResult[];
   printHref: string;
   roundsStarted: number;
   finished: boolean;
@@ -116,6 +119,7 @@ export function ScheduleScreen({
           roundIndex={current}
           playerById={playerById}
           result={games.find((g) => g.round === current && g.court === match.court)}
+          settled={settledGames.find((g) => g.round === current && g.court === match.court)}
           {...(features.scoreEntry
             ? {
                 onScoreChange: (side: "A" | "B", points: number | null) =>

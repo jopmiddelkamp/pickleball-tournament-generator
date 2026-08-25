@@ -10,6 +10,8 @@ export interface CourtCardProps {
   roundIndex: number;
   playerById: ReadonlyMap<string, Player>;
   result: GameResult | undefined;
+  /** the same game as scoring counts it, when a round clock rounded it up */
+  settled?: GameResult | undefined;
   onScoreChange?: (side: "A" | "B", points: number | null) => void;
   /** the game target: typed points are clamped to it */
   maxPoints?: number;
@@ -74,6 +76,7 @@ export function CourtCard({
   roundIndex,
   playerById,
   result,
+  settled,
   onScoreChange,
   maxPoints,
   onVoidChange,
@@ -81,6 +84,8 @@ export function CourtCard({
 }: CourtCardProps) {
   const { t } = useLocale();
   const scoreId = `r${roundIndex}c${match.court}`;
+  const roundedUp = result && settled && (settled.pointsA !== result.pointsA || settled.pointsB !== result.pointsB) ? settled : null;
+  const shown = roundedUp ?? result;
   return (
     <section className="court" aria-label={t.court.label(match.court)}>
       <div className="court__label">
@@ -132,16 +137,22 @@ export function CourtCard({
             {t.court.void}
           </label>
         </div>
-      ) : result && !Number.isNaN(result.pointsA) && !Number.isNaN(result.pointsB) ? (
-        // Read-only view (public page, or an organiser mid-swap): the score
-        // already entered, with no input to edit it.
+      ) : shown && !Number.isNaN(shown.pointsA) && !Number.isNaN(shown.pointsB) ? (
+        // Read-only view (public page): the score as it counts, with no input to edit it.
         <div className="court__score">
-          <span className="court__scoreValue">{result.pointsA}</span>
+          <span className="court__scoreValue">{shown.pointsA}</span>
           <span className="court__scoreDash" aria-hidden="true">
             –
           </span>
-          <span className="court__scoreValue">{result.pointsB}</span>
+          <span className="court__scoreValue">{shown.pointsB}</span>
         </div>
+      ) : null}
+      {roundedUp && result ? (
+        <p className="court__scoreNote">
+          {onScoreChange
+            ? t.court.countsAs(`${roundedUp.pointsA}–${roundedUp.pointsB}`)
+            : t.court.roundedFrom(`${result.pointsA}–${result.pointsB}`)}
+        </p>
       ) : null}
     </section>
   );

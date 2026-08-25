@@ -62,6 +62,7 @@ export interface WorkspaceView {
   usingSuggestion: boolean;
   algorithmId: string;
   gameTarget: number;
+  roundMinutes: number | null;
   schedule: Schedule | null;
   games: GameResult[];
   /** registration id of a +1 -> name of who brought them */
@@ -109,6 +110,7 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
     usingSuggestion: tournament.courts === null && tournament.restSlots === null,
     algorithmId,
     gameTarget: tournament.gameTarget,
+    roundMinutes: tournament.roundMinutes,
     guestHosts,
     schedule: unreadable ? null : schedule,
     games: unreadable || games === null ? [] : games,

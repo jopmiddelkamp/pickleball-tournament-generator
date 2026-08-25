@@ -20,6 +20,7 @@ export type TournamentPatch = Partial<
     | "rounds"
     | "algorithmId"
     | "gameTarget"
+    | "roundMinutes"
     | "seed"
     | "registrationClosedAt"
     | "schedule"
@@ -75,6 +76,7 @@ export async function createTournament(organiserId: string, input: TournamentInp
       playersPerCourt: input.playersPerCourt,
       rounds: input.rounds,
       gameTarget: input.gameTarget,
+      roundMinutes: input.roundMinutes,
       algorithmId: input.algorithmId,
       seed: newSeed(),
     })

@@ -48,6 +48,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     playersPerCourt: 5,
     rounds: 6,
     gameTarget: 11,
+    roundMinutes: 15,
     algorithmId: "greedy",
   };
 
@@ -61,6 +62,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     expect(created.seed).toBeGreaterThanOrEqual(0);
     expect(created.rounds).toBe(6);
     expect(created.gameTarget).toBe(11);
+    expect(created.roundMinutes).toBe(15);
     expect(await findTournament(organiser, created.id)).toMatchObject({ name: "Test night" });
     expect(await findTournament(stranger, created.id)).toBeNull();
     expect(await findTournament(organiser, "not-a-uuid")).toBeNull();

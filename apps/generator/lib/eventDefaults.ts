@@ -21,7 +21,7 @@ export function parseEventDefaults(raw: string | undefined): EventDefaults | nul
     return null;
   }
   if (!isRecord(value)) return null;
-  const { location, maxCourts, playersPerCourt, rounds, gameTarget, algorithmId } = value;
+  const { location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, algorithmId } = value;
   if (location !== null && (typeof location !== "string" || location.length === 0 || location.length > LIMITS.maxLocation)) return null;
   if (typeof maxCourts !== "number" || !Number.isInteger(maxCourts) || maxCourts < LIMITS.minCourts || maxCourts > LIMITS.maxCourts) return null;
   if (
@@ -33,8 +33,13 @@ export function parseEventDefaults(raw: string | undefined): EventDefaults | nul
     return null;
   if (typeof rounds !== "number" || !Number.isInteger(rounds) || rounds < LIMITS.minRounds || rounds > LIMITS.maxRounds) return null;
   if (typeof gameTarget !== "number" || !Number.isInteger(gameTarget) || gameTarget < 1 || gameTarget > LIMITS.maxPoints) return null;
+  if (
+    roundMinutes !== null &&
+    (typeof roundMinutes !== "number" || !Number.isInteger(roundMinutes) || roundMinutes < 1 || roundMinutes > LIMITS.maxRoundMinutes)
+  )
+    return null;
   if (typeof algorithmId !== "string" || !ALGORITHMS.some((a) => a.id === algorithmId)) return null;
-  return { location, maxCourts, playersPerCourt, rounds, gameTarget, algorithmId };
+  return { location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, algorithmId };
 }
 
 export function readEventDefaults(store: CookieStore): EventDefaults | null {
@@ -49,6 +54,7 @@ export function writeEventDefaults(store: CookieStore, input: TournamentInput): 
     playersPerCourt: input.playersPerCourt,
     rounds: input.rounds,
     gameTarget: input.gameTarget,
+    roundMinutes: input.roundMinutes,
     algorithmId: input.algorithmId,
   };
   store.set(COOKIE, JSON.stringify(defaults), {

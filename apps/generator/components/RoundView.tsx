@@ -37,12 +37,15 @@ export function RoundView({
   round,
   players,
   games,
+  settledGames,
   roundNumber,
   highlightId,
 }: {
   round: Round;
   players: Player[];
   games: GameResult[];
+  /** games as scoring counts them (round clock applied) */
+  settledGames: GameResult[];
   roundNumber: number;
   highlightId: string | null;
 }) {
@@ -75,6 +78,7 @@ export function RoundView({
             roundIndex={roundIndex}
             playerById={playerById}
             result={games.find((game) => game.round === roundIndex && game.court === match.court)}
+            settled={settledGames.find((game) => game.round === roundIndex && game.court === match.court)}
             highlightPlayerId={highlightId}
           />
         ))}

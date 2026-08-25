@@ -69,6 +69,10 @@ export const en = {
     scheduler: "Scheduler",
     gameTarget: "Games are played to",
     points: (points: number) => `${points} points`,
+    roundMinutes: "Time limit per round",
+    noClock: "No clock",
+    minutes: (n: number) => `${n} minutes`,
+    roundMinutesHint: "When the next round starts, a game that has not finished is rounded up: the leading team goes to the target and the other team gets the same lift, so 5–8 counts as 8–11.",
     seed: "Seed",
     reroll: "Reroll",
     capacity: (onCourt: number, resting: number) =>
@@ -142,6 +146,8 @@ export const en = {
     sameGender: (bands: string) => `same gender · ${bands}`,
     void: "Void",
     voided: "void",
+    countsAs: (score: string) => `Counts as ${score} — time was up.`,
+    roundedFrom: (score: string) => `Rounded up from ${score} at the bell.`,
     pointsLeft: (court: number) => `Points for the left team on court ${court}`,
     pointsRight: (court: number) => `Points for the right team on court ${court}`,
   },
@@ -247,6 +253,7 @@ export const en = {
   public: {
     startsAt: (when: string) => `Starts ${when}`,
     playedTo: (n: number) => `Games are played to ${n} points`,
+    timeLimit: (n: number) => `with ${n} minutes per round; a game still going at the bell is rounded up.`,
     spots: (confirmed: number, cap: number, waiting: number) =>
       waiting > 0 ? `${confirmed} of ${cap} places taken · ${waiting} waiting` : `${confirmed} of ${cap} places taken`,
     registerHeading: "Play along?",

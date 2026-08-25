@@ -55,6 +55,7 @@ export async function updateEventDetailsAction(
     startsAt: input.startsAt,
     location: input.location,
     gameTarget: input.gameTarget,
+    roundMinutes: input.roundMinutes,
     algorithmId: input.algorithmId,
     ...(scheduleStored ? {} : { maxCourts: input.maxCourts, playersPerCourt: input.playersPerCourt, rounds: input.rounds }),
   });

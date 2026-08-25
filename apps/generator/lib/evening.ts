@@ -1,4 +1,30 @@
-import type { GameResult, Match } from "@ptg/core";
+import { settleTimedGames, type GameResult, type Match } from "@ptg/core";
+import type { TournamentStatus } from "./tournament";
+
+/** Rounds whose scores are final: all before the one on court, or all of them once the event is over. */
+export function closedRounds(status: TournamentStatus, roundsStarted: number, rounds: number): number {
+  if (status === "finished") return rounds;
+  return Math.max(0, Math.min(roundsStarted - 1, rounds));
+}
+
+export interface TimedEvening {
+  status: TournamentStatus;
+  roundsStarted: number;
+  /** rounds in the schedule */
+  rounds: number;
+  gameTarget: number;
+  roundMinutes: number | null;
+}
+
+/**
+ * The games as scoring sees them. With a clock on the round, a game left
+ * unfinished when the round closed is rounded up to the target; the stored
+ * score stays as entered. Without a clock, the same array comes back.
+ */
+export function settleForScoring(games: GameResult[], evening: TimedEvening): GameResult[] {
+  if (evening.roundMinutes === null) return games;
+  return settleTimedGames(games, closedRounds(evening.status, evening.roundsStarted, evening.rounds), evening.gameTarget);
+}
 
 export type Side = "A" | "B";
 

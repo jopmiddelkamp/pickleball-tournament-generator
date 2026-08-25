@@ -26,6 +26,8 @@ export const tournaments = pgTable(
     playersPerCourt: integer("players_per_court").notNull().default(5),
     rounds: integer("rounds").notNull(),
     gameTarget: integer("game_target").notNull(),
+    /** clock per round; null means untimed. With a clock, unfinished games round up once the round closes */
+    roundMinutes: integer("round_minutes"),
     algorithmId: text("algorithm_id").notNull(),
     /** uint32, so it does not fit int4 */
     seed: bigint("seed", { mode: "number" }).notNull(),

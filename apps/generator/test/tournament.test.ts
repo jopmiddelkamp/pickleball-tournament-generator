@@ -65,6 +65,10 @@ describe("effectiveConfig", () => {
     });
     expect(effectiveConfig({ ...base, courts: 2, restSlots: 30 }, 8).restSlots).toBe(4);
   });
+  it("carries the round clock through to the view", () => {
+    expect(buildWorkspaceView(row({ roundMinutes: 15 }), []).roundMinutes).toBe(15);
+    expect(buildWorkspaceView(row(), []).roundMinutes).toBeNull();
+  });
   it("never returns fewer than one court, so the form stays valid with a tiny roster", () => {
     expect(effectiveConfig(base, 3).courts).toBe(1);
   });
@@ -82,6 +86,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     playersPerCourt: 5,
     rounds: 3,
     gameTarget: 11,
+    roundMinutes: null,
     algorithmId: "greedy",
     seed: 7,
     courts: null,

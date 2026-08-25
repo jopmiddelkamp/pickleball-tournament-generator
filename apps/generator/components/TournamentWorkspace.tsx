@@ -14,7 +14,7 @@ import {
   startRoundAction,
   updateSetupAction,
 } from "../lib/actions/tournaments";
-import { withScore, withVoided } from "../lib/evening";
+import { settleForScoring, withScore, withVoided } from "../lib/evening";
 import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import type { WorkspaceView } from "../lib/tournament";
@@ -48,7 +48,21 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
     () => (view.schedule && view.schedule.rounds.length > 0 ? scoreSchedule(view.schedule.rounds, players, view.config) : null),
     [view.schedule, players, view.config],
   );
-  const night = useMemo(() => computeNightPoints(players, view.schedule?.rounds ?? [], games), [players, view.schedule, games]);
+  const settledGames = useMemo(
+    () =>
+      settleForScoring(games, {
+        status: view.status,
+        roundsStarted: view.roundsStarted,
+        rounds: view.schedule?.rounds.length ?? 0,
+        gameTarget: view.gameTarget,
+        roundMinutes: view.roundMinutes,
+      }),
+    [games, view.status, view.roundsStarted, view.schedule, view.gameTarget, view.roundMinutes],
+  );
+  const night = useMemo(
+    () => computeNightPoints(players, view.schedule?.rounds ?? [], settledGames),
+    [players, view.schedule, settledGames],
+  );
 
   function run(action: () => Promise<ActionResult>, onOk?: () => void) {
     startTransition(async () => {
@@ -176,6 +190,7 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           gameTarget={view.gameTarget}
           players={players}
           games={games}
+          settledGames={settledGames}
           printHref={`/organiser/event/${view.id}/print`}
           roundsStarted={view.roundsStarted}
           finished={view.status === "finished"}

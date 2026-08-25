@@ -32,11 +32,19 @@ describe("parseTournamentForm", () => {
       playersPerCourt: 5,
       rounds: 6,
       gameTarget: 11,
+      roundMinutes: null,
       algorithmId: "greedy",
     });
   });
+  it("reads a time limit per round, with an empty or zero field meaning none", () => {
+    expect(parseTournamentForm(form({ ...valid, roundMinutes: "15" }))?.roundMinutes).toBe(15);
+    expect(parseTournamentForm(form({ ...valid, roundMinutes: "" }))?.roundMinutes).toBeNull();
+    expect(parseTournamentForm(form({ ...valid, roundMinutes: "0" }))?.roundMinutes).toBeNull();
+  });
   it.each([
     ["empty name", { name: "  " }],
+    ["a time limit over an hour", { roundMinutes: "61" }],
+    ["a negative time limit", { roundMinutes: "-5" }],
     ["overlong name", { name: "x".repeat(81) }],
     ["bad date", { startsAt: "yesterday" }],
     ["zero courts", { maxCourts: "0" }],

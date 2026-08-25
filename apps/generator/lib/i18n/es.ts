@@ -58,6 +58,10 @@ export const es: Messages = {
     scheduler: "Algoritmo",
     gameTarget: "Los partidos se juegan a",
     points: (points) => `${points} puntos`,
+    roundMinutes: "Límite de tiempo por ronda",
+    noClock: "Sin reloj",
+    minutes: (n) => `${n} minutos`,
+    roundMinutesHint: "Al empezar la siguiente ronda, un partido sin terminar se redondea: el equipo que va ganando sube al objetivo y el otro sube lo mismo, así 5–8 cuenta como 8–11.",
     seed: "Semilla",
     reroll: "Cambiar",
     capacity: (onCourt, resting) => `${onCourt} en pista cada ronda, ${resting} descansando.`,
@@ -127,6 +131,8 @@ export const es: Messages = {
     sameGender: (bands) => `mismo género · ${bands}`,
     void: "Anular",
     voided: "anulado",
+    countsAs: (score) => `Cuenta como ${score}: se acabó el tiempo.`,
+    roundedFrom: (score) => `Redondeado desde ${score} al acabar el tiempo.`,
     pointsLeft: (court) => `Puntos del equipo de la izquierda en la pista ${court}`,
     pointsRight: (court) => `Puntos del equipo de la derecha en la pista ${court}`,
   },
@@ -232,6 +238,7 @@ export const es: Messages = {
   public: {
     startsAt: (when) => `Empieza ${when}`,
     playedTo: (n) => `Los partidos se juegan a ${n} puntos`,
+    timeLimit: (n) => `con ${n} minutos por ronda; un partido sin terminar al acabar el tiempo se redondea.`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `${confirmed} de ${cap} plazas ocupadas · ${waiting} en espera` : `${confirmed} de ${cap} plazas ocupadas`,
     registerHeading: "¿Te apuntas?",

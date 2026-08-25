@@ -58,6 +58,10 @@ export const ko: Messages = {
     scheduler: "편성 방식",
     gameTarget: "게임 목표 점수",
     points: (points) => `${points}점`,
+    roundMinutes: "라운드 제한 시간",
+    noClock: "시계 없음",
+    minutes: (n) => `${n}분`,
+    roundMinutesHint: "다음 라운드를 시작할 때 끝나지 않은 게임은 올림 처리합니다. 앞선 팀은 목표 점수까지 올리고 상대 팀도 같은 점수를 더해, 5–8은 8–11로 계산합니다.",
     seed: "시드",
     reroll: "다시 뽑기",
     capacity: (onCourt, resting) => `라운드마다 ${onCourt}명이 코트에 서고 ${resting}명이 쉽니다.`,
@@ -126,6 +130,8 @@ export const ko: Messages = {
     sameGender: (bands) => `동성 팀 · ${bands}`,
     void: "무효",
     voided: "무효",
+    countsAs: (score) => `시간 종료로 ${score}로 계산.`,
+    roundedFrom: (score) => `시간 종료로 ${score}에서 올림.`,
     pointsLeft: (court) => `코트 ${court} 왼쪽 팀 점수`,
     pointsRight: (court) => `코트 ${court} 오른쪽 팀 점수`,
   },
@@ -231,6 +237,7 @@ export const ko: Messages = {
   public: {
     startsAt: (when) => `시작 ${when}`,
     playedTo: (n) => `경기는 ${n}점까지`,
+    timeLimit: (n) => `라운드당 ${n}분, 시간 종료 시 끝나지 않은 게임은 올림 처리합니다.`,
     spots: (confirmed, cap, waiting) =>
       waiting > 0 ? `${cap}명 중 ${confirmed}명 등록 · 대기 ${waiting}명` : `${cap}명 중 ${confirmed}명 등록`,
     registerHeading: "함께 플레이하시겠어요?",

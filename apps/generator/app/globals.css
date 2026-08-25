@@ -1150,6 +1150,17 @@ a.button {
   font-weight: 700;
 }
 
+/* What a clocked, unfinished game counts as; sits under the score in the
+   bench's quiet voice so the entered number stays the loud one. */
+.court__scoreNote {
+  margin: var(--space-xs) 0 0;
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
+}
+
 .court__scoreValue {
   flex: 1;
   text-align: center;

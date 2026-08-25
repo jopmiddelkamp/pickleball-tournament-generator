@@ -165,6 +165,8 @@ export interface TournamentInput {
   playersPerCourt: number;
   rounds: number;
   gameTarget: number;
+  /** minutes per round; null when rounds are not timed */
+  roundMinutes: number | null;
   algorithmId: string;
 }
 
@@ -201,10 +203,13 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   if (rounds < LIMITS.minRounds || rounds > LIMITS.maxRounds) return null;
   const gameTarget = intField(formData, "gameTarget") ?? DEFAULT_GAME_TARGET;
   if (gameTarget < 1 || gameTarget > LIMITS.maxPoints) return null;
+  // An empty or zero field is "no clock"; the select posts 0 for that option.
+  const roundMinutes = intField(formData, "roundMinutes") || null;
+  if (roundMinutes !== null && (roundMinutes < 1 || roundMinutes > LIMITS.maxRoundMinutes)) return null;
   const rawAlgorithm = field(formData, "algorithmId");
   const algorithmId = rawAlgorithm === "" ? DEFAULT_ALGORITHM_ID : rawAlgorithm;
   if (!ALGORITHMS.some((a) => a.id === algorithmId)) return null;
-  return { name, startsAt, location, maxCourts, playersPerCourt, rounds, gameTarget, algorithmId };
+  return { name, startsAt, location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, algorithmId };
 }
 
 /**

@@ -52,6 +52,7 @@ async function main(): Promise<void> {
     playersPerCourt: 5,
     rounds: 6,
     gameTarget: 11,
+    roundMinutes: 15,
     algorithmId: DEFAULT_ALGORITHM_ID,
   });
   for (const [name, gender, level] of NAMES) {
@@ -66,6 +67,7 @@ async function main(): Promise<void> {
     playersPerCourt: 5,
     rounds: 6,
     gameTarget: 11,
+    roundMinutes: null,
     algorithmId: DEFAULT_ALGORITHM_ID,
   });
   for (const [name, gender, level] of NAMES.slice(0, 14)) {

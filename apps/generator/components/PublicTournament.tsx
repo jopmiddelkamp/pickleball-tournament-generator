@@ -1,6 +1,7 @@
 "use client";
 
 import { computeNightPoints } from "@ptg/core";
+import { settleForScoring } from "../lib/evening";
 import { useState, useTransition } from "react";
 import { cancelGuestAction, cancelMyRegistrationAction, updateProfileAction } from "../lib/actions/public";
 import type { PublicFormState } from "../lib/actions/publicState";
@@ -94,7 +95,14 @@ export function PublicTournament({ view }: { view: PublicView }) {
   const editing = editingEntry && editingProfile ? { id: editingEntry.id, profile: editingProfile } : null;
 
   const rounds = view.schedule?.rounds ?? [];
-  const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, view.games) : null;
+  const settledGames = settleForScoring(view.games, {
+    status: view.status,
+    roundsStarted: view.roundsStarted,
+    rounds: rounds.length,
+    gameTarget: view.gameTarget,
+    roundMinutes: view.roundMinutes,
+  });
+  const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, settledGames) : null;
   const liveRound = rounds[view.roundsStarted - 1];
   const browseRound = rounds[browseIndex];
 
@@ -138,7 +146,10 @@ export function PublicTournament({ view }: { view: PublicView }) {
       </header>
       <div className="app__main">
         <EventBanner name={view.name} startsAt={view.startsAt} location={view.location} />
-        <p className="screen__lede">{t.public.playedTo(view.gameTarget)}</p>
+        <p className="screen__lede">
+          {t.public.playedTo(view.gameTarget)}
+          {view.roundMinutes !== null ? ` ${t.public.timeLimit(view.roundMinutes)}` : null}
+        </p>
 
         {cancelError ? (
           <Notice tone="warn" onDismiss={() => setCancelError(null)}>
@@ -173,6 +184,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                     round={browseRound}
                     players={view.players}
                     games={view.games}
+                    settledGames={settledGames}
                     roundNumber={browseIndex + 1}
                     highlightId={view.yourId}
                   />
@@ -280,6 +292,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                     round={liveRound}
                     players={view.players}
                     games={view.games}
+                    settledGames={settledGames}
                     roundNumber={view.roundsStarted}
                     highlightId={view.yourId}
                   />
