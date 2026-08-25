@@ -1241,6 +1241,19 @@ a.button {
   min-width: 0;
 }
 
+.event__fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.event__icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  color: var(--color-on-surface-variant);
+}
+
 /* The name in court green with a swipe of ball yellow behind it, like a
    highlighter; the same two colours the logo uses. */
 .event__name {
@@ -1264,6 +1277,10 @@ a.button {
 }
 
 .event__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-xs);
   margin: var(--space-sm) 0 0;
   font-family: var(--text-body-xs-font);
   font-size: var(--text-body-xs-size);
