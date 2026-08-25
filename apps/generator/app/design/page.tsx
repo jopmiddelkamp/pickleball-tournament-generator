@@ -340,6 +340,8 @@ export default function DesignSystemPage() {
           <div className="ds__grid">
             <ValueRow token="--max-width" value={layout.maxWidth} />
             <ValueRow token="--max-width-wide" value={layout.maxWidthWide} />
+            <ValueRow token="--header-height" value={layout.headerHeight} />
+            <ValueRow token="--header-height-wide" value={layout.headerHeightWide} />
             <ValueRow token="--tab-bar-height" value={layout.tabBarHeight} />
             <ValueRow token="layout.wide (media query)" value={layout.wide} />
             <ValueRow token="layout.wider (media query)" value={layout.wider} />

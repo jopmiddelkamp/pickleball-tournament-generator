@@ -81,7 +81,14 @@ select {
   flex-direction: column;
 }
 
+/* Stays put while the page scrolls: the wordmark, the language switch and
+   the organiser's menu are always one tap away. Fixed height, so the tab rail
+   on wide screens knows where to stick. */
 .app__header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  min-height: var(--header-height);
   background: var(--color-surface-brand);
   color: var(--color-on-surface-brand);
   padding: var(--space-md) var(--space-lg) var(--space-md);
@@ -1266,6 +1273,7 @@ a.button {
   }
 
   .app__header {
+    min-height: var(--header-height-wide);
     padding: 16px var(--space-xl);
   }
 
@@ -1300,7 +1308,7 @@ a.button {
   /* the tab bar becomes a rail attached to the header and stays in reach */
   .tabbar {
     position: sticky;
-    top: 0;
+    top: var(--header-height-wide);
     left: auto;
     transform: none;
     width: auto;

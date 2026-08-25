@@ -300,6 +300,8 @@ export const motion = {
 /** Every stacking context in the app, so no component invents a number. */
 export const zIndex = {
   tabBar: 10,
+  /** Above the tab bar's content, below the menu that drops out of it. */
+  header: 15,
   scrim: 19,
   menu: 20,
 } as const;
@@ -314,6 +316,9 @@ export const zIndex = {
 export const layout = {
   maxWidth: "460px",
   maxWidthWide: "1120px",
+  /** Padding plus the 30px chips; fixed so the tab rail can stick below it. */
+  headerHeight: "58px",
+  headerHeightWide: "62px",
   tabBarHeight: "62px",
   /** Two courts fit side by side. */
   wide: "720px",
@@ -368,5 +373,7 @@ export const cssVariables: Record<string, string> = {
 
   "--max-width": layout.maxWidth,
   "--max-width-wide": layout.maxWidthWide,
+  "--header-height": layout.headerHeight,
+  "--header-height-wide": layout.headerHeightWide,
   "--tab-bar-height": layout.tabBarHeight,
 };

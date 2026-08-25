@@ -318,6 +318,7 @@
 }
 
 .ds__frame .app__header {
+  position: static;
   padding: var(--space-md) var(--space-lg);
 }
 
