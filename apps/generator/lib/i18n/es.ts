@@ -157,7 +157,7 @@ export const es: Messages = {
     },
     ranking: {
       title: "Ranking",
-      body: "La noche celebra a la mejor mujer y al mejor hombre: los tres primeros en general, mujeres y hombres van encima de la lista. Gana el total más alto. Los empates se deshacen por diferencia de puntos: los que anotaron tus equipos menos los que te anotaron. Si también empatan, se comparte el puesto.",
+      body: "La noche celebra a la mejor mujer y al mejor hombre: las tres mejores mujeres y los tres mejores hombres van encima de la lista. Gana el total más alto. Los empates se deshacen por diferencia de puntos: los que anotaron tus equipos menos los que te anotaron. Si también empatan, se comparte el puesto.",
       example: "Dos jugadores con 61: +12 de diferencia queda por delante de +4.",
     },
   },
@@ -179,7 +179,7 @@ export const es: Messages = {
     empty: "Genera primero un calendario y luego anota los resultados al acabar cada partido.",
     played: (games) => `${games} jugados`,
     bye: (points) => `+${points} descanso`,
-    top: { overall: "Top 3", women: "Mejores mujeres", men: "Mejores hombres" },
+    top: { women: "Mejores mujeres", men: "Mejores hombres" },
   },
 
   print: {

@@ -172,7 +172,7 @@ export const en = {
     },
     ranking: {
       title: "Ranking",
-      body: "The evening celebrates the best woman and the best man: the top three overall, women and men sit above the list. Highest total wins. Equal totals are split by point difference: the points your teams scored minus the points scored against you. Equal on both and you share the place.",
+      body: "The evening celebrates the best woman and the best man: the top three women and the top three men sit above the list. Highest total wins. Equal totals are split by point difference: the points your teams scored minus the points scored against you. Equal on both and you share the place.",
       example: "Two players on 61: +12 difference ranks above +4.",
     },
   },
@@ -194,7 +194,7 @@ export const en = {
     empty: "Generate a schedule first, then enter scores as the games finish.",
     played: (games: number) => `${games} played`,
     bye: (points: number) => `+${points} bye`,
-    top: { overall: "Top 3", women: "Best women", men: "Best men" },
+    top: { women: "Best women", men: "Best men" },
   },
 
   print: {

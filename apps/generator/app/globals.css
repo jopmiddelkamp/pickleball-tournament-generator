@@ -1342,7 +1342,7 @@ a.button {
 
 @media (min-width: 720px) {
   .podiums {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1403,6 +1403,7 @@ a.button {
   display: block;
   width: 26px;
   height: 26px;
+  align-self: center;
 }
 
 .medal--1 {
@@ -1432,9 +1433,10 @@ a.button {
 
 .standings__row {
   display: grid;
-  /* rank · name · level (as on the roster) · total */
+  /* rank · name · level (as on the roster) · total; the name, level and total share a
+     baseline, and the detail and difference hang under their own columns */
   grid-template-columns: 34px 1fr auto auto;
-  align-items: center;
+  align-items: baseline;
   gap: var(--space-sm);
   padding: 11px 0;
   border-bottom: 1px solid var(--color-outline);

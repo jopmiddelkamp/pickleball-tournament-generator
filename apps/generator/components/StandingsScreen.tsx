@@ -10,7 +10,7 @@ function signed(n: number): string {
 
 /**
  * SPEC-1 §3 and §5: the evening celebrates the best woman and the best man,
- * so three podiums lead, then everyone in rank order with their level. No
+ * so two podiums lead, then everyone in rank order with their level. No
  * lowest scores, no "worst player".
  */
 export function StandingsScreen({
@@ -27,7 +27,6 @@ export function StandingsScreen({
   const nameOf = (entry: PlayerNightPoints) => playerById.get(entry.playerId)?.name ?? entry.playerId;
 
   const podiums = [
-    { title: t.standings.top.overall, entries: night.standings },
     { title: t.standings.top.women, entries: night.standings.filter((e) => playerById.get(e.playerId)?.gender === "F") },
     { title: t.standings.top.men, entries: night.standings.filter((e) => playerById.get(e.playerId)?.gender === "M") },
   ].map((group) => ({ ...group, entries: group.entries.slice(0, 3) }));

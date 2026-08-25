@@ -157,7 +157,7 @@ export const vi: Messages = {
     },
     ranking: {
       title: "Xếp hạng",
-      body: "Buổi tối tôn vinh nữ và nam xuất sắc nhất: top 3 chung, nữ và nam nằm trên bảng. Tổng cao nhất thắng. Bằng tổng thì xét hiệu số điểm: điểm đội bạn ghi trừ điểm đối phương ghi. Bằng cả hai thì chia sẻ thứ hạng.",
+      body: "Buổi tối tôn vinh nữ và nam xuất sắc nhất: top 3 nữ và top 3 nam nằm trên bảng. Tổng cao nhất thắng. Bằng tổng thì xét hiệu số điểm: điểm đội bạn ghi trừ điểm đối phương ghi. Bằng cả hai thì chia sẻ thứ hạng.",
       example: "Hai người cùng 61: hiệu số +12 xếp trên +4.",
     },
   },
@@ -179,7 +179,7 @@ export const vi: Messages = {
     empty: "Tạo lịch trước, rồi nhập tỷ số khi các ván kết thúc.",
     played: (games) => `${games} ván`,
     bye: (points) => `+${points} nghỉ`,
-    top: { overall: "Top 3", women: "Nữ xuất sắc", men: "Nam xuất sắc" },
+    top: { women: "Nữ xuất sắc", men: "Nam xuất sắc" },
   },
 
   print: {
