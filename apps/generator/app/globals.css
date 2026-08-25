@@ -1390,16 +1390,16 @@ a.button {
    Three small boards above the list: the best of the night overall, of the
    women and of the men. Stacked on a phone, side by side when there is room. */
 
+/* Side by side, as wide as the widest name needs and no wider, both the same
+   width; on a narrow phone the pair shrinks equally to fit. */
 .podiums {
   display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: max-content;
+  max-width: 100%;
   gap: var(--space-sm);
   margin: var(--space-md) 0 var(--space-lg);
-}
-
-@media (min-width: 720px) {
-  .podiums {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 .podium {
@@ -1422,24 +1422,15 @@ a.button {
 
 .podium__row {
   display: grid;
-  grid-template-columns: 22px 1fr auto;
-  align-items: baseline;
-  gap: var(--space-xs);
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-sm);
   padding: 4px 0;
-}
-
-.podium__place {
-  color: var(--color-on-surface-variant);
-  font-family: var(--text-numeral-md-font);
-  font-size: var(--text-numeral-md-size);
-  font-weight: var(--text-numeral-md-weight);
-  line-height: var(--text-numeral-md-line);
-  letter-spacing: var(--text-numeral-md-tracking);
-  font-variant-numeric: tabular-nums;
 }
 
 .podium__name {
   font-weight: 600;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

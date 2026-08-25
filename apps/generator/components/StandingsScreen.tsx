@@ -47,7 +47,7 @@ export function StandingsScreen({
                 <ol className="plain-list">
                   {group.entries.map((entry, index) => (
                     <li key={entry.playerId} className="podium__row">
-                      <span className="podium__place">{index + 1}</span>
+                      <Medal place={(index + 1) as 1 | 2 | 3} />
                       <span className="podium__name">{nameOf(entry)}</span>
                       <span className="podium__total">{entry.total}</span>
                     </li>
