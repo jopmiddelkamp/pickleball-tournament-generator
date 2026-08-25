@@ -150,14 +150,22 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
 
         {waitlisted ? <Notice tone="warn">{t.public.waitlistWarning}</Notice> : null}
 
-        <button type="submit" className="button button--accent button--full" disabled={pending}>
-          {guest ? t.public.addGuest : guests.length > 0 ? t.public.registerGroup : t.public.register}
-        </button>
-        {onCancel ? (
-          <button type="button" className="button button--quiet button--full" disabled={pending} onClick={onCancel}>
-            {t.roster.cancelEdit}
+        {guest ? (
+          <div className="row">
+            <button type="submit" className="button button--accent button--small" disabled={pending}>
+              {t.public.addGuest}
+            </button>
+            {onCancel ? (
+              <button type="button" className="button button--quiet button--small" disabled={pending} onClick={onCancel}>
+                {t.roster.cancelEdit}
+              </button>
+            ) : null}
+          </div>
+        ) : (
+          <button type="submit" className="button button--accent button--full" disabled={pending}>
+            {guests.length > 0 ? t.public.registerGroup : t.public.register}
           </button>
-        ) : null}
+        )}
       </form>
     </div>
   );
