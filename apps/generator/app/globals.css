@@ -479,34 +479,31 @@ a.button {
   align-items: baseline;
 }
 
-/* ---------- games table ----------
-   The finished evening on one screen. Scrolls sideways inside its own box on
-   a narrow phone rather than pushing the page wider. */
+/* ---------- games summary ----------
+   The finished evening as round cards. Each court is a row laid out like the
+   court itself: team left, score in the middle, team right. The display face
+   only ships in 700/800, so the quiet half of the score is set in the body
+   face at 400 for real contrast against the winning number. */
 
-.games__scroll {
-  overflow-x: auto;
+.games {
+  display: grid;
+  gap: var(--space-sm);
   margin-bottom: var(--space-lg);
 }
 
-.games {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--text-body-sm-font);
-  font-size: var(--text-body-sm-size);
-  font-weight: var(--text-body-sm-weight);
-  line-height: var(--text-body-sm-line);
-  letter-spacing: var(--text-body-sm-tracking);
+.games__round {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
-.games th,
-.games td {
-  border-bottom: 1px solid var(--color-outline);
-  padding: var(--space-xs) var(--space-sm);
-  text-align: left;
-  vertical-align: top;
-}
-
-.games thead th {
+.games__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   background: var(--color-surface-sunken);
   color: var(--color-on-surface-variant);
   font-family: var(--text-label-font);
@@ -515,32 +512,80 @@ a.button {
   line-height: var(--text-label-line);
   letter-spacing: var(--text-label-tracking);
   text-transform: uppercase;
+}
+
+.games__rest {
+  text-transform: none;
+  text-align: right;
+  font-family: var(--text-body-xs-font);
+  font-size: var(--text-body-xs-size);
+  font-weight: var(--text-body-xs-weight);
+  line-height: var(--text-body-xs-line);
+  letter-spacing: var(--text-body-xs-tracking);
+}
+
+.games__game {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 9px var(--space-md);
+  border-top: 1px solid var(--color-outline);
+  font-family: var(--text-body-md-font);
+  font-size: var(--text-body-md-size);
+  font-weight: 400;
+  line-height: var(--text-body-md-line);
+  letter-spacing: var(--text-body-md-tracking);
+}
+
+.games__game[aria-current] {
+  background: var(--color-surface);
+}
+
+.games__team {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.games__team--right {
+  text-align: right;
+}
+
+.games__team--won {
+  font-weight: var(--text-body-md-weight);
+}
+
+.games__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.games tbody th {
-  font-family: var(--text-numeral-md-font);
-  font-size: var(--text-numeral-md-size);
-  font-weight: var(--text-numeral-md-weight);
-  line-height: var(--text-numeral-md-line);
-  letter-spacing: var(--text-numeral-md-tracking);
-  font-variant-numeric: tabular-nums;
-  text-align: center;
-  vertical-align: middle;
+.games__court {
+  color: var(--color-on-surface-variant);
+  font-family: var(--text-micro-font);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  line-height: var(--text-micro-line);
+  letter-spacing: var(--text-micro-tracking);
+  text-transform: uppercase;
 }
 
 .games__score {
-  font-variant-numeric: tabular-nums;
+  padding: 0 10px;
   white-space: nowrap;
+  font-family: var(--text-body-md-font);
+  font-size: var(--text-numeral-md-size);
+  font-weight: 400;
+  line-height: var(--text-numeral-md-line);
+  letter-spacing: var(--text-numeral-md-tracking);
+  font-variant-numeric: tabular-nums;
 }
 
-.games tr[aria-current] td {
-  background: var(--color-surface-raised);
-  font-weight: 600;
-}
-
-.games__rest td {
-  color: var(--color-on-surface-variant);
+.games__won {
+  font-family: var(--text-numeral-md-font);
+  font-weight: var(--text-numeral-md-weight);
 }
 
 /* ---------- round clock ----------
