@@ -24,8 +24,7 @@ export function ScheduleScreen({
   onScoreChange,
   gameTarget,
   onVoidChange,
-  onStartRound,
-  onEndEvening,
+  onAdvanceRound,
 }: {
   schedule: Schedule | null;
   players: Player[];
@@ -44,8 +43,8 @@ export function ScheduleScreen({
   /** the game target: scores cannot go past it */
   gameTarget: number;
   onVoidChange: (roundIndex: number, court: number, voided: boolean) => void;
-  onStartRound: () => void;
-  onEndEvening: () => void;
+  /** round 1 on court, then confirm the round on court (scores final) and put the next one on; the last one ends the event */
+  onAdvanceRound: () => void;
 }) {
   const { t } = useLocale();
   const [roundIndex, setRoundIndex] = useState(() =>
@@ -83,27 +82,18 @@ export function ScheduleScreen({
 
       {finished ? (
         <Notice>{t.schedule.ended}</Notice>
-      ) : roundsStarted < schedule.rounds.length ? (
+      ) : (
         <>
           {roundsStarted === 0 ? <p className="standings__detail">{t.schedule.notStarted}</p> : null}
           <button
             type="button"
             className="button button--accent button--full"
             style={{ marginBottom: "var(--space-md)" }}
-            onClick={onStartRound}
+            onClick={onAdvanceRound}
           >
-            {t.schedule.startRound(roundsStarted + 1)}
+            {roundsStarted === 0 ? t.schedule.startRound(1) : t.schedule.confirmRound(roundsStarted)}
           </button>
         </>
-      ) : (
-        <button
-          type="button"
-          className="button button--danger button--full"
-          style={{ marginBottom: "var(--space-md)" }}
-          onClick={onEndEvening}
-        >
-          {t.schedule.endEvent}
-        </button>
       )}
 
       <nav className="rounds" aria-label={t.schedule.rounds}>
@@ -133,7 +123,7 @@ export function ScheduleScreen({
           playerById={playerById}
           result={games.find((g) => g.round === current && g.court === match.court)}
           settled={settledGames.find((g) => g.round === current && g.court === match.court)}
-          {...(features.scoreEntry
+          {...(features.scoreEntry && !finished && current === roundsStarted - 1
             ? {
                 onScoreChange: (side: "A" | "B", points: number | null) =>
                   onScoreChange(current, match.court, side, points),

@@ -25,12 +25,11 @@ const PER_COURT_OPTIONS = Array.from(
  * freezes together with the roster once a schedule is generated; name and
  * start time stay editable.
  */
-export function EditEventForm({ view, registered, frozen }: {
+export function EditEventForm({ view, registered }: {
   view: WorkspaceView;
   /** active registrations, confirmed + waiting */
   registered: number;
   /** a schedule is stored, so capacity cannot move */
-  frozen: boolean;
 }) {
   const { t } = useLocale();
   const tzOffset = useTzOffset();
@@ -77,24 +76,22 @@ export function EditEventForm({ view, registered, frozen }: {
         </div>
         <div>
           <span className="label" id="edit-courts-label">{t.organiser.form.maxCourts}</span>
-          <Segmented options={COURT_OPTIONS} value={courts} onChange={setCourts} labelledBy="edit-courts-label" disabled={frozen} />
+          <Segmented options={COURT_OPTIONS} value={courts} onChange={setCourts} labelledBy="edit-courts-label" />
         </div>
         <div>
           <span className="label" id="edit-per-court-label">{t.organiser.form.perCourt}</span>
-          <Segmented options={PER_COURT_OPTIONS} value={perCourt} onChange={setPerCourt} labelledBy="edit-per-court-label" disabled={frozen} />
+          <Segmented options={PER_COURT_OPTIONS} value={perCourt} onChange={setPerCourt} labelledBy="edit-per-court-label" />
           <p className="standings__detail">
             {t.organiser.form.capacity(courts, capacity)} {t.organiser.edit.signedUp(registered)}
           </p>
-          {frozen ? <p className="standings__detail">{t.organiser.edit.frozen}</p> : null}
         </div>
         <PlayStyleFields
           initialRounds={view.config.rounds}
           initialGameTarget={view.gameTarget}
           initialRoundMinutes={view.roundMinutes}
           initialAlgorithmId={view.algorithmId}
-          roundsDisabled={frozen}
         />
-        {demoted > 0 && !frozen ? <Notice tone="warn">{t.organiser.edit.demote(demoted)}</Notice> : null}
+        {demoted > 0 ? <Notice tone="warn">{t.organiser.edit.demote(demoted)}</Notice> : null}
         <button type="submit" className="button button--accent button--full" disabled={pending}>
           {t.organiser.edit.save}
         </button>

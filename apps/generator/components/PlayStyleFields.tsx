@@ -10,13 +10,11 @@ const ROUNDS = [3, 4, 5, 6, 7, 8, 9, 10];
 const ROUND_MINUTES = [0, 10, 12, 15, 20, 25, 30];
 
 /** Game target and scheduler, shared by the create and edit event forms; both post as plain form fields. */
-export function PlayStyleFields({ initialRounds, initialGameTarget, initialRoundMinutes, initialAlgorithmId, roundsDisabled = false }: {
+export function PlayStyleFields({ initialRounds, initialGameTarget, initialRoundMinutes, initialAlgorithmId }: {
   initialRounds: number;
   initialGameTarget: number;
   initialRoundMinutes: number | null;
   initialAlgorithmId: string;
-  /** rounds freeze with the schedule; the other two never do */
-  roundsDisabled?: boolean;
 }) {
   const { t } = useLocale();
   const [algorithmId, setAlgorithmId] = useState(initialAlgorithmId);
@@ -27,14 +25,13 @@ export function PlayStyleFields({ initialRounds, initialGameTarget, initialRound
     <>
       <div>
         <label className="label" htmlFor="event-rounds">{t.setup.rounds}</label>
-        <select id="event-rounds" name="rounds" className="select" defaultValue={initialRounds} disabled={roundsDisabled}>
+        <select id="event-rounds" name="rounds" className="select" defaultValue={initialRounds}>
           {ROUNDS.map((n) => (
             <option key={n} value={n}>
               {n}
             </option>
           ))}
         </select>
-        {roundsDisabled ? <input type="hidden" name="rounds" value={initialRounds} /> : null}
       </div>
       <div>
         <label className="label" htmlFor="event-target">{t.setup.gameTarget}</label>

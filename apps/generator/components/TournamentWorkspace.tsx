@@ -5,14 +5,13 @@ import { useMemo, useOptimistic, useState, useTransition } from "react";
 import { removeRegistrationAction, updateRegistrationAction } from "../lib/actions/registrations";
 import type { ActionError, ActionResult } from "../lib/actions/result";
 import {
+  advanceRoundAction,
   backToRegistrationAction,
-  endEventAction,
   recordScoreAction,
   rerollAction,
   setVoidedAction,
   startClockAction,
   startEventAction,
-  startRoundAction,
   stopClockAction,
   updateSetupAction,
 } from "../lib/actions/tournaments";
@@ -89,13 +88,16 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
         name={view.name}
         startsAt={view.startsAt}
         location={view.location}
+        // Editing and inviting are over once the event has started.
         actions={
-          <>
-            <Link href={`/organiser/event/${view.id}/edit`} className="button button--quiet button--small">
-              {t.organiser.edit.open}
-            </Link>
-            <CopyEventLink slug={view.slug} name={view.name} startsAt={view.startsAt} location={view.location} />
-          </>
+          scheduleStored ? null : (
+            <>
+              <Link href={`/organiser/event/${view.id}/edit`} className="button button--quiet button--small">
+                {t.organiser.edit.open}
+              </Link>
+              <CopyEventLink slug={view.slug} name={view.name} startsAt={view.startsAt} location={view.location} />
+            </>
+          )
         }
       />
       {demotedNotice > 0 ? (
@@ -200,8 +202,7 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           clockStartedAt={view.clockStartedAt}
           onStartClock={() => run(() => startClockAction(view.id))}
           onStopClock={() => run(() => stopClockAction(view.id))}
-          onStartRound={() => run(() => startRoundAction(view.id))}
-          onEndEvening={() => run(() => endEventAction(view.id))}
+          onAdvanceRound={() => run(() => advanceRoundAction(view.id))}
           onScoreChange={(roundIndex, court, side, points) => {
             const match = view.schedule?.rounds[roundIndex]?.matches.find((m) => m.court === court);
             if (!match) return;

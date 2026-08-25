@@ -30,25 +30,17 @@ export async function updateEventDetailsAction(
   formData: FormData,
 ): Promise<EditEventState> {
   const owner = await loadOwnedWorkspace(id);
+  // Once the event has started nothing about it changes any more; the edit
+  // page is not offered, so a submission arriving here is stale.
+  if (owner.tournament.schedule != null) redirect(`/organiser/event/${owner.tournament.id}`);
   const input = parseTournamentForm(formData);
   if (!input) return { error: "invalid", demoted: 0 };
-  // Capacity is frozen together with the roster once a schedule exists; the
-  // form disables those fields, so a change arriving here is stale.
-  const scheduleStored = owner.tournament.schedule != null;
-  if (
-    scheduleStored &&
-    (input.maxCourts !== owner.tournament.maxCourts ||
-      input.playersPerCourt !== owner.tournament.playersPerCourt ||
-      input.rounds !== owner.tournament.rounds)
-  ) {
-    return { error: "invalid", demoted: 0 };
-  }
   // Confirmed players a smaller capacity pushes onto the waiting list; the
   // organiser is told to announce it so everyone re-checks their spot.
   writeEventDefaults(await cookies(), input);
   const active = owner.view.confirmed.length + owner.view.waiting.length;
   const oldCapacity = maxPlayersFor(owner.tournament.maxCourts, owner.tournament.playersPerCourt);
-  const newCapacity = scheduleStored ? oldCapacity : maxPlayersFor(input.maxCourts, input.playersPerCourt);
+  const newCapacity = maxPlayersFor(input.maxCourts, input.playersPerCourt);
   const demoted = Math.max(0, Math.min(active, oldCapacity) - Math.min(active, newCapacity));
   await updateTournament(owner.organiserId, owner.tournament.id, {
     name: input.name,
@@ -57,7 +49,9 @@ export async function updateEventDetailsAction(
     gameTarget: input.gameTarget,
     roundMinutes: input.roundMinutes,
     algorithmId: input.algorithmId,
-    ...(scheduleStored ? {} : { maxCourts: input.maxCourts, playersPerCourt: input.playersPerCourt, rounds: input.rounds }),
+    maxCourts: input.maxCourts,
+    playersPerCourt: input.playersPerCourt,
+    rounds: input.rounds,
   });
   revalidatePath(`/organiser/event/${owner.tournament.id}`);
   revalidatePath(`/event/${owner.tournament.slug}`);
@@ -154,14 +148,19 @@ export async function rerollAction(id: string): Promise<ActionResult> {
   return isFailure(outcome) ? outcome : save(owner, outcome);
 }
 
-/** Opens the next round for play; the organiser calls this once the players for it are on court. */
-export async function startRoundAction(id: string): Promise<ActionResult> {
+/**
+ * Round 1 goes on court, then each confirmation closes the round on court -
+ * its scores become final - and puts the next one on. Confirming the last
+ * round ends the evening.
+ */
+export async function advanceRoundAction(id: string): Promise<ActionResult> {
   const owner = await owned(id);
   const schedule = owner.view.schedule;
-  if (!schedule || owner.tournament.roundsStarted >= schedule.rounds.length || owner.tournament.finishedAt !== null) {
-    return fail("state");
+  if (!schedule || owner.tournament.finishedAt !== null) return fail("state");
+  if (owner.tournament.roundsStarted < schedule.rounds.length) {
+    return save(owner, { roundsStarted: owner.tournament.roundsStarted + 1, clockStartedAt: null });
   }
-  return save(owner, { roundsStarted: owner.tournament.roundsStarted + 1, clockStartedAt: null });
+  return save(owner, { finishedAt: new Date(), clockStartedAt: null });
 }
 
 /** Starts the round clock; only meaningful while a round is on court and the event has a time limit. */
@@ -179,11 +178,9 @@ export async function stopClockAction(id: string): Promise<ActionResult> {
   return save(owner, { clockStartedAt: null });
 }
 
-/** Closes the evening; standings become final. Requires at least one round to have started. */
-export async function endEventAction(id: string): Promise<ActionResult> {
-  const owner = await owned(id);
-  if (owner.tournament.roundsStarted === 0 || owner.tournament.finishedAt !== null) return fail("state");
-  return save(owner, { finishedAt: new Date(), clockStartedAt: null });
+/** Scores can only be entered for the round on court; a confirmed round is final. */
+function onCourt(owner: OwnedWorkspace, roundIndex: number): boolean {
+  return owner.tournament.finishedAt === null && roundIndex === owner.tournament.roundsStarted - 1;
 }
 
 function matchAt(view: WorkspaceView, roundIndex: number, court: number): Match | null {
@@ -201,6 +198,7 @@ export async function recordScoreAction(
   const owner = await owned(id);
   const match = matchAt(owner.view, roundIndex, court);
   if (!match || (side !== "A" && side !== "B")) return fail("invalid");
+  if (!onCourt(owner, roundIndex)) return fail("state");
   // A game is played to the target, so no side can score past it.
   if (points !== null && (!Number.isInteger(points) || points < 0 || points > owner.tournament.gameTarget)) return fail("invalid");
   return save(owner, { games: withScore(owner.view.games, match, roundIndex, side, points) });
@@ -210,6 +208,7 @@ export async function setVoidedAction(id: string, roundIndex: number, court: num
   const owner = await owned(id);
   const match = matchAt(owner.view, roundIndex, court);
   if (!match || typeof voided !== "boolean") return fail("invalid");
+  if (!onCourt(owner, roundIndex)) return fail("state");
   return save(owner, { games: withVoided(owner.view.games, match, roundIndex, voided) });
 }
 
