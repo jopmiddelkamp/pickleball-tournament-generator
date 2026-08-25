@@ -1,12 +1,12 @@
 "use server";
 
-import { DEFAULT_ALGORITHM_ID, generateSchedule, getAlgorithm, maxPlayersFor, playingCapacity, type Match } from "@ptg/core";
+import { DEFAULT_ALGORITHM_ID, getAlgorithm, maxPlayersFor, playingCapacity, searchSchedule, type Match } from "@ptg/core";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { requireOrganiserId } from "../auth";
 import { createTournament, updateTournament, type TournamentPatch } from "../db/tournaments";
-import { realignGames, swapInRound, withScore, withVoided } from "../evening";
+import { withScore, withVoided } from "../evening";
 import { newSeed } from "../ids";
 import { writeEventDefaults } from "../eventDefaults";
 import { effectiveConfig, type WorkspaceView } from "../tournament";
@@ -107,13 +107,19 @@ export async function updateSetupAction(id: string, rawPatch: unknown): Promise<
   return save(owner, update);
 }
 
+/**
+ * Draws this many candidate schedules and keeps the SPEC-2 best. A thousand
+ * greedy draws on a full roster take well under a second server-side.
+ */
+const SCHEDULE_DRAW_ATTEMPTS = 1000;
+
 function generateWith(owner: OwnedWorkspace, seed: number): ActionResult | TournamentPatch {
   if (owner.tournament.registrationClosedAt === null) return fail("open");
   const players = owner.view.confirmed;
   const config = { ...effectiveConfig(owner.tournament, players.length), seed };
   if (players.length < 4 || playingCapacity(players.length, config) === 0) return fail("players");
   const algorithmId = getAlgorithm(owner.tournament.algorithmId) ? owner.tournament.algorithmId : DEFAULT_ALGORITHM_ID;
-  return { seed, schedule: generateSchedule(algorithmId, players, config), games: [] };
+  return { seed, schedule: searchSchedule(algorithmId, players, config, SCHEDULE_DRAW_ATTEMPTS), games: [] };
 }
 
 function isFailure(value: ActionResult | TournamentPatch): value is ActionResult {
@@ -191,13 +197,3 @@ export async function setVoidedAction(id: string, roundIndex: number, court: num
   return save(owner, { games: withVoided(owner.view.games, match, roundIndex, voided) });
 }
 
-export async function swapPlayersAction(id: string, roundIndex: number, a: string, b: string): Promise<ActionResult> {
-  const owner = await owned(id);
-  const schedule = owner.view.schedule;
-  const round = schedule?.rounds[roundIndex];
-  if (!schedule || !round || typeof a !== "string" || typeof b !== "string" || a === b) return fail("invalid");
-  const inRound = new Set([...round.resting, ...round.matches.flatMap((m) => [...m.teamA, ...m.teamB])]);
-  if (!inRound.has(a) || !inRound.has(b)) return fail("invalid");
-  const rounds = schedule.rounds.map((r, i) => (i === roundIndex ? swapInRound(r, a, b) : r));
-  return save(owner, { schedule: { ...schedule, rounds }, games: realignGames(owner.view.games, roundIndex, rounds) });
-}

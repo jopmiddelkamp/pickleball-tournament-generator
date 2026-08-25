@@ -293,6 +293,8 @@ export const printScheme = {
 export const motion = {
   /** Long enough to be seen, short enough not to be waited for. */
   durationFast: "140ms",
+  /** One sweep of an indeterminate progress bar: slow enough to read as "still going". */
+  durationSlow: "1600ms",
   /** Material 3's standard easing: quick to start, settles into place. */
   easingStandard: "cubic-bezier(0.2, 0, 0, 1)",
 } as const;

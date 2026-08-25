@@ -14,9 +14,8 @@ export interface CourtCardProps {
   /** the game target: typed points are clamped to it */
   maxPoints?: number;
   onVoidChange?: (voided: boolean) => void;
-  /** id of the player waiting to be swapped, if swap mode is on */
-  selectedPlayerId?: string | null;
-  onSelectPlayer?: (playerId: string) => void;
+  /** the visitor's own id on the public page, so they spot themselves at a glance */
+  highlightPlayerId?: string | null;
 }
 
 /**
@@ -43,14 +42,12 @@ function Side({
   team,
   half,
   playerById,
-  selectedPlayerId,
-  onSelectPlayer,
+  highlightPlayerId,
 }: {
   team: Team;
   half: "left" | "right";
   playerById: ReadonlyMap<string, Player>;
-  selectedPlayerId?: string | null;
-  onSelectPlayer?: (playerId: string) => void;
+  highlightPlayerId: string | null | undefined;
 }) {
   const { t } = useLocale();
   const badge = sameGenderBadge(team, playerById, t);
@@ -59,34 +56,12 @@ function Side({
       {team.map((id) => {
         const player = playerById.get(id);
         const label = player?.name ?? id;
-        const selected = selectedPlayerId === id;
-        const className = [
-          "court__player",
-          onSelectPlayer ? "court__player--selectable" : "",
-          selected ? "court__player--selected" : "",
-        ]
-          .filter(Boolean)
-          .join(" ");
-
-        if (!onSelectPlayer) {
-          return (
-            <span key={id} className={className}>
-              {player ? <GenderChip gender={player.gender} /> : null}
-              <span>{label}</span>
-            </span>
-          );
-        }
+        const className = highlightPlayerId === id ? "court__player court__player--highlight" : "court__player";
         return (
-          <button
-            key={id}
-            type="button"
-            className={className}
-            aria-pressed={selected}
-            onClick={() => onSelectPlayer(id)}
-          >
+          <span key={id} className={className}>
             {player ? <GenderChip gender={player.gender} /> : null}
             <span>{label}</span>
-          </button>
+          </span>
         );
       })}
       {badge ? <span className="court__badge">{badge}</span> : null}
@@ -102,8 +77,7 @@ export function CourtCard({
   onScoreChange,
   maxPoints,
   onVoidChange,
-  selectedPlayerId,
-  onSelectPlayer,
+  highlightPlayerId,
 }: CourtCardProps) {
   const { t } = useLocale();
   const scoreId = `r${roundIndex}c${match.court}`;
@@ -114,20 +88,8 @@ export function CourtCard({
         {result?.voided ? <span>{t.court.voided}</span> : null}
       </div>
       <div className="court__surface">
-        <Side
-          team={match.teamA}
-          half="left"
-          playerById={playerById}
-          {...(selectedPlayerId === undefined ? {} : { selectedPlayerId })}
-          {...(onSelectPlayer ? { onSelectPlayer } : {})}
-        />
-        <Side
-          team={match.teamB}
-          half="right"
-          playerById={playerById}
-          {...(selectedPlayerId === undefined ? {} : { selectedPlayerId })}
-          {...(onSelectPlayer ? { onSelectPlayer } : {})}
-        />
+        <Side team={match.teamA} half="left" playerById={playerById} highlightPlayerId={highlightPlayerId} />
+        <Side team={match.teamB} half="right" playerById={playerById} highlightPlayerId={highlightPlayerId} />
       </div>
 
       {onScoreChange && onVoidChange ? (

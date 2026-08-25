@@ -5,6 +5,4 @@
 export const features = {
   /** Score entry per game and the SPEC-1 standings tab. */
   scoreEntry: true,
-  /** Swap two players inside a generated round, re-scored live. */
-  manualSwap: true,
 } as const;

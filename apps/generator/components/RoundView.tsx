@@ -75,7 +75,7 @@ export function RoundView({
             roundIndex={roundIndex}
             playerById={playerById}
             result={games.find((game) => game.round === roundIndex && game.court === match.court)}
-            selectedPlayerId={highlightId}
+            highlightPlayerId={highlightId}
           />
         ))}
       </div>

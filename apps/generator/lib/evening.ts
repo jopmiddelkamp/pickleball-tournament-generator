@@ -1,28 +1,4 @@
-import type { GameResult, Match, Round } from "@ptg/core";
-
-/** Swaps two players wherever they appear in one round. */
-export function swapInRound(round: Round, a: string, b: string): Round {
-  const swap = (id: string) => (id === a ? b : id === b ? a : id);
-  return {
-    matches: round.matches.map((match) => ({
-      court: match.court,
-      teamA: [swap(match.teamA[0]), swap(match.teamA[1])] as [string, string],
-      teamB: [swap(match.teamB[0]), swap(match.teamB[1])] as [string, string],
-    })),
-    resting: round.resting.map(swap),
-  };
-}
-
-/** Keeps the entered result pointing at whoever is on that court now. */
-export function realignGames(games: GameResult[], roundIndex: number, rounds: Round[]): GameResult[] {
-  const round = rounds[roundIndex];
-  if (!round) return games;
-  return games.map((game) => {
-    if (game.round !== roundIndex) return game;
-    const match = round.matches.find((m) => m.court === game.court);
-    return match ? { ...game, teamA: match.teamA, teamB: match.teamB } : game;
-  });
-}
+import type { GameResult, Match } from "@ptg/core";
 
 export type Side = "A" | "B";
 
@@ -46,7 +22,7 @@ function existing(games: readonly GameResult[], match: Match, roundIndex: number
   );
 }
 
-/** Records one side's points; the teams are refreshed from the match in case of a swap. */
+/** Records one side's points; the teams are taken from the match so a result always names its court. */
 export function withScore(
   games: readonly GameResult[],
   match: Match,

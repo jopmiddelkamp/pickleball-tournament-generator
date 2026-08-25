@@ -11,6 +11,7 @@ export * from "./constants.js";
 export * from "./scenarios.js";
 
 export * from "./algorithms/registry.js";
+export * from "./search.js";
 export { randomAlgorithm } from "./algorithms/random.js";
 export { circleAlgorithm } from "./algorithms/circle.js";
 export { latinAlgorithm } from "./algorithms/latin.js";

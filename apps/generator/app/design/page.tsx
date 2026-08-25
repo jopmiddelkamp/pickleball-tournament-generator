@@ -386,6 +386,7 @@ export default function DesignSystemPage() {
         <Section id="system" title="Motion, opacity, layers">
           <div className="ds__grid">
             <ValueRow token="--duration-fast" value={motion.durationFast} />
+            <ValueRow token="--duration-slow" value={motion.durationSlow} />
             <ValueRow token="--easing-standard" value={motion.easingStandard} />
             {Object.entries(opacity).map(([name, value]) => (
               <ValueRow key={name} token={`--opacity-${name}`} value={String(value)} />

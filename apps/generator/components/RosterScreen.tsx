@@ -16,6 +16,7 @@ export function RosterScreen({
   frozen,
   canStart,
   canGoBack,
+  starting,
   onRemove,
   onEdit,
   onStart,
@@ -32,6 +33,8 @@ export function RosterScreen({
   canStart: boolean;
   /** nothing played yet, so the draw can be dropped */
   canGoBack: boolean;
+  /** the draw is running on the server */
+  starting: boolean;
   onRemove: (playerId: string) => void;
   /** corrects a player's gender/level in place; their arrival position stays */
   onEdit: (playerId: string, profile: PlayerProfile) => void;
@@ -85,8 +88,14 @@ export function RosterScreen({
       <div className="row row--split" style={{ margin: "var(--space-lg) 0 var(--space-sm)" }}>
         <span className="roster__countLabel">{registrationOpen ? t.roster.registrationOpen : t.roster.registrationClosed}</span>
         {registrationOpen ? (
-          <button type="button" className="button button--accent button--small" disabled={!canStart} onClick={onStart}>
-            {t.roster.startEvent}
+          <button
+            type="button"
+            className="button button--accent button--small"
+            disabled={!canStart || starting}
+            aria-busy={starting}
+            onClick={onStart}
+          >
+            {starting ? t.roster.drawing : t.roster.startEvent}
           </button>
         ) : (
           <button type="button" className="button button--quiet button--small" disabled={!canGoBack} onClick={onBackToRegistration}>
@@ -94,6 +103,14 @@ export function RosterScreen({
           </button>
         )}
       </div>
+      {starting ? (
+        <div className="progress" role="status" aria-live="polite">
+          <div className="progress__track" aria-hidden="true">
+            <div className="progress__bar" />
+          </div>
+          <p className="progress__label">{t.roster.drawingDetail}</p>
+        </div>
+      ) : null}
       {registrationOpen && !canStart ? <p className="standings__detail">{t.setup.needPlayers}</p> : null}
       <div className="roster__count">{confirmed.length}</div>
       <div className="roster__countLabel">

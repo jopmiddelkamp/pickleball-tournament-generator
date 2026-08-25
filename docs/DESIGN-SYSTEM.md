@@ -101,7 +101,7 @@ The one exception is `.gender`: it takes `micro`'s family, size, weight and line
 
 **On the brand chrome** — the header, tab bar and menu are one dark surface, and everything drawn on them is the same paper at a different strength: `--brand-hairline` 12%, `--brand-hover` 12%, `--brand-fill` 18%, `--brand-fill-hover` 30%, `--brand-outline` 35%, `--brand-text` 72%. Material composites hover and pressed states this way; here the mechanism covers the chrome's borders and secondary text too, because they are the same material.
 
-**Motion** — one duration (`--duration-fast` 140ms) and one easing (`--easing-standard`, Material 3's standard curve). Everything that moves is a background settling under a finger, and there is nothing on a court-side screen worth waiting for.
+**Motion** — two durations and one easing (`--easing-standard`, Material 3's standard curve). `--duration-fast` (140ms) is a background settling under a finger; `--duration-slow` (1600ms) is one sweep of the indeterminate progress bar shown while the schedule is drawn, the only thing on a court-side screen anyone waits for.
 
 **Layers** — `--z-tab-bar` 10, `--z-scrim` 19, `--z-menu` 20. Every stacking context in the app is named, so no component invents a number.
 

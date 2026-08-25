@@ -12,7 +12,6 @@ import {
   setVoidedAction,
   startEventAction,
   startRoundAction,
-  swapPlayersAction,
   updateSetupAction,
 } from "../lib/actions/tournaments";
 import { withScore, withVoided } from "../lib/evening";
@@ -37,6 +36,8 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
   const [promotedNotice, setPromotedNotice] = useState(false);
   const [error, setError] = useState<ActionError | null>(null);
   const [, startTransition] = useTransition();
+  // The draw tries a thousand schedules; the roster shows a loader meanwhile.
+  const [starting, setStarting] = useState(false);
   // Score entry is per keystroke; show it immediately, the server confirms.
   const [games, showGames] = useOptimistic(view.games, (_current: GameResult[], next: GameResult[]) => next);
 
@@ -125,7 +126,20 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           frozen={scheduleStored}
           canStart={players.length >= 4}
           canGoBack={view.roundsStarted === 0}
-          onStart={() => run(() => startEventAction(view.id), () => setTab("schedule"))}
+          starting={starting}
+          onStart={() => {
+            setStarting(true);
+            startTransition(async () => {
+              const result = await startEventAction(view.id);
+              setStarting(false);
+              if (result.ok) {
+                setError(null);
+                setTab("schedule");
+              } else {
+                setError(result.error);
+              }
+            });
+          }}
           onBackToRegistration={() => run(() => backToRegistrationAction(view.id))}
           onEdit={(id, profile) => run(() => updateRegistrationAction(view.id, id, profile))}
           onRemove={(id) => {
@@ -162,7 +176,6 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           gameTarget={view.gameTarget}
           players={players}
           games={games}
-          score={score}
           printHref={`/organiser/event/${view.id}/print`}
           roundsStarted={view.roundsStarted}
           finished={view.status === "finished"}
@@ -186,7 +199,6 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
               if (!result.ok) setError(result.error);
             });
           }}
-          onSwap={(roundIndex, a, b) => run(() => swapPlayersAction(view.id, roundIndex, a, b))}
         />
       ) : null}
 
