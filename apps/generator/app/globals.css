@@ -1400,10 +1400,20 @@ a.button {
 
 /* Medals for the first three places; a shared rank shares the medal. */
 .medal {
-  display: block;
-  width: 26px;
-  height: 26px;
-  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  background: var(--medal);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-surface) 45%, transparent);
+  color: var(--color-on-primary);
+  font-family: var(--text-numeral-md-font);
+  font-size: var(--text-numeral-md-size);
+  font-weight: var(--text-numeral-md-weight);
+  line-height: var(--text-numeral-md-line);
+  letter-spacing: var(--text-numeral-md-tracking);
 }
 
 .medal--1 {
@@ -1443,6 +1453,11 @@ a.button {
 }
 
 .standings__rank {
+  /* the medal's width, so numbered and medalled ranks share one centre line */
+  display: inline-flex;
+  width: 30px;
+  justify-content: center;
+  align-self: center;
   font-family: var(--text-numeral-md-font);
   font-size: var(--text-numeral-md-size);
   font-weight: var(--text-numeral-md-weight);
