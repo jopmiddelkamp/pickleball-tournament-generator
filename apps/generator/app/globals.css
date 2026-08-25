@@ -331,11 +331,10 @@ a.button {
   padding: var(--space-sm) 14px;
 }
 
-/* ---------- brand chrome: the header's own controls ---------- */
-
-.app__header--menu {
-  position: relative;
-}
+/* ---------- brand chrome: the header's own controls ----------
+   The menu anchors to the header itself: sticky already makes it a
+   positioning context, so no `position: relative` here - that would undo the
+   sticky and let the header scroll away under the tab rail. */
 
 /* Header chips: the flag select and the menu toggle. Everything on the chrome
    is the same paper at a different strength - see `onBrand` in lib/theme.ts. */
