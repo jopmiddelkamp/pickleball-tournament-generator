@@ -255,6 +255,7 @@ export const vi: Messages = {
     cancel: "Hủy đăng ký của tôi",
     cancelGroup: "Hủy đăng ký của chúng tôi",
     addGuest: "Thêm +1",
+    addGuestSubmit: "Thêm",
     guestHeading: "Dẫn theo +1",
     guestLede: "Họ đăng ký dưới tên bạn và được tính như mọi đăng ký khác.",
     guestConfirmed: "Có suất",

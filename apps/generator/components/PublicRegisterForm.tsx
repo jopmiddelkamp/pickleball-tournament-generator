@@ -153,7 +153,7 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
         {guest ? (
           <div className="row">
             <button type="submit" className="button button--accent button--small" disabled={pending}>
-              {t.public.addGuest}
+              {t.public.addGuestSubmit}
             </button>
             {onCancel ? (
               <button type="button" className="button button--quiet button--small" disabled={pending} onClick={onCancel}>

@@ -255,6 +255,7 @@ export const es: Messages = {
     cancel: "Cancelar mi inscripción",
     cancelGroup: "Cancelar nuestra inscripción",
     addGuest: "Añadir un +1",
+    addGuestSubmit: "Añadir",
     guestHeading: "Trae un +1",
     guestLede: "Se apunta a tu nombre y cuenta como cualquier inscripción.",
     guestConfirmed: "Dentro",

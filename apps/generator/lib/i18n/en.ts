@@ -270,6 +270,7 @@ export const en = {
     cancel: "Cancel my registration",
     cancelGroup: "Cancel our registration",
     addGuest: "Add a +1",
+    addGuestSubmit: "Add",
     guestHeading: "Bring a +1",
     guestLede: "They sign up under your name and count like any registration.",
     guestConfirmed: "In",

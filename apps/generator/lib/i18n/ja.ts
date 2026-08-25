@@ -256,6 +256,7 @@ export const ja: Messages = {
     cancel: "申し込みを取り消す",
     cancelGroup: "全員の申し込みを取り消す",
     addGuest: "+1 を追加",
+    addGuestSubmit: "追加",
     guestHeading: "+1 を連れて行く",
     guestLede: "あなたの名前で登録され、通常の登録と同じ扱いです。",
     guestConfirmed: "参加確定",

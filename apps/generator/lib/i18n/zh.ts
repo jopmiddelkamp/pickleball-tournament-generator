@@ -253,6 +253,7 @@ export const zh: Messages = {
     cancel: "取消我的报名",
     cancelGroup: "取消我们的报名",
     addGuest: "添加 +1",
+    addGuestSubmit: "添加",
     guestHeading: "带一位 +1",
     guestLede: "以你的名义报名，和普通报名一样计算。",
     guestConfirmed: "已入选",

@@ -254,6 +254,7 @@ export const ko: Messages = {
     cancel: "내 신청 취소",
     cancelGroup: "우리 신청 취소",
     addGuest: "+1 추가",
+    addGuestSubmit: "추가",
     guestHeading: "+1 데려오기",
     guestLede: "내 이름으로 등록되며 일반 등록과 똑같이 계산됩니다.",
     guestConfirmed: "확정",
