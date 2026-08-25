@@ -603,6 +603,20 @@ a.button {
   white-space: nowrap;
 }
 
+/* Arrival number: a fixed column so chips and names line up across rows. */
+.roster__number {
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
+  color: var(--color-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 2.25em;
+  text-align: right;
+  white-space: nowrap;
+}
+
 .roster__level {
   font-family: var(--text-label-font);
   font-size: var(--text-label-size);
