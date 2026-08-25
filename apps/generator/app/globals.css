@@ -669,8 +669,13 @@ a.button {
 /* A +1's fields inside the public sign-up form. */
 /* A form opened under a list row: closed off by a divider at its foot. */
 .form-under {
-  padding: var(--space-md) 0;
+  padding-bottom: var(--space-md);
   border-bottom: 1px dashed var(--color-outline);
+}
+
+/* The form itself keeps its distance from the row it sits under. */
+.form-under > :not(.roster__item) {
+  padding-top: var(--space-md);
 }
 
 .guest {
