@@ -6,6 +6,7 @@ import { useState } from "react";
 import { features } from "../lib/features";
 import { useLocale } from "../lib/i18n/useLocale";
 import { CourtCard } from "./CourtCard";
+import { RoundClock } from "./RoundClock";
 import { EmptyState, GenderChip, Notice } from "./ui";
 
 export function ScheduleScreen({
@@ -16,6 +17,10 @@ export function ScheduleScreen({
   printHref,
   roundsStarted,
   finished,
+  roundMinutes,
+  clockStartedAt,
+  onStartClock,
+  onStopClock,
   onScoreChange,
   gameTarget,
   onVoidChange,
@@ -30,6 +35,11 @@ export function ScheduleScreen({
   printHref: string;
   roundsStarted: number;
   finished: boolean;
+  /** time limit per round; null when rounds are untimed */
+  roundMinutes: number | null;
+  clockStartedAt: string | null;
+  onStartClock: () => void;
+  onStopClock: () => void;
   onScoreChange: (roundIndex: number, court: number, side: "A" | "B", points: number | null) => void;
   /** the game target: scores cannot go past it */
   gameTarget: number;
@@ -66,6 +76,9 @@ export function ScheduleScreen({
       </div>
       {roundsStarted > 0 && !finished ? (
         <p className="standings__detail">{t.schedule.currentRound(roundsStarted)}</p>
+      ) : null}
+      {roundsStarted > 0 && !finished && roundMinutes !== null ? (
+        <RoundClock minutes={roundMinutes} startedAt={clockStartedAt} onStart={onStartClock} onStop={onStopClock} />
       ) : null}
 
       {finished ? (

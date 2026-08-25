@@ -43,6 +43,13 @@
       "when": 1787661335052,
       "tag": "0005_round-minutes",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1787661536341,
+      "tag": "0006_round-clock",
+      "breakpoints": true
     }
   ]
 }

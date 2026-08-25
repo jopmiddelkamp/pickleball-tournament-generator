@@ -125,6 +125,15 @@ export const ja: Messages = {
     currentRound: (n) => `ラウンド ${n} を進行中`,
   },
 
+  clock: {
+    label: "ラウンドタイマー",
+    start: (minutes) => `${minutes} 分のタイマーを開始`,
+    running: (minutes) => `／${minutes} 分`,
+    timeUp: "時間切れです。ラリーを終えてスコアを報告してください。",
+    stop: "停止",
+    reset: "クリア",
+  },
+
   court: {
     label: (court) => `コート ${court}`,
     sameGender: (bands) => `同性ペア · ${bands}`,

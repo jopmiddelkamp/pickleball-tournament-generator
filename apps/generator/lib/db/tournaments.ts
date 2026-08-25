@@ -27,6 +27,7 @@ export type TournamentPatch = Partial<
     | "games"
     | "roundsStarted"
     | "finishedAt"
+    | "clockStartedAt"
   >
 >;
 

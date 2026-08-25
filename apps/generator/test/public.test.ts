@@ -27,6 +27,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     games: [],
     roundsStarted: 0,
     finishedAt: null,
+    clockStartedAt: null,
     createdAt: new Date("2026-08-01T00:00:00Z"),
     ...overrides,
   };

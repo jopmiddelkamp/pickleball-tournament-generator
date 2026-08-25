@@ -126,6 +126,15 @@ export const vi: Messages = {
     currentRound: (n) => `Vòng ${n} đang thi đấu`,
   },
 
+  clock: {
+    label: "Đồng hồ vòng đấu",
+    start: (minutes) => `Bắt đầu đếm ${minutes} phút`,
+    running: (minutes) => `trong ${minutes} phút còn lại`,
+    timeUp: "Hết giờ — đánh xong pha bóng rồi báo điểm.",
+    stop: "Dừng",
+    reset: "Xóa",
+  },
+
   court: {
     label: (court) => `Sân ${court}`,
     sameGender: (bands) => `cùng giới · ${bands}`,

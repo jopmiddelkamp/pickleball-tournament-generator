@@ -10,8 +10,10 @@ import {
   recordScoreAction,
   rerollAction,
   setVoidedAction,
+  startClockAction,
   startEventAction,
   startRoundAction,
+  stopClockAction,
   updateSetupAction,
 } from "../lib/actions/tournaments";
 import { settleForScoring, withScore, withVoided } from "../lib/evening";
@@ -194,6 +196,10 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           printHref={`/organiser/event/${view.id}/print`}
           roundsStarted={view.roundsStarted}
           finished={view.status === "finished"}
+          roundMinutes={view.roundMinutes}
+          clockStartedAt={view.clockStartedAt}
+          onStartClock={() => run(() => startClockAction(view.id))}
+          onStopClock={() => run(() => stopClockAction(view.id))}
           onStartRound={() => run(() => startRoundAction(view.id))}
           onEndEvening={() => run(() => endEventAction(view.id))}
           onScoreChange={(roundIndex, court, side, points) => {

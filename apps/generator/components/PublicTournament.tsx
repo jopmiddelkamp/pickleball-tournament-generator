@@ -13,6 +13,7 @@ import { LanguageSelect } from "./LanguageSelect";
 import { ProfileEditor } from "./ProfileEditor";
 import { PublicRegisterForm } from "./PublicRegisterForm";
 import { Segmented } from "./Segmented";
+import { RoundClock } from "./RoundClock";
 import { RoundView } from "./RoundView";
 import { StandingsScreen } from "./StandingsScreen";
 import { GenderChip, Notice, Wordmark } from "./ui";
@@ -288,14 +289,17 @@ export function PublicTournament({ view }: { view: PublicView }) {
                 />
 
                 {tab === "now" ? (
-                  <RoundView
-                    round={liveRound}
-                    players={view.players}
-                    games={view.games}
-                    settledGames={settledGames}
-                    roundNumber={view.roundsStarted}
-                    highlightId={view.yourId}
-                  />
+                  <>
+                    {view.roundMinutes !== null ? <RoundClock minutes={view.roundMinutes} startedAt={view.clockStartedAt} /> : null}
+                    <RoundView
+                      round={liveRound}
+                      players={view.players}
+                      games={view.games}
+                      settledGames={settledGames}
+                      roundNumber={view.roundsStarted}
+                      highlightId={view.yourId}
+                    />
+                  </>
                 ) : tab === "standings" ? (
                   <StandingsScreen night={night} players={view.players} hasSchedule={true} />
                 ) : (

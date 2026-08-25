@@ -69,6 +69,11 @@ describe("effectiveConfig", () => {
     expect(buildWorkspaceView(row({ roundMinutes: 15 }), []).roundMinutes).toBe(15);
     expect(buildWorkspaceView(row(), []).roundMinutes).toBeNull();
   });
+  it("hands the running clock to the client as an ISO string", () => {
+    const started = new Date("2026-09-01T19:00:00Z");
+    expect(buildWorkspaceView(row({ clockStartedAt: started }), []).clockStartedAt).toBe("2026-09-01T19:00:00.000Z");
+    expect(buildWorkspaceView(row(), []).clockStartedAt).toBeNull();
+  });
   it("never returns fewer than one court, so the form stays valid with a tiny roster", () => {
     expect(effectiveConfig(base, 3).courts).toBe(1);
   });
@@ -96,6 +101,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     games: [],
     roundsStarted: 0,
     finishedAt: null,
+    clockStartedAt: null,
     createdAt: new Date("2026-08-01T00:00:00Z"),
     ...overrides,
   };

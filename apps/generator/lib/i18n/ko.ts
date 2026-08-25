@@ -125,6 +125,15 @@ export const ko: Messages = {
     currentRound: (n) => `${n}라운드 진행 중`,
   },
 
+  clock: {
+    label: "라운드 타이머",
+    start: (minutes) => `${minutes}분 타이머 시작`,
+    running: (minutes) => `/ ${minutes}분`,
+    timeUp: "시간 종료 — 진행 중인 랠리를 마치고 점수를 알려주세요.",
+    stop: "정지",
+    reset: "지우기",
+  },
+
   court: {
     label: (court) => `코트 ${court}`,
     sameGender: (bands) => `동성 팀 · ${bands}`,

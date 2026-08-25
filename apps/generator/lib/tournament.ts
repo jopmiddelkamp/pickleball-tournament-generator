@@ -63,6 +63,8 @@ export interface WorkspaceView {
   algorithmId: string;
   gameTarget: number;
   roundMinutes: number | null;
+  /** ISO; null while no clock is running for the round on court */
+  clockStartedAt: string | null;
   schedule: Schedule | null;
   games: GameResult[];
   /** registration id of a +1 -> name of who brought them */
@@ -111,6 +113,7 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
     algorithmId,
     gameTarget: tournament.gameTarget,
     roundMinutes: tournament.roundMinutes,
+    clockStartedAt: tournament.clockStartedAt?.toISOString() ?? null,
     guestHosts,
     schedule: unreadable ? null : schedule,
     games: unreadable || games === null ? [] : games,

@@ -480,6 +480,45 @@ a.button {
   align-items: baseline;
 }
 
+/* ---------- round clock ----------
+   The one big number while a round is on court. Tabular so it does not jitter
+   as the seconds tick. */
+
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: var(--space-sm) 0 var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  box-shadow: var(--elevation-1);
+}
+
+.clock__time {
+  font-family: var(--text-display-lg-font);
+  font-size: var(--text-display-lg-size);
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-line);
+  letter-spacing: var(--text-display-lg-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.clock--up .clock__time {
+  color: var(--color-error);
+}
+
+.clock__caption {
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
+}
+
 /* ---------- progress ----------
    Indeterminate: a Server Action cannot report how far the draw is, only that
    it is running. A sweep on the track says "busy" without promising a number. */

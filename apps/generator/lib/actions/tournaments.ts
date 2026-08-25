@@ -161,14 +161,29 @@ export async function startRoundAction(id: string): Promise<ActionResult> {
   if (!schedule || owner.tournament.roundsStarted >= schedule.rounds.length || owner.tournament.finishedAt !== null) {
     return fail("state");
   }
-  return save(owner, { roundsStarted: owner.tournament.roundsStarted + 1 });
+  return save(owner, { roundsStarted: owner.tournament.roundsStarted + 1, clockStartedAt: null });
+}
+
+/** Starts the round clock; only meaningful while a round is on court and the event has a time limit. */
+export async function startClockAction(id: string): Promise<ActionResult> {
+  const owner = await owned(id);
+  if (owner.tournament.roundMinutes === null || owner.tournament.roundsStarted === 0 || owner.tournament.finishedAt !== null) {
+    return fail("state");
+  }
+  return save(owner, { clockStartedAt: new Date() });
+}
+
+/** Clears a clock started by mistake. */
+export async function stopClockAction(id: string): Promise<ActionResult> {
+  const owner = await owned(id);
+  return save(owner, { clockStartedAt: null });
 }
 
 /** Closes the evening; standings become final. Requires at least one round to have started. */
 export async function endEventAction(id: string): Promise<ActionResult> {
   const owner = await owned(id);
   if (owner.tournament.roundsStarted === 0 || owner.tournament.finishedAt !== null) return fail("state");
-  return save(owner, { finishedAt: new Date() });
+  return save(owner, { finishedAt: new Date(), clockStartedAt: null });
 }
 
 function matchAt(view: WorkspaceView, roundIndex: number, court: number): Match | null {

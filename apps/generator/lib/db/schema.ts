@@ -38,6 +38,8 @@ export const tournaments = pgTable(
     /** how many rounds the organiser has advanced past on the night screen */
     roundsStarted: integer("rounds_started").notNull().default(0),
     finishedAt: timestamp("finished_at", { withTimezone: true }),
+    /** when the organiser started the clock for the round on court; cleared when the next round starts */
+    clockStartedAt: timestamp("clock_started_at", { withTimezone: true }),
     /** core Schedule as JSON; validated on read by lib/validate.ts */
     schedule: jsonb("schedule").$type<unknown>(),
     /** GameResult[] as JSON; validated on read */

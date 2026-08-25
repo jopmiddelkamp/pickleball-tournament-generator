@@ -124,6 +124,15 @@ export const zh: Messages = {
     currentRound: (n) => `第 ${n} 轮进行中`,
   },
 
+  clock: {
+    label: "本轮计时",
+    start: (minutes) => `开始 ${minutes} 分钟计时`,
+    running: (minutes) => `/ ${minutes} 分钟`,
+    timeUp: "时间到——打完这一球后来报分。",
+    stop: "停止",
+    reset: "清除",
+  },
+
   court: {
     label: (court) => `${court} 号场`,
     sameGender: (bands) => `同性组合 · ${bands}`,

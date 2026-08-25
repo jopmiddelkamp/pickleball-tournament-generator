@@ -141,6 +141,15 @@ export const en = {
     currentRound: (n: number) => `Round ${n} is on court`,
   },
 
+  clock: {
+    label: "Round clock",
+    start: (minutes: number) => `Start the ${minutes}-minute clock`,
+    running: (minutes: number) => `of ${minutes} minutes left`,
+    timeUp: "Time's up — finish the rally and report your score.",
+    stop: "Stop",
+    reset: "Clear",
+  },
+
   court: {
     label: (court: number) => `Court ${court}`,
     sameGender: (bands: string) => `same gender · ${bands}`,

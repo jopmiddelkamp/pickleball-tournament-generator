@@ -126,6 +126,15 @@ export const es: Messages = {
     currentRound: (n) => `La ronda ${n} está en pista`,
   },
 
+  clock: {
+    label: "Reloj de la ronda",
+    start: (minutes) => `Iniciar el reloj de ${minutes} minutos`,
+    running: (minutes) => `de ${minutes} minutos restantes`,
+    timeUp: "Se acabó el tiempo: terminad el punto y traed el resultado.",
+    stop: "Parar",
+    reset: "Borrar",
+  },
+
   court: {
     label: (court) => `Pista ${court}`,
     sameGender: (bands) => `mismo género · ${bands}`,

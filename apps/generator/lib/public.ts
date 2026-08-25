@@ -58,6 +58,8 @@ export interface PublicView {
   full: boolean;
   gameTarget: number;
   roundMinutes: number | null;
+  /** ISO; null while no clock is running for the round on court */
+  clockStartedAt: string | null;
   roundsStarted: number;
   players: Player[]; // confirmed only; empty until status is live or finished
   /** rounds only, never the seed or algorithm id: present when status is live or finished (readable) */
@@ -152,6 +154,7 @@ export function buildPublicView(
     full,
     gameTarget: tournament.gameTarget,
     roundMinutes: tournament.roundMinutes,
+    clockStartedAt: tournament.clockStartedAt?.toISOString() ?? null,
     roundsStarted: tournament.roundsStarted,
     players,
     schedule,
