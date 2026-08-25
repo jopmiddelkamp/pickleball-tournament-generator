@@ -63,7 +63,6 @@ export function StandingsScreen({
               const player = playerById.get(entry.playerId);
               const parts = [t.standings.played(entry.gamesPlayed)];
               if (entry.byeBonus > 0) parts.push(t.standings.bye(entry.byeBonus));
-              if (player) parts.push(t.levels[player.level]);
               return (
                 <li key={entry.playerId} className="standings__row">
                   <span className="standings__rank">{entry.rank}</span>
@@ -74,6 +73,7 @@ export function StandingsScreen({
                     </span>
                     <span className="standings__detail">{parts.join(" · ")}</span>
                   </span>
+                  <span className="roster__level">{player ? t.levels[player.level] : null}</span>
                   <span className="standings__total">
                     {entry.total}
                     <span className="standings__difference">{signed(entry.difference)}</span>
