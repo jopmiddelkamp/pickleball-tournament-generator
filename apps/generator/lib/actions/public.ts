@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { LIMITS } from "../config";
 import { addRegistration, addRegistrationGroup, cancelRegistration, countActiveRegistrations, findActiveRegistrationByToken, listActiveRegistrations } from "../db/registrations";
+import { isUniqueViolation } from "../db/errors";
 import { findTournamentBySlug } from "../db/tournaments";
 import { newParticipantToken } from "../ids";
 import { PARTICIPANT_COOKIE, readParticipantToken } from "../participant";
@@ -31,10 +32,10 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
   try {
     await addRegistrationGroup(tournament.id, { ...player, participantToken: token }, guests);
   } catch (err) {
-    // The `postgres` driver exposes the postgres error code on `.code`; 23505 is the
-    // partial unique index firing because this phone already has an active
-    // registration for this evening. Anything else is a genuine failure.
-    if (typeof err === "object" && err !== null && "code" in err && err.code === "23505") {
+    // The partial unique index fired: this phone already has an active
+    // registration for this evening. Re-render so a reload shows it.
+    if (isUniqueViolation(err)) {
+      revalidatePath(`/event/${tournament.slug}`);
       return { error: "already" };
     }
     console.error(`registerAction failed for tournament ${tournament.id}`, err);
