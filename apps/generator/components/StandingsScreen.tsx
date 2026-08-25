@@ -33,13 +33,16 @@ export function StandingsScreen({
 
   return (
     <div>
-      <h2 className="screen__heading">{t.standings.heading}</h2>
-      <p className="screen__lede">{t.standings.lede}</p>
-
       {!hasSchedule ? (
-        <EmptyState>{t.standings.empty}</EmptyState>
+        <>
+          <h2 className="screen__heading">{t.standings.heading}</h2>
+          <p className="screen__lede">{t.standings.lede}</p>
+          <EmptyState>{t.standings.empty}</EmptyState>
+        </>
       ) : (
         <>
+          <h2 className="screen__heading">{t.standings.bestHeading}</h2>
+          <p className="screen__lede">{t.standings.bestLede}</p>
           <div className="podiums">
             {podiums.map((group) => (
               <section key={group.title} className="podium">
@@ -57,6 +60,8 @@ export function StandingsScreen({
             ))}
           </div>
 
+          <h2 className="screen__heading">{t.standings.heading}</h2>
+          <p className="screen__lede">{t.standings.lede}</p>
           <ul className="standings__list">
             {night.standings.map((entry) => {
               const player = playerById.get(entry.playerId);

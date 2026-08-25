@@ -179,6 +179,8 @@ export const vi: Messages = {
     empty: "Tạo lịch trước, rồi nhập tỷ số khi các ván kết thúc.",
     played: (games) => `${games} ván`,
     bye: (points) => `+${points} nghỉ`,
+    bestHeading: "Xuất sắc nhất tối nay",
+    bestLede: "Ba nữ và ba nam ghi nhiều điểm nhất tối nay.",
     top: { women: "Nữ xuất sắc", men: "Nam xuất sắc" },
   },
 

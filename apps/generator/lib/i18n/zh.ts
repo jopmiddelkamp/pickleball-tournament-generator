@@ -177,6 +177,8 @@ export const zh: Messages = {
     empty: "先生成赛程，然后在每局结束后录入比分。",
     played: (games) => `已打 ${games} 局`,
     bye: (points) => `轮空 +${points}`,
+    bestHeading: "今晚之星",
+    bestLede: "今晚得分最高的三位女士和三位男士。",
     top: { women: "女子前三", men: "男子前三" },
   },
 

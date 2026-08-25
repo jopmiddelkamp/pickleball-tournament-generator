@@ -194,6 +194,8 @@ export const en = {
     empty: "Generate a schedule first, then enter scores as the games finish.",
     played: (games: number) => `${games} played`,
     bye: (points: number) => `+${points} bye`,
+    bestHeading: "Best of the night",
+    bestLede: "The three women and three men with the most points this evening.",
     top: { women: "Best women", men: "Best men" },
   },
 

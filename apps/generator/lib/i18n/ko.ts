@@ -178,6 +178,8 @@ export const ko: Messages = {
     empty: "먼저 일정을 생성한 뒤, 경기가 끝날 때마다 점수를 입력하세요.",
     played: (games) => `${games}경기`,
     bye: (points) => `휴식 +${points}`,
+    bestHeading: "오늘의 베스트",
+    bestLede: "오늘 밤 가장 많은 점수를 낸 여자 세 명과 남자 세 명.",
     top: { women: "여자 톱 3", men: "남자 톱 3" },
   },
 

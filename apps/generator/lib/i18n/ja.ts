@@ -178,6 +178,8 @@ export const ja: Messages = {
     empty: "先にスケジュールを生成し、ゲームが終わるごとにスコアを入力してください。",
     played: (games) => `${games} ゲーム`,
     bye: (points) => `休憩 +${points}`,
+    bestHeading: "今夜のベスト",
+    bestLede: "今夜もっとも得点した女性3人と男性3人。",
     top: { women: "女性トップ3", men: "男性トップ3" },
   },
 

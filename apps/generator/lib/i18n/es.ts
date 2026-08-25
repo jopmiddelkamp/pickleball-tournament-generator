@@ -179,6 +179,8 @@ export const es: Messages = {
     empty: "Genera primero un calendario y luego anota los resultados al acabar cada partido.",
     played: (games) => `${games} jugados`,
     bye: (points) => `+${points} descanso`,
+    bestHeading: "Lo mejor de la noche",
+    bestLede: "Las tres mujeres y los tres hombres con más puntos esta noche.",
     top: { women: "Mejores mujeres", men: "Mejores hombres" },
   },
 
