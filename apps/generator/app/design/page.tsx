@@ -584,6 +584,54 @@ export default function DesignSystemPage() {
             </ul>
           </div>
 
+          <h3 className="ds__groupTitle">The evening's games</h3>
+          <div className="ds__demo ds__demo--stacked">
+            <div className="games">
+              <section className="games__round">
+                <div className="games__head">
+                  <span>Round 1</span>
+                  <span className="games__rest">Resting: Niek, Bella</span>
+                </div>
+                {[
+                  ["Court 1", ["Linh Vi", "YSG"], ["Mikey", "Linh Ella"], 11, 7],
+                  ["Court 2", ["Leon", "OL"], ["Jop", "Linh Le"], 8, 11],
+                ].map(([court, a, b, pa, pb]) => {
+                  const [teamA, teamB] = [a as string[], b as string[]];
+                  const [pointsA, pointsB] = [pa as number, pb as number];
+                  return (
+                    <div key={court as string} className="games__game">
+                      <div className={`games__team games__team--left ${pointsA > pointsB ? "games__team--won" : ""}`}>
+                        <span className="games__court">{court as string}</span>
+                        {teamA.map((name) => (
+                          <span key={name} className="games__name">
+                            {name}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="games__score">
+                        <span className={pointsA > pointsB ? "games__won" : undefined}>{pointsA}</span>–
+                        <span className={pointsB > pointsA ? "games__won" : undefined}>{pointsB}</span>
+                      </span>
+                      <div className={`games__team games__team--right ${pointsB > pointsA ? "games__team--won" : ""}`}>
+                        <span className="games__court"> </span>
+                        {teamB.map((name) => (
+                          <span key={name} className="games__name">
+                            {name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </section>
+            </div>
+          </div>
+          <p className="ds__note">
+            The finished evening, one card per round and one row per court laid out like the court itself. The winning
+            side and its number are bold; the quiet half of the score is the body face at 400, because the display face
+            only ships in 700 and 800.
+          </p>
+
           <h3 className="ds__groupTitle">The event banner</h3>
           <div className="ds__demo ds__demo--stacked">
             <div className="event">
