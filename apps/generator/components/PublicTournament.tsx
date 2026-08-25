@@ -241,11 +241,12 @@ export function PublicTournament({ view }: { view: PublicView }) {
                 <p className="standings__detail">{t.public.nobodyYet}</p>
               ) : (
                 <ul className="plain-list">
-                  {view.signedUp.map((entry) => {
+                  {view.signedUp.map((entry, index) => {
                     const self = entry.id === view.yourId;
                     const mine = self || guestIds.has(entry.id);
                     return (
                       <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
+                        <span className="roster__level">{t.roster.position(index + 1)}</span>
                         <GenderChip gender={entry.gender} />
                         <span className="roster__name">
                           {entry.name}

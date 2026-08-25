@@ -104,11 +104,12 @@ export function RosterScreen({
         <EmptyState>{t.roster.empty}</EmptyState>
       ) : (
         <ul className="roster__list">
-          {confirmed.map((player) =>
+          {confirmed.map((player, index) =>
             editingId === player.id ? (
               <li key={player.id}>{editor(player)}</li>
             ) : (
               <li key={player.id} className="roster__item">
+                <span className="roster__level">{t.roster.position(index + 1)}</span>
                 <GenderChip gender={player.gender} />
                 <span className="roster__name">
                   {player.name}
@@ -133,7 +134,7 @@ export function RosterScreen({
                 <li key={player.id}>{editor(player)}</li>
               ) : (
                 <li key={player.id} className="roster__item">
-                  <span className="roster__level">{t.roster.position(index + 1)}</span>
+                  <span className="roster__level">{t.roster.position(confirmed.length + index + 1)}</span>
                   <GenderChip gender={player.gender} />
                   <span className="roster__name">
                     {player.name}
