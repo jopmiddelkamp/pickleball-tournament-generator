@@ -330,7 +330,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
           <RulesScreen gameTarget={view.gameTarget} roundMinutes={view.roundMinutes} />
         ) : night ? (
           <>
-            {view.status === "finished" ? <h3 className="screen__section">{t.public.finalHeading}</h3> : null}
             <StandingsScreen night={night} players={view.players} hasSchedule={true} />
           </>
         ) : null}

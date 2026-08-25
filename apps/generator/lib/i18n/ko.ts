@@ -304,7 +304,6 @@ export const ko: Messages = {
     round: (n) => `라운드 ${n}`,
     yourCourt: (court, partner, a, b) => `코트 ${court} — ${partner}와 함께, 상대는 ${a} & ${b}`,
     youRest: "이번 라운드는 휴식입니다 — 다음 라운드에 복귀합니다.",
-    finalHeading: "최종 순위",
     notStarted: "일정이 준비되었습니다. 곧 1라운드가 시작됩니다.",
     errors: {
       invalid: "이름을 입력하고, 플레이 방식과 레벨을 선택하세요.",

@@ -305,7 +305,6 @@ export const es: Messages = {
     round: (n) => `Ronda ${n}`,
     yourCourt: (court, partner, a, b) => `Pista ${court} — con ${partner}, contra ${a} y ${b}`,
     youRest: "Descansas esta ronda — vuelves en la siguiente.",
-    finalHeading: "Clasificación final",
     notStarted: "El calendario está listo. La primera ronda empieza pronto.",
     errors: {
       invalid: "Introduce un nombre y elige cómo juegas y tu nivel.",

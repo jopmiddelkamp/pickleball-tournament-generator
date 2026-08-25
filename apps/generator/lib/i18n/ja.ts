@@ -306,7 +306,6 @@ export const ja: Messages = {
     round: (n) => `ラウンド ${n}`,
     yourCourt: (court, partner, a, b) => `コート ${court} — ${partner}とペア、対戦相手は${a}・${b}`,
     youRest: "このラウンドは休憩です — 次のラウンドで復帰します。",
-    finalHeading: "最終順位",
     notStarted: "スケジュールの準備ができました。まもなく第1ラウンドが始まります。",
     errors: {
       invalid: "名前を入力し、プレースタイルとレベルを選んでください。",
