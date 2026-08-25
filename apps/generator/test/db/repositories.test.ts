@@ -18,6 +18,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
   let addRegistration: Registrations["addRegistration"];
   let addRegistrationGroup: Registrations["addRegistrationGroup"];
   let cancelRegistration: Registrations["cancelRegistration"];
+  let updateRegistrationProfile: Registrations["updateRegistrationProfile"];
   let countActiveRegistrations: Registrations["countActiveRegistrations"];
   let listActiveRegistrations: Registrations["listActiveRegistrations"];
   let findActiveRegistrationByToken: Registrations["findActiveRegistrationByToken"];
@@ -27,7 +28,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     ({ createTournament, findTournament, findTournamentBySlug, listTournaments, updateTournament } = await import(
       "../../lib/db/tournaments"
     ));
-    ({ addRegistration, addRegistrationGroup, cancelRegistration, countActiveRegistrations, listActiveRegistrations, findActiveRegistrationByToken } =
+    ({ addRegistration, addRegistrationGroup, cancelRegistration, updateRegistrationProfile, countActiveRegistrations, listActiveRegistrations, findActiveRegistrationByToken } =
       await import("../../lib/db/registrations"));
     const { db } = await import("../../lib/db/client");
     const { tournaments } = await import("../../lib/db/schema");
@@ -71,6 +72,19 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     const created = await createTournament(organiser, input);
     expect(await updateTournament(stranger, created.id, { rounds: 9 })).toBeNull();
     expect((await updateTournament(organiser, created.id, { rounds: 9 }))?.rounds).toBe(9);
+  });
+
+  it("corrects gender and level in place, keeping the arrival position", async () => {
+    const created = await createTournament(organiser, input);
+    const a = await addRegistration(created.id, { name: "A", gender: "F", level: 3, participantToken: null });
+    const b = await addRegistration(created.id, { name: "B", gender: "M", level: 4, participantToken: null });
+    expect(await updateRegistrationProfile(created.id, a.id, { gender: "M", level: 5 })).toBe(true);
+    const active = await listActiveRegistrations(created.id);
+    expect(active.map((r) => r.id)).toEqual([a.id, b.id]);
+    expect(active[0]).toMatchObject({ name: "A", gender: "M", level: 5, registeredAt: a.registeredAt });
+    await cancelRegistration(created.id, a.id);
+    expect(await updateRegistrationProfile(created.id, a.id, { gender: "F", level: 1 })).toBe(false);
+    expect(await updateRegistrationProfile(randomUUID(), b.id, { gender: "F", level: 1 })).toBe(false);
   });
 
   it("lists active registrations in arrival order and drops cancelled ones", async () => {

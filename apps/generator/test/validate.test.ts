@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseGuestsForm, parsePlayerForm, parseTournamentForm } from "../lib/validate";
+import { parseGuestsForm, parsePlayerForm, parseProfile, parseTournamentForm } from "../lib/validate";
 
 function form(fields: Record<string, string>): FormData {
   const data = new FormData();
@@ -64,6 +64,22 @@ describe("parsePlayerForm", () => {
     ["empty name", { name: "", gender: "F", level: "4" }],
   ])("rejects %s", (_label, fields) => {
     expect(parsePlayerForm(form(fields))).toBeNull();
+  });
+});
+
+describe("parseProfile", () => {
+  it("parses gender and level only, dropping a name that came along", () => {
+    expect(parseProfile({ gender: "M", level: 5 })).toEqual({ gender: "M", level: 5 });
+    expect(parseProfile({ name: "Ana", gender: "M", level: 5 })).toEqual({ gender: "M", level: 5 });
+  });
+  it.each([
+    ["unknown gender", { gender: "X", level: 4 }],
+    ["level 0", { gender: "F", level: 0 }],
+    ["a string level", { gender: "F", level: "4" }],
+    ["missing level", { gender: "F" }],
+    ["a non-object", "F4"],
+  ])("rejects %s", (_label, value) => {
+    expect(parseProfile(value)).toBeNull();
   });
 });
 

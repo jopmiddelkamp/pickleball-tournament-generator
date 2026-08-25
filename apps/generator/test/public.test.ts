@@ -44,6 +44,9 @@ describe("buildPublicView", () => {
     const view = buildPublicView(row(), registrations, "p1");
     expect(view.you).toEqual({
       name: "Player p1",
+      registeredAt: "2026-09-01T18:01:00.000Z",
+      gender: "F",
+      level: 3,
       confirmed: true,
       position: null,
       canCancel: true,
@@ -53,11 +56,32 @@ describe("buildPublicView", () => {
     expect(view.yourId).toBe("p1");
   });
 
+  it("lists everyone signed up by name only, in arrival order, confirmed before waiting", () => {
+    const shuffled = [...registrations].reverse();
+    const view = buildPublicView(row(), shuffled, null);
+    expect(view.signedUp.map((s) => s.id)).toEqual(registrations.map((r) => r.id));
+    expect(view.signedUp[0]).toEqual({ id: "p1", name: "Player p1", confirmed: true, position: null });
+    const last = view.signedUp[view.signedUp.length - 1]!;
+    expect(last).toEqual({ id: `p${cap + 2}`, name: `Player p${cap + 2}`, confirmed: false, position: 2 });
+    for (const entry of view.signedUp) {
+      expect(entry).not.toHaveProperty("level");
+      expect(entry).not.toHaveProperty("gender");
+    }
+  });
+
+  it("lists sign-ups for a stranger before the evening is live, and for a finished evening too", () => {
+    expect(buildPublicView(row(), registrations, null).signedUp).toHaveLength(registrations.length);
+    expect(buildPublicView(row({ finishedAt: new Date() }), registrations, null).signedUp).toHaveLength(registrations.length);
+  });
+
   it("gives a waiting visitor their 1-based position", () => {
     const lastId = registrations[registrations.length - 1]!.id;
     const view = buildPublicView(row(), registrations, lastId);
     expect(view.you).toEqual({
       name: `Player ${lastId}`,
+      registeredAt: `2026-09-01T18:${String(cap + 2).padStart(2, "0")}:00.000Z`,
+      gender: "F",
+      level: 3,
       confirmed: false,
       position: 2,
       canCancel: true,
@@ -71,8 +95,8 @@ describe("buildPublicView", () => {
     const withGuests = registrations.map((r) => (r.id === "p6" || r.id === "p7" ? { ...r, guestOf: "p1" } : r));
     const view = buildPublicView(row(), withGuests, "p1");
     expect(view.you?.guests).toEqual([
-      { id: "p6", name: "Player p6", confirmed: false, position: 1 },
-      { id: "p7", name: "Player p7", confirmed: false, position: 2 },
+      { id: "p6", name: "Player p6", gender: "F", level: 3, confirmed: false, position: 1 },
+      { id: "p7", name: "Player p7", gender: "F", level: 3, confirmed: false, position: 2 },
     ]);
     expect(view.you?.canAddGuest).toBe(true);
   });

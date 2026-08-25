@@ -225,6 +225,15 @@ export function parseGuestsForm(formData: FormData): Omit<Player, "id">[] | null
   return guests;
 }
 
+/** A profile correction: how someone plays and their level. The name is never editable. */
+export type PlayerProfile = Pick<Player, "gender" | "level">;
+
+export function parseProfile(value: unknown): PlayerProfile | null {
+  if (!isRecord(value)) return null;
+  const player = parsePlayer({ id: "profile", name: "profile", gender: value.gender, level: value.level });
+  return player ? { gender: player.gender, level: player.level } : null;
+}
+
 export function parsePlayerForm(formData: FormData): Omit<Player, "id"> | null {
   const player = parsePlayer({
     id: "form",

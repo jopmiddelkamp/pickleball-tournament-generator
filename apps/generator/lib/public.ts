@@ -1,4 +1,4 @@
-import type { GameResult, Player, Round } from "@ptg/core";
+import type { GameResult, Gender, Level, Player, Round } from "@ptg/core";
 import { maxPlayersFor } from "@ptg/core";
 import { LIMITS } from "./config";
 import type { TournamentRow } from "./db/schema";
@@ -6,7 +6,8 @@ import { partitionRegistrations, toPlayer, type ActiveRegistration } from "./reg
 import { tournamentStatus, type TournamentStatus } from "./tournament";
 import { parseGames, parseSchedule } from "./validate";
 
-export interface PublicGuest {
+/** One name on the public sign-up list: never a level or gender (SPEC-1 §5). */
+export interface PublicSignup {
   id: string;
   name: string;
   confirmed: boolean;
@@ -14,8 +15,22 @@ export interface PublicGuest {
   position: number | null;
 }
 
+/**
+ * A +1 holds its own place in the queue, described like any sign-up. Gender
+ * and level are here so the host can correct them; they are the host's own
+ * data and never reach the public list.
+ */
+export interface PublicGuest extends PublicSignup {
+  gender: Gender;
+  level: Level;
+}
+
 export interface PublicYou {
   name: string;
+  gender: Gender;
+  level: Level;
+  /** ISO, when this phone signed up */
+  registeredAt: string;
   confirmed: boolean;
   /** 1-based waiting-list position; null when confirmed */
   position: number | null;
@@ -34,6 +49,8 @@ export interface PublicView {
   capacity: number;
   confirmedCount: number;
   waitingCount: number;
+  /** everyone signed up, confirmed first then the waiting list, both in arrival order */
+  signedUp: PublicSignup[];
   /** the visitor's registration, matched by cookie; null when not registered */
   you: PublicYou | null;
   /** id of the visitor's registration, for highlighting their match */
@@ -62,23 +79,33 @@ export function buildPublicView(
 
   const full = registrations.length >= LIMITS.maxRegistrations;
 
-  function placeOf(id: string): { name: string; confirmed: boolean; position: number | null } | null {
-    const confirmedMatch = confirmed.find((r) => r.id === id);
-    if (confirmedMatch) return { name: confirmedMatch.name, confirmed: true, position: null };
-    const waitingIndex = waiting.findIndex((r) => r.id === id);
-    const waitingMatch = waitingIndex === -1 ? null : waiting[waitingIndex];
-    return waitingMatch ? { name: waitingMatch.name, confirmed: false, position: waitingIndex + 1 } : null;
+  const signedUp: PublicSignup[] = [
+    ...confirmed.map((r) => ({ id: r.id, name: r.name, confirmed: true, position: null })),
+    ...waiting.map((r, index) => ({ id: r.id, name: r.name, confirmed: false, position: index + 1 })),
+  ];
+
+  function placeOf(id: string): PublicSignup | null {
+    return signedUp.find((s) => s.id === id) ?? null;
   }
 
   let you: PublicYou | null = null;
   if (registrationId != null) {
     const own = placeOf(registrationId);
-    if (own) {
+    const ownRow = registrations.find((r) => r.id === registrationId);
+    if (own && ownRow) {
       const guests = [...confirmed, ...waiting]
         .filter((r) => r.guestOf === registrationId)
-        .map((r) => ({ id: r.id, ...(placeOf(r.id) as NonNullable<ReturnType<typeof placeOf>>) }));
+        .flatMap((r) => {
+          const place = placeOf(r.id);
+          return place ? [{ ...place, gender: r.gender, level: r.level }] : [];
+        });
       you = {
-        ...own,
+        name: own.name,
+        gender: ownRow.gender,
+        level: ownRow.level,
+        registeredAt: ownRow.registeredAt.toISOString(),
+        confirmed: own.confirmed,
+        position: own.position,
         canCancel,
         guests,
         canAddGuest: status === "open" && !full && guests.length < LIMITS.maxGuests,
@@ -119,6 +146,7 @@ export function buildPublicView(
     capacity,
     confirmedCount: confirmed.length,
     waitingCount: waiting.length,
+    signedUp,
     you,
     yourId: registrationId,
     full,

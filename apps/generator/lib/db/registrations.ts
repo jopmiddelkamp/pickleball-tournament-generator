@@ -78,6 +78,26 @@ export async function addRegistrationGroup(
   });
 }
 
+/**
+ * Corrects gender and level in place. `registered_at` is untouched, so the
+ * player keeps their position in the queue. True when an active registration
+ * was updated; false when there was none.
+ */
+export async function updateRegistrationProfile(
+  tournamentId: string,
+  registrationId: string,
+  profile: { gender: Gender; level: Level },
+): Promise<boolean> {
+  const rows = await db
+    .update(registrations)
+    .set(profile)
+    .where(
+      and(eq(registrations.tournamentId, tournamentId), eq(registrations.id, registrationId), isNull(registrations.cancelledAt)),
+    )
+    .returning({ id: registrations.id });
+  return rows.length === 1;
+}
+
 /** True when an active registration was cancelled; false when there was none to cancel. */
 export async function cancelRegistration(tournamentId: string, registrationId: string): Promise<boolean> {
   const rows = await db

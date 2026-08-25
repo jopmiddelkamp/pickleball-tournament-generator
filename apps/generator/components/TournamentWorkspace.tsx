@@ -2,7 +2,7 @@
 
 import { computeNightPoints, scoreSchedule, type GameResult, type Player } from "@ptg/core";
 import { useMemo, useOptimistic, useState, useTransition } from "react";
-import { removeRegistrationAction } from "../lib/actions/registrations";
+import { removeRegistrationAction, updateRegistrationAction } from "../lib/actions/registrations";
 import type { ActionError, ActionResult } from "../lib/actions/result";
 import {
   backToRegistrationAction,
@@ -127,6 +127,7 @@ export function TournamentWorkspace({ view, initialDemoted = 0 }: { view: Worksp
           canGoBack={view.roundsStarted === 0}
           onStart={() => run(() => startEventAction(view.id), () => setTab("schedule"))}
           onBackToRegistration={() => run(() => backToRegistrationAction(view.id))}
+          onEdit={(id, profile) => run(() => updateRegistrationAction(view.id, id, profile))}
           onRemove={(id) => {
             // Removing a confirmed player while others wait silently promotes
             // the first waiter; the organiser should announce that.
