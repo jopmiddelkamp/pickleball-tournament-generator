@@ -155,14 +155,9 @@ export const es: Messages = {
       body: "Una ronda sin jugar se llama “bye”; el ranking lo muestra como “+n bye”. Cuando descansas una ronda recibes la media de lo que anotaron todos los que jugaron esa ronda: descansar nunca te perjudica ni supera a jugar.",
       example: "Las pistas anotaron 11, 11, 5, 5, 11, 11, 9, 9 → la media es 9, así que cada uno que descansa suma +9.",
     },
-    sameGender: {
-      title: "Pareja del mismo género",
-      body: "Cuando los números no cuadran y juegas en una pareja del mismo género, sumas +2 en ese partido.",
-      example: "Dos hombres emparejados que hacen 7: cada uno suma 7 + 2.",
-    },
     ranking: {
       title: "Ranking",
-      body: "Gana el total más alto. Los empates se deshacen por diferencia de puntos: los que anotaron tus equipos menos los que te anotaron. Si también empatan, se comparte el puesto.",
+      body: "La noche celebra a la mejor mujer y al mejor hombre: los tres primeros en general, mujeres y hombres van encima de la lista. Gana el total más alto. Los empates se deshacen por diferencia de puntos: los que anotaron tus equipos menos los que te anotaron. Si también empatan, se comparte el puesto.",
       example: "Dos jugadores con 61: +12 de diferencia queda por delante de +4.",
     },
   },
@@ -180,11 +175,11 @@ export const es: Messages = {
 
   standings: {
     heading: "Clasificación",
-    lede: "Cada uno suma los puntos que hizo su propio equipo. Un descanso vale la media de la ronda, y una pareja del mismo género suma dos más. Los empates se deshacen por diferencia de puntos, que aparece bajo el total.",
+    lede: "Cada uno suma los puntos que hizo su propio equipo. Un descanso vale la media de la ronda. Los empates se deshacen por diferencia de puntos, que aparece bajo el total.",
     empty: "Genera primero un calendario y luego anota los resultados al acabar cada partido.",
     played: (games) => `${games} jugados`,
     bye: (points) => `+${points} descanso`,
-    sameGender: (points) => `+${points} mismo género`,
+    top: { overall: "Top 3", women: "Mejores mujeres", men: "Mejores hombres" },
   },
 
   print: {

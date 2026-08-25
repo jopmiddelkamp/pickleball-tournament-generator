@@ -170,14 +170,9 @@ export const en = {
       body: "A round you sit out is called a bye — the standings show it as “+n bye”. When you sit a round out you get the average of what everyone on court scored that round, so resting never costs you and never beats playing.",
       example: "The courts scored 11, 11, 5, 5, 11, 11, 9, 9 → the average is 9, so each resting player gets +9.",
     },
-    sameGender: {
-      title: "Same-gender team",
-      body: "When the numbers do not work out and you play in a same-gender team, you get +2 for that game.",
-      example: "Two men paired up who score 7: each gets 7 + 2.",
-    },
     ranking: {
       title: "Ranking",
-      body: "Highest total wins. Equal totals are split by point difference: the points your teams scored minus the points scored against you. Equal on both and you share the place.",
+      body: "The evening celebrates the best woman and the best man: the top three overall, women and men sit above the list. Highest total wins. Equal totals are split by point difference: the points your teams scored minus the points scored against you. Equal on both and you share the place.",
       example: "Two players on 61: +12 difference ranks above +4.",
     },
   },
@@ -195,11 +190,11 @@ export const en = {
 
   standings: {
     heading: "Standings",
-    lede: "Everyone scores the points their own team made. A bye pays the round’s average, and a same-gender team pays two on top. Equal totals are split by point difference, shown under the total.",
+    lede: "Everyone scores the points their own team made. A bye pays the round’s average. Equal totals are split by point difference, shown under the total.",
     empty: "Generate a schedule first, then enter scores as the games finish.",
     played: (games: number) => `${games} played`,
     bye: (points: number) => `+${points} bye`,
-    sameGender: (points: number) => `+${points} same gender`,
+    top: { overall: "Top 3", women: "Best women", men: "Best men" },
   },
 
   print: {

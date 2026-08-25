@@ -155,14 +155,9 @@ export const vi: Messages = {
       body: "Vòng không thi đấu gọi là “bye”; bảng xếp hạng ghi là “+n bye”. Khi nghỉ một vòng, bạn nhận điểm trung bình của tất cả người chơi trong vòng đó: nghỉ không bao giờ thiệt và không bao giờ hơn chơi.",
       example: "Các sân ghi 11, 11, 5, 5, 11, 11, 9, 9 → trung bình 9, mỗi người nghỉ được +9.",
     },
-    sameGender: {
-      title: "Đội cùng giới",
-      body: "Khi số người không chia đều và bạn chơi trong đội cùng giới, bạn được +2 cho trận đó.",
-      example: "Hai nam ghép đội ghi 7: mỗi người 7 + 2.",
-    },
     ranking: {
       title: "Xếp hạng",
-      body: "Tổng cao nhất thắng. Bằng tổng thì xét hiệu số điểm: điểm đội bạn ghi trừ điểm đối phương ghi. Bằng cả hai thì chia sẻ thứ hạng.",
+      body: "Buổi tối tôn vinh nữ và nam xuất sắc nhất: top 3 chung, nữ và nam nằm trên bảng. Tổng cao nhất thắng. Bằng tổng thì xét hiệu số điểm: điểm đội bạn ghi trừ điểm đối phương ghi. Bằng cả hai thì chia sẻ thứ hạng.",
       example: "Hai người cùng 61: hiệu số +12 xếp trên +4.",
     },
   },
@@ -180,11 +175,11 @@ export const vi: Messages = {
 
   standings: {
     heading: "Bảng xếp hạng",
-    lede: "Mỗi người nhận số điểm đội mình ghi được. Lượt nghỉ được tính bằng điểm trung bình của vòng, và đội cùng giới được cộng thêm hai. Bằng điểm thì xét hiệu số điểm, hiển thị dưới tổng điểm.",
+    lede: "Mỗi người nhận số điểm đội mình ghi được. Lượt nghỉ được tính bằng điểm trung bình của vòng. Bằng điểm thì xét hiệu số điểm, hiển thị dưới tổng điểm.",
     empty: "Tạo lịch trước, rồi nhập tỷ số khi các ván kết thúc.",
     played: (games) => `${games} ván`,
     bye: (points) => `+${points} nghỉ`,
-    sameGender: (points) => `+${points} cùng giới`,
+    top: { overall: "Top 3", women: "Nữ xuất sắc", men: "Nam xuất sắc" },
   },
 
   print: {

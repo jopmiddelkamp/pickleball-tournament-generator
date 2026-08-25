@@ -12,7 +12,6 @@ export function RulesScreen({ gameTarget, roundMinutes }: { gameTarget: number; 
       ? [{ title: r.clock.title, body: r.clock.body(roundMinutes, gameTarget), example: r.clock.example(roundMinutes, gameTarget) }]
       : []),
     r.bye,
-    r.sameGender,
     r.ranking,
   ];
   return (

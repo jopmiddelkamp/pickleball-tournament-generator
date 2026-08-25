@@ -75,7 +75,7 @@ describe("SPEC-1 §2 compensation bonuses", () => {
     expect(night.byId["m2"]?.total).toBe(18);
   });
 
-  it("pays +2 to both players of a same-gender team, forced or not", () => {
+  it("pays nothing extra for a same-gender team; that is the scheduler's problem, not the players'", () => {
     const rounds: Round[] = [
       round(
         [
@@ -88,11 +88,8 @@ describe("SPEC-1 §2 compensation bonuses", () => {
     const night = computeNightPoints(roster, rounds, [
       game({ round: 0, court: 1, teamA: ["m0", "m1"], teamB: ["w0", "w1"] }),
     ]);
-
-    expect(night.byId["m0"]?.sameGenderBonus).toBe(2);
-    expect(night.byId["m1"]?.sameGenderBonus).toBe(2);
-    expect(night.byId["w0"]?.sameGenderBonus).toBe(2);
-    expect(night.byId["m0"]?.total).toBe(23);
+    expect(night.byId["m0"]?.total).toBe(21);
+    expect(night.byId["w0"]?.total).toBe(14);
   });
 });
 

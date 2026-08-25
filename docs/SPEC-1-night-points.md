@@ -20,11 +20,11 @@ For players the schedule treated less well. Applied automatically after each rou
 | Situation | Bonus | Rules |
 |---|---|---|
 | Resting this round (bye) | The mean of the personal points earned by all playing players this round, rounded half up | Computed after the round's games are entered. Resting never costs ranking position, and never beats playing |
-| Playing in a same-gender team this round | +2 flat per such game | Applies to any same-gender team, forced or not. If the algorithm made an unforced same-gender team, the players still get the token; the algorithm is punished separately by Rule Set 2 |
 
 ## 3. Standings and ties
 
-- Ranking: descending total points.
+- Ranking: descending total points. The evening celebrates the best woman and the best man, so the standings lead with the top three overall, the top three women and the top three men, then list everyone.
+- There is no same-gender token: it went to whichever gender was in surplus and tilted the list toward it. Same-gender teams are the scheduler's problem (Rule Set 2), not the players'.
 - Ties on total are broken by point difference: points scored minus points conceded across the player's games. Byes, bonuses and voided games do not count toward it. Equal on both: shared rank.
 - The difference is always shown next to the total, so the tiebreaker is never a hidden criterion. No tiebreaker games.
 - Standings may later feed the Mexicano format (pairing by current standing). That is their only functional use.
@@ -37,7 +37,7 @@ For players the schedule treated less well. Applied automatically after each rou
 
 ## 5. Guardrails (product rules, not math)
 
-- Never display "worst player", lowest-score highlights, or skill tiers next to names on the night screen.
+- Never display "worst player" or lowest-score highlights on the night screen. The self-reported level is shown next to each name on the standings, so people can see who they are measured against; it is never shown on the courts.
 - Optional fun prizes are encouraged: most different partners, closest game of the night.
 - Compensation treats the symptom. Rule Set 2 (SPEC-2) removes the cause. If bonuses are frequent, the algorithm score should already be red.
 

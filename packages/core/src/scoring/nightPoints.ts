@@ -17,9 +17,6 @@ import type { Player, Round, Team } from "../types.js";
 export const GAME_TARGETS = [11, 16, 21] as const;
 export const DEFAULT_GAME_TARGET = 11;
 
-/** SPEC-1 §2: flat token for playing in a same-gender team, forced or not. */
-export const SAME_GENDER_BONUS = 2;
-
 export interface GameResult {
   /** 0-based index into the schedule's rounds */
   round: number;
@@ -40,7 +37,6 @@ export interface PlayerNightPoints {
   /** gamePoints - pointsAgainst: the SPEC-1 §3 tiebreaker */
   difference: number;
   byeBonus: number;
-  sameGenderBonus: number;
   total: number;
   gamesPlayed: number;
   byes: number;
@@ -84,7 +80,6 @@ export function computeNightPoints(
   rounds: readonly Round[],
   games: readonly GameResult[],
 ): NightPoints {
-  const genderById = new Map(players.map((p) => [p.id, p.gender]));
   const totals = new Map<string, PlayerNightPoints>();
   for (const p of players) {
     totals.set(p.id, {
@@ -93,7 +88,6 @@ export function computeNightPoints(
       pointsAgainst: 0,
       difference: 0,
       byeBonus: 0,
-      sameGenderBonus: 0,
       total: 0,
       gamesPlayed: 0,
       byes: 0,
@@ -114,18 +108,6 @@ export function computeNightPoints(
     let playedGames = 0;
 
     for (const match of round.matches) {
-      // Same-gender token: driven by the schedule, not by the result.
-      for (const team of [match.teamA, match.teamB]) {
-        const ga = genderById.get(team[0]);
-        const gb = genderById.get(team[1]);
-        if (ga !== undefined && ga === gb) {
-          for (const id of team) {
-            const entry = entryFor(id);
-            if (entry) entry.sameGenderBonus += SAME_GENDER_BONUS;
-          }
-        }
-      }
-
       const result = resultByKey.get(gameKey(roundIndex, match.court));
       if (!result || result.voided) continue;
 
@@ -166,7 +148,7 @@ export function computeNightPoints(
 
   const standings = [...totals.values()];
   for (const entry of standings) {
-    entry.total = entry.gamePoints + entry.byeBonus + entry.sameGenderBonus;
+    entry.total = entry.gamePoints + entry.byeBonus;
     entry.difference = entry.gamePoints - entry.pointsAgainst;
   }
   standings.sort((a, b) => {
