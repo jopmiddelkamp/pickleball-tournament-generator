@@ -1665,6 +1665,8 @@ a.button {
   /* forms, notices, single-column cards, the games summary and primary actions keep a comfortable measure */
   .card,
   .games,
+  .podiums,
+  .standings__list,
   .button--full {
     max-width: 640px;
   }
