@@ -152,7 +152,7 @@ export const vi: Messages = {
     },
     bye: {
       title: "Nghỉ",
-      body: "Khi nghỉ một vòng, bạn nhận điểm trung bình của tất cả người chơi trong vòng đó: nghỉ không bao giờ thiệt và không bao giờ hơn chơi.",
+      body: "Vòng không thi đấu gọi là “bye”; bảng xếp hạng ghi là “+n bye”. Khi nghỉ một vòng, bạn nhận điểm trung bình của tất cả người chơi trong vòng đó: nghỉ không bao giờ thiệt và không bao giờ hơn chơi.",
       example: "Các sân ghi 11, 11, 5, 5, 11, 11, 9, 9 → trung bình 9, mỗi người nghỉ được +9.",
     },
     sameGender: {

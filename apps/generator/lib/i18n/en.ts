@@ -167,7 +167,7 @@ export const en = {
     },
     bye: {
       title: "Resting",
-      body: "When you sit a round out you get the average of what everyone on court scored that round, so resting never costs you and never beats playing.",
+      body: "A round you sit out is called a bye — the standings show it as “+n bye”. When you sit a round out you get the average of what everyone on court scored that round, so resting never costs you and never beats playing.",
       example: "The courts scored 11, 11, 5, 5, 11, 11, 9, 9 → the average is 9, so each resting player gets +9.",
     },
     sameGender: {

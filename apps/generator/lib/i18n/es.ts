@@ -152,7 +152,7 @@ export const es: Messages = {
     },
     bye: {
       title: "Descanso",
-      body: "Cuando descansas una ronda recibes la media de lo que anotaron todos los que jugaron esa ronda: descansar nunca te perjudica ni supera a jugar.",
+      body: "Una ronda sin jugar se llama “bye”; el ranking lo muestra como “+n bye”. Cuando descansas una ronda recibes la media de lo que anotaron todos los que jugaron esa ronda: descansar nunca te perjudica ni supera a jugar.",
       example: "Las pistas anotaron 11, 11, 5, 5, 11, 11, 9, 9 → la media es 9, así que cada uno que descansa suma +9.",
     },
     sameGender: {
