@@ -13,7 +13,8 @@ import { Segmented } from "./Segmented";
  * profile fix must never turn into handing that place to someone else.
  */
 export function ProfileEditor({ name, initial, pending, onSave, onCancel }: {
-  name: string;
+  /** shown above the fields when the editor stands apart from the row it belongs to */
+  name?: string;
   initial: PlayerProfile;
   pending: boolean;
   onSave: (profile: PlayerProfile) => void;
@@ -25,7 +26,7 @@ export function ProfileEditor({ name, initial, pending, onSave, onCancel }: {
 
   return (
     <div className="stack">
-      <span className="label label--inline">{name}</span>
+      {name ? <span className="label label--inline">{name}</span> : null}
       <Segmented
         options={["F", "M"] as const}
         value={gender}

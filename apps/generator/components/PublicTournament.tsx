@@ -91,7 +91,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
   // The row being corrected; its editor renders in the visitor's card.
   const editingEntry = editingId ? view.signedUp.find((entry) => entry.id === editingId) : undefined;
   const editingProfile = editingId ? editable.get(editingId) : undefined;
-  const editing = editingEntry && editingProfile ? { id: editingEntry.id, name: editingEntry.name, profile: editingProfile } : null;
+  const editing = editingEntry && editingProfile ? { id: editingEntry.id, profile: editingProfile } : null;
 
   const rounds = view.schedule?.rounds ?? [];
   const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, view.games) : null;
@@ -161,7 +161,8 @@ export function PublicTournament({ view }: { view: PublicView }) {
                 </Notice>
                 <ul className="plain-list">
                   {mineRows.map(({ entry, self }) => (
-                    <li key={entry.id} className="roster__item">
+                    <li key={entry.id} className={editing?.id === entry.id ? "form-under" : undefined}>
+                      <div className="roster__item">
                       <span className="roster__name">
                         {entry.name}
                         <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span>
@@ -184,28 +185,30 @@ export function PublicTournament({ view }: { view: PublicView }) {
                           ) : null}
                         </>
                       ) : null}
+                      </div>
+                      {editing?.id === entry.id ? (
+                        <ProfileEditor
+                          key={entry.id}
+                          initial={editing.profile}
+                          pending={pending}
+                          onSave={(next) => saveProfile(entry.id, next)}
+                          onCancel={() => setEditingId(null)}
+                        />
+                      ) : null}
                     </li>
                   ))}
                 </ul>
-                {editing ? (
-                  <ProfileEditor
-                    key={editing.id}
-                    name={editing.name}
-                    initial={editing.profile}
-                    pending={pending}
-                    onSave={(next) => saveProfile(editing.id, next)}
-                    onCancel={() => setEditingId(null)}
-                  />
-                ) : null}
                 {you.canAddGuest ? (
                   guestFormOpen ? (
-                    <PublicRegisterForm
-                      key={you.guests.length}
-                      slug={view.slug}
-                      capacityLeft={Math.max(0, view.capacity - view.confirmedCount)}
-                      guest
-                      onCancel={() => setGuestFormOpen(false)}
-                    />
+                    <div className="form-under">
+                      <PublicRegisterForm
+                        key={you.guests.length}
+                        slug={view.slug}
+                        capacityLeft={Math.max(0, view.capacity - view.confirmedCount)}
+                        guest
+                        onCancel={() => setGuestFormOpen(false)}
+                      />
+                    </div>
                   ) : (
                     <button type="button" className="button button--quiet" onClick={openGuestForm}>
                       {t.public.addGuest}
