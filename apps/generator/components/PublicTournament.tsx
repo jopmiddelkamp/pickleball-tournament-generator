@@ -72,6 +72,11 @@ export function PublicTournament({ view }: { view: PublicView }) {
     editable.set(yourId, { gender: you.gender, level: you.level });
     for (const guest of you.guests) editable.set(guest.id, { gender: guest.gender, level: guest.level });
   }
+  // The visitor's own rows (self first, then +1s), in the same shape as the public list.
+  const mineRows = view.signedUp
+    .filter((entry) => editable.has(entry.id))
+    .map((entry) => ({ entry, self: entry.id === yourId }))
+    .sort((a, b) => Number(b.self) - Number(a.self));
   // The row being corrected; its editor renders in the visitor's card.
   const editingEntry = editingId ? view.signedUp.find((entry) => entry.id === editingId) : undefined;
   const editingProfile = editingId ? editable.get(editingId) : undefined;
@@ -143,6 +148,34 @@ export function PublicTournament({ view }: { view: PublicView }) {
                   <br />
                   <span className="standings__detail">{t.public.registeredAs(you.name, registeredWhen ?? "")}</span>
                 </Notice>
+                <ul className="plain-list">
+                  {mineRows.map(({ entry, self }) => (
+                    <li key={entry.id} className="roster__item">
+                      <span className="roster__name">
+                        {entry.name}
+                        <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span>
+                      </span>
+                      <span className="roster__level">
+                        {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
+                      </span>
+                      {you.canCancel ? (
+                        <>
+                          {editButton(entry.id)}
+                          {!self ? (
+                            <button
+                              type="button"
+                              className="button button--quiet button--small"
+                              disabled={pending}
+                              onClick={() => cancelGuest(entry.id)}
+                            >
+                              {t.roster.remove}
+                            </button>
+                          ) : null}
+                        </>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
                 {editing ? (
                   <ProfileEditor
                     key={editing.id}
@@ -196,7 +229,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
                   {view.signedUp.map((entry) => {
                     const self = entry.id === view.yourId;
                     const mine = self || guestIds.has(entry.id);
-                    const profile = editable.get(entry.id);
                     return (
                       <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
                         <span className="roster__name">
@@ -206,21 +238,6 @@ export function PublicTournament({ view }: { view: PublicView }) {
                         <span className="roster__level">
                           {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
                         </span>
-                        {profile && you?.canCancel ? (
-                          <>
-                            {editButton(entry.id)}
-                            {!self ? (
-                              <button
-                                type="button"
-                                className="button button--quiet button--small"
-                                disabled={pending}
-                                onClick={() => cancelGuest(entry.id)}
-                              >
-                                {t.roster.remove}
-                              </button>
-                            ) : null}
-                          </>
-                        ) : null}
                       </li>
                     );
                   })}
