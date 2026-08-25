@@ -206,7 +206,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                 ) : null}
                 {you.canCancel ? (
                   <button type="button" className="button button--quiet" disabled={pending} onClick={cancel}>
-                    {t.public.cancel}
+                    {you.guests.length > 0 ? t.public.cancelGroup : t.public.cancel}
                   </button>
                 ) : (
                   <p className="standings__detail">{t.public.frozen}</p>
@@ -230,12 +230,13 @@ export function PublicTournament({ view }: { view: PublicView }) {
               ) : (
                 <ul className="plain-list">
                   {view.signedUp.map((entry) => {
-                    const mine = entry.id === view.yourId || guestIds.has(entry.id);
+                    const self = entry.id === view.yourId;
+                    const mine = self || guestIds.has(entry.id);
                     return (
                       <li key={entry.id} className="roster__item" aria-current={mine || undefined}>
                         <span className="roster__name">
                           {entry.name}
-                          {mine ? <span className="roster__you"> · {t.public.you}</span> : null}
+                          {mine ? <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span> : null}
                         </span>
                         <span className="roster__level">
                           {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
