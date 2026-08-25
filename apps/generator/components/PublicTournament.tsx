@@ -18,19 +18,22 @@ import { StandingsScreen } from "./StandingsScreen";
 import { TabBar } from "./TabBar";
 import { GenderChip, Notice, Wordmark } from "./ui";
 
-const PUBLIC_TABS = ["now", "standings", "coming"] as const;
+/** Same three sections as the organiser's workspace, once a schedule exists. */
+const PUBLIC_TABS = ["roster", "schedule", "standings"] as const;
 type PublicTab = (typeof PUBLIC_TABS)[number];
 
 export function PublicTournament({ view }: { view: PublicView }) {
   const { t, locale } = useLocale();
   const [pending, startTransition] = useTransition();
   const [cancelError, setCancelError] = useState<PublicFormState["error"]>(null);
-  const [tab, setTab] = useState<PublicTab>("now");
+  const [tab, setTab] = useState<PublicTab>(view.status === "finished" ? "standings" : "schedule");
   const [guestFormOpen, setGuestFormOpen] = useState(false);
   // registration id (own or a +1) whose gender/level is being corrected
   const [editingId, setEditingId] = useState<string | null>(null);
-  // Which round the (finished-evening) chip strip is browsing; defaults to the last one played.
-  const [browseIndex, setBrowseIndex] = useState(() => Math.max(0, (view.schedule?.rounds.length ?? 1) - 1));
+  // Which round the chip strip is browsing; defaults to the round on court, or the last one once over.
+  const [browseIndex, setBrowseIndex] = useState(() =>
+    Math.max(0, Math.min(view.roundsStarted - 1, (view.schedule?.rounds.length ?? 1) - 1)),
+  );
 
 
   function cancel() {
@@ -105,10 +108,9 @@ export function PublicTournament({ view }: { view: PublicView }) {
     roundMinutes: view.roundMinutes,
   });
   const night = view.schedule ? computeNightPoints(view.players, view.schedule.rounds, settledGames) : null;
-  const liveRound = rounds[view.roundsStarted - 1];
   const browseRound = rounds[browseIndex];
 
-  // The attendee list: a tab of its own once the evening is live, a section before that.
+  // The attendee list: the roster tab once a schedule exists, a section before that.
   const signedUp = (
     <section className="screen__block">
       <h3 className="screen__section">{t.public.signedUpHeading(view.signedUp.length)}</h3>
@@ -146,10 +148,10 @@ export function PublicTournament({ view }: { view: PublicView }) {
         </h1>
         <LanguageSelect />
       </header>
-      {view.status === "live" && liveRound && night ? (
-        <TabBar active={tab} onChange={setTab} tabs={PUBLIC_TABS} label={(option) => t.public.tabs[option]} />
-      ) : null}
       <div className="app__main">
+        {view.schedule && rounds.length > 0 ? (
+          <TabBar active={tab} onChange={setTab} tabs={PUBLIC_TABS} label={(option) => t.tabs[option]} />
+        ) : null}
         <EventBanner name={view.name} startsAt={view.startsAt} location={view.location} />
         <p className="screen__lede">
           {t.public.playedTo(view.gameTarget)}
@@ -162,42 +164,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
           </Notice>
         ) : null}
 
-        {view.status === "finished" && night ? (
-          <>
-            <h3 className="screen__section">
-              {t.public.finalHeading}
-            </h3>
-            <StandingsScreen night={night} players={view.players} hasSchedule={true} />
-
-            {rounds.length > 0 ? (
-              <>
-                <nav className="rounds" aria-label={t.schedule.rounds}>
-                  {rounds.map((_, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      className="rounds__chip"
-                      aria-current={index === browseIndex}
-                      onClick={() => setBrowseIndex(index)}
-                    >
-                      {t.schedule.roundChip(index + 1)}
-                    </button>
-                  ))}
-                </nav>
-                {browseRound ? (
-                  <RoundView
-                    round={browseRound}
-                    players={view.players}
-                    games={view.games}
-                    settledGames={settledGames}
-                    roundNumber={browseIndex + 1}
-                    highlightId={view.yourId}
-                  />
-                ) : null}
-              </>
-            ) : null}
-          </>
-        ) : (
+        {!view.schedule || rounds.length === 0 ? (
           <>
             {you && yourId ? (
               <div className="card stack">
@@ -279,34 +246,130 @@ export function PublicTournament({ view }: { view: PublicView }) {
             ) : (
               <Notice>{view.full ? t.public.fullMessage : t.public.closed}</Notice>
             )}
-
-            {view.status === "generated" ? <p className="standings__detail">{t.public.notStarted}</p> : null}
-
-            {view.status === "live" && liveRound && night ? (
-              <div className="screen__block stack">
-                {tab === "now" ? (
-                  <>
-                    {view.roundMinutes !== null ? <RoundClock minutes={view.roundMinutes} startedAt={view.clockStartedAt} /> : null}
-                    <RoundView
-                      round={liveRound}
-                      players={view.players}
-                      games={view.games}
-                      settledGames={settledGames}
-                      roundNumber={view.roundsStarted}
-                      highlightId={view.yourId}
-                    />
-                  </>
-                ) : tab === "standings" ? (
-                  <StandingsScreen night={night} players={view.players} hasSchedule={true} />
+            {signedUp}
+          </>
+        ) : tab === "roster" ? (
+          <>
+            {you && yourId ? (
+              <div className="card stack">
+                <Notice>
+                  {you.confirmed ? t.public.youAreIn : t.public.waiting(you.position ?? 0)}
+                  <br />
+                  <span className="standings__detail">{t.public.registeredAs(you.name, registeredWhen ?? "")}</span>
+                </Notice>
+                <ul className="plain-list">
+                  {mineRows.map(({ entry, self }) => (
+                    <li key={entry.id} className={editing?.id === entry.id ? "form-under" : undefined}>
+                      <div className="roster__item">
+                      <GenderChip gender={entry.gender} />
+                      <span className="roster__name">
+                        {entry.name}
+                        <span className="roster__you"> · {self ? t.public.you : t.public.yourGuest}</span>
+                      </span>
+                      <span className="roster__level">
+                        {entry.confirmed ? t.public.guestConfirmed : t.public.guestWaiting(entry.position ?? 0)}
+                      </span>
+                      {you.canCancel ? (
+                        <>
+                          {editButton(entry.id)}
+                          {!self ? (
+                            <button
+                              type="button"
+                              className="button button--quiet button--small"
+                              disabled={pending}
+                              onClick={() => cancelGuest(entry.id)}
+                            >
+                              {t.roster.remove}
+                            </button>
+                          ) : null}
+                        </>
+                      ) : null}
+                      </div>
+                      {editing?.id === entry.id ? (
+                        <ProfileEditor
+                          key={entry.id}
+                          initial={editing.profile}
+                          pending={pending}
+                          onSave={(next) => saveProfile(entry.id, next)}
+                          onCancel={() => setEditingId(null)}
+                        />
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+                {you.canAddGuest ? (
+                  guestFormOpen ? (
+                    <div className="form-under">
+                      <PublicRegisterForm
+                        key={you.guests.length}
+                        slug={view.slug}
+                        capacityLeft={Math.max(0, view.capacity - view.confirmedCount)}
+                        guest
+                        onCancel={() => setGuestFormOpen(false)}
+                      />
+                    </div>
+                  ) : (
+                    <button type="button" className="button button--quiet" onClick={openGuestForm}>
+                      {t.public.addGuest}
+                    </button>
+                  )
+                ) : null}
+                {you.canCancel ? (
+                  <button type="button" className="button button--quiet" disabled={pending} onClick={cancel}>
+                    {you.guests.length > 0 ? t.public.cancelGroup : t.public.cancel}
+                  </button>
                 ) : (
-                  signedUp
+                  <p className="standings__detail">{t.public.frozen}</p>
                 )}
               </div>
+            ) : view.status === "open" && !view.full ? (
+              <>
+                <PublicRegisterForm slug={view.slug} capacityLeft={Math.max(0, view.capacity - view.confirmedCount)} />
+                <p className="standings__detail">{t.public.spots(view.confirmedCount, view.capacity, view.waitingCount)}</p>
+              </>
             ) : (
-              signedUp
+              <Notice>{view.full ? t.public.fullMessage : t.public.closed}</Notice>
             )}
+            {signedUp}
           </>
-        )}
+        ) : tab === "schedule" ? (
+          <>
+            {view.status === "generated" ? <p className="standings__detail">{t.public.notStarted}</p> : null}
+            <nav className="rounds" aria-label={t.schedule.rounds}>
+              {rounds.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className="rounds__chip"
+                  aria-current={index === browseIndex}
+                  onClick={() => setBrowseIndex(index)}
+                >
+                  {t.schedule.roundChip(index + 1)}
+                </button>
+              ))}
+            </nav>
+            {browseRound ? (
+              <>
+                {view.status === "live" && browseIndex === view.roundsStarted - 1 && view.roundMinutes !== null ? (
+                  <RoundClock minutes={view.roundMinutes} startedAt={view.clockStartedAt} />
+                ) : null}
+                <RoundView
+                  round={browseRound}
+                  players={view.players}
+                  games={view.games}
+                  settledGames={settledGames}
+                  roundNumber={browseIndex + 1}
+                  highlightId={view.yourId}
+                />
+              </>
+            ) : null}
+          </>
+        ) : night ? (
+          <>
+            {view.status === "finished" ? <h3 className="screen__section">{t.public.finalHeading}</h3> : null}
+            <StandingsScreen night={night} players={view.players} hasSchedule={true} />
+          </>
+        ) : null}
       </div>
     </main>
   );

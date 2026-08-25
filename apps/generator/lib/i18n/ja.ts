@@ -274,7 +274,6 @@ export const ja: Messages = {
     frozen: "スケジュールが確定しています。参加できない場合は主催者に連絡してください。",
     closed: "受付は終了しました。",
     fullMessage: "受付は終了しました——このイベントは満員です。",
-    tabs: { now: "進行中", standings: "順位", coming: "参加予定" },
     round: (n) => `ラウンド ${n}`,
     yourCourt: (court, partner, a, b) => `コート ${court} — ${partner}とペア、対戦相手は${a}・${b}`,
     youRest: "このラウンドは休憩です — 次のラウンドで復帰します。",
