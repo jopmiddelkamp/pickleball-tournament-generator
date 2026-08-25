@@ -527,6 +527,7 @@ a.button {
   letter-spacing: var(--text-numeral-md-tracking);
   font-variant-numeric: tabular-nums;
   text-align: center;
+  vertical-align: middle;
 }
 
 .games__score {

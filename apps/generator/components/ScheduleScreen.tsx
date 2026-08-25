@@ -79,7 +79,8 @@ export function ScheduleScreen({
   controls?: ScheduleControls;
 }) {
   const { t } = useLocale();
-  const [roundIndex, setRoundIndex] = useState(() =>
+  // A round to look at, or the whole evening as one table.
+  const [browsing, setBrowsing] = useState<number | "all">(() =>
     Math.max(0, Math.min(roundsStarted - 1, rounds.length - 1)),
   );
 
@@ -94,9 +95,10 @@ export function ScheduleScreen({
 
   const playerById = new Map(players.map((p) => [p.id, p]));
   const nameOf = (id: string) => playerById.get(id)?.name ?? id;
-  const current = Math.min(roundIndex, rounds.length - 1);
+  const current = Math.min(browsing === "all" ? 0 : browsing, rounds.length - 1);
   const round = rounds[current];
   if (!round) return null;
+  const table = finished || browsing === "all";
   const onCourt = !finished && current === roundsStarted - 1;
   const visitor = highlightId ? findVisitor(round, highlightId) : null;
 
@@ -137,24 +139,29 @@ export function ScheduleScreen({
         </button>
       ) : null}
 
-      {finished ? (
+      {finished ? null : (
+        <nav className="rounds" aria-label={t.schedule.rounds}>
+          {rounds.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className="rounds__chip"
+              aria-current={browsing === index}
+              onClick={() => setBrowsing(index)}
+            >
+              {t.schedule.roundChip(index + 1)}
+            </button>
+          ))}
+          <button type="button" className="rounds__chip" aria-current={browsing === "all"} onClick={() => setBrowsing("all")}>
+            {t.schedule.allRounds}
+          </button>
+        </nav>
+      )}
+
+      {table ? (
         <GamesTable rounds={rounds} players={players} games={settledGames} highlightId={highlightId} />
       ) : (
         <>
-          <nav className="rounds" aria-label={t.schedule.rounds}>
-            {rounds.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                className="rounds__chip"
-                aria-current={index === current}
-                onClick={() => setRoundIndex(index)}
-              >
-                {t.schedule.roundChip(index + 1)}
-              </button>
-            ))}
-          </nav>
-
           <p className="standings__detail" style={{ marginBottom: "var(--space-md)" }}>
             {t.schedule.roundOf(current + 1, rounds.length)}
           </p>

@@ -117,6 +117,7 @@ export const vi: Messages = {
     adjust: "Điều chỉnh lịch",
     rounds: "Các vòng",
     roundChip: (round) => `V${round}`,
+    allRounds: "Tất cả",
     roundOf: (round, total) => `Vòng ${round} / ${total}`,
     resting: "Nghỉ vòng này",
     startRound: (n) => `Bắt đầu vòng ${n}`,

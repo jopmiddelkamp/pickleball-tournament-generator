@@ -117,6 +117,7 @@ export const es: Messages = {
     adjust: "Ajustar calendario",
     rounds: "Rondas",
     roundChip: (round) => `R${round}`,
+    allRounds: "Todas",
     roundOf: (round, total) => `Ronda ${round} de ${total}`,
     resting: "Descansan esta ronda",
     startRound: (n) => `Empezar ronda ${n}`,

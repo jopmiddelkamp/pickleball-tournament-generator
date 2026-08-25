@@ -115,6 +115,7 @@ export const zh: Messages = {
     adjust: "调整赛程",
     rounds: "轮次",
     roundChip: (round) => `第${round}轮`,
+    allRounds: "全部",
     roundOf: (round, total) => `第 ${round} 轮，共 ${total} 轮`,
     resting: "本轮轮空",
     startRound: (n) => `开始第 ${n} 轮`,

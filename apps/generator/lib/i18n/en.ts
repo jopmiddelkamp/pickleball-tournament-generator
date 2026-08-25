@@ -132,6 +132,7 @@ export const en = {
     adjust: "Adjust schedule",
     rounds: "Rounds",
     roundChip: (round: number) => `R${round}`,
+    allRounds: "All",
     roundOf: (round: number, total: number) => `Round ${round} of ${total}`,
     resting: "Sitting this one out",
     startRound: (n: number) => `Start round ${n}`,

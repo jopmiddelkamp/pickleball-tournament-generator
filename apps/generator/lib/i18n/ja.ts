@@ -116,6 +116,7 @@ export const ja: Messages = {
     adjust: "スケジュールを調整",
     rounds: "ラウンド",
     roundChip: (round) => `R${round}`,
+    allRounds: "すべて",
     roundOf: (round, total) => `ラウンド ${round} / ${total}`,
     resting: "今回は休憩",
     startRound: (n) => `ラウンド ${n} を開始`,

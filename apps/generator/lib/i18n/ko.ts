@@ -116,6 +116,7 @@ export const ko: Messages = {
     adjust: "일정 조정",
     rounds: "라운드",
     roundChip: (round) => `R${round}`,
+    allRounds: "전체",
     roundOf: (round, total) => `라운드 ${round} / ${total}`,
     resting: "이번 라운드 휴식",
     startRound: (n) => `${n}라운드 시작`,
