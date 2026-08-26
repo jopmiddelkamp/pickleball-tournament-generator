@@ -49,6 +49,7 @@ describe.skipIf(!process.env.POSTGRES_URL)("repositories (local Supabase)", () =
     rounds: 6,
     gameTarget: 11,
     roundMinutes: 15,
+    minLevel: null,
     algorithmId: "greedy",
   };
 

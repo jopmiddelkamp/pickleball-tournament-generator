@@ -33,8 +33,15 @@ describe("parseTournamentForm", () => {
       rounds: 6,
       gameTarget: 11,
       roundMinutes: null,
+      minLevel: null,
       algorithmId: "greedy",
     });
+  });
+  it("reads an optional minimum level, with an empty or zero field meaning any level", () => {
+    expect(parseTournamentForm(form({ ...valid, minLevel: "3" }))?.minLevel).toBe(3);
+    expect(parseTournamentForm(form({ ...valid, minLevel: "" }))?.minLevel).toBeNull();
+    expect(parseTournamentForm(form({ ...valid, minLevel: "0" }))?.minLevel).toBeNull();
+    expect(parseTournamentForm(form(valid))?.minLevel).toBeNull();
   });
   it("reads a time limit per round, with an empty or zero field meaning none", () => {
     expect(parseTournamentForm(form({ ...valid, roundMinutes: "15" }))?.roundMinutes).toBe(15);
@@ -45,6 +52,8 @@ describe("parseTournamentForm", () => {
     ["empty name", { name: "  " }],
     ["a time limit over an hour", { roundMinutes: "61" }],
     ["a negative time limit", { roundMinutes: "-5" }],
+    ["a minimum level above the scale", { minLevel: "7" }],
+    ["a minimum level that is not a number", { minLevel: "pro" }],
     ["overlong name", { name: "x".repeat(81) }],
     ["bad date", { startsAt: "yesterday" }],
     ["zero courts", { maxCourts: "0" }],

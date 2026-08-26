@@ -17,6 +17,70 @@ export const en = {
   dismiss: "Dismiss",
   sections: "Sections",
 
+  /** The public /levels page: our six tiers set against the common 1.0–5.5 rating scale. */
+  levelGuide: {
+    heading: "What the levels mean",
+    lede: "Every sign-up carries a self-reported level, and the scheduler uses it to keep courts balanced. Pickleball uses a 1.0–5.5 rating scale; we fold it into six tiers so choosing is quick.",
+    howToPick: "Pick the tier that sounds like you on an average evening, not your best one. Between two? Take the lower. Got a DUPR rating? Use the range next to each tier.",
+    rating: (range: string) => `Rating ${range}`,
+    tiers: {
+      1: {
+        range: "1.0–2.0",
+        summary: "New to the game. Still learning the rules, the serve and where to stand.",
+        skills: [
+          "Rallies are short; getting the ball over the net is the goal.",
+          "Serve and return are unreliable.",
+          "Not yet familiar with the kitchen rules or the scoring call.",
+        ],
+      },
+      2: {
+        range: "2.5",
+        summary: "Knows the rules and can keep a short rally going with a slower ball.",
+        skills: [
+          "Serve and return land most of the time.",
+          "Plays mostly from the baseline; the third-shot drop and dinking are new.",
+          "Knows the basics of court position in doubles.",
+        ],
+      },
+      3: {
+        range: "3.0",
+        summary: "Holds a rally at medium pace and knows where to be in doubles.",
+        skills: [
+          "Serve and return are reliable, with some depth.",
+          "Moves up to the kitchen line and starts to dink and drop, without much consistency yet.",
+          "Volleys the easy balls; still makes unforced errors under pressure.",
+        ],
+      },
+      4: {
+        range: "3.5",
+        summary: "Comfortable at the kitchen line: dinks, drops and volleys with some control.",
+        skills: [
+          "Uses the third-shot drop on purpose and varies pace.",
+          "Sustains dink rallies and waits for the attackable ball.",
+          "Communicates with a partner and moves as a team.",
+        ],
+      },
+      5: {
+        range: "4.0",
+        summary: "Controls rallies with patience and purpose, and makes few unforced errors.",
+        skills: [
+          "Dinks, drops, drives and resets on demand, with spin and placement.",
+          "Reads opponents, punishes high balls and picks the moment to attack.",
+          "Defends fast exchanges and blocks hard drives.",
+        ],
+      },
+      6: {
+        range: "4.5 and up",
+        summary: "Tournament level: dependable under pressure and strong in every shot.",
+        skills: [
+          "Plays strategy, not just points: anticipates, sets up and finishes.",
+          "Resets attacks and rarely gives a rally away.",
+          "Adapts style and pace to the opponents across the net.",
+        ],
+      },
+    },
+  },
+
   tabs: {
     roster: "Roster",
     schedule: "Courts",
@@ -256,6 +320,9 @@ export const en = {
       perCourt: "Spots per court (playing + resting)",
       capacity: (courts: number, cap: number) =>
         `${courts} ${courts === 1 ? "court" : "courts"} — up to ${cap} players. Anyone above that joins the waiting list, first come first served.`,
+      minLevel: "Minimum level",
+      anyLevel: "Any level",
+      minLevelHint: "Players pick their own level when they sign up. With a minimum set, lower levels cannot register.",
       create: "Create event",
       invalid: "Check the fields: a name, a date, and 1–6 courts.",
     },
@@ -322,8 +389,13 @@ export const en = {
       `Court ${court} — with ${partner}, against ${a} & ${b}`,
     youRest: "You rest this round — back in the next one.",
     notStarted: "The schedule is ready. The first round starts soon.",
+    notSure: "Not sure",
+    notSureHint: "Pick a level to sign up. Not sure which one fits?",
+    levelsLink: "See what the levels mean",
+    minLevel: (level: string) => `This evening is for ${level} and up.`,
     errors: {
       invalid: "Enter a name, and pick how you play and your level.",
+      level: "This event has a minimum level. Check the level picked for each player.",
       closed: "Registration is closed.",
       full: "The event is completely full.",
       already: "This phone already has an active registration for this event.",

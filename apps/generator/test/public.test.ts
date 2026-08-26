@@ -18,6 +18,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     rounds: 3,
     gameTarget: 11,
     roundMinutes: null,
+    minLevel: null,
     algorithmId: "greedy",
     seed: 7,
     courts: null,
@@ -42,6 +43,10 @@ const cap = maxPlayersFor(1);
 const registrations = Array.from({ length: cap + 2 }, (_, i) => reg(`p${i + 1}`, i + 1));
 
 describe("buildPublicView", () => {
+  it("tells visitors about the minimum level", () => {
+    expect(buildPublicView(row({ minLevel: 3 }), registrations, null).minLevel).toBe(3);
+    expect(buildPublicView(row(), registrations, null).minLevel).toBeNull();
+  });
   it("tells visitors about the round clock", () => {
     expect(buildPublicView(row({ roundMinutes: 15 }), registrations, null).roundMinutes).toBe(15);
   });

@@ -89,6 +89,7 @@ export function EditEventForm({ view, registered }: {
           initialRounds={view.config.rounds}
           initialGameTarget={view.gameTarget}
           initialRoundMinutes={view.roundMinutes}
+          initialMinLevel={view.minLevel}
           initialAlgorithmId={view.algorithmId}
         />
         {demoted > 0 ? <Notice tone="warn">{t.organiser.edit.demote(demoted)}</Notice> : null}

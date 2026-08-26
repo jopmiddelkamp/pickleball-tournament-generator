@@ -137,6 +137,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
         <p className="screen__lede">
           {t.public.playedTo(view.gameTarget)}
           {view.roundMinutes !== null ? ` ${t.public.timeLimit(view.roundMinutes)}` : null}
+          {view.minLevel !== null ? ` ${t.public.minLevel(t.levels[view.minLevel])}` : null}
         </p>
 
         {cancelError ? (
@@ -186,6 +187,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                         <ProfileEditor
                           key={entry.id}
                           initial={editing.profile}
+                          minLevel={view.minLevel}
                           pending={pending}
                           onSave={(next) => saveProfile(entry.id, next)}
                           onCancel={() => setEditingId(null)}
@@ -201,6 +203,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                         key={you.guests.length}
                         slug={view.slug}
                         capacityLeft={Math.max(0, view.capacity - view.confirmedCount)}
+                        minLevel={view.minLevel}
                         guest
                         onCancel={() => setGuestFormOpen(false)}
                       />
@@ -221,7 +224,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
               </div>
             ) : view.status === "open" && !view.full ? (
               <>
-                <PublicRegisterForm slug={view.slug} capacityLeft={Math.max(0, view.capacity - view.confirmedCount)} />
+                <PublicRegisterForm slug={view.slug} capacityLeft={Math.max(0, view.capacity - view.confirmedCount)} minLevel={view.minLevel} />
                 <p className="standings__detail">{t.public.spots(view.confirmedCount, view.capacity, view.waitingCount)}</p>
               </>
             ) : (
@@ -270,6 +273,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                         <ProfileEditor
                           key={entry.id}
                           initial={editing.profile}
+                          minLevel={view.minLevel}
                           pending={pending}
                           onSave={(next) => saveProfile(entry.id, next)}
                           onCancel={() => setEditingId(null)}
@@ -285,6 +289,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
                         key={you.guests.length}
                         slug={view.slug}
                         capacityLeft={Math.max(0, view.capacity - view.confirmedCount)}
+                        minLevel={view.minLevel}
                         guest
                         onCancel={() => setGuestFormOpen(false)}
                       />
@@ -305,7 +310,7 @@ export function PublicTournament({ view }: { view: PublicView }) {
               </div>
             ) : view.status === "open" && !view.full ? (
               <>
-                <PublicRegisterForm slug={view.slug} capacityLeft={Math.max(0, view.capacity - view.confirmedCount)} />
+                <PublicRegisterForm slug={view.slug} capacityLeft={Math.max(0, view.capacity - view.confirmedCount)} minLevel={view.minLevel} />
                 <p className="standings__detail">{t.public.spots(view.confirmedCount, view.capacity, view.waitingCount)}</p>
               </>
             ) : (

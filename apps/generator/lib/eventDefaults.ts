@@ -2,7 +2,7 @@ import { ALGORITHMS, MAX_PLAYERS_PER_COURT, MIN_PLAYERS_PER_COURT } from "@ptg/c
 import type { cookies } from "next/headers";
 import { LIMITS } from "./config";
 import type { TournamentInput } from "./validate";
-import { isRecord } from "./validate";
+import { isLevel, isRecord } from "./validate";
 
 type CookieStore = Awaited<ReturnType<typeof cookies>>;
 
@@ -21,7 +21,7 @@ export function parseEventDefaults(raw: string | undefined): EventDefaults | nul
     return null;
   }
   if (!isRecord(value)) return null;
-  const { location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, algorithmId } = value;
+  const { location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, minLevel, algorithmId } = value;
   if (location !== null && (typeof location !== "string" || location.length === 0 || location.length > LIMITS.maxLocation)) return null;
   if (typeof maxCourts !== "number" || !Number.isInteger(maxCourts) || maxCourts < LIMITS.minCourts || maxCourts > LIMITS.maxCourts) return null;
   if (
@@ -38,8 +38,9 @@ export function parseEventDefaults(raw: string | undefined): EventDefaults | nul
     (typeof roundMinutes !== "number" || !Number.isInteger(roundMinutes) || roundMinutes < 1 || roundMinutes > LIMITS.maxRoundMinutes)
   )
     return null;
+  if (minLevel !== null && (typeof minLevel !== "number" || !isLevel(minLevel))) return null;
   if (typeof algorithmId !== "string" || !ALGORITHMS.some((a) => a.id === algorithmId)) return null;
-  return { location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, algorithmId };
+  return { location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, minLevel, algorithmId };
 }
 
 export function readEventDefaults(store: CookieStore): EventDefaults | null {
@@ -55,6 +56,7 @@ export function writeEventDefaults(store: CookieStore, input: TournamentInput): 
     rounds: input.rounds,
     gameTarget: input.gameTarget,
     roundMinutes: input.roundMinutes,
+    minLevel: input.minLevel,
     algorithmId: input.algorithmId,
   };
   store.set(COOKIE, JSON.stringify(defaults), {

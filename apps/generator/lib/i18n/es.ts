@@ -7,6 +7,70 @@ export const es: Messages = {
   dismiss: "Cerrar",
   sections: "Secciones",
 
+  /** La página pública /levels: nuestros seis niveles frente a la escala común de 1.0 a 5.5. */
+  levelGuide: {
+    heading: "Qué significan los niveles",
+    lede: "Cada inscripción lleva un nivel elegido por el propio jugador, y el programador lo usa para equilibrar las pistas. El pickleball usa una escala de 1.0 a 5.5; la agrupamos en seis niveles para que elegir sea rápido.",
+    howToPick: "Elige el nivel que te describe en una tarde normal, no en tu mejor día. ¿Entre dos? Toma el más bajo. ¿Tienes rating DUPR? Usa el rango junto a cada nivel.",
+    rating: (range: string) => `Rating ${range}`,
+    tiers: {
+      1: {
+        range: "1.0–2.0",
+        summary: "Recién empiezas. Todavía aprendes las reglas, el saque y dónde colocarte.",
+        skills: [
+          "Los peloteos son cortos; el objetivo es pasar la bola por encima de la red.",
+          "El saque y el resto no son fiables.",
+          "Aún no conoces bien las reglas de la cocina ni cómo se canta el marcador.",
+        ],
+      },
+      2: {
+        range: "2.5",
+        summary: "Conoces las reglas y mantienes un peloteo corto con bola lenta.",
+        skills: [
+          "El saque y el resto entran la mayoría de las veces.",
+          "Juegas sobre todo desde el fondo; el tercer golpe corto y el dink son nuevos.",
+          "Conoces lo básico de la colocación en dobles.",
+        ],
+      },
+      3: {
+        range: "3.0",
+        summary: "Aguantas un peloteo a ritmo medio y sabes dónde estar en dobles.",
+        skills: [
+          "Saque y resto fiables, con algo de profundidad.",
+          "Subes a la línea de la cocina y empiezas a hacer dinks y dejadas, aún sin mucha regularidad.",
+          "Voleas las bolas fáciles; todavía cometes errores no forzados bajo presión.",
+        ],
+      },
+      4: {
+        range: "3.5",
+        summary: "Cómodo en la línea de la cocina: dinks, dejadas y voleas con cierto control.",
+        skills: [
+          "Usas el tercer golpe corto a propósito y varías el ritmo.",
+          "Mantienes peloteos de dinks y esperas la bola atacable.",
+          "Te comunicas con tu pareja y os movéis como equipo.",
+        ],
+      },
+      5: {
+        range: "4.0",
+        summary: "Controlas los peloteos con paciencia e intención, y cometes pocos errores no forzados.",
+        skills: [
+          "Dinks, dejadas, drives y resets a voluntad, con efecto y colocación.",
+          "Lees al rival, castigas las bolas altas y eliges el momento de atacar.",
+          "Defiendes intercambios rápidos y bloqueas drives fuertes.",
+        ],
+      },
+      6: {
+        range: "4.5 o más",
+        summary: "Nivel de torneo: fiable bajo presión y sólido en todos los golpes.",
+        skills: [
+          "Juegas con estrategia, no solo puntos: anticipas, construyes y rematas.",
+          "Neutralizas los ataques y rara vez regalas un peloteo.",
+          "Adaptas estilo y ritmo a los rivales al otro lado de la red.",
+        ],
+      },
+    },
+  },
+
   tabs: {
     roster: "Jugadores",
     schedule: "Pistas",
@@ -241,6 +305,9 @@ export const es: Messages = {
       perCourt: "Plazas por pista (jugando + descansando)",
       capacity: (courts: number, cap: number) =>
         `${courts} ${courts === 1 ? "pista" : "pistas"} — hasta ${cap} jugadores. Quien se inscriba por encima de eso pasa a la lista de espera, por orden de llegada.`,
+      minLevel: "Nivel mínimo",
+      anyLevel: "Cualquier nivel",
+      minLevelHint: "Cada jugador elige su nivel al inscribirse. Con un mínimo fijado, los niveles inferiores no pueden inscribirse.",
       create: "Crear evento",
       invalid: "Revisa los campos: un nombre, una fecha y de 1 a 6 pistas.",
     },
@@ -306,8 +373,13 @@ export const es: Messages = {
     yourCourt: (court, partner, a, b) => `Pista ${court} — con ${partner}, contra ${a} y ${b}`,
     youRest: "Descansas esta ronda — vuelves en la siguiente.",
     notStarted: "El calendario está listo. La primera ronda empieza pronto.",
+    notSure: "No estoy seguro",
+    notSureHint: "Elige un nivel para inscribirte. ¿No sabes cuál encaja?",
+    levelsLink: "Mira qué significan los niveles",
+    minLevel: (level: string) => `Esta tarde es para ${level} en adelante.`,
     errors: {
       invalid: "Introduce un nombre y elige cómo juegas y tu nivel.",
+      level: "Este evento tiene un nivel mínimo. Revisa el nivel elegido para cada jugador.",
       closed: "La inscripción está cerrada.",
       full: "El evento está completamente lleno.",
       already: "Este teléfono ya tiene una inscripción activa para este evento.",

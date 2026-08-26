@@ -53,6 +53,7 @@ async function main(): Promise<void> {
     rounds: 6,
     gameTarget: 11,
     roundMinutes: 15,
+    minLevel: null,
     algorithmId: DEFAULT_ALGORITHM_ID,
   });
   for (const [name, gender, level] of NAMES) {
@@ -68,6 +69,7 @@ async function main(): Promise<void> {
     rounds: 6,
     gameTarget: 11,
     roundMinutes: null,
+    minLevel: null,
     algorithmId: DEFAULT_ALGORITHM_ID,
   });
   for (const [name, gender, level] of NAMES.slice(0, 14)) {

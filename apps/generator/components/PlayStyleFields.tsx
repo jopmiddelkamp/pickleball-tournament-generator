@@ -1,6 +1,6 @@
 "use client";
 
-import { ALGORITHMS } from "@ptg/core";
+import { ALGORITHMS, type Level } from "@ptg/core";
 import { useState } from "react";
 import { useLocale } from "../lib/i18n/useLocale";
 
@@ -8,12 +8,15 @@ const TARGETS = [11, 16, 21];
 const ROUNDS = [3, 4, 5, 6, 7, 8, 9, 10];
 /** minutes; 0 is "no clock" and posts as such */
 const ROUND_MINUTES = [0, 10, 12, 15, 20, 25, 30];
+/** 0 is "any level" and posts as such */
+const MIN_LEVELS: (Level | 0)[] = [0, 1, 2, 3, 4, 5, 6];
 
-/** Game target and scheduler, shared by the create and edit event forms; both post as plain form fields. */
-export function PlayStyleFields({ initialRounds, initialGameTarget, initialRoundMinutes, initialAlgorithmId }: {
+/** How the evening is played and who it is for, shared by the create and edit event forms; all post as plain form fields. */
+export function PlayStyleFields({ initialRounds, initialGameTarget, initialRoundMinutes, initialMinLevel, initialAlgorithmId }: {
   initialRounds: number;
   initialGameTarget: number;
   initialRoundMinutes: number | null;
+  initialMinLevel: Level | null;
   initialAlgorithmId: string;
 }) {
   const { t } = useLocale();
@@ -53,6 +56,17 @@ export function PlayStyleFields({ initialRounds, initialGameTarget, initialRound
           ))}
         </select>
         <p className="standings__detail" style={{ marginTop: "var(--space-sm)" }}>{t.setup.roundMinutesHint}</p>
+      </div>
+      <div>
+        <label className="label" htmlFor="event-min-level">{t.organiser.form.minLevel}</label>
+        <select id="event-min-level" name="minLevel" className="select" defaultValue={initialMinLevel ?? 0}>
+          {MIN_LEVELS.map((level) => (
+            <option key={level} value={level}>
+              {level === 0 ? t.organiser.form.anyLevel : t.levels[level]}
+            </option>
+          ))}
+        </select>
+        <p className="standings__detail" style={{ marginTop: "var(--space-sm)" }}>{t.organiser.form.minLevelHint}</p>
       </div>
       <div>
         <label className="label" htmlFor="event-algorithm">{t.setup.scheduler}</label>

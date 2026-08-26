@@ -1106,6 +1106,79 @@ a.button {
   color: var(--color-on-primary);
 }
 
+/* "Not sure" sits under the grid on its own row, so the six tiers keep their pairs. */
+.levels__option--unsure {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-weight: var(--text-action-sm-weight);
+}
+
+.levels__hint {
+  margin-top: var(--space-sm);
+}
+
+.text-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* ---------- level guide ---------- */
+
+.guide {
+  display: grid;
+  gap: var(--space-md);
+  max-width: 640px;
+}
+
+.guide__tier {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.guide__name {
+  margin: 0;
+  font-family: var(--text-title-font);
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  line-height: var(--text-title-line);
+  letter-spacing: var(--text-title-tracking);
+}
+
+.guide__rating {
+  font-family: var(--text-label-font);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: var(--text-label-line);
+  letter-spacing: var(--text-label-tracking);
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.guide__summary {
+  margin: 0;
+  font-family: var(--text-body-md-font);
+  font-size: var(--text-body-md-size);
+  font-weight: var(--text-body-md-weight);
+  line-height: var(--text-body-md-line);
+  letter-spacing: var(--text-body-md-tracking);
+}
+
+.guide__skills {
+  margin: 0;
+  padding-left: 1.25em;
+  list-style: disc;
+  color: var(--color-on-surface-variant);
+  font-family: var(--text-body-sm-font);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-body-sm-tracking);
+}
+
 /* ---------- rounds strip ---------- */
 
 .rounds {

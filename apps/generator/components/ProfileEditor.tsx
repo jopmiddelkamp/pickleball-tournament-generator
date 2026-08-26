@@ -12,9 +12,11 @@ import { Segmented } from "./Segmented";
  * here on purpose: a registration is a person's place in the queue, and a
  * profile fix must never turn into handing that place to someone else.
  */
-export function ProfileEditor({ name, initial, pending, onSave, onCancel }: {
+export function ProfileEditor({ name, initial, minLevel = null, pending, onSave, onCancel }: {
   /** shown above the fields when the editor stands apart from the row it belongs to */
   name?: string;
+  /** the event's minimum level, when the editor is bound by it (the public page; the organiser is not) */
+  minLevel?: Level | null;
   initial: PlayerProfile;
   pending: boolean;
   onSave: (profile: PlayerProfile) => void;
@@ -34,7 +36,7 @@ export function ProfileEditor({ name, initial, pending, onSave, onCancel }: {
         format={(option) => t.gender[option]}
         label={t.roster.playsAs}
       />
-      <LevelPicker value={level} onChange={setLevel} label={t.roster.level} />
+      <LevelPicker value={level} onChange={(next) => next !== null && setLevel(next)} min={minLevel ?? 1} label={t.roster.level} />
       <div className="row">
         <button type="button" className="button button--accent button--small" disabled={pending} onClick={() => onSave({ gender, level })}>
           {t.roster.save}

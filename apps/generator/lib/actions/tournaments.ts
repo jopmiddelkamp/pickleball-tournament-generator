@@ -48,6 +48,7 @@ export async function updateEventDetailsAction(
     location: input.location,
     gameTarget: input.gameTarget,
     roundMinutes: input.roundMinutes,
+    minLevel: input.minLevel,
     algorithmId: input.algorithmId,
     maxCourts: input.maxCourts,
     playersPerCourt: input.playersPerCourt,

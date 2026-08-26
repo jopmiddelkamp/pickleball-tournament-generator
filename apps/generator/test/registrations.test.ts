@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { partitionRegistrations, type ActiveRegistration } from "../lib/registrations";
+import { meetsMinimumLevel, partitionRegistrations, type ActiveRegistration } from "../lib/registrations";
 
 function reg(id: string, minute: number): ActiveRegistration {
   return { id, name: id, gender: "F", level: 3, guestOf: null,
@@ -26,5 +26,16 @@ describe("partitionRegistrations", () => {
   it("handles an empty list and a zero cap", () => {
     expect(partitionRegistrations([], 4)).toEqual({ confirmed: [], waiting: [] });
     expect(partitionRegistrations([reg("a", 1)], 0).waiting.map((r) => r.id)).toEqual(["a"]);
+  });
+});
+
+describe("meetsMinimumLevel", () => {
+  it("lets anyone in when the organiser set no minimum", () => {
+    expect(meetsMinimumLevel(null, 1)).toBe(true);
+  });
+  it("admits the minimum itself and everything above, nothing below", () => {
+    expect(meetsMinimumLevel(3, 3)).toBe(true);
+    expect(meetsMinimumLevel(3, 6)).toBe(true);
+    expect(meetsMinimumLevel(3, 2)).toBe(false);
   });
 });

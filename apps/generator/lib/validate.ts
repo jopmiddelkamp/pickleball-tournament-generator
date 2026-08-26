@@ -6,6 +6,7 @@ import {
   MIN_PLAYERS_PER_COURT,
   PLAYERS_PER_COURT,
   type GameResult,
+  type Level,
   type Player,
   type Schedule,
 } from "@ptg/core";
@@ -74,6 +75,10 @@ export function parseSetupPatch(value: unknown): SetupPatch | null {
   return Object.keys(patch).length === 0 ? null : patch;
 }
 
+export function isLevel(value: number): value is Level {
+  return Number.isInteger(value) && value >= 1 && value <= 6;
+}
+
 export function parsePlayer(value: unknown): Player | null {
   if (!isRecord(value)) return null;
   const id = asString(value.id, 64);
@@ -81,8 +86,8 @@ export function parsePlayer(value: unknown): Player | null {
   const level = asInt(value.level);
   if (!id || !name) return null;
   if (value.gender !== "M" && value.gender !== "F") return null;
-  if (level === null || level < 1 || level > 6) return null;
-  return { id, name, gender: value.gender, level: level as Player["level"] };
+  if (level === null || !isLevel(level)) return null;
+  return { id, name, gender: value.gender, level };
 }
 
 function parseTeam(value: unknown, known: ReadonlySet<string>): [string, string] | null {
@@ -167,6 +172,8 @@ export interface TournamentInput {
   gameTarget: number;
   /** minutes per round; null when rounds are not timed */
   roundMinutes: number | null;
+  /** lowest level that may sign up; null when anyone may */
+  minLevel: Level | null;
   algorithmId: string;
 }
 
@@ -206,10 +213,18 @@ export function parseTournamentForm(formData: FormData): TournamentInput | null 
   // An empty or zero field is "no clock"; the select posts 0 for that option.
   const roundMinutes = intField(formData, "roundMinutes") || null;
   if (roundMinutes !== null && (roundMinutes < 1 || roundMinutes > LIMITS.maxRoundMinutes)) return null;
+  // Same convention: the select posts 0 for "any level", and an absent field means the same.
+  const rawMinLevel = field(formData, "minLevel").trim();
+  let minLevel: Level | null = null;
+  if (rawMinLevel !== "" && rawMinLevel !== "0") {
+    const parsed = intField(formData, "minLevel");
+    if (parsed === null || !isLevel(parsed)) return null;
+    minLevel = parsed;
+  }
   const rawAlgorithm = field(formData, "algorithmId");
   const algorithmId = rawAlgorithm === "" ? DEFAULT_ALGORITHM_ID : rawAlgorithm;
   if (!ALGORITHMS.some((a) => a.id === algorithmId)) return null;
-  return { name, startsAt, location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, algorithmId };
+  return { name, startsAt, location, maxCourts, playersPerCourt, rounds, gameTarget, roundMinutes, minLevel, algorithmId };
 }
 
 /**

@@ -65,6 +65,10 @@ describe("effectiveConfig", () => {
     });
     expect(effectiveConfig({ ...base, courts: 2, restSlots: 30 }, 8).restSlots).toBe(4);
   });
+  it("carries the minimum level through to the view", () => {
+    expect(buildWorkspaceView(row({ minLevel: 4 }), []).minLevel).toBe(4);
+    expect(buildWorkspaceView(row(), []).minLevel).toBeNull();
+  });
   it("carries the round clock through to the view", () => {
     expect(buildWorkspaceView(row({ roundMinutes: 15 }), []).roundMinutes).toBe(15);
     expect(buildWorkspaceView(row(), []).roundMinutes).toBeNull();
@@ -92,6 +96,7 @@ function row(overrides: Partial<TournamentRow> = {}): TournamentRow {
     rounds: 3,
     gameTarget: 11,
     roundMinutes: null,
+    minLevel: null,
     algorithmId: "greedy",
     seed: 7,
     courts: null,

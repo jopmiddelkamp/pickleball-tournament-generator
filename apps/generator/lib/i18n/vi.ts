@@ -7,6 +7,70 @@ export const vi: Messages = {
   dismiss: "Đóng",
   sections: "Các mục",
 
+  /** Trang công khai /levels: sáu bậc của chúng ta đặt cạnh thang điểm 1.0–5.5 thông dụng. */
+  levelGuide: {
+    heading: "Các trình độ nghĩa là gì",
+    lede: "Mỗi lượt đăng ký đều kèm trình độ tự khai, và bộ xếp lịch dùng nó để cân bằng các sân. Pickleball dùng thang điểm 1.0–5.5; chúng tôi gom lại thành sáu bậc để chọn cho nhanh.",
+    howToPick: "Chọn bậc giống bạn trong một buổi tối bình thường, không phải buổi hay nhất. Phân vân giữa hai bậc? Chọn bậc thấp hơn. Có điểm DUPR? Dùng khoảng điểm bên cạnh mỗi bậc.",
+    rating: (range: string) => `Điểm ${range}`,
+    tiers: {
+      1: {
+        range: "1.0–2.0",
+        summary: "Mới chơi. Vẫn đang học luật, cách giao bóng và vị trí đứng.",
+        skills: [
+          "Các pha bóng ngắn; mục tiêu là đưa bóng qua lưới.",
+          "Giao bóng và trả giao bóng chưa ổn định.",
+          "Chưa quen luật vùng bếp và cách hô điểm.",
+        ],
+      },
+      2: {
+        range: "2.5",
+        summary: "Biết luật và giữ được pha bóng ngắn với bóng chậm.",
+        skills: [
+          "Giao bóng và trả giao bóng vào sân phần lớn thời gian.",
+          "Chơi chủ yếu ở cuối sân; cú bỏ nhỏ thứ ba và dink còn mới.",
+          "Biết cơ bản về vị trí đứng khi đánh đôi.",
+        ],
+      },
+      3: {
+        range: "3.0",
+        summary: "Giữ được pha bóng ở tốc độ vừa và biết mình cần đứng đâu khi đánh đôi.",
+        skills: [
+          "Giao bóng và trả giao bóng ổn định, có độ sâu.",
+          "Tiến lên vạch bếp, bắt đầu dink và bỏ nhỏ nhưng chưa đều.",
+          "Volley được bóng dễ; vẫn mắc lỗi tự đánh hỏng khi bị ép.",
+        ],
+      },
+      4: {
+        range: "3.5",
+        summary: "Thoải mái ở vạch bếp: dink, bỏ nhỏ và volley có kiểm soát.",
+        skills: [
+          "Chủ động dùng cú bỏ nhỏ thứ ba và thay đổi nhịp.",
+          "Duy trì được loạt dink và chờ bóng có thể tấn công.",
+          "Giao tiếp với đồng đội và di chuyển như một đội.",
+        ],
+      },
+      5: {
+        range: "4.0",
+        summary: "Kiểm soát pha bóng với sự kiên nhẫn và chủ đích, ít lỗi tự đánh hỏng.",
+        skills: [
+          "Dink, bỏ nhỏ, đánh mạnh và reset theo ý muốn, có xoáy và điểm rơi.",
+          "Đọc đối thủ, trừng phạt bóng cao và chọn thời điểm tấn công.",
+          "Phòng thủ được các loạt bóng nhanh và chặn được cú đánh mạnh.",
+        ],
+      },
+      6: {
+        range: "4.5 trở lên",
+        summary: "Trình độ thi đấu: chắc chắn dưới áp lực và mạnh ở mọi cú đánh.",
+        skills: [
+          "Chơi chiến thuật chứ không chỉ ăn điểm: đoán trước, dàn xếp và kết thúc.",
+          "Hóa giải được các pha tấn công và hiếm khi tự cho không pha bóng.",
+          "Điều chỉnh lối chơi và nhịp độ theo đối thủ bên kia lưới.",
+        ],
+      },
+    },
+  },
+
   tabs: {
     roster: "Danh sách",
     schedule: "Sân",
@@ -241,6 +305,9 @@ export const vi: Messages = {
       perCourt: "Chỗ mỗi sân (thi đấu + nghỉ)",
       capacity: (courts: number, cap: number) =>
         `${courts} sân — tối đa ${cap} người chơi. Ai đăng ký vượt quá số đó sẽ vào danh sách chờ, ai đăng ký trước được ưu tiên trước.`,
+      minLevel: "Trình độ tối thiểu",
+      anyLevel: "Mọi trình độ",
+      minLevelHint: "Người chơi tự chọn trình độ khi đăng ký. Khi đặt mức tối thiểu, các trình độ thấp hơn không thể đăng ký.",
       create: "Tạo sự kiện",
       invalid: "Kiểm tra các trường: tên, ngày, và 1–6 sân.",
     },
@@ -306,8 +373,13 @@ export const vi: Messages = {
     yourCourt: (court, partner, a, b) => `Sân ${court} — cùng ${partner}, đấu với ${a} & ${b}`,
     youRest: "Bạn nghỉ vòng này — quay lại ở vòng sau.",
     notStarted: "Lịch thi đấu đã sẵn sàng. Vòng đầu tiên sắp bắt đầu.",
+    notSure: "Chưa chắc",
+    notSureHint: "Chọn một trình độ để đăng ký. Chưa biết mình ở bậc nào?",
+    levelsLink: "Xem các trình độ nghĩa là gì",
+    minLevel: (level: string) => `Buổi tối này dành cho ${level} trở lên.`,
     errors: {
       invalid: "Hãy nhập tên, và chọn cách chơi cùng trình độ của bạn.",
+      level: "Sự kiện này có trình độ tối thiểu. Hãy kiểm tra trình độ đã chọn cho từng người chơi.",
       closed: "Đăng ký đã đóng.",
       full: "Sự kiện đã đủ người.",
       already: "Điện thoại này đã có một đăng ký đang hoạt động cho sự kiện này.",

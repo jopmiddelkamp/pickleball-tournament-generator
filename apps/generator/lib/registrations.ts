@@ -29,3 +29,8 @@ export function partitionRegistrations(
 export function toPlayer(r: ActiveRegistration): Player {
   return { id: r.id, name: r.name, gender: r.gender, level: r.level };
 }
+
+/** The organiser's minimum level, if any, admits that level and everything above it. */
+export function meetsMinimumLevel(minLevel: Level | null, level: Level): boolean {
+  return minLevel === null || level >= minLevel;
+}

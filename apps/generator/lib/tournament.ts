@@ -4,6 +4,7 @@ import {
   maxPlayersFor,
   suggestConfig,
   type GameResult,
+  type Level,
   type Player,
   type Schedule,
   type TournamentConfig,
@@ -11,7 +12,7 @@ import {
 import { LIMITS, clamp, normaliseConfig } from "./config";
 import type { TournamentRow } from "./db/schema";
 import { partitionRegistrations, toPlayer, type ActiveRegistration } from "./registrations";
-import { parseGames, parseSchedule } from "./validate";
+import { isLevel, parseGames, parseSchedule } from "./validate";
 
 export type TournamentStatus = "open" | "closed" | "generated" | "live" | "finished";
 
@@ -44,6 +45,11 @@ export function effectiveConfig(
   );
 }
 
+/** A stored level column, re-checked on read like every other stored value. */
+export function readLevel(value: number | null): Level | null {
+  return value !== null && isLevel(value) ? value : null;
+}
+
 export interface WorkspaceView {
   id: string;
   slug: string;
@@ -63,6 +69,8 @@ export interface WorkspaceView {
   algorithmId: string;
   gameTarget: number;
   roundMinutes: number | null;
+  /** lowest level that may sign up; null when anyone may */
+  minLevel: Level | null;
   /** ISO; null while no clock is running for the round on court */
   clockStartedAt: string | null;
   schedule: Schedule | null;
@@ -113,6 +121,7 @@ export function buildWorkspaceView(tournament: TournamentRow, registrations: rea
     algorithmId,
     gameTarget: tournament.gameTarget,
     roundMinutes: tournament.roundMinutes,
+    minLevel: readLevel(tournament.minLevel),
     clockStartedAt: tournament.clockStartedAt?.toISOString() ?? null,
     guestHosts,
     schedule: unreadable ? null : schedule,

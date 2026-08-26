@@ -9,7 +9,8 @@ import { isUniqueViolation } from "../db/errors";
 import { findTournamentBySlug } from "../db/tournaments";
 import { newParticipantToken } from "../ids";
 import { PARTICIPANT_COOKIE, readParticipantToken } from "../participant";
-import { tournamentStatus } from "../tournament";
+import { meetsMinimumLevel } from "../registrations";
+import { readLevel, tournamentStatus } from "../tournament";
 import { parseGuestsForm, parsePlayerForm, parseProfile } from "../validate";
 import type { PublicFormState } from "./publicState";
 
@@ -23,6 +24,8 @@ export async function registerAction(slug: string, _prev: PublicFormState, formD
   if (!player) return { error: "invalid" };
   const guests = parseGuestsForm(formData);
   if (guests === null) return { error: "invalid" };
+  const minLevel = readLevel(tournament.minLevel);
+  if (![player, ...guests].every((p) => meetsMinimumLevel(minLevel, p.level))) return { error: "level" };
 
   if ((await countActiveRegistrations(tournament.id)) + 1 + guests.length > LIMITS.maxRegistrations) return { error: "full" };
 
@@ -65,6 +68,7 @@ export async function addGuestAction(slug: string, _prev: PublicFormState, formD
 
   const player = parsePlayerForm(formData);
   if (!player) return { error: "invalid" };
+  if (!meetsMinimumLevel(readLevel(tournament.minLevel), player.level)) return { error: "level" };
 
   const active = await listActiveRegistrations(tournament.id);
   if (active.length >= LIMITS.maxRegistrations) return { error: "full" };
@@ -136,6 +140,7 @@ export async function updateProfileAction(slug: string, registrationId: string, 
 
   const parsed = parseProfile(profile);
   if (!parsed) return { error: "invalid" };
+  if (!meetsMinimumLevel(readLevel(tournament.minLevel), parsed.level)) return { error: "level" };
 
   const own =
     registrationId === host.id ||

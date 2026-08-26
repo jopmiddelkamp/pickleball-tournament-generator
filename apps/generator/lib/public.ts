@@ -3,7 +3,7 @@ import { maxPlayersFor } from "@ptg/core";
 import { LIMITS } from "./config";
 import type { TournamentRow } from "./db/schema";
 import { partitionRegistrations, toPlayer, type ActiveRegistration } from "./registrations";
-import { tournamentStatus, type TournamentStatus } from "./tournament";
+import { readLevel, tournamentStatus, type TournamentStatus } from "./tournament";
 import { parseGames, parseSchedule } from "./validate";
 
 /** One name on the public sign-up list, with its gender marker and self-reported level (SPEC-1 §5). */
@@ -54,6 +54,8 @@ export interface PublicView {
   full: boolean;
   gameTarget: number;
   roundMinutes: number | null;
+  /** lowest level that may sign up; null when anyone may */
+  minLevel: Level | null;
   /** ISO; null while no clock is running for the round on court */
   clockStartedAt: string | null;
   roundsStarted: number;
@@ -157,6 +159,7 @@ export function buildPublicView(
     full,
     gameTarget: tournament.gameTarget,
     roundMinutes: tournament.roundMinutes,
+    minLevel: readLevel(tournament.minLevel),
     clockStartedAt: tournament.clockStartedAt?.toISOString() ?? null,
     roundsStarted: tournament.roundsStarted,
     players,

@@ -14,7 +14,8 @@ interface GuestDraft {
   key: number;
   name: string;
   gender: Gender;
-  level: Level;
+  /** null while "Not sure" is picked; the form does not submit until every level is chosen */
+  level: Level | null;
 }
 
 /**
@@ -25,9 +26,11 @@ interface GuestDraft {
  * `capacityLeft` is how many confirmed places remain, for the waiting-list
  * warning.
  */
-export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel }: {
+export function PublicRegisterForm({ slug, capacityLeft, minLevel, guest = false, onCancel }: {
   slug: string;
   capacityLeft: number;
+  /** the organiser's minimum level; tiers below it are not offered */
+  minLevel: Level | null;
   guest?: boolean;
   /** closes the form without submitting; rendered as a Cancel button when given */
   onCancel?: () => void;
@@ -35,12 +38,14 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
   const { t } = useLocale();
   const [state, formAction, pending] = useActionState((guest ? addGuestAction : registerAction).bind(null, slug), INITIAL_PUBLIC_STATE);
   const [gender, setGender] = useState<Gender>("F");
-  const [level, setLevel] = useState<Level>(3);
+  const lowest: Level = minLevel ?? 1;
+  const defaultLevel: Level = lowest > 3 ? lowest : 3;
+  const [level, setLevel] = useState<Level | null>(defaultLevel);
   const [guests, setGuests] = useState<GuestDraft[]>([]);
   const [nextKey, setNextKey] = useState(0);
 
   function addGuestDraft(): void {
-    setGuests([...guests, { key: nextKey, name: "", gender: "F", level: 3 }]);
+    setGuests([...guests, { key: nextKey, name: "", gender: "F", level: defaultLevel }]);
     setNextKey(nextKey + 1);
   }
 
@@ -50,6 +55,17 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
 
   const groupSize = guest ? 1 : 1 + guests.length;
   const waitlisted = groupSize > capacityLeft;
+  // "Not sure" anywhere holds the form: the guide is one tap away instead.
+  const unsure = level === null || guests.some((g) => g.level === null);
+
+  const guideHint = (
+    <p className="standings__detail levels__hint">
+      {t.public.notSureHint}{" "}
+      <a className="text-link" href="/levels" target="_blank" rel="noreferrer">
+        {t.public.levelsLink}
+      </a>
+    </p>
+  );
 
   return (
     <div>
@@ -100,8 +116,9 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
           <span className="label" id="public-level-label">
             {t.roster.level}
           </span>
-          <LevelPicker value={level} onChange={setLevel} labelledBy="public-level-label" />
-          <input type="hidden" name="level" value={level} />
+          <LevelPicker value={level} onChange={setLevel} min={lowest} allowUnsure labelledBy="public-level-label" />
+          {level === null ? guideHint : null}
+          <input type="hidden" name="level" value={level ?? ""} />
         </div>
 
         {guests.map((draft, index) => (
@@ -135,10 +152,13 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
             <LevelPicker
               value={draft.level}
               onChange={(option) => patchGuest(draft.key, { level: option })}
+              min={lowest}
+              allowUnsure
               label={t.roster.level}
             />
+            {draft.level === null ? guideHint : null}
             <input type="hidden" name={`guestGender_${index}`} value={draft.gender} />
-            <input type="hidden" name={`guestLevel_${index}`} value={draft.level} />
+            <input type="hidden" name={`guestLevel_${index}`} value={draft.level ?? ""} />
           </div>
         ))}
 
@@ -152,7 +172,7 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
 
         {guest ? (
           <div className="row">
-            <button type="submit" className="button button--accent button--small" disabled={pending}>
+            <button type="submit" className="button button--accent button--small" disabled={pending || unsure}>
               {t.public.addGuestSubmit}
             </button>
             {onCancel ? (
@@ -162,7 +182,7 @@ export function PublicRegisterForm({ slug, capacityLeft, guest = false, onCancel
             ) : null}
           </div>
         ) : (
-          <button type="submit" className="button button--accent button--full" disabled={pending}>
+          <button type="submit" className="button button--accent button--full" disabled={pending || unsure}>
             {guests.length > 0 ? t.public.registerGroup : t.public.register}
           </button>
         )}

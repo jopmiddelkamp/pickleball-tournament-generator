@@ -1,0 +1,1 @@
+ALTER TABLE "tournaments" ADD COLUMN "min_level" integer;
