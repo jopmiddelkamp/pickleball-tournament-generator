@@ -39,7 +39,7 @@ export const en = {
 
   roster: {
     heading: "Who is playing?",
-    lede: "Levels are the tier people picked at registration. They stay on this screen — nobody sees them next to a name during the event.",
+    lede: "Levels are the tier people picked at registration. They show on the sign-up list and the standings, never on the courts.",
     name: "Name",
     namePlaceholder: "Add a player",
     playsAs: "Plays as",

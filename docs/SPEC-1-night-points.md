@@ -37,7 +37,7 @@ For players the schedule treated less well. Applied automatically after each rou
 
 ## 5. Guardrails (product rules, not math)
 
-- Never display "worst player" or lowest-score highlights on the night screen. The self-reported level is shown next to each name on the standings, so people can see who they are measured against; it is never shown on the courts.
+- Never display "worst player" or lowest-score highlights on the night screen. The self-reported level is shown next to each name on the sign-up list and the standings, so people can see who they are measured against; it is never shown on the courts.
 - Optional fun prizes are encouraged: most different partners, closest game of the night.
 - Compensation treats the symptom. Rule Set 2 (SPEC-2) removes the cause. If bonuses are frequent, the algorithm score should already be red.
 

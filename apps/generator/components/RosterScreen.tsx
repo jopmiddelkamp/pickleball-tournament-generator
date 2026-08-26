@@ -7,7 +7,7 @@ import type { PlayerProfile } from "../lib/validate";
 import { ProfileEditor } from "./ProfileEditor";
 import { EmptyState, GenderChip, Notice } from "./ui";
 
-/** One name on the list. The level is only ever present on the organiser's copy (SPEC-1 §5). */
+/** One name on the list, with the level picked at registration (SPEC-1 §5: shown here, never on the courts). */
 export interface RosterEntry {
   id: string;
   name: string;
@@ -33,8 +33,8 @@ export interface RosterControls {
 
 /**
  * The list of who is playing, in arrival order. The organiser's workspace and
- * the public page render the same screen; only the organiser gets the level
- * column, the editor and the buttons.
+ * the public page render the same screen; only the organiser gets the editor
+ * and the buttons.
  */
 export function RosterScreen({
   confirmed,
@@ -91,7 +91,7 @@ export function RosterScreen({
           {entry.name}
           {tag(entry)}
         </span>
-        {controls && entry.level !== undefined ? <span className="roster__level">{t.levels[entry.level]}</span> : null}
+        {entry.level !== undefined ? <span className="roster__level">{t.levels[entry.level]}</span> : null}
         {controls ? (
           <>
             <button

@@ -29,7 +29,7 @@ export const vi: Messages = {
 
   roster: {
     heading: "Ai sẽ chơi?",
-    lede: "Trình độ là bậc mọi người tự chọn khi đăng ký. Nó chỉ hiện ở màn hình này — không ai thấy nó cạnh tên trong suốt sự kiện.",
+    lede: "Trình độ là bậc mọi người tự chọn khi đăng ký. Nó hiện trong danh sách đăng ký và bảng xếp hạng, không bao giờ hiện trên sân.",
     name: "Tên",
     namePlaceholder: "Thêm người chơi",
     playsAs: "Giới tính",

@@ -29,7 +29,7 @@ export const ko: Messages = {
 
   roster: {
     heading: "누가 참가하나요?",
-    lede: "레벨은 등록할 때 본인이 고른 단계입니다. 이 화면에만 표시되며, 이벤트 내내 이름 옆에는 나타나지 않습니다.",
+    lede: "레벨은 등록할 때 본인이 고른 단계입니다. 참가자 명단과 순위표에는 표시되지만 코트에는 나타나지 않습니다.",
     name: "이름",
     namePlaceholder: "참가자 추가",
     playsAs: "성별",

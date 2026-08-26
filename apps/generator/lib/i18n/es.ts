@@ -29,7 +29,7 @@ export const es: Messages = {
 
   roster: {
     heading: "¿Quién juega?",
-    lede: "El nivel es el que cada uno eligió al inscribirse. Se queda en esta pantalla: nadie lo ve junto a un nombre durante el evento.",
+    lede: "El nivel es el que cada uno eligió al inscribirse. Se muestra en la lista de inscritos y en el ranking, nunca en las pistas.",
     name: "Nombre",
     namePlaceholder: "Añadir jugador",
     playsAs: "Juega como",

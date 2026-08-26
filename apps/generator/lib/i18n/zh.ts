@@ -30,7 +30,7 @@ export const zh: Messages = {
 
   roster: {
     heading: "谁来打球？",
-    lede: "级别是大家报名时自选的档位，只显示在这个页面上——全程都不会出现在名字旁边。",
+    lede: "级别是大家报名时自选的档位，会显示在报名名单和排名中，但不会出现在球场上。",
     name: "姓名",
     namePlaceholder: "添加球员",
     playsAs: "性别",
